@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PERRITO 2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #4169E1; /* Azul Rey */
+      --primary-dark: #1D4ED8;
+      --card-bg: #FFFFFF;
+      --text: #1E293B;
+      --border: #CBD5E1;
+      --bg-gradient: linear-gradient(-45deg, #a8c0ff, #3f2b96, #89f7fe, #66a6ff, #f77062, #fe5196);
+    }
+
+    /* Temáticas mensuales de fondo con degradado animado */
+    body.theme-0 { --bg-gradient: linear-gradient(-45deg, #2b5876, #4e4376, #1e3c72, #2a5298); } /* Enero */
+    body.theme-1 { --bg-gradient: linear-gradient(-45deg, #ff758c, #ff7eb3, #ffa07a, #f76b1c); } /* Febrero */
+    body.theme-2 { --bg-gradient: linear-gradient(-45deg, #11998e, #38ef7d, #00b09b, #96c93d); } /* Marzo */
+    body.theme-3 { --bg-gradient: linear-gradient(-45deg, #89f7fe, #66a6ff, #13547a, #80d0c7); } /* Abril */
+    body.theme-4 { --bg-gradient: linear-gradient(-45deg, #ff0844, #ffb199, #f12711, #f5af19); } /* Mayo */
+    body.theme-5 { --bg-gradient: linear-gradient(-45deg, #00c6ff, #0072ff, #2af598, #009efd); } /* Junio */
+    body.theme-6 { --bg-gradient: linear-gradient(-45deg, #b224ef, #7579ff, #e0c3fc, #8ec5fc); } /* Julio */
+    body.theme-7 { --bg-gradient: linear-gradient(-45deg, #f77062, #fe5196, #f83600, #fe8c00); } /* Agosto */
+    body.theme-8 { --bg-gradient: linear-gradient(-45deg, #00b09b, #96c93d, #11998e, #38ef7d); } /* Septiembre - Fiestas Patrias */
+    body.theme-9 { --bg-gradient: linear-gradient(-45deg, #f83600, #fe8c00, #b20a2c, #fffbd5); } /* Octubre - Día de Muertos / Halloween */
+    body.theme-10 { --bg-gradient: linear-gradient(-45deg, #13547a, #80d0c7, #00b09b, #96c93d); } /* Noviembre - Revolución */
+    body.theme-11 { --bg-gradient: linear-gradient(-45deg, #eb3349, #f45c43, #11998e, #38ef7d); } /* Diciembre - Navidad */
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+    body {
+      background: var(--bg-gradient);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      color: var(--text);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+      background-color: var(--primary) !important;
+      color: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(65, 105, 225, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    header h1 {
+      color: #FFFFFF;
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    header p {
+      color: #E0E7FF;
+      font-size: 0.95rem;
+      font-style: italic;
+      margin-top: 2px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    /* Cinta Horizontal Dinámica */
+    .word-rain-wrapper {
+      width: 100%;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 6px 0;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .word-rain-track {
+      display: flex;
+      gap: 12px;
+      white-space: nowrap;
+      animation: rainScroll 22s linear infinite;
+    }
+
+    .word-item {
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 4px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: inline-block;
+    }
+
+    .word-item.initial {
+      background: rgba(245, 158, 11, 0.8);
+      font-weight: 900;
+    }
+
+    @keyframes rainScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Layout Estricto de 3 Columnas */
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      gap: 20px;
+      max-width: 1450px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard { grid-template-columns: 1fr; }
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      border: 1px solid rgba(65, 105, 225, 0.12);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #EFF6FF;
+      padding-bottom: 8px;
+      font-weight: 700;
+    }
+
+    input[type="text"], input[type="password"], input[type="date"], select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      margin: 5px 0 12px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.88rem;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.2);
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.82rem;
+      transition: all 0.2s;
+    }
+
+    button:hover { background-color: var(--primary-dark); }
+    button.btn-danger { background-color: #EF4444; }
+    button.btn-danger:hover { background-color: #DC2626; }
+
+    .btn-group-row { display: flex; gap: 6px; }
+
+    /* Cuentas */
+    .user-list {
+      max-height: 320px;
+      overflow-y: auto;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 6px;
+      background: #F8FAFC;
+    }
+
+    .user-card {
+      background: white;
+      padding: 10px 12px;
+      margin-bottom: 6px;
+      border-radius: 6px;
+      border-left: 4px solid var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .user-info strong {
+      font-size: 0.88rem;
+      display: block;
+      color: var(--text);
+    }
+
+    .user-info span {
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #64748B;
+    }
+
+    /* Guardiómetro y Calendario */
+    .guardia-badge {
+      background: #EFF6FF;
+      border: 2px dashed var(--primary);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .guardia-actual {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .metric-card {
+      background: #F1F5F9;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    .metric-card strong {
+      display: block;
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+      font-size: 0.8rem;
+      margin-top: 8px;
+    }
+
+    .calendar-header {
+      font-weight: bold;
+      color: var(--primary);
+      padding: 4px 0;
+    }
+
+    .calendar-day {
+      padding: 6px 2px;
+      background: #F8FAFC;
+      border-radius: 6px;
+      border: 1px solid #E2E8F0;
+    }
+
+    .calendar-day.today {
+      background: var(--primary);
+      color: white;
+      font-weight: bold;
+    }
+
+    textarea { height: 110px; resize: vertical; }
+
+    .lab-result {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.82rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+      min-height: 70px;
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .postit {
+      background: #FEF08A;
+      border-radius: 8px;
+      padding: 8px;
+      box-shadow: 2px 4px 6px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .postit textarea {
+      background: transparent;
+      border: none;
+      height: 75px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #713F12;
+      resize: none;
+    }
+
+    .postit-del {
+      position: absolute;
+      top: 2px;
+      right: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #A16207;
+    }
+  </style>
+</head>
+<body id="app-body">
+
+<header>
+  <h1>PERRITO 2</h1>
+  <p>ES QUE TU TAMBIEN, A QUIEN LE PREGUNTAS</p>
+  
+  <div class="word-rain-wrapper">
+    <div class="word-rain-track">
+      <span class="word-item">GYO</span>
+      <span class="word-item initial">E</span>
+      <span class="word-item">PECHUGA</span>
+      <span class="word-item initial">C</span>
+      <span class="word-item">CIRUGIA</span>
+      <span class="word-item initial">J</span>
+      <span class="word-item">URGENCIAS</span>
+      <span class="word-item initial">I</span>
+      <span class="word-item">LECHUGA</span>
+      <span class="word-item initial">Z</span>
+      <span class="word-item">PEDIATRIA</span>
+      <span class="word-item initial">A</span>
+      <span class="word-item">CHEEMS</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">AY PADRE</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">PURAS FALLAS</span>
+      <span class="word-item initial">K</span>
+      <span class="word-item">PERRITO</span>
+      <span class="word-item initial">V</span>
+      <span class="word-item">SIPEM MALO</span>
+
+      <!-- Duplicado continuo -->
+      <span class="word-item">GYO</span>
+      <span class="word-item initial">E</span>
+      <span class="word-item">PECHUGA</span>
+      <span class="word-item initial">C</span>
+      <span class="word-item">CIRUGIA</span>
+      <span class="word-item initial">J</span>
+      <span class="word-item">URGENCIAS</span>
+      <span class="word-item initial">I</span>
+      <span class="word-item">LECHUGA</span>
+      <span class="word-item initial">Z</span>
+      <span class="word-item">PEDIATRIA</span>
+      <span class="word-item initial">A</span>
+      <span class="word-item">CHEEMS</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">AY PADRE</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">PURAS FALLAS</span>
+      <span class="word-item initial">K</span>
+      <span class="word-item">PERRITO</span>
+      <span class="word-item initial">V</span>
+      <span class="word-item">SIPEM MALO</span>
+    </div>
+  </div>
+</header>
+
+<div class="dashboard">
+
+  <!-- COLUMNA 1: Buscador y Agregar/Editar -->
+  <div class="column">
+    <div class="card">
+      <div class="card-title"><span>🔍 Buscador de Cuentas</span></div>
+      <input type="text" id="searchInput" oninput="filtrarUsuarios()" placeholder="Buscar usuario, servicio o clave...">
+      <div class="user-list" id="userList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>➕ Agregar / Editar Cuenta</span></div>
+      <label style="font-size:0.8rem;">Usuario / Servicio</label>
+      <input type="text" id="usernameInput" placeholder="Ej. ARTURO.RUIZ">
+      
+      <label style="font-size:0.8rem;">Contraseña / Clave</label>
+      <input type="text" id="passwordInput" placeholder="Ej. ARTURORR984">
+      
+      <div class="btn-group-row">
+        <button onclick="guardarUsuario()" style="width:100%;">Guardar Cuenta</button>
+        <button class="btn-danger" onclick="eliminarUsuario()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUMNA 2: Guardiómetro y Calendario -->
+  <div class="column">
+    <div class="card">
+      <div class="card-title"><span>📊 Guardiómetro</span></div>
+      
+      <div class="guardia-badge">
+        <span style="font-size:0.85rem; color:#475569;">Guardia Hoy:</span>
+        <div class="guardia-actual" id="guardiaHoy">Guardia A</div>
+        <small id="fechaHoyText" style="color:#64748B; font-size:0.75rem;"></small>
+      </div>
+
+      <label style="font-size:0.8rem;">Seleccionar Promoción / Rotación:</label>
+      <select id="tipoMip" onchange="actualizarGuardias()">
+        <option value="mip2">MIP 2 (1 Ene 2026 - 31 Dic 2026)</option>
+        <option value="mip1">MIP 1 (1 Jul 2026 - 30 Jun 2027)</option>
+        <option value="custom">Personalizado</option>
+      </select>
+
+      <div id="customFechas" style="display:none; margin-top:5px;">
+        <label style="font-size:0.75rem;">Fecha Inicio:</label>
+        <input type="date" id="fechaInicio" onchange="actualizarGuardias()">
+        <label style="font-size:0.75rem;">Fecha Término:</label>
+        <input type="date" id="fechaFin" onchange="actualizarGuardias()">
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">Guardias A<strong id="restA">0</strong></div>
+        <div class="metric-card">Guardias B<strong id="restB">0</strong></div>
+        <div class="metric-card">Guardias C<strong id="restC">0</strong></div>
+        <div class="metric-card">Guardias D<strong id="restD">0</strong></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>📅 Calendario</span>
+        <div>
+          <button onclick="cambiarMes(-1)">◀</button>
+          <span id="calMonthYear" style="font-size:0.85rem; color:var(--text); font-weight:700; margin:0 4px;">Septiembre 2026</span>
+          <button onclick="cambiarMes(1)">▶</button>
+        </div>
+      </div>
+      <div class="calendar" id="calendarGrid"></div>
+    </div>
+  </div>
+
+  <!-- COLUMNA 3: Laboratorios y Post-its -->
+  <div class="column">
+    <div class="card">
+      <div class="card-title"><span>🧪 Procesar Laboratorios</span></div>
+      <p style="font-size:0.75rem; color:#64748B; margin-bottom:8px;">Pega laboratorios crudos para formatearlos automáticamente con el estudio rotulado.</p>
+      
+      <textarea id="labInput" placeholder="Ejemplo:
+Hemoglobina 10.8 Leucocitos 43.37 Hematocrito 34.2 Plaquetas 211 Neutrofilos 89.20 Glucosa 95 Creatinina 0.8"></textarea>
+
+      <button onclick="procesarLaboratorios()" style="width:100%; margin-bottom:10px;">Formatear Laboratorios</button>
+
+      <label style="font-size:0.8rem; font-weight:600;">Resultado:</label>
+      <div class="lab-result" id="labOutput">Esperando datos...</div>
+      
+      <button onclick="copiarResultado()" style="width:100%; margin-top:10px; background-color:#10B981;">Copiar Formato</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>📌 Notas (Post-its)</span>
+        <button onclick="agregarPostit()" style="font-size:0.75rem; padding:4px 8px;">+ Nueva</button>
+      </div>
+      <div class="notes-grid" id="notesBoard"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Enlace directo a tu API de Google Sheets
+  const API_URL = "https://script.google.com/macros/s/AKfycbx9mM7l2CwqdCqtqIChzHfzI0Ti6ohpp31WG3f-zsRjRR_4LbXr-uIn3KO-gY2vrCQt8w/exec";
+
+  const cuentasIniciales = [
+    { usuario: "JULIOC.VAZQUEZ (PADRE DE TODOS)", clave: "JULIOC2024" },
+    { usuario: "NAYELI.MEZQUITA (PISO MAT)", clave: "NAYELIMP2026" },
+    { usuario: "MONICA.HERDEZ (LABOR VESP)", clave: "MONICAAHV26" },
+    { usuario: "ARTURO.RUIZ (LABOR MAT)", clave: "ARTURORR984" },
+    { usuario: "ARTURO.ARIAS (CIRUPEDIA)", clave: "ARTURO47" },
+    { usuario: "JOSECADENA (UCIN MAT)", clave: "JOSECADE05" },
+    { usuario: "JPABLO.MONTALVO (UCIN NOCHES LMV)", clave: "jpablo2023" },
+    { usuario: "DANIEL.AGUILAR (LABOR FINDES)", clave: "DANIELAR670" },
+    { usuario: "CADELARIO.ZAVALA (URG NOCHE)", clave: "CANDELARIO1529" },
+    { usuario: "JOSE.UITZIL (URG NOCHE LMV)", clave: "UITZIL983" },
+    { usuario: "NELLYAU.LAZARO (PEDIATRA)", clave: "NELLYLJ2025" },
+    { usuario: "DANIEL.BROCA (PEDIATRA)", clave: "DANIELD2024" },
+    { usuario: "LENDY.CHAN (NEUROLOGIA)", clave: "LENDYC2024" },
+    { usuario: "ESMERALDA.GOMEZ (FIN DE SEMANA)", clave: "ESMERALDA179" },
+    { usuario: "ROSA.MARTINEZ (PEDIATRA PISO VESP)", clave: "MARBAR" },
+    { usuario: "ISABEL.RAMON (INTERNISTA PISO 1 VESP)", clave: "ISABEL27" },
+    { usuario: "DANIEL.SALVADOR (INTERNISTA PISO 1 MAT)", clave: "DANIEL11" },
+    { usuario: "ARMANDO.ALVAREZ (INTERNISTA PISO 2 MAT)", clave: "BURGOS" },
+    { usuario: "ALEJANDRO.MEJIA (JEFE DE MI)", clave: "encefalitis26" },
+    { usuario: "KARLAG.TREJO (UCI VESP)", clave: "KARLATC2025" },
+    { usuario: "JONATHAN.DLCRUZ (UCI MAT)", clave: "JONATHANEPC26" },
+    { usuario: "JESUS.CHABLED (UCI NOCHES)", clave: "Anchable12" },
+    { usuario: "JAVIER.FLORES (MEDICO DE APOYO NOCHES)", clave: "JAVIERFR479" },
+    { usuario: "MARIANA.BRETON (MEDICO DE APOYO FINDES)", clave: "MARINANM64" },
+    { usuario: "JUANJ.ALVAREZ (MEDICO DE APOYO)", clave: "JUANJAJ2025" },
+    { usuario: "ANDRES.PALOMEQUE (APOYO PISO 2 MAT)", clave: "Andrespz2024" },
+    { usuario: "ERNESTO.LARA (INTERNISTA PISO 2 NOCHES)", clave: "LARSNET025" },
+    { usuario: "MERCEDES.PEREGRINO (APOYO PISO 1 VESP)", clave: "MERCEPH0101" },
+    { usuario: "DANIEL.CONDE (APOYO PISO 1 MAT)", clave: "Danielaca2023" },
+    { usuario: "ROSARIO.MENA (APOYO PISO 1 MAT)", clave: "ROSARIOMENA" },
+    { usuario: "MIRELY.CASASUS (UCI FIN DE SEMANA)", clave: "ISSETCEMI2026" },
+    { usuario: "JAGOPE (CARDIO - PEDRERO)", clave: "690626" },
+    { usuario: "CARLOSART.CORTAZAR (ONCOCIRUGIA)", clave: "CARLOSCS25" },
+    { usuario: "KARENP.HERRERA (CIRUJANO VESP)", clave: "KARENPHV26" },
+    { usuario: "FRANCISCO.CARRADA (CIRUJANO MAT)", clave: "CARRADA37" },
+    { usuario: "BRYAN.MORALES (CIRUJANO VESP)", clave: "BRYANME26" },
+    { usuario: "JULIOC.AVALOS (UROLOGIA)", clave: "JULIOC2026" },
+    { usuario: "ROBERTO.MANZANO (COLOPROCTO)", clave: "ROBERTO17" },
+    { usuario: "JULIOC.MYERYC (UROLOGIA)", clave: "JULIOCMC25" },
+    { usuario: "HORACIO.HERNANDEZ (CIRUJANO)", clave: "HORACIO45" },
+    { usuario: "DANIEL.HERDEZ (JEFE DE TYO)", clave: "DANIELHO25" },
+    { usuario: "JOEL.CRUZG (JEFE CIRUGIA)", clave: "JOELCRUZ23$$" },
+    { usuario: "TILO.AGUILAR (CIRUJANO VESP)", clave: "AGUILAR59" },
+    { usuario: "RODRIGO.REPETTO (CIRUJANO MAT)", clave: "RODRIGO76" },
+    { usuario: "IGNACIO.PAVON (CIRUJANO VESP)", clave: "IGNACIOPR150" },
+    { usuario: "GABRIEL.GONZALEZ (CIRUJANO VESP)", clave: "GABRIELGS25" },
+    { usuario: "FREDDY_MARIN (MAT)", clave: "abcdef12" },
+    { usuario: "KARLA.JEREZ (NOCHES)", clave: "ARAGON10" },
+    { usuario: "JIM.CHABLE (MAT)", clave: "JIMCH972" },
+    { usuario: "MANUEL.DIAZ (MAT)", clave: "MANUELDL765" },
+    { usuario: "JOSED.MARTINEZ (FIN DE SEM)", clave: "JOSEDA2024" },
+    { usuario: "ARMANDO.FRIAS (CRITICA)", clave: "ARMANDOFO715" },
+    { usuario: "LITA.CADENA (CUBRE)", clave: "LITASCA26" },
+    { usuario: "SALVADORHH (NOCHE)", clave: "SALVADORHH12" },
+    { usuario: "MARCIONILADG (INTERNISTA)", clave: "MARCIONILADG210" },
+    { usuario: "JLUISBG.GUTIERREZ (MAT)", clave: "JOSEBG2025" },
+    { usuario: "JUAN.LOPEZ_1233 (JJ- FINDE)", clave: "2802" },
+    { usuario: "DAVIS.ANDERSON (NOCHE)", clave: "DAVISGL850" },
+    { usuario: "NAYRA.CADENA (MAT/NOCHE)", clave: "NAYRAYA2024" },
+    { usuario: "MARTINBG (VESP)", clave: "MARTIN671" },
+    { usuario: "FERNANDO.GARCIA (FINDE)", clave: "GARCIA12" },
+    { usuario: "EDERADIN.TASS (NOCHE)", clave: "EDERASIN2025" },
+    { usuario: "JPAULINO.RIVERA (NOCHE)", clave: "Jpaulino2024" },
+    { usuario: "VERA.CARRERA (CUBRE)", clave: "MILIXA90" },
+    { usuario: "MIGUEL.GONZALEZ (VILLEGAS CRITICA)", clave: "MIGUEL4510" },
+    { usuario: "NESTOR.PEREZ (NOCHE)", clave: "NESTORPA645" },
+    { usuario: "RAFEL.PEREZ (CARRETA)", clave: "Rafaelcp2023" },
+    { usuario: "CARLOS.HERNANDEZ (FINDE)", clave: "NENUCA" },
+    { usuario: "MARIA.ALICIA (CUBRE)", clave: "MARIARR321" },
+    { usuario: "LOUISEK.MONTERRUBIO", clave: "MONTERRUBIO2025" },
+    { usuario: "RAULHS.SANCHEZ", clave: "Raulhs023" },
+    { usuario: "NELSON.MORALES (FIN DE SEMANA)", clave: "Nelson2023" },
+    { usuario: "YOLANDA.GARDUZA", clave: "YOLANDAGL679" },
+    { usuario: "EZEQUIAS.SOBERANOCM (VESP)", clave: "nery25eze3517si" },
+    { usuario: "JOSE.AQUINO", clave: "JOSEOJ56" },
+    { usuario: "JUANC.SOSA (VESP)", clave: "JUANCASTRO93" },
+    { usuario: "ERIKAGI.GARCIA", clave: "ERIKAGR2025" },
+    { usuario: "JOSESP.SANCHEZ", clave: "Josesp2023" },
+    { usuario: "SARAYANETH.SACA (UROGINE)", clave: "SARAYSC2025" },
+    { usuario: "RICARDO.PERALTA (NOCHE)", clave: "RIPEQU85" },
+    { usuario: "JOSE.ANTONIO", clave: "JOSEAD874" },
+    { usuario: "PAOLIS19", clave: "PAOLIS19" },
+    { usuario: "ROBERTO.ROMAN (MAT)", clave: "roaroct08" },
+    { usuario: "JOSE.SASTRE", clave: "JOSEEJ46" },
+    { usuario: "DRESCAYOLA.19 (NOCHE)", clave: "enrique88" },
+    { usuario: "MOISES.PAREDES (VESP)", clave: "MOISESPV2025" },
+    { usuario: "ISRAEL.CIFUENTES", clave: "ISRAELSI69" },
+    { usuario: "ALEJANDRA.LANDERO (JEFA)", clave: "Alejandra2023" }
+  ];
+
+  let usuarios = JSON.parse(localStorage.getItem('perrito_cuentas')) || cuentasIniciales;
+  const guardias = ['A', 'B', 'C', 'D'];
+
+  // Cargar cuentas en vivo desde Google Sheets
+  async function sincronizarCuentasNube() {
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+      if (data && data.length > 0) {
+        usuarios = data;
+        localStorage.setItem('perrito_cuentas', JSON.stringify(usuarios));
+        filtrarUsuarios();
+      }
+    } catch (err) {
+      console.log("Cargando base local...");
+    }
+  }
+
+  function obtenerLimpio(texto) {
+    return texto.replace(/\s*\(.*?\)\s*/g, '').trim();
+  }
+
+  function renderizarLista(lista) {
+    const contenedor = document.getElementById('userList');
+    contenedor.innerHTML = '';
+    lista.forEach(u => {
+      const usrLimpio = obtenerLimpio(u.usuario);
+      const pwdLimpia = obtenerLimpio(u.clave);
+      
+      const card = document.createElement('div');
+      card.className = 'user-card';
+      card.innerHTML = `
+        <div class="user-info">
+          <strong>${u.usuario}</strong>
+          <span>${u.clave}</span>
+        </div>
+        <div style="display:flex; gap:4px;">
+          <button onclick="copiarTexto('${usrLimpio}')">Usr</button>
+          <button onclick="copiarTexto('${pwdLimpia}')" style="background:#64748B;">Pass</button>
+        </div>
+      `;
+      contenedor.appendChild(card);
+    });
+  }
+
+  function copiarTexto(t) {
+    navigator.clipboard.writeText(t);
+  }
+
+  function filtrarUsuarios() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const filtrados = usuarios.filter(u => 
+      u.usuario.toLowerCase().includes(query) || u.clave.toLowerCase().includes(query)
+    );
+    renderizarLista(filtrados);
+  }
+
+  async function guardarUsuario() {
+    const usr = document.getElementById('usernameInput').value.trim();
+    const pwd = document.getElementById('passwordInput').value.trim();
+    if (!usr || !pwd) return;
+
+    const idx = usuarios.findIndex(u => u.usuario.toLowerCase() === usr.toLowerCase());
+    if (idx !== -1) usuarios[idx].clave = pwd;
+    else usuarios.unshift({ usuario: usr, clave: pwd });
+
+    localStorage.setItem('perrito_cuentas', JSON.stringify(usuarios));
+    filtrarUsuarios();
+    document.getElementById('usernameInput').value = '';
+    document.getElementById('passwordInput').value = '';
+
+    // Guardar en la nube
+    try {
+      await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "add", usuario: usr, clave: pwd })
+      });
+    } catch(e) {}
+  }
+
+  async function eliminarUsuario() {
+    const usr = document.getElementById('usernameInput').value.trim();
+    if (!usr) return;
+
+    usuarios = usuarios.filter(u => u.usuario.toLowerCase() !== usr.toLowerCase());
+    localStorage.setItem('perrito_cuentas', JSON.stringify(usuarios));
+    filtrarUsuarios();
+    document.getElementById('usernameInput').value = '';
+    document.getElementById('passwordInput').value = '';
+
+    // Eliminar en la nube
+    try {
+      await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "delete", usuario: usr })
+      });
+    } catch(e) {}
+  }
+
+  // GUARDIÓMETRO Y CALENDARIO
+  const baseDate = new Date(2026, 8, 29);
+  let calViewDate = new Date(2026, 8, 1);
+
+  function obtenerGuardiaPorFecha(fechaTarget) {
+    const diffTime = fechaTarget.getTime() - baseDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    let idx = (diffDays % 4);
+    if (idx < 0) idx += 4;
+    return guardias[idx];
+  }
+
+  function actualizarGuardias() {
+    const hoy = new Date();
+    document.getElementById('fechaHoyText').innerText = hoy.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    
+    const guardiaHoy = obtenerGuardiaPorFecha(hoy);
+    document.getElementById('guardiaHoy').innerText = "Guardia " + guardiaHoy;
+
+    const tipoMip = document.getElementById('tipoMip').value;
+    const customDiv = document.getElementById('customFechas');
+    let fechaFin;
+
+    if (tipoMip === 'mip2') {
+      customDiv.style.display = 'none';
+      fechaFin = new Date(2026, 11, 31);
+    } else if (tipoMip === 'mip1') {
+      customDiv.style.display = 'none';
+      fechaFin = new Date(2027, 5, 30);
+    } else {
+      customDiv.style.display = 'block';
+      const inputFin = document.getElementById('fechaFin').value;
+      fechaFin = inputFin ? new Date(inputFin) : new Date(2026, 11, 31);
+    }
+
+    let counts = { A: 0, B: 0, C: 0, D: 0 };
+    let tempDate = new Date(hoy);
+
+    while (tempDate <= fechaFin) {
+      let g = obtenerGuardiaPorFecha(tempDate);
+      counts[g]++;
+      tempDate.setDate(tempDate.getDate() + 1);
+    }
+
+    document.getElementById('restA').innerText = counts.A;
+    document.getElementById('restB').innerText = counts.B;
+    document.getElementById('restC').innerText = counts.C;
+    document.getElementById('restD').innerText = counts.D;
+
+    generarCalendario();
+  }
+
+  function cambiarMes(delta) {
+    calViewDate.setMonth(calViewDate.getMonth() + delta);
+    generarCalendario();
+  }
+
+  function generarCalendario() {
+    const calendarGrid = document.getElementById('calendarGrid');
+    calendarGrid.innerHTML = '';
+
+    const year = calViewDate.getFullYear();
+    const month = calViewDate.getMonth();
+
+    document.getElementById('app-body').className = `theme-${month}`;
+
+    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    document.getElementById('calMonthYear').innerText = `${monthNames[month]} ${year}`;
+
+    const headers = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+    headers.forEach(h => {
+      const div = document.createElement('div');
+      div.className = 'calendar-header';
+      div.innerText = h;
+      calendarGrid.appendChild(div);
+    });
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+      const emptyCell = document.createElement('div');
+      calendarGrid.appendChild(emptyCell);
+    }
+
+    const hoyReal = new Date();
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const cellDate = new Date(year, month, day);
+      const cell = document.createElement('div');
+      cell.className = 'calendar-day';
+      
+      const gLetter = obtenerGuardiaPorFecha(cellDate);
+      cell.innerHTML = `${day}<br><small style="font-size:0.65rem; opacity:0.8; font-weight:bold;">${gLetter}</small>`;
+
+      if (cellDate.toDateString() === hoyReal.toDateString()) {
+        cell.classList.add('today');
+      }
+
+      calendarGrid.appendChild(cell);
+    }
+  }
+
+  // LABORATORIOS ROTULADOS
+  function procesarLaboratorios() {
+    const text = document.getElementById('labInput').value;
+    if (!text.trim()) return;
+
+    const equivalencias = {
+      'hemoglobina': 'Hemoglobina (Hb)', 'hb': 'Hemoglobina (Hb)',
+      'leucocitos': 'Leucocitos (Leu)', 'leu': 'Leucocitos (Leu)', 'leucos': 'Leucocitos (Leu)',
+      'hematocrito': 'Hematocrito (Hto)', 'hto': 'Hematocrito (Hto)',
+      'plaquetas': 'Plaquetas (Plq)', 'plaq': 'Plaquetas (Plq)',
+      'neutrofilos': 'Neutrófilos (Neu)', 'neu': 'Neutrófilos (Neu)',
+      'glucosa': 'Glucosa', 'urea': 'Urea', 'creatinina': 'Creatinina',
+      'sodio': 'Sodio (Na)', 'potasio': 'Potasio (K)', 'cloro': 'Cloro (Cl)'
+    };
+
+    const regex = /([a-zA-ZáéíóúÁÉÍÓÚñÑ]+)\s*[:=]?\s*(\d+(?:\.\d+)?)/g;
+    let match;
+    let resultados = [];
+
+    while ((match = regex.exec(text)) !== null) {
+      let label = match[1].toLowerCase();
+      let val = match[2];
+      let keyFormat = equivalencias[label] || label.toUpperCase();
+      resultados.push(`${keyFormat}: ${val}`);
+    }
+
+    if (resultados.length > 0) {
+      document.getElementById('labOutput').innerText = resultados.join(" | ");
+    } else {
+      document.getElementById('labOutput').innerText = text.split('\n').join(' | ');
+    }
+  }
+
+  function copiarResultado() {
+    const text = document.getElementById('labOutput').innerText;
+    navigator.clipboard.writeText(text);
+  }
+
+  let postits = JSON.parse(localStorage.getItem('perrito_postits')) || ["Revisar pendientes MIP", "Pase de ronda 8:00 AM"];
+
+  function renderizarPostits() {
+    const board = document.getElementById('notesBoard');
+    board.innerHTML = '';
+    postits.forEach((txt, idx) => {
+      const p = document.createElement('div');
+      p.className = 'postit';
+      p.innerHTML = `
+        <span class="postit-del" onclick="eliminarPostit(${idx})">&times;</span>
+        <textarea onchange="actualizarPostit(${idx}, this.value)">${txt}</textarea>
+      `;
+      board.appendChild(p);
+    });
+  }
+
+  function agregarPostit() {
+    postits.push("Nota rápida...");
+    localStorage.setItem('perrito_postits', JSON.stringify(postits));
+    renderizarPostits();
+  }
+
+  function actualizarPostit(idx, val) {
+    postits[idx] = val;
+    localStorage.setItem('perrito_postits', JSON.stringify(postits));
+  }
+
+  function eliminarPostit(idx) {
+    postits.splice(idx, 1);
+    localStorage.setItem('perrito_postits', JSON.stringify(postits));
+    renderizarPostits();
+  }
+
+  // Inicialización
+  renderizarLista(usuarios);
+  actualizarGuardias();
+  renderizarPostits();
+  sincronizarCuentasNube();
+</script>
+
+</body>
+</html>
