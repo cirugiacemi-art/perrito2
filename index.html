@@ -829,17 +829,58 @@ function procesarLaboratorios() {
         { clave: 'BUN', grupo: 'QS', regex: /(?:bun)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'AC_URICO', grupo: 'QS', regex: /(?:ácido\s*úrico|acido\s*urico)\D*(\d+(?:\.\d+)?)/i },
 
-        // Electrolitos Séricos (ES)
-        { clave: 'NA', grupo: 'ES', regex: /(?:sodio|na)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'K', grupo: 'ES', regex: /(?:potasio|k)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'CL', grupo: 'ES', regex: /(?:cloro|cl)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'CA', grupo: 'ES', regex: /(?:calcio|ca)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'MG', grupo: 'ES', regex: /(?:magnesio|mg)\D*(\d+(?:\.\d+)?)/i },
+        // Electrolitos Séricos (ES) - Patrón estricto para evitar falsos positivos con Sodio (Na)
+        { clave: 'NA', grupo: 'ES', regex: /(?:sodio|\bna\b)\s*[:=]?\s*(\d+(?:\.\d+)?)/i },
+        { clave: 'K', grupo: 'ES', regex: /(?:potasio|\bk\b)\s*[:=]?\s*(\d+(?:\.\d+)?)/i },
+        { clave: 'CL', grupo: 'ES', regex: /(?:cloro|\bcl\b)\s*[:=]?\s*(\d+(?:\.\d+)?)/i },
+        { clave: 'CA', grupo: 'ES', regex: /(?:calcio|\bca\b)\s*[:=]?\s*(\d+(?:\.\d+)?)/i },
+        { clave: 'MG', grupo: 'ES', regex: /(?:magnesio|\bmg\b)\s*[:=]?\s*(\d+(?:\.\d+)?)/i },
 
         // Tiempos de Coagulación
         { clave: 'TP', grupo: 'TP/TTP', regex: /(?:tp|tiempo\s*de\s*protrombina)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'INR', grupo: 'TP/TTP', regex: /(?:inr)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'TTP', grupo: 'TP/TTP', regex: /(?:ttpa|ttp|tiempo\s*de\s*tromboplastina)\D*(\d+(?:\.\d+)?)/i }
+        { clave: 'TTP', grupo: 'TP/TTP', regex: /(?:ttpa|ttp|tiempo\s*de\s*tromboplastina)\D*(\d+(?:\.\d+)?)/i },
+
+        // Pruebas de Función Hepática (PFH)
+        { clave: 'BT', grupo: 'PFH', regex: /(?:bilirrubina\s*total|bt)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'BD', grupo: 'PFH', regex: /(?:bilirrubina\s*directa|bd)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'BI', grupo: 'PFH', regex: /(?:bilirrubina\s*indirecta|bi)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'TGO', grupo: 'PFH', regex: /(?:tgo|ast)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'TGP', grupo: 'PFH', regex: /(?:tgp|alt)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'FA', grupo: 'PFH', regex: /(?:fosfatasa\s*alcalina|fa)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'GGT', grupo: 'PFH', regex: /(?:ggt|gamma\s*glutamil)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'ALB', grupo: 'PFH', regex: /(?:albúmina|albumina|alb)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'PROT_TOT', grupo: 'PFH', regex: /(?:proteínas\s*totales|proteinas\s*totales)\D*(\d+(?:\.\d+)?)/i },
+
+        // Inflamatorios y Reactantes
+        { clave: 'PCR', grupo: 'REACTANTES', regex: /(?:pcr|proteína\s*c\s*reactiva|proteina\s*c\s*reactiva)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'VSG', grupo: 'REACTANTES', regex: /(?:vsg|velocidad\s*de\s*sedimentacion)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'PCT', grupo: 'REACTANTES', regex: /(?:procalcitonina|pct)\D*(\d+(?:\.\d+)?)/i },
+
+        // Marcadores Tumorales
+        { clave: 'ACE', grupo: 'MARCADORES', regex: /(?:antígeno\s*carcinoembrionario|ace|cea)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'AFP', grupo: 'MARCADORES', regex: /(?:alfa\s*fetoproteína|alfafetoproteina|afp)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'PSA', grupo: 'MARCADORES', regex: /(?:psa|antígeno\s*prostático)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'CA125', grupo: 'MARCADORES', regex: /(?:ca\s*125|ca-125)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'CA19_9', grupo: 'MARCADORES', regex: /(?:ca\s*19-9|ca\s*19\.9)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'CA15_3', grupo: 'MARCADORES', regex: /(?:ca\s*15-3|ca\s*15\.3)\D*(\d+(?:\.\d+)?)/i },
+
+        // Pruebas Virales / Serología
+        { clave: 'VIH', grupo: 'VIRALES', regex: /(?:vih|hiv)\s*[:=]?\s*(reactivo|no\s*reactivo|positivo|negativo)/i },
+        { clave: 'VHB', grupo: 'VIRALES', regex: /(?:vhb|hepatitis\s*b)\s*[:=]?\s*(reactivo|no\s*reactivo|positivo|negativo)/i },
+        { clave: 'VHC', grupo: 'VIRALES', regex: /(?:vhc|hepatitis\s*c)\s*[:=]?\s*(reactivo|no\s*reactivo|positivo|negativo)/i },
+        { clave: 'VDRL', grupo: 'VIRALES', regex: /(?:vdrl|rpr)\s*[:=]?\s*(reactivo|no\s*reactivo|positivo|negativo)/i },
+        { clave: 'DENGUE', grupo: 'VIRALES', regex: /(?:dengue|ns1)\s*[:=]?\s*(positivo|negativo)/i },
+
+        // Examen General de Orina (EGO)
+        { clave: 'DENS', grupo: 'EGO', regex: /(?:densidad)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'PH', grupo: 'EGO', regex: /(?:ph)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'PROT_O', grupo: 'EGO', regex: /(?:proteínas|proteinas)\D*(\d+|negativo|trazas|\+)/i },
+        { clave: 'GLUC_O', grupo: 'EGO', regex: /(?:glucosa)\D*(\d+|negativo|\+)/i },
+        { clave: 'LEUC_O', grupo: 'EGO', regex: /(?:leucocitos)\D*(\d+(?:\.\d+)?|negativo|campo)/i },
+        { clave: 'NITR', grupo: 'EGO', regex: /(?:nitritos)\D*(positivo|negativo)/i },
+        { clave: 'CET', grupo: 'EGO', regex: /(?:cetonas)\D*(negativo|\+|\d+)/i },
+        { clave: 'ERIT_O', grupo: 'EGO', regex: /(?:eritrocitos|sangre)\D*(\d+(?:\.\d+)?|negativo|campo)/i }
     ];
 
     const lineas = texto.split('\n');
