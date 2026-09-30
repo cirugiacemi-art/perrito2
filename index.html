@@ -1046,7 +1046,33 @@ const cuentasMedicos = {
         { nombre: "ALEJANDRA LANDERO", clave: "Alejandra2023", area: "JEFA" }
     ]
 };
+// Carga las cuentas automáticas en el buscador
+(function cargarMedicosEnBuscador() {
+    let cuentasBase = [];
+    for (const servicio in cuentasMedicos) {
+        cuentasMedicos[servicio].forEach(medico => {
+            cuentasBase.push({
+                usuario: medico.nombre,
+                pass: medico.clave,
+                servicio: servicio,
+                area: medico.area
+            });
+        });
+    }
 
+    let guardadas = JSON.parse(localStorage.getItem('cuentas_medicos')) || [];
+    let fusionadas = [...cuentasBase];
+    guardadas.forEach(g => {
+        if (!fusionadas.some(c => c.usuario === g.usuario)) {
+            fusionadas.push(g);
+        }
+    });
+
+    if (typeof cuentas !== 'undefined') cuentas = fusionadas;
+    if (typeof accounts !== 'undefined') accounts = fusionadas;
+    if (typeof renderizarCuentas === 'function') renderizarCuentas(fusionadas);
+    if (typeof mostrarCuentas === 'function') mostrarCuentas(fusionadas);
+})();
 </script>
 
 </body>
