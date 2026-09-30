@@ -1076,52 +1076,41 @@ const cuentasMedicos = {
 // ... aquí termina el código JavaScript que ya tenías ...
 
    // ==========================================
-    // COMBINACIONES DE COLOR COORDINADAS Y DIARIAS
+    // PALETAS DIARIAS CON TÍTULOS CENTRADOS Y POST-ITS CONSERVADOS
     // ==========================================
     (function aplicarPaletaDiariaCoordinada() {
-        // Paletas armónicas coordinadas (Fondo, Tarjeta/Recuadro, Borde, Color Título Header, Color Texto/Botón)
         const paletas = [
-            // 0: Azul Marino & Celeste Neon
-            { bg: "linear-gradient(-45deg, #0f172a, #1e3a8a, #0284c7, #38bdf8)", cardBg: "#e0f2fe", border: "#7dd3fc", headerBg: "#0369a1", titleColor: "#38bdf8", primary: "#0284c7" },
-            // 1: Menta & Verde Esmeralda
-            { bg: "linear-gradient(-45deg, #064e3b, #047857, #10b981, #6ee7b7)", cardBg: "#d1fae5", border: "#6ee7b7", headerBg: "#065f46", titleColor: "#a7f3d0", primary: "#047857" },
-            // 2: Atardecer Morado & Naranja Pastel
-            { bg: "linear-gradient(-45deg, #4c1d95, #7c3aed, #f43f5e, #fb923c)", cardBg: "#ffedd5", border: "#fdba74", headerBg: "#5b21b6", titleColor: "#fde047", primary: "#7c3aed" },
-            // 3: Magenta & Rosa Neón
-            { bg: "linear-gradient(-45deg, #831843, #be185d, #d946ef, #818cf8)", cardBg: "#fce7f3", border: "#f472b6", headerBg: "#9d174d", titleColor: "#fbcfe8", primary: "#be185d" },
-            // 4: Escarlata & Rubí
-            { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #ef4444, #fca5a5)", cardBg: "#fee2e2", border: "#fca5a5", headerBg: "#991b1b", titleColor: "#fecaca", primary: "#b91c1c" },
-            // 5: Ámbar Cálido & Fuego
-            { bg: "linear-gradient(-45deg, #78350f, #d97706, #f59e0b, #fbbf24)", cardBg: "#fef3c7", border: "#fcd34d", headerBg: "#92400e", titleColor: "#fef08a", primary: "#d97706" },
-            // 6: Océano Cyan & Azul Profundo
-            { bg: "linear-gradient(-45deg, #0c4a6e, #0369a1, #06b6d4, #67e8f9)", cardBg: "#cffaff", border: "#67e8f9", headerBg: "#075985", titleColor: "#a5f3fc", primary: "#0284c7" },
-            // 7: Cempasúchil & Violeta (Día de Muertos / Halloween)
+            { bg: "linear-gradient(-45deg, #0f172a, #1e3a8a, #0284c7, #38bdf8)", cardBg: "#e0f2fe", border: "#7dd3fc", headerBg: "#0369a1", titleColor: "#ffffff", primary: "#0284c7" },
+            { bg: "linear-gradient(-45deg, #064e3b, #047857, #10b981, #6ee7b7)", cardBg: "#d1fae5", border: "#6ee7b7", headerBg: "#065f46", titleColor: "#ffffff", primary: "#047857" },
+            { bg: "linear-gradient(-45deg, #4c1d95, #7c3aed, #f43f5e, #fb923c)", cardBg: "#ffedd5", border: "#fdba74", headerBg: "#5b21b6", titleColor: "#ffffff", primary: "#7c3aed" },
+            { bg: "linear-gradient(-45deg, #831843, #be185d, #d946ef, #818cf8)", cardBg: "#fce7f3", border: "#f472b6", headerBg: "#9d174d", titleColor: "#ffffff", primary: "#be185d" },
+            { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #ef4444, #fca5a5)", cardBg: "#fee2e2", border: "#fca5a5", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#b91c1c" },
+            { bg: "linear-gradient(-45deg, #78350f, #d97706, #f59e0b, #fbbf24)", cardBg: "#fef3c7", border: "#fcd34d", headerBg: "#92400e", titleColor: "#ffffff", primary: "#d97706" },
+            { bg: "linear-gradient(-45deg, #0c4a6e, #0369a1, #06b6d4, #67e8f9)", cardBg: "#cffaff", border: "#67e8f9", headerBg: "#075985", titleColor: "#ffffff", primary: "#0284c7" },
             { bg: "linear-gradient(-45deg, #581c87, #7e22ce, #ea580c, #facc15)", cardBg: "#f3e8ff", border: "#c084fc", headerBg: "#6b21a8", titleColor: "#facc15", primary: "#ea580c" },
-            // 8: Bosque Místico & Jade
-            { bg: "linear-gradient(-45deg, #14532d, #15803d, #22c55e, #86efac)", cardBg: "#dcfce7", border: "#86efac", headerBg: "#166534", titleColor: "#bbf7d0", primary: "#15803d" },
-            // 9: Galaxia & Plata
-            { bg: "linear-gradient(-45deg, #111827, #1f2937, #4b5563, #9ca3af)", cardBg: "#f3f4f6", border: "#d1d5db", headerBg: "#111827", titleColor: "#f9fafb", primary: "#374151" }
+            { bg: "linear-gradient(-45deg, #14532d, #15803d, #22c55e, #86efac)", cardBg: "#dcfce7", border: "#86efac", headerBg: "#166534", titleColor: "#ffffff", primary: "#15803d" },
+            { bg: "linear-gradient(-45deg, #111827, #1f2937, #4b5563, #9ca3af)", cardBg: "#f3f4f6", border: "#d1d5db", headerBg: "#111827", titleColor: "#ffffff", primary: "#374151" }
         ];
 
-        // Calcular el día exacto del año (1 - 366)
+        // Calcular día del año (1-366)
         const ahora = new Date();
         const inicioAno = new Date(ahora.getFullYear(), 0, 0);
         const dif = ahora - inicioAno;
         const unDia = 1000 * 60 * 60 * 24;
         const diaDelAno = Math.floor(dif / unDia);
 
-        // Seleccionar la combinación de hoy
         const p = paletas[diaDelAno % paletas.length];
 
-        // Inyección masiva de estilos combinados
         const style = document.createElement('style');
         style.innerHTML = `
+            /* Fondo Animado Continuo */
             body {
                 background: ${p.bg} !important;
                 background-size: 400% 400% !important;
                 animation: gradientBG 12s ease infinite !important;
             }
-            /* Encabezado y Título PERRITO 2 */
+
+            /* Header Principal */
             header {
                 background-color: ${p.headerBg} !important;
                 border: 2px solid ${p.border} !important;
@@ -1131,32 +1120,46 @@ const cuentasMedicos = {
                 color: ${p.titleColor} !important;
                 text-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
             }
-            /* Recuadros/Tarjetas Blancas cambiadas a tonos combinados */
-            .card, .user-card, .metric-card, .postit, div[class*="card"] {
+
+            /* Recuadros / Tarjetas Blancas coordinadas */
+            .card, .user-card, .metric-card {
                 background-color: ${p.cardBg} !important;
                 border: 2px solid ${p.border} !important;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
             }
-            /* Títulos dentro de las tarjetas */
-            .card-title, .card-title span, h2, h3, .guardia-actual {
+
+            /* CENTRAR TÍTULOS DE CADA RECUADRO */
+            .card-title {
                 color: ${p.primary} !important;
+                text-align: center !important;
+                justify-content: center !important;
+                display: flex !important;
+                width: 100% !important;
+                font-size: 1.15rem !important;
+                font-weight: 800 !important;
+                letter-spacing: 0.5px !important;
             }
-            /* Botones */
-            button:not(.btn-danger) {
+
+            /* Botones principales */
+            button:not(.btn-danger):not(.postit-btn) {
                 background-color: ${p.primary} !important;
                 color: #FFFFFF !important;
             }
-            /* Guardiómetro y Métricas */
-            .guardia-badge {
-                background-color: rgba(255, 255, 255, 0.6) !important;
-                border: 2px dashed ${p.primary} !important;
+
+            /* CONSERVAR ESTILOS TRADICIONALES DE LOS POST-ITS (Amarillos y Azules) */
+            .postit, .post-it, div[class*="postit"] {
+                background-color: #FEF08A !important; /* Amarillo Nota */
+                border: 1px solid #FDE047 !important;
+                color: #713F12 !important;
+                box-shadow: 3px 3px 10px rgba(0,0,0,0.15) !important;
             }
-            .metric-card strong {
-                color: ${p.primary} !important;
+            .postit.blue, .post-it.blue, div[class*="postit-blue"] {
+                background-color: #BAE6FD !important; /* Azul Nota */
+                border: 1px solid #7DD3FC !important;
+                color: #0C4A6E !important;
             }
-            /* Días del Calendario */
-            .calendar-day.today {
-                background-color: ${p.primary} !important;
+            .postit .card-title, .post-it .card-title {
+                color: inherit !important;
             }
         `;
         document.head.appendChild(style);
