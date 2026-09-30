@@ -944,6 +944,109 @@ function procesarLaboratorios() {
   actualizarGuardias();
   renderizarPostits();
   sincronizarCuentasNube();
+  // ... tus líneas anteriores de JavaScript (hasta la 946)
+
+const cuentasMedicos = {
+    PEDIATRIA: [
+        { nombre: "NAYELI MEZQUITA", clave: "NAYELIMP2026", area: "PISO MAT" },
+        { nombre: "MONICA HERDEZ", clave: "MONICAAHV26", area: "LABOR VESP" },
+        { nombre: "ARTURO RUIZ", clave: "ARTURORR964", area: "LABOR MAT" },
+        { nombre: "ARTURO ARIAS", clave: "ARTURO47", area: "CIRUPEDIA" },
+        { nombre: "JOSE CADENA", clave: "JOSECADE05", area: "UCIN MAT" },
+        { nombre: "JPABLO MONTALVO", clave: "jpablo2023", area: "UCIN NOCHES LMV" },
+        { nombre: "DANIEL AGUILAR", clave: "DANIELAR870", area: "LABOR FINDES" },
+        { nombre: "CADELARIO ZAVALA", clave: "CANDELARIO1529", area: "URG NOCHE" },
+        { nombre: "JOSE UITZIL", clave: "UITZIL963", area: "URG NOCHE LMV" },
+        { nombre: "NELLY AU. LAZARO", clave: "NELLYLLJ2025", area: "PEDIATRIA" },
+        { nombre: "DANIEL BROCA", clave: "DANIELD2024", area: "PEDIATRIA" },
+        { nombre: "LENDY CHAN", clave: "LENDYC2024", area: "NEUROLOGIA" },
+        { nombre: "ESMERALDA GOMEZ", clave: "ESMERALDA179", area: "FIN DE SEMANA" },
+        { nombre: "ROSA MARTINEZ", clave: "MARBAR", area: "PEDIATRA PISO VESP" }
+    ],
+    MEDICINA_INTERNA: [
+        { nombre: "ISABEL RAMON", clave: "ISABEL27", area: "INTERNISTA PISO 1 VESP" },
+        { nombre: "DANIEL SALVADOR", clave: "DANIEL11", area: "INTERNISTA PISO 1 MAT" },
+        { nombre: "ARMANDO ALVAREZ", clave: "BURGOS", area: "INTERNISTA PISO 2 MAT" },
+        { nombre: "ALEJANDRO MEJIA", clave: "encefalitis26", area: "JEFE DE MI" },
+        { nombre: "KARLA G. TREJO", clave: "KARLATC2025", area: "UCI VESP" },
+        { nombre: "JONATHAN DL CRUZ", clave: "JONATHANEPC26", area: "UCI MAT" },
+        { nombre: "JESUS CHABLE D", clave: "Anchable12", area: "UCI NOCHES" },
+        { nombre: "JAVIER FLORES", clave: "JAVIERFR479", area: "MEDICO DE APOYO NOCHES" },
+        { nombre: "MARIANA BRETON", clave: "MARINANM64", area: "MEDICO DE APOYO FINDES" },
+        { nombre: "JUAN J. ALVAREZ", clave: "JUANJALVAREZ2025", area: "MEDICO DE APOYO" },
+        { nombre: "ANDRES PALOMEQUE", clave: "Andrespz2024", area: "APOYO PISO 2 MAT" },
+        { nombre: "ERNESTO LARA", clave: "LARSNET025", area: "INTERNISTA PISO 2 NOCHES" },
+        { nombre: "MERCEDES PEREGRINO", clave: "MERCEPH0101", area: "APOYO PISO 1 VESP" },
+        { nombre: "DANIEL CONDE", clave: "Danielaca2023", area: "APOYO PISO 1 MAT" },
+        { nombre: "ROSARIO MENA", clave: "", area: "APOYO PISO 1 MAT" },
+        { nombre: "MIRELY CASASUS", clave: "ISSETCEMI2026", area: "UCI FIN DE SEMANA" },
+        { nombre: "JAGOPE", clave: "690626", area: "CARDIO - PEDRERO" }
+    ],
+    CIRUGIA: [
+        { nombre: "CARLOS ART. CORTAZAR", clave: "CARLOSCS25", area: "ONCOCIRUGIA" },
+        { nombre: "KAREN P. HERRERA", clave: "KARENPHV26", area: "CIRUJANO VESP" },
+        { nombre: "FRANCISCO CARRADA", clave: "CARRADA37", area: "CIRUJANO MAT" },
+        { nombre: "BRYAN MORALES", clave: "BRYANME26", area: "CIRUJANO VESP" },
+        { nombre: "JULIOC. AVALOS", clave: "JULIOC2026", area: "UROLOGIA" },
+        { nombre: "ROBERTO MANZANO", clave: "ROBERTO17", area: "COLOPROCTO" },
+        { nombre: "JULIO C. MYERYC", clave: "JULIOCMC25", area: "UROLOGIA" },
+        { nombre: "HORACIO HERNANDEZ", clave: "HORACIO45", area: "CIRUJANO" },
+        { nombre: "DANIEL HERDEZ", clave: "DANIELHO25", area: "JEFE DE TYO" },
+        { nombre: "JOEL CRUZ G", clave: "JOELCRUZ23$$", area: "JEFE CIRUGIA" },
+        { nombre: "TILO AGUILAR", clave: "AGUILAR59", area: "CIRUJANO VESP" },
+        { nombre: "RODRIGO REPETTO", clave: "RODRIGO76", area: "CIRUJANO MAT" },
+        { nombre: "IGNACIO PAVON", clave: "IGNACIOPR150", area: "CIRUJANO VESP" },
+        { nombre: "GABRIEL GONZALEZ", clave: "GABRIELGS25", area: "CIRUJANO VESP" }
+    ],
+    URGENCIAS: [
+        { nombre: "FREDDY MARIN", clave: "abcdef12", area: "MAT" },
+        { nombre: "KARLA JEREZ", clave: "ARAGON10", area: "NOCHES" },
+        { nombre: "JIM CHABLE", clave: "JIMCH972", area: "MAT" },
+        { nombre: "MANUEL DIAZ", clave: "MANUELDL765", area: "MAT" },
+        { nombre: "JOSE D. MARTINEZ", clave: "JOSEDA2024", area: "FIN DE SEM" },
+        { nombre: "ARMANDO FRIAS", clave: "ARMANDOF0715", area: "CRITICA" },
+        { nombre: "LITA CADENA", clave: "LITASCA26", area: "CUBRE" },
+        { nombre: "SALVADOR HH", clave: "SALVADORHH12", area: "NOCHE" },
+        { nombre: "MARCIONIL ADG", clave: "MARCIONILADG210", area: "INTERNISTA" },
+        { nombre: "J. LUIS BG. GUTIERREZ", clave: "JOSEBG2025", area: "MAT" },
+        { nombre: "JUAN LOPEZ 1233", clave: "2802", area: "JJ - FINDE" },
+        { nombre: "DAVIS ANDERSON", clave: "DAVISGL850", area: "NOCHE" },
+        { nombre: "NAYRA CADENA", clave: "NAYRAYA2024", area: "MAT/NOCHE" },
+        { nombre: "MARTIN BG", clave: "MARTIN671", area: "VESP" },
+        { nombre: "FERNANDO GARCIA", clave: "GARCIA12", area: "FINDE" },
+        { nombre: "EDER ADIN TASS", clave: "EDERASIN2025", area: "NOCHE" },
+        { nombre: "J. PAULINO RIVERA", clave: "Jpaulino2024", area: "NOCHE" },
+        { nombre: "VERA CARRERA", clave: "MILIXA90", area: "CUBRE" },
+        { nombre: "MIGUEL GONZALEZ", clave: "MIGUEL4510", area: "VILLEGAS CRITICA" },
+        { nombre: "NESTOR PEREZ", clave: "NESTORPA645", area: "NOCHE" },
+        { nombre: "RAFAEL PEREZ", clave: "Rafaelcp2023", area: "CARRETA" },
+        { nombre: "JAGOPE", clave: "690626", area: "CARDIO - PEDRERO" },
+        { nombre: "CARLOS S. HERNANDEZ", clave: "NENUCA", area: "FINDE" },
+        { nombre: "MARIA ALICIA", clave: "MARIARR321", area: "CUBRE" }
+    ],
+    GYO: [
+        { nombre: "LOUISE K. MONTERRUBIO", clave: "MONTERRUBIO2025", area: "" },
+        { nombre: "RAUL H. SANCHEZ", clave: "Raulhs023", area: "" },
+        { nombre: "NELSON MORALES", clave: "Nelson2023", area: "FIN DE SEMANA" },
+        { nombre: "YOLANDA GARDUZA", clave: "YOLANDAGL679", area: "" },
+        { nombre: "EZEQUIAS SOBERANOCM", clave: "nery25eze3517si", area: "VESP" },
+        { nombre: "JOSE AQUINO", clave: "JOSEJO56", area: "" },
+        { nombre: "JUAN C. SOSA", clave: "JUANCASTRO93", area: "VESP" },
+        { nombre: "ERIKAGI GARCIA", clave: "ERIKAGR2025", area: "" },
+        { nombre: "JOSE SP SANCHEZ", clave: "Josesp2023", area: "" },
+        { nombre: "SARAYANETH SACA", clave: "SARAYSC2025", area: "UROGINE" },
+        { nombre: "RICARDO PERALTA", clave: "RIPEQU65", area: "NOCHE" },
+        { nombre: "JOSE ANTONIO", clave: "JOSEAD674", area: "" },
+        { nombre: "PAOLI S19", clave: "PAOLIS19", area: "" },
+        { nombre: "ROBERTO ROMAN", clave: "roarct08", area: "MAT" },
+        { nombre: "JOSE SASTRE", clave: "JOSEEJ46", area: "" },
+        { nombre: "DRE SCAYOLA 15", clave: "enrique68", area: "NOCHE" },
+        { nombre: "MOISES PAREDES", clave: "MOISESPV2025", area: "VESP" },
+        { nombre: "ISRAEL CIFUENTES", clave: "ISRAELSI69", area: "" },
+        { nombre: "ALEJANDRA LANDERO", clave: "Alejandra2023", area: "JEFA" }
+    ]
+};
+
 </script>
 
 </body>
