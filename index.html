@@ -1076,44 +1076,44 @@ const cuentasMedicos = {
 // ... aquí termina el código JavaScript que ya tenías ...
 
    // ==========================================
-    // PALETAS COMBINADAS Y DINÁMICAS DÍA A DÍA
+    // COMBINACIONES DE COLOR COORDINADAS Y DIARIAS
     // ==========================================
-    (function aplicarPaletaDiaria() {
-        // Paletas armónicas coordinadas (Fondo degradado, Tarjeta/Recuadro, Borde, Color Primario/Título)
+    (function aplicarPaletaDiariaCoordinada() {
+        // Paletas armónicas coordinadas (Fondo, Tarjeta/Recuadro, Borde, Color Título Header, Color Texto/Botón)
         const paletas = [
-            // 0: Azul Marino & Celeste Crisp
-            { bg: "linear-gradient(-45deg, #0f172a, #1e3a8a, #0284c7, #38bdf8)", cardBg: "#f0f9ff", border: "#bae6fd", primary: "#0284c7" },
-            // 1: Menta & Esmeralda Fresco
-            { bg: "linear-gradient(-45deg, #064e3b, #047857, #10b981, #6ee7b7)", cardBg: "#ecfdf5", border: "#a7f3d0", primary: "#047857" },
-            // 2: Atardecer Púrpura & Durazno
-            { bg: "linear-gradient(-45deg, #4c1d95, #7c3aed, #f43f5e, #fb923c)", cardBg: "#fff7ed", border: "#ffedd5", primary: "#7c3aed" },
-            // 3: Neón Rosa & Violeta
-            { bg: "linear-gradient(-45deg, #831843, #be185d, #d946ef, #818cf8)", cardBg: "#fdf4ff", border: "#f5d0fe", primary: "#be185d" },
-            // 4: Escarlata & Rubí Elegante
-            { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #ef4444, #fca5a5)", cardBg: "#fef2f2", border: "#fecaca", primary: "#b91c1c" },
-            // 5: Ambar Cálido & Fuego
-            { bg: "linear-gradient(-45deg, #78350f, #d97706, #f59e0b, #fbbf24)", cardBg: "#fffbeb", border: "#fde68a", primary: "#d97706" },
-            // 6: Océano Turquesa & Azul Profundo
-            { bg: "linear-gradient(-45deg, #0c4a6e, #0369a1, #06b6d4, #67e8f9)", cardBg: "#ecfeff", border: "#a5f3fc", primary: "#0369a1" },
-            // 7: Bosque Místico & Jade
-            { bg: "linear-gradient(-45deg, #14532d, #15803d, #22c55e, #86efac)", cardBg: "#f0fdf4", border: "#bbf7d0", primary: "#15803d" },
-            // 8: Berenjena & Cempasúchil
-            { bg: "linear-gradient(-45deg, #581c87, #7e22ce, #ea580c, #facc15)", cardBg: "#faf5ff", border: "#e9d5ff", primary: "#7e22ce" },
-            // 9: Galaxia Nocturna & Plata
-            { bg: "linear-gradient(-45deg, #111827, #1f2937, #374151, #6b7280)", cardBg: "#f9fafb", border: "#e5e7eb", primary: "#1f2937" }
+            // 0: Azul Marino & Celeste Neon
+            { bg: "linear-gradient(-45deg, #0f172a, #1e3a8a, #0284c7, #38bdf8)", cardBg: "#e0f2fe", border: "#7dd3fc", headerBg: "#0369a1", titleColor: "#38bdf8", primary: "#0284c7" },
+            // 1: Menta & Verde Esmeralda
+            { bg: "linear-gradient(-45deg, #064e3b, #047857, #10b981, #6ee7b7)", cardBg: "#d1fae5", border: "#6ee7b7", headerBg: "#065f46", titleColor: "#a7f3d0", primary: "#047857" },
+            // 2: Atardecer Morado & Naranja Pastel
+            { bg: "linear-gradient(-45deg, #4c1d95, #7c3aed, #f43f5e, #fb923c)", cardBg: "#ffedd5", border: "#fdba74", headerBg: "#5b21b6", titleColor: "#fde047", primary: "#7c3aed" },
+            // 3: Magenta & Rosa Neón
+            { bg: "linear-gradient(-45deg, #831843, #be185d, #d946ef, #818cf8)", cardBg: "#fce7f3", border: "#f472b6", headerBg: "#9d174d", titleColor: "#fbcfe8", primary: "#be185d" },
+            // 4: Escarlata & Rubí
+            { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #ef4444, #fca5a5)", cardBg: "#fee2e2", border: "#fca5a5", headerBg: "#991b1b", titleColor: "#fecaca", primary: "#b91c1c" },
+            // 5: Ámbar Cálido & Fuego
+            { bg: "linear-gradient(-45deg, #78350f, #d97706, #f59e0b, #fbbf24)", cardBg: "#fef3c7", border: "#fcd34d", headerBg: "#92400e", titleColor: "#fef08a", primary: "#d97706" },
+            // 6: Océano Cyan & Azul Profundo
+            { bg: "linear-gradient(-45deg, #0c4a6e, #0369a1, #06b6d4, #67e8f9)", cardBg: "#cffaff", border: "#67e8f9", headerBg: "#075985", titleColor: "#a5f3fc", primary: "#0284c7" },
+            // 7: Cempasúchil & Violeta (Día de Muertos / Halloween)
+            { bg: "linear-gradient(-45deg, #581c87, #7e22ce, #ea580c, #facc15)", cardBg: "#f3e8ff", border: "#c084fc", headerBg: "#6b21a8", titleColor: "#facc15", primary: "#ea580c" },
+            // 8: Bosque Místico & Jade
+            { bg: "linear-gradient(-45deg, #14532d, #15803d, #22c55e, #86efac)", cardBg: "#dcfce7", border: "#86efac", headerBg: "#166534", titleColor: "#bbf7d0", primary: "#15803d" },
+            // 9: Galaxia & Plata
+            { bg: "linear-gradient(-45deg, #111827, #1f2937, #4b5563, #9ca3af)", cardBg: "#f3f4f6", border: "#d1d5db", headerBg: "#111827", titleColor: "#f9fafb", primary: "#374151" }
         ];
 
-        // Calcular el número del día del año (1 - 366)
+        // Calcular el día exacto del año (1 - 366)
         const ahora = new Date();
         const inicioAno = new Date(ahora.getFullYear(), 0, 0);
         const dif = ahora - inicioAno;
         const unDia = 1000 * 60 * 60 * 24;
         const diaDelAno = Math.floor(dif / unDia);
 
-        // Elegir la paleta del día mediante residuo
+        // Seleccionar la combinación de hoy
         const p = paletas[diaDelAno % paletas.length];
 
-        // Inyectar estilos para que apliquen en toda la interfaz
+        // Inyección masiva de estilos combinados
         const style = document.createElement('style');
         style.innerHTML = `
             body {
@@ -1121,24 +1121,42 @@ const cuentasMedicos = {
                 background-size: 400% 400% !important;
                 animation: gradientBG 12s ease infinite !important;
             }
-            .card, .user-card, .metric-card, .postit {
+            /* Encabezado y Título PERRITO 2 */
+            header {
+                background-color: ${p.headerBg} !important;
+                border: 2px solid ${p.border} !important;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.25) !important;
+            }
+            header h1 {
+                color: ${p.titleColor} !important;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+            }
+            /* Recuadros/Tarjetas Blancas cambiadas a tonos combinados */
+            .card, .user-card, .metric-card, .postit, div[class*="card"] {
                 background-color: ${p.cardBg} !important;
                 border: 2px solid ${p.border} !important;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.06) !important;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
             }
-            header {
-                background-color: ${p.primary} !important;
-                box-shadow: 0 8px 20px rgba(0,0,0,0.2) !important;
-            }
-            .card-title, h1, h2, h3, .user-info strong, .guardia-actual {
+            /* Títulos dentro de las tarjetas */
+            .card-title, .card-title span, h2, h3, .guardia-actual {
                 color: ${p.primary} !important;
             }
+            /* Botones */
             button:not(.btn-danger) {
                 background-color: ${p.primary} !important;
+                color: #FFFFFF !important;
             }
+            /* Guardiómetro y Métricas */
             .guardia-badge {
-                background-color: ${p.cardBg} !important;
+                background-color: rgba(255, 255, 255, 0.6) !important;
                 border: 2px dashed ${p.primary} !important;
+            }
+            .metric-card strong {
+                color: ${p.primary} !important;
+            }
+            /* Días del Calendario */
+            .calendar-day.today {
+                background-color: ${p.primary} !important;
             }
         `;
         document.head.appendChild(style);
