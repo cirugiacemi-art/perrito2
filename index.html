@@ -1076,55 +1076,69 @@ const cuentasMedicos = {
 // ... aquí termina el código JavaScript que ya tenías ...
 
    // ==========================================
-    // EMOJIS ALEATORIOS SEGÚN LA FESTIVIDAD DEL MES
+    // TEMÁTICAS Y COLORES AUTOMÁTICOS POR FESTIVIDAD DEL MES
     // ==========================================
-    (function agregarFestividadMes() {
-        const festividades = {
-            0:  ['🎆', '🥂', '👑', '🎁'],       // Enero
-            1:  ['💘', '❤️', '💌', '🌹'],       // Febrero
-            2:  ['🍀', '🌱', '🌸', '🚲'],       // Marzo
-            3:  ['🐰', '🥚', '🌸', '🌧️'],       // Abril
-            4:  ['💐', '🇲🇽', '👑', '🎉'],       // Mayo
-            5:  ['👔', '☀️', '🌈', '🍦'],       // Junio
-            6:  ['🏖️', '🌊', '🍹', '🕶️'],       // Julio
-            7:  ['🎒', '✏️', '🍎', '🚌'],       // Agosto
-            8:  ['🇲🇽', '🌮', '🪅', '🎺'],       // Septiembre
-            9:  ['🎃', '💀', '👻', '🦇', '🍬'], // Octubre
-            10: ['💀', '🌼', '🕯️', '🍞'],       // Noviembre
-            11: ['🎄', '🎅', '☃️', '🎁', '🔔']  // Diciembre
+    (function aplicarTematicaMes() {
+        const mesActual = new Date().getMonth(); // 0 = Enero, 8 = Septiembre, 9 = Octubre, 11 = Diciembre
+
+        // Definición de paletas de colores por festividad
+        const tematicas = {
+            0:  { name: "Año Nuevo", primary: "#1E3A8A", cardBg: "#F0F3FF", border: "#93C5FD", gradient: "linear-gradient(-45deg, #0F172A, #1E3A8A, #3B82F6, #1E1B4B)" },
+            1:  { name: "San Valentín", primary: "#BE123C", cardBg: "#FFF1F2", border: "#FECDD3", gradient: "linear-gradient(-45deg, #881337, #E11D48, #F43F5E, #FB7185)" },
+            2:  { name: "Primavera", primary: "#15803D", cardBg: "#F0FDF4", border: "#BBF7D0", gradient: "linear-gradient(-45deg, #14532D, #16A34A, #4ADE80, #86EFAC)" },
+            3:  { name: "Pascua / Día del Niño", primary: "#0284C7", cardBg: "#F0F9FF", border: "#BAE6FD", gradient: "linear-gradient(-45deg, #0369A1, #38BDF8, #A7F3D0, #FDE68A)" },
+            4:  { name: "Día de las Madres", primary: "#C026D3", cardBg: "#FDF4FF", border: "#F5D0FE", gradient: "linear-gradient(-45deg, #701A75, #A21CAF, #E879F9, #F472B6)" },
+            5:  { name: "Día del Padre", primary: "#0369A1", cardBg: "#F0F9FF", border: "#BAE6FD", gradient: "linear-gradient(-45deg, #0C4A6E, #0284C7, #38BDF8, #7DD3FC)" },
+            6:  { name: "Verano / Vacaciones", primary: "#D97706", cardBg: "#FFFBEB", border: "#FDE68A", gradient: "linear-gradient(-45deg, #B45309, #F59E0B, #FBBF24, #38BDF8)" },
+            7:  { name: "Regreso a Clases", primary: "#4338CA", cardBg: "#EEF2FF", border: "#C7D2FE", gradient: "linear-gradient(-45deg, #312E81, #4F46E5, #818CF8, #F43F5E)" },
+            8:  { name: "Fiestas Patrias", primary: "#15803D", cardBg: "#F2FBF5", border: "#A7F3D0", gradient: "linear-gradient(-45deg, #14532D, #DC2626, #16A34A, #EF4444)" },
+            9:  { name: "Halloween / Día de Muertos", primary: "#EA580C", cardBg: "#FFF7ED", border: "#FFEDD5", gradient: "linear-gradient(-45deg, #7C2D12, #EA580C, #F97316, #581C87)" },
+            10: { name: "Día de Muertos / Tradiciones", primary: "#C026D3", cardBg: "#FAF5FF", border: "#E9D5FF", gradient: "linear-gradient(-45deg, #581C87, #EA580C, #A21CAF, #FACC15)" },
+            11: { name: "Navidad", primary: "#DC2626", cardBg: "#FEF2F2", border: "#FECACA", gradient: "linear-gradient(-45deg, #991B1B, #166534, #EF4444, #22C55E)" }
         };
 
-        const mesActual = new Date().getMonth();
-        const emojis = festividades[mesActual] || ['✨', '⭐'];
-        const cantidadEmojis = 40; 
+        const tema = tematicas[mesActual] || tematicas[0];
+        const root = document.documentElement;
 
-        for (let i = 0; i < cantidadEmojis; i++) {
-            const emojiEl = document.createElement('div');
-            emojiEl.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-            
-            Object.assign(emojiEl.style, {
-                position: 'fixed',
-                top: Math.floor(Math.random() * 90 + 2) + 'vh',
-                left: Math.floor(Math.random() * 92 + 2) + 'vw',
-                fontSize: Math.floor(Math.random() * 16 + 18) + 'px',
-                opacity: (Math.random() * 0.30 + 0.15).toFixed(2),
-                pointerEvents: 'none',
-                zIndex: '-1', // <-- Se coloca detrás del contenido de la página
-                userSelect: 'none',
-                filter: 'drop-shadow(0px 2px 4px rgba(0,0,0,0.15))',
-            });
+        // Aplicar variables CSS globales para que combinen todos los elementos
+        root.style.setProperty('--primary', tema.primary);
+        root.style.setProperty('--card-bg', tema.cardBg);
+        root.style.setProperty('--border', tema.border);
+        root.style.setProperty('--bg-gradient', tema.gradient);
 
-            document.body.appendChild(emojiEl);
-        }
-
-        // Asegurar que las tarjetas y módulos queden por encima
-        const modulos = document.querySelectorAll('.card, .container, section, div[class*="card"]');
-        modulos.forEach(mod => {
-            if (getComputedStyle(mod).position === 'static') {
-                mod.style.position = 'relative';
+        // Estilos dinámicos inyectados
+        const style = document.createElement('style');
+        style.innerHTML = `
+            body {
+                background: ${tema.gradient} !important;
+                background-size: 400% 400% !important;
+                animation: gradientBG 12s ease infinite !important;
             }
-            mod.style.zIndex = '2';
-        });
+            .card {
+                background-color: ${tema.cardBg} !important;
+                border: 2px solid ${tema.border} !important;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
+            }
+            header {
+                background-color: ${tema.primary} !important;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.2) !important;
+            }
+            .card-title {
+                color: ${tema.primary} !important;
+                border-bottom: 2px solid ${tema.border} !important;
+            }
+            button {
+                background-color: ${tema.primary} !important;
+            }
+            .guardia-badge {
+                background: ${tema.cardBg} !important;
+                border: 2px dashed ${tema.primary} !important;
+            }
+            .guardia-actual, .metric-card strong {
+                color: ${tema.primary} !important;
+            }
+        `;
+        document.head.appendChild(style);
     })();
   </script>
 </body>
