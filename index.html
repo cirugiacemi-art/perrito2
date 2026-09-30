@@ -793,43 +793,93 @@ Hemoglobina 10.8 Leucocitos 43.37 Hematocrito 34.2 Plaquetas 211 Neutrofilos 89.
     }
   }
 
-  // LABORATORIOS ROTULADOS
-  function procesarLaboratorios() {
-    const text = document.getElementById('labInput').value;
-    if (!text.trim()) return;
+// LABORATORIOS ROTULADOS
+function procesarLaboratorios() {
+    const inputElement = document.getElementById('labInput');
+    const outputElement = document.getElementById('labOutput');
 
-    const equivalencias = {
-      'hemoglobina': 'Hemoglobina (Hb)', 'hb': 'Hemoglobina (Hb)',
-      'leucocitos': 'Leucocitos (Leu)', 'leu': 'Leucocitos (Leu)', 'leucos': 'Leucocitos (Leu)',
-      'hematocrito': 'Hematocrito (Hto)', 'hto': 'Hematocrito (Hto)',
-      'plaquetas': 'Plaquetas (Plq)', 'plaq': 'Plaquetas (Plq)',
-      'neutrofilos': 'Neutrófilos (Neu)', 'neu': 'Neutrófilos (Neu)',
-      'glucosa': 'Glucosa', 'urea': 'Urea', 'creatinina': 'Creatinina',
-      'sodio': 'Sodio (Na)', 'potasio': 'Potasio (K)', 'cloro': 'Cloro (Cl)'
-    };
-
-    const regex = /([a-zA-ZáéíóúÁÉÍÓÚñÑ]+)\s*[:=]?\s*(\d+(?:\.\d+)?)/g;
-    let match;
-    let resultados = [];
-
-    while ((match = regex.exec(text)) !== null) {
-      let label = match[1].toLowerCase();
-      let val = match[2];
-      let keyFormat = equivalencias[label] || label.toUpperCase();
-      resultados.push(`${keyFormat}: ${val}`);
+    if (!inputElement || !inputElement.value.trim()) {
+        if (outputElement) outputElement.innerText = "Por favor, ingresa datos para procesar.";
+        return;
     }
 
-    if (resultados.length > 0) {
-      document.getElementById('labOutput').innerText = resultados.join(" | ");
-    } else {
-      document.getElementById('labOutput').innerText = text.split('\n').join(' | ');
-    }
-  }
+    const texto = inputElement.value;
 
-  function copiarResultado() {
-    const text = document.getElementById('labOutput').innerText;
-    navigator.clipboard.writeText(text);
-  }
+    const diccParams = [
+        // Biometría Hemática (BH)
+        { clave: 'ERI', grupo: 'BH', regex: /(?:eritrocitos|glóbulos\s*rojos|rbc)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'HB', grupo: 'BH', regex: /(?:hemoglobina|hb)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'HTO', grupo: 'BH', regex: /(?:hematocrito|hto)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'VCM', grupo: 'BH', regex: /(?:v\.?c\.?m\.?|volumen\s*corpuscular\s*medio)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'HCM', grupo: 'BH', regex: /(?:h\.?c\.?m\.?|hemoglobina\s*corpuscular\s*media)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'CHCM', grupo: 'BH', regex: /(?:c\.?h\.?c\.?m\.?)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'RDW', grupo: 'BH', regex: /(?:rdw|ade)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'LEU', grupo: 'BH', regex: /(?:leucocitos|leucos|wbc)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'NEU', grupo: 'BH', regex: /(?:neutrofilos|neutrófilos|neuts)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'LINF', grupo: 'BH', regex: /(?:linfocitos|linfs)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'MONO', grupo: 'BH', regex: /(?:monocitos|monos)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'EOS', grupo: 'BH', regex: /(?:eosinofilos|eosinófilos|eos)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'BASO', grupo: 'BH', regex: /(?:basofilos|basófilos|baso)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'PLAQ', grupo: 'BH', regex: /(?:plaquetas|plq|plt)\D*(\d+(?:\.\d+)?)/i },
+
+        // Química Sanguínea (QS)
+        { clave: 'GLUC', grupo: 'QS', regex: /(?:glucosa|glu)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'CREAT', grupo: 'QS', regex: /(?:creatinina|creat)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'UREA', grupo: 'QS', regex: /(?:urea)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'BUN', grupo: 'QS', regex: /(?:bun)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'AC_URICO', grupo: 'QS', regex: /(?:ácido\s*úrico|acido\s*urico)\D*(\d+(?:\.\d+)?)/i },
+
+        // Electrolitos Séricos (ES)
+        { clave: 'NA', grupo: 'ES', regex: /(?:sodio|na)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'K', grupo: 'ES', regex: /(?:potasio|k)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'CL', grupo: 'ES', regex: /(?:cloro|cl)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'CA', grupo: 'ES', regex: /(?:calcio|ca)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'MG', grupo: 'ES', regex: /(?:magnesio|mg)\D*(\d+(?:\.\d+)?)/i },
+
+        // Tiempos de Coagulación
+        { clave: 'TP', grupo: 'TP/TTP', regex: /(?:tp|tiempo\s*de\s*protrombina)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'INR', grupo: 'TP/TTP', regex: /(?:inr)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'TTP', grupo: 'TP/TTP', regex: /(?:ttpa|ttp|tiempo\s*de\s*tromboplastina)\D*(\d+(?:\.\d+)?)/i }
+    ];
+
+    const lineas = texto.split('\n');
+    const hallazgos = {};
+
+    lineas.forEach(linea => {
+        if (!linea.trim()) return;
+
+        diccParams.forEach(item => {
+            if (hallazgos[item.clave]) return;
+
+            const match = linea.match(item.regex);
+            if (match && match[1]) {
+                hallazgos[item.clave] = {
+                    grupo: item.grupo,
+                    texto: `${item.clave} ${match[1]}`
+                };
+            }
+        });
+    });
+
+    const grupos = {};
+    Object.values(hallazgos).forEach(res => {
+        if (!grupos[res.grupo]) grupos[res.grupo] = [];
+        grupos[res.grupo].push(res.texto);
+    });
+
+    let salida = "";
+    for (const [grupo, valores] of Object.entries(grupos)) {
+        if (valores.length > 0) {
+            salida += `${grupo} ${valores.join(' | ')} | `;
+        }
+    }
+
+    salida = salida.trim().replace(/\|\s*$/, '');
+
+    if (outputElement) {
+        outputElement.innerText = salida || "No se detectaron parámetros reconocidos.";
+    }
+}
 
   let postits = JSON.parse(localStorage.getItem('perrito_postits')) || ["Revisar pendientes MIP", "Pase de ronda 8:00 AM"];
 
