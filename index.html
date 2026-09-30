@@ -1075,7 +1075,7 @@ const cuentasMedicos = {
 })();
 // ... aquí termina el código JavaScript que ya tenías ...
 
-    // ==========================================
+   // ==========================================
     // EMOJIS ALEATORIOS SEGÚN LA FESTIVIDAD DEL MES
     // ==========================================
     (function agregarFestividadMes() {
@@ -1107,9 +1107,9 @@ const cuentasMedicos = {
                 top: Math.floor(Math.random() * 85 + 5) + 'vh',
                 left: Math.floor(Math.random() * 90 + 5) + 'vw',
                 fontSize: Math.floor(Math.random() * 16 + 18) + 'px',
-                opacity: (Math.random() * 0.4 + 0.25).toFixed(2),
+                opacity: (Math.random() * 0.35 + 0.20).toFixed(2),
                 pointerEvents: 'none',
-                zIndex: '1',
+                zIndex: '-1', // <-- Se coloca detrás del contenido de la página
                 userSelect: 'none',
                 filter: 'drop-shadow(0px 2px 4px rgba(0,0,0,0.15))',
                 transition: 'transform 0.3s ease'
@@ -1117,6 +1117,15 @@ const cuentasMedicos = {
 
             document.body.appendChild(emojiEl);
         }
+
+        // Asegurar que las tarjetas y módulos queden por encima
+        const modulos = document.querySelectorAll('.card, .container, section, div[class*="card"]');
+        modulos.forEach(mod => {
+            if (getComputedStyle(mod).position === 'static') {
+                mod.style.position = 'relative';
+            }
+            mod.style.zIndex = '2';
+        });
     })();
   </script>
 </body>
