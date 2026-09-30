@@ -1073,7 +1073,51 @@ const cuentasMedicos = {
     if (typeof renderizarCuentas === 'function') renderizarCuentas(fusionadas);
     if (typeof mostrarCuentas === 'function') mostrarCuentas(fusionadas);
 })();
-</script>
+// ... aquí termina el código JavaScript que ya tenías ...
 
+    // ==========================================
+    // EMOJIS ALEATORIOS SEGÚN LA FESTIVIDAD DEL MES
+    // ==========================================
+    (function agregarFestividadMes() {
+        const festividades = {
+            0:  ['🎆', '🥂', '👑', '🎁'],       // Enero
+            1:  ['💘', '❤️', '💌', '🌹'],       // Febrero
+            2:  ['🍀', '🌱', '🌸', '🚲'],       // Marzo
+            3:  ['🐰', '🥚', '🌸', '🌧️'],       // Abril
+            4:  ['💐', '🇲🇽', '👑', '🎉'],       // Mayo
+            5:  ['👔', '☀️', '🌈', '🍦'],       // Junio
+            6:  ['🏖️', '🌊', '🍹', '🕶️'],       // Julio
+            7:  ['🎒', '✏️', '🍎', '🚌'],       // Agosto
+            8:  ['🇲🇽', '🌮', '🪅', '🎺'],       // Septiembre
+            9:  ['🎃', '💀', '👻', '🦇', '🍬'], // Octubre
+            10: ['💀', '🌼', '🕯️', '🍞'],       // Noviembre
+            11: ['🎄', '🎅', '☃️', '🎁', '🔔']  // Diciembre
+        };
+
+        const mesActual = new Date().getMonth();
+        const emojis = festividades[mesActual] || ['✨', '⭐'];
+        const cantidadEmojis = 12; 
+
+        for (let i = 0; i < cantidadEmojis; i++) {
+            const emojiEl = document.createElement('div');
+            emojiEl.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            Object.assign(emojiEl.style, {
+                position: 'fixed',
+                top: Math.floor(Math.random() * 85 + 5) + 'vh',
+                left: Math.floor(Math.random() * 90 + 5) + 'vw',
+                fontSize: Math.floor(Math.random() * 16 + 18) + 'px',
+                opacity: (Math.random() * 0.4 + 0.25).toFixed(2),
+                pointerEvents: 'none',
+                zIndex: '1',
+                userSelect: 'none',
+                filter: 'drop-shadow(0px 2px 4px rgba(0,0,0,0.15))',
+                transition: 'transform 0.3s ease'
+            });
+
+            document.body.appendChild(emojiEl);
+        }
+    })();
+  </script>
 </body>
 </html>
