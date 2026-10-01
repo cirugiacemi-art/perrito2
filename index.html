@@ -690,9 +690,9 @@ Hemoglobina 10.8 Leucocitos 43.37 Hematocrito 34.2 Plaquetas 211 Neutrofilos 89.
     } catch(e) {}
   }
 
-  // GUARDIÓMETRO Y CALENDARIO
-  const baseDate = new Date(2026, 8, 29);
-  let calViewDate = new Date(2026, 8, 1);
+// GUARDIÓMETRO Y CALENDARIO
+const baseDate = new Date(2026, 8, 29);
+let calViewDate = new Date();
 
   function obtenerGuardiaPorFecha(fechaTarget) {
     const diffTime = fechaTarget.getTime() - baseDate.getTime();
