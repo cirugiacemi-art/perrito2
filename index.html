@@ -287,10 +287,16 @@
     }
 
     .calendar-day.today {
-      background: var(--primary);
-      color: white;
-      font-weight: bold;
-    }
+    background: var(--primary);
+    color: white;
+    font-weight: bold;
+}
+
+.calendar-day.festivo {
+    background-color: #10B981 !important;
+    color: white !important;
+    font-weight: bold;
+}
 
     textarea { height: 110px; resize: vertical; }
 
@@ -701,7 +707,26 @@ let calViewDate = new Date();
     if (idx < 0) idx += 4;
     return guardias[idx];
   }
+// Función para verificar días festivos del ISSET
+function esFestivoISSET(fecha) {
+    const d = fecha.getDate();
+    const m = fecha.getMonth(); // 0 = Ene, 1 = Feb, 2 = Mar, 4 = May, 8 = Sep, 10 = Nov, 11 = Dic
+    const dayOfWeek = fecha.getDay(); // 1 = Lunes
 
+    // Fechas fijas
+    if (m === 0 && d === 1) return true;   // 1 Enero (Año Nuevo)
+    if (m === 1 && d === 27) return true;  // 27 Febrero (Invasión Francesa en Tabasco)
+    if (m === 4 && d === 1) return true;   // 1 Mayo (Día del Trabajo)
+    if (m === 8 && d === 16) return true;  // 16 Septiembre (Independencia)
+    if (m === 11 && d === 25) return true; // 25 Diciembre (Navidad)
+
+    // Fechas móviles (Lunes)
+    if (m === 1 && dayOfWeek === 1 && d <= 7) return true;               // 1er lunes de Feb (Constitución)
+    if (m === 2 && dayOfWeek === 1 && d >= 15 && d <= 21) return true;   // 3er lunes de Mar (Benito Juárez)
+    if (m === 10 && dayOfWeek === 1 && d >= 15 && d <= 21) return true;  // 3er lunes de Nov (Revolución)
+
+    return false;
+}
   function actualizarGuardias() {
     const hoy = new Date();
     document.getElementById('fechaHoyText').innerText = hoy.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -785,9 +810,14 @@ let calViewDate = new Date();
       const gLetter = obtenerGuardiaPorFecha(cellDate);
       cell.innerHTML = `${day}<br><small style="font-size:0.65rem; opacity:0.8; font-weight:bold;">${gLetter}</small>`;
 
-      if (cellDate.toDateString() === hoyReal.toDateString()) {
-        cell.classList.add('today');
-      }
+     const esHoy = cellDate.toDateString() === hoyReal.toDateString();
+const esFestivo = esFestivoISSET(cellDate);
+
+if (esHoy) {
+    cell.classList.add('today');
+} else if (esFestivo) {
+    cell.classList.add('festivo');
+}
 
       calendarGrid.appendChild(cell);
     }
