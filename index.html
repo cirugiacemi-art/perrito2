@@ -461,18 +461,27 @@
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">
-        <span>📅 Calendario</span>
-        <div>
-          <button onclick="cambiarMes(-1)">◀</button>
-          <span id="calMonthYear" style="font-size:0.85rem; color:var(--text); font-weight:700; margin:0 4px;">Septiembre 2026</span>
-          <button onclick="cambiarMes(1)">▶</button>
+  <div class="card">
+        <div class="card-title">
+          <span>📅 Calendario</span>
+          <div>
+            <button onclick="cambiarMes(-1)">◀</button>
+            <span id="calMonthYear" style="font-size:0.85rem; color:var(--text); font-weight:700; margin:0 4px;">Septiembre 2026</span>
+            <button onclick="cambiarMes(1)">▶</button>
+          </div>
         </div>
+
+        <!-- Leyenda de color verde para días festivos -->
+        <div style="display: flex; align-items: center; justify-content: space-between; background-color: #F8FAFC; border: 1px solid #E2E8F0; padding: 6px 10px; border-radius: 8px; margin-bottom: 8px; font-size: 0.72rem;">
+          <div style="display: flex; align-items: center; gap: 5px;">
+            <span style="width: 12px; height: 12px; background-color: #10B981; border-radius: 3px; display: inline-block;"></span>
+            <strong style="color: #065F46;">Día Festivo ISSET</strong>
+          </div>
+          <span style="color: #64748B; font-style: italic;">*Inhábil oficial</span>
+        </div>
+
+        <div class="calendar" id="calendarGrid"></div>
       </div>
-      <div class="calendar" id="calendarGrid"></div>
-    </div>
-  </div>
 
   <!-- COLUMNA 3: Laboratorios y Post-its -->
   <div class="column">
