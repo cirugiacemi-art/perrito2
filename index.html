@@ -839,14 +839,14 @@ function procesarLaboratorios() {
         // Tiempos de Coagulación
         { clave: 'TP', regex: /(?:tp|tiempo\s*de\s*protrombina)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'INR', regex: /(?:inr)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'TTP', regex: /(?:ttpa|ttp|tiempo\s*de\s*tromboplastina)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'TPT', regex: /(?:ttpa|ttp|tiempo\s*de\s*tromboplastina)\D*(\d+(?:\.\d+)?)/i },
 
         // Pruebas de Función Hepática (PFH)
         { clave: 'BT', regex: /(?:bilirrubina\s*total|bt)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'BD', regex: /(?:bilirrubina\s*directa|bd)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'BI', regex: /(?:bilirrubina\s*indirecta|bi)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'TGO', regex: /(?:tgo|ast)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'TGP', regex: /(?:tgp|alt)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'TGO', regex: /(?:ast|tgo)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'TGP', regex: /(?:alt|tgo)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'FA', regex: /(?:fosfatasa\s*alcalina|fa)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'GGT', regex: /(?:ggt|gamma\s*glutamil)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'ALB', regex: /(?:albúmina|albumina|alb)\D*(\d+(?:\.\d+)?)/i },
@@ -1164,6 +1164,85 @@ const cuentasMedicos = {
         `;
         document.head.appendChild(style);
     })();
+  // ==========================================
+    // NOTAS (POST-ITS) SINCRONIZADAS EN LA NUBE
+    // ==========================================
+    let notasGlobales = JSON.parse(localStorage.getItem('perrito_notas')) || [
+        { id: 1, texto: "Turno / Pendientes generales", color: "yellow" },
+        { id: 2, texto: "Cuentas o notas importantes", color: "blue" }
+    ];
+
+    async function cargarNotasNube() {
+        try {
+            const res = await fetch(API_URL + "?action=get_notes");
+            const data = await res.json();
+            if (data && Array.isArray(data) && data.length > 0) {
+                notasGlobales = data;
+                localStorage.setItem('perrito_notas', JSON.stringify(notasGlobales));
+                renderizarNotas();
+            }
+        } catch (e) {
+            renderizarNotas();
+        }
+    }
+
+    function renderizarNotas() {
+        const board = document.getElementById('notesBoard');
+        if (!board) return;
+        board.innerHTML = '';
+        notasGlobales.forEach((n, idx) => {
+            const div = document.createElement('div');
+            div.className = `postit ${n.color === 'blue' ? 'blue' : ''}`;
+            div.innerHTML = `
+                <span class="postit-del" onclick="eliminarPostit(${idx})">×</span>
+                <textarea onchange="actualizarNota(${idx}, this.value)" placeholder="Escribe aquí...">${n.texto || ''}</textarea>
+            `;
+            board.appendChild(div);
+        });
+    }
+
+    async function agregarPostit() {
+        const color = notasGlobales.length % 2 === 0 ? 'yellow' : 'blue';
+        const nuevaNota = { id: Date.now(), texto: "", color: color };
+        notasGlobales.push(nuevaNota);
+        localStorage.setItem('perrito_notas', JSON.stringify(notasGlobales));
+        renderizarNotas();
+
+        try {
+            await fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "save_notes", notes: notasGlobales })
+            });
+        } catch(e) {}
+    }
+
+    async function actualizarNota(idx, texto) {
+        notasGlobales[idx].texto = texto;
+        localStorage.setItem('perrito_notas', JSON.stringify(notasGlobales));
+
+        try {
+            await fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "save_notes", notes: notasGlobales })
+            });
+        } catch(e) {}
+    }
+
+    async function eliminarPostit(idx) {
+        notasGlobales.splice(idx, 1);
+        localStorage.setItem('perrito_notas', JSON.stringify(notasGlobales));
+        renderizarNotas();
+
+        try {
+            await fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "save_notes", notes: notasGlobales })
+            });
+        } catch(e) {}
+    }
+
+    // Cargar notas al iniciar
+    cargarNotasNube();
   </script>
 </body>
 </html>
