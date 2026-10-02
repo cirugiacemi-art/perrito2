@@ -486,14 +486,14 @@ Hemoglobina 10.8 Leucocitos 43.37 Hematocrito 34.2 Plaquetas 211 Neutrofilos 89.
     </div>
 
     <div class="card">
-      <div class="card-title">
-        <span>📌 Notas (Post-its)</span>
-        <button onclick="agregarPostit()" style="font-size:0.75rem; padding:4px 8px;">+ Nueva</button>
-      </div>
-      <div class="notes-grid" id="notesBoard"></div>
+  <div class="card-title">
+    <span>📌 Notas (Post-its)</span>
+    <div class="btn-group-row">
+      <button onclick="guardarNotasEnNube()" id="btnSaveNotes" style="font-size:0.75rem; padding:4px 8px; background-color:#10B981;">💾 Guardar</button>
+      <button onclick="agregarPostit()" style="font-size:0.75rem; padding:4px 8px;">+ Nueva</button>
     </div>
   </div>
-
+  <div class="notes-grid" id="notesBoard"></div>
 </div>
 
 <script>
@@ -1165,7 +1165,7 @@ const cuentasMedicos = {
         document.head.appendChild(style);
     })();
   // ==========================================
-    // NOTAS (POST-ITS) SINCRONIZADAS EN LA NUBE
+    // NOTAS (POST-ITS) CON BOTÓN DE GUARDADO EN LA NUBE
     // ==========================================
     let notasGlobales = JSON.parse(localStorage.getItem('perrito_notas')) || [
         { id: 1, texto: "Turno / Pendientes generales", color: "yellow" },
@@ -1195,53 +1195,58 @@ const cuentasMedicos = {
             div.className = `postit ${n.color === 'blue' ? 'blue' : ''}`;
             div.innerHTML = `
                 <span class="postit-del" onclick="eliminarPostit(${idx})">×</span>
-                <textarea onchange="actualizarNota(${idx}, this.value)" placeholder="Escribe aquí...">${n.texto || ''}</textarea>
+                <textarea oninput="actualizarTextoLocal(${idx}, this.value)" placeholder="Escribe aquí...">${n.texto || ''}</textarea>
             `;
             board.appendChild(div);
         });
     }
 
-    async function agregarPostit() {
+    function actualizarTextoLocal(idx, texto) {
+        notasGlobales[idx].texto = texto;
+        localStorage.setItem('perrito_notas', JSON.stringify(notasGlobales));
+    }
+
+    function agregarPostit() {
         const color = notasGlobales.length % 2 === 0 ? 'yellow' : 'blue';
         const nuevaNota = { id: Date.now(), texto: "", color: color };
         notasGlobales.push(nuevaNota);
         localStorage.setItem('perrito_notas', JSON.stringify(notasGlobales));
         renderizarNotas();
-
-        try {
-            await fetch(API_URL, {
-                method: "POST",
-                body: JSON.stringify({ action: "save_notes", notes: notasGlobales })
-            });
-        } catch(e) {}
     }
 
-    async function actualizarNota(idx, texto) {
-        notasGlobales[idx].texto = texto;
-        localStorage.setItem('perrito_notas', JSON.stringify(notasGlobales));
-
-        try {
-            await fetch(API_URL, {
-                method: "POST",
-                body: JSON.stringify({ action: "save_notes", notes: notasGlobales })
-            });
-        } catch(e) {}
-    }
-
-    async function eliminarPostit(idx) {
+    function eliminarPostit(idx) {
         notasGlobales.splice(idx, 1);
         localStorage.setItem('perrito_notas', JSON.stringify(notasGlobales));
         renderizarNotas();
+    }
+
+    async function guardarNotasEnNube() {
+        const btn = document.getElementById('btnSaveNotes');
+        const textoOriginal = btn ? btn.innerHTML : '';
+        if (btn) {
+            btn.innerHTML = "⏳ Guardando...";
+            btn.disabled = true;
+        }
 
         try {
             await fetch(API_URL, {
                 method: "POST",
                 body: JSON.stringify({ action: "save_notes", notes: notasGlobales })
             });
-        } catch(e) {}
+            if (btn) btn.innerHTML = "✅ ¡Guardado!";
+        } catch(e) {
+            if (btn) btn.innerHTML = "❌ Error";
+        }
+
+        setTimeout(() => {
+            if (btn) {
+                btn.innerHTML = textoOriginal;
+                btn.disabled = false;
+            }
+        }, 2000);
     }
 
-    // Cargar notas al iniciar
+    // Cargar notas al abrir la app
     cargarNotasNube();
   </script>
 </body>
