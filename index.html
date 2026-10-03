@@ -900,17 +900,17 @@ function procesarLaboratorios() {
     texto = texto.replace(/Impresión:.*$/gm, '');
     texto = texto.replace(/EXÁMEN\s+RESULTADO\s+UNIDAD\s+VALOR DE REFERENCIA/gi, '');
     texto = texto.replace(/\d+\s+de\s+\d+/g, '');
-
+texto = texto.replace(/EXAMEN\s+COPROLOGICO/gi, '');
 const diccParams = [
       // Biometría Hemática (BH)
-      { clave: 'ERI', regex: /\b(?:eritrocitos|glóbulos\s*rojos|rbc|eri)\b(?![\s\(\)]*copro)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'ERI', regex: /\b(?:eritrocitos|glóbulos\s*rojos|rbc)\b\D*(\d+\.\d+)/i },
       { clave: 'HB', regex: /\b(?:hemoglobina|hb)\b\D*(\d+(?:\.\d+)?)/i },
       { clave: 'HTO', regex: /\b(?:hematocrito|hto)\b\D*(\d+(?:\.\d+)?)/i },
       { clave: 'VCM', regex: /\b(?:v\.?c\.?m\.?|volumen\s*corpuscular\s*medio)\b\D*(\d+(?:\.\d+)?)/i },
       { clave: 'HCM', regex: /\b(?:h\.?c\.?m\.?|hemoglobina\s*corpuscular\s*media)\b\D*(\d+(?:\.\d+)?)/i },
       { clave: 'CHCM', regex: /\b(?:c\.?h\.?c\.?m\.?)\b\D*(\d+(?:\.\d+)?)/i },
       { clave: 'RDW', regex: /\b(?:rdw|ade)\b\D*(\d+(?:\.\d+)?)/i },
-      { clave: 'LEU', regex: /\b(?:leucocitos|leucos|wbc|leu)\b(?![\s\(\)]*copro)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'LEU', regex: /\b(?:leucocitos|leucos|wbc)\b\D*(\d+\.\d+|\d{4,5})/i },
       { clave: 'NEU', regex: /\b(?:neutrofilos|neutrófilos|neuts|neu)\b\D*(\d+(?:\.\d+)?)/i },
       { clave: 'LINF', regex: /\b(?:linfocitos|linfs|linf)\b\D*(\d+(?:\.\d+)?)/i },
       { clave: 'MONO', regex: /\b(?:monocitos|monos|mono)\b\D*(\d+(?:\.\d+)?)/i },
