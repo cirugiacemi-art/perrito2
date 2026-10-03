@@ -507,10 +507,7 @@
       <div class="card-title"><span>🧪 Procesar Laboratorios</span></div>
       <p style="font-size:0.75rem; color:#64748B; margin-bottom:8px;">Pega laboratorios crudos para formatearlos automáticamente con el estudio rotulado.</p>
       
-      <textarea id="labInput" placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..." onfocus="this.value='';"></textarea>
-
-      <button onclick="procesarLaboratorios()" style="width:100%; margin-bottom:10px;">Formatear Laboratorios</button>
-
+<textarea id="labInput" placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..." onfocus="this.value='';" oninput="procesarLaboratorios()"></textarea>
       <label style="font-size:0.8rem; font-weight:600;">Resultado:</label>
       <div class="lab-result" id="labOutput">Esperando datos...</div>
       
