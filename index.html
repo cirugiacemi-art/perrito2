@@ -952,12 +952,27 @@ const diccParams = [
     });
 
     const salida = hallazgos.join(' | ');
-
     if (outputElement) {
       outputElement.innerText = salida || "No se detectaron parámetros reconocidos.";
     }
   }
+  
+function copiarResultado() {
+  const outputElement = document.getElementById('labOutput');
+  const btn = event.target;
+  if (!outputElement || !outputElement.innerText.trim()) return;
 
+  navigator.clipboard.writeText(outputElement.innerText).then(() => {
+    if (btn) {
+      const textoOriginal = btn.textContent;
+      btn.textContent = '✓ Copiado';
+      btn.style.backgroundColor = '#059669';
+      setTimeout(() => {
+        btn.textContent = textoOriginal;
+        btn.style.backgroundColor = '#10B981';
+      }, 1200);
+    }
+  
   let postits = JSON.parse(localStorage.getItem('perrito_postits')) || ["Revisar pendientes MIP", "Pase de ronda 8:00 AM"];
 
   function renderizarPostits() {
