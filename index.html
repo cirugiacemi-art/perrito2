@@ -905,11 +905,11 @@ const diccParams = [
       { clave: 'INR', regex: /(?:inr)\D*(\d+(?:\.\d+)?)/i },
       { clave: 'TPT', regex: /(?:ttpa|ttp|tiempo\s*de\s*tromboplastina)\D*(\d+(?:\.\d+)?)/i },
 
-      // Examen General de Orina (EGO)
-      { clave: 'COLOR', regex: /\bcolor\b\s*[:=]?\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*aspecto|\s*densidad|\s*$)/i },
-      { clave: 'ASPECTO', regex: /\baspecto\b\s*[:=]?\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*densidad|\s*ph|\s*$)/i },
-      { clave: 'DENS', regex: /\bdensidad\b\s*[:=]?\s*(\d+(?:\.\d+)?)/i },
-      { clave: 'PH', regex: /\bph\b\s*[:=]?\s*(\d+(?:\.\d+)?)/i },
+     // Examen General de Orina (EGO - Exige estar en contexto de orina o traer dos puntos)
+      { clave: 'COLOR_O', regex: /color\s*:\s*([a-záéíóúñÑ\s]+?)(?=\s*aspecto|\s*densidad)/i },
+      { clave: 'ASPECTO', regex: /aspecto\s*[:=]?\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*densidad|\s*ph|\s*$)/i },
+      { clave: 'DENS', regex: /densidad\s*[:=]?\s*(\d+(?:\.\d+)?)/i },
+      { clave: 'PH_O', regex: /ph\s*:\s*(\d+(?:\.\d+)?)(?=\s*nitritos|\s*proteinas|\s*esterasa)/i },
       { clave: 'EST LEUC', regex: /esterasa\s*leucocitaria\s*[:=]?\s*([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*nitritos|\s*$)/i },
       { clave: 'NITR', regex: /nitritos\s*[:=]?\s*(positivo|negativo)/i },
       { clave: 'PROT', regex: /proteínas\s*[:=]?\s*(\d+\s*mg\/dl|negativo|trazas|\+)/i },
@@ -924,18 +924,18 @@ const diccParams = [
       { clave: 'CEL EPIT', regex: /células\s*epiteliales\s*[:=]?\s*([a-záéíóúñÑ\s]+)/i },
       { clave: 'FIL MUC', regex: /filamento\s*mucoso\s*[:=]?\s*([a-záéíóúñÑ\s]+)/i },
 
-      // Coprológico / Coproparasitoscópico (Ajustado exactamente para el texto del ISSET)
-      { clave: 'COLOR COPRO', regex: /\bcolor\b\s*[:=]?\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*consistencia|\s*$)/i },
-      { clave: 'CONSIST', regex: /consistencia\s*[:=]?\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*moco|\s*$)/i },
-      { clave: 'MOCO COPRO', regex: /moco\s*[:=]?\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*presencia|\s*sangre|\s*$)/i },
-      { clave: 'SANGRE OCULTA', regex: /(?:presencia\s*de\s*sangre\s*macroscopica|sangre\s*oculta)\s*[:=]?\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*restos|\s*$)/i },
-      { clave: 'RESTOS ALIM', regex: /restos\s*alimenticios\s*[:=]?\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*parasitos|\s*$)/i },
-      { clave: 'PARASITOS', regex: /parasitos\s*macroscopicos\s*[:=]?\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*ph|\s*$)/i },
-      { clave: 'PH COPRO', regex: /ph\s*[:=]?\s*(\d+(?:\.\d+)?)/i },
-      { clave: 'AZUCARES RED', regex: /azucares\s*reductores\s*[:=]?\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*eritrocitos|\s*$)/i },
-      { clave: 'ERIT COPRO', regex: /eritrocitos\s*[:=]?\s*([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*leucocitos|\s*$)/i },
-      { clave: 'LEU COPRO', regex: /leucocitos\s*en\s*heces\s*[:=]?\s*([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*amiba|\s*$)/i },
-      { clave: 'AMIBA', regex: /amiba\s*en\s*fresco\s*[:=]?\s*([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*$)/i },
+     // Coprológico / Coproparasitoscópico (Formato ISSET - Sin duplicar con EGO)
+      { clave: 'COLOR COPRO', regex: /color\s+([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*consistencia)/i },
+      { clave: 'CONSIST', regex: /consistencia\s+([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*moco)/i },
+      { clave: 'MOCO COPRO', regex: /moco\s+([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*presencia|\s*sangre)/i },
+      { clave: 'SANGRE OCULTA', regex: /(?:presencia\s+de\s+sangre\s+macroscopica|sangre\s+oculta)\s+([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*restos)/i },
+      { clave: 'RESTOS ALIM', regex: /restos\s+alimenticios\s+([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*parasitos)/i },
+      { clave: 'PARASITOS', regex: /parasitos\s+macroscopicos\s+([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*ph)/i },
+      { clave: 'PH COPRO', regex: /ph\s+(\d+(?:\.\d+)?)/i },
+      { clave: 'AZUCARES RED', regex: /azucares\s+reductores\s+([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*eritrocitos)/i },
+      { clave: 'ERIT COPRO', regex: /eritrocitos\s+([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*leucocitos)/i },
+      { clave: 'LEU COPRO', regex: /leucocitos\s+en\s+heces\s+([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*amiba)/i },
+      { clave: 'AMIBA', regex: /amiba\s+en\s+fresco\s+([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*$)/i }
     ];
 
     const hallazgos = [];
