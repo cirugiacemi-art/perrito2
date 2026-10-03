@@ -878,7 +878,28 @@ function procesarLaboratorios() {
         return;
     }
 
-    const texto = inputElement.value;
+    let texto = inputElement.value;
+
+    // LIMPIEZA DE ENCABEZADOS Y DATOS DEL PACIENTE/HOSPITAL ISSET
+    texto = texto.replace(/INSTITUTO DE SEGURIDAD SOCIAL DEL ESTADO DE TABASCO/gi, '');
+    texto = texto.replace(/CENTRO DE ESPECIALIDADES MEDICAS DR\. JULIAN A\. MANZUR/gi, '');
+    texto = texto.replace(/Laboratorio de Análisis Clínicos/gi, '');
+    texto = texto.replace(/AV\. CERRADA LA CEIBA S\/N, COL\. ATASTA DE SERRA, C\.P\. 86090, VILLAHERMOSA, TAB\./gi, '');
+    texto = texto.replace(/Cédula Profesional:.*$/gm, '');
+    texto = texto.replace(/Responsable Laboratorio:.*$/gm, '');
+    texto = texto.replace(/Nombre:.*$/gm, '');
+    texto = texto.replace(/No\. Cuenta:.*$/gm, '');
+    texto = texto.replace(/Médico solicitante:.*$/gm, '');
+    texto = texto.replace(/Unidad de.*$/gm, '');
+    texto = texto.replace(/Diagnóstico:.*$/gm, '');
+    texto = texto.replace(/Edad:.*$/gm, '');
+    texto = texto.replace(/Fecha nac\.:.*$/gm, '');
+    texto = texto.replace(/Folio:.*$/gm, '');
+    texto = texto.replace(/Admisión:.*$/gm, '');
+    texto = texto.replace(/Sexo:.*$/gm, '');
+    texto = texto.replace(/Impresión:.*$/gm, '');
+    texto = texto.replace(/EXÁMEN\s+RESULTADO\s+UNIDAD\s+VALOR DE REFERENCIA/gi, '');
+    texto = texto.replace(/\d+\s+de\s+\d+/g, '');
 
 const diccParams = [
       // Biometría Hemática (BH)
