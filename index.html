@@ -227,6 +227,12 @@
       color: #64748B;
     }
 
+    .btn-copiado {
+  background-color: #10B981 !important; /* Verde al copiar */
+  color: white !important;
+  transition: background-color 0.2s ease;
+}
+    
     /* Guardiómetro y Calendario */
     .guardia-badge {
       background: #EFF6FF;
@@ -409,6 +415,17 @@
   <div class="column">
     <div class="card">
       <div class="card-title"><span>🔍 Buscador de Cuentas</span></div>
+      <!-- Leyenda de ayuda para copiar Usr / Pass -->
+          <div style="display: flex; align-items: center; justify-content: space-between; background-color: #F8FAFC; border: 1px solid #E2E8F0; padding: 6px 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.72rem;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="background-color: #0284C7; color: white; font-weight: 700; padding: 1px 5px; border-radius: 4px; font-size: 0.65rem;">Usr</span>
+              <span style="color: #334155;">Copiar usuario</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="background-color: #0284C7; color: white; font-weight: 700; padding: 1px 5px; border-radius: 4px; font-size: 0.65rem;">Pass</span>
+              <span style="color: #334155;">Copiar contraseña</span>
+            </div>
+          </div>
       <input type="text" id="searchInput" oninput="filtrarUsuarios()" placeholder="Buscar usuario, servicio o clave...">
       <div class="user-list" id="userList"></div>
     </div>
@@ -644,17 +661,28 @@ Hemoglobina 10.8 Leucocitos 43.37 Hematocrito 34.2 Plaquetas 211 Neutrofilos 89.
           <span>${u.clave}</span>
         </div>
         <div style="display:flex; gap:4px;">
-          <button onclick="copiarTexto('${usrLimpio}')">Usr</button>
-          <button onclick="copiarTexto('${pwdLimpia}')" style="background:#64748B;">Pass</button>
+         <button onclick="copiarTexto('${usrLimpio}', this)">Usr</button>
+<button onclick="copiarTexto('${pwdLimpia}', this)" style="background:#64748B;">Pass</button>
         </div>
       `;
       contenedor.appendChild(card);
     });
   }
 
-  function copiarTexto(t) {
-    navigator.clipboard.writeText(t);
-  }
+ function copiarTexto(t, btn) {
+  navigator.clipboard.writeText(t).then(() => {
+    if (btn) {
+      const textoOriginal = btn.textContent;
+      btn.classList.add('btn-copiado');
+      btn.textContent = '✓';
+      
+      setTimeout(() => {
+        btn.classList.remove('btn-copiado');
+        btn.textContent = textoOriginal;
+      }, 1200);
+    }
+  });
+}
 
   function filtrarUsuarios() {
     const query = document.getElementById('searchInput').value.toLowerCase();
