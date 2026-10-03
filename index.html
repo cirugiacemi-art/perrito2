@@ -959,36 +959,39 @@ function procesarLaboratorios() {
       { clave: 'CEL EPIT', regex: /(?:celulas\s*epiteliales|células\s*epiteliales)\D*([a-záéíóúñÑ]+)/i },
       { clave: 'FIL MUC', regex: /(?:filamento\s*mucoso|moco)\D*([a-záéíóúñÑ]+)/i },
 
-      // Coprológico / Coproparasitoscópico (Texto Completo)
-      { clave: 'COLOR', regex: /(?:color)\D*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'CONSIST', regex: /(?:consistencia)\D*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'MOCO', regex: /(?:moco)\D*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'RESTOS ALIM', regex: /(?:restos\s*alimenticios)\D*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'ERIT', regex: /(?:eritrocitos)\D*([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'LEU', regex: /(?:leucocitos\s*en\s*heces|leucocitos)\D*([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'SANGRE OCULTA', regex: /(?:sangre\s*macroscopica|sangre\s*macroscópica|sangre\s*oculta)\D*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'PARASITOS', regex: /(?:parasitos\s*macroscopicos|parásitos\s*macroscópicos|parasitos)\D*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'AMIBA', regex: /(?:amiba\s*en\s*fresco|amiba)\D*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'AZUCARES RED', regex: /(?:azucares\s*reductores|azúcares\s*reductores)\D*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'PH COPRO', regex: /(?:ph)\D*(\d+(?:\.\d+)?)/i }
+     // Coprológico / Coproparasitoscópico (Valores Limpios)
+      { clave: 'COLOR COPRO', regex: /color\s*:\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*consistencia|\s*$)/i },
+      { clave: 'CONSIST', regex: /consistencia\s*:\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*moco|\s*$)/i },
+      { clave: 'MOCO COPRO', regex: /moco\s*:\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*sangre|\s*$)/i },
+      { clave: 'RESTOS ALIM', regex: /restos\s*alimenticios\s*:\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'ERIT COPRO', regex: /eritrocitos\s*:\s*([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'LEU COPRO', regex: /leucocitos\s*:\s*([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'SANGRE OCULTA', regex: /(?:sangre\s*oculta|sangre\s*macroscópica)\s*:\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'PARASITOS', regex: /parásitos\s*:\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'AMIBA', regex: /amiba\s*:\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'AZUCARES RED', regex: /azúcares\s*reductores\s*:\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'PH COPRO', regex: /ph\s*copro\s*:\s*(\d+(?:\.\d+)?)/i }
     ];
 
 const hallazgos = [];
+    const lineas = texto.split(/\r?\n/);
+
     diccParams.forEach(item => {
-      const regexGlobal = new RegExp(item.regex.source, 'gi');
-      const match = regexGlobal.exec(texto);
-      if (match && match[1] && match[1].trim()) {
-        hallazgos.push(`${item.clave} ${match[1].trim()}`);
+      for (let linea of lineas) {
+        const match = linea.match(item.regex);
+        if (match && match[1] && match[1].trim()) {
+          hallazgos.push(`${item.clave} ${match[1].trim().toUpperCase()}`);
+          break;
+        }
       }
     });
-
-    const salida = hallazgos.join(' | ');
+const salida = hallazgos.join(' | ');
+    const outputElement = document.getElementById('resultadoLabs'); // o el ID que use tu textarea de salida
 
     if (outputElement) {
-        outputElement.innerText = salida || "No se detectaron parámetros reconocidos.";
+      outputElement.innerText = salida || "No se detectaron parámetros reconocidos.";
     }
-}
-
+  }
   let postits = JSON.parse(localStorage.getItem('perrito_postits')) || ["Revisar pendientes MIP", "Pase de ronda 8:00 AM"];
 
   function renderizarPostits() {
