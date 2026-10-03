@@ -914,7 +914,7 @@ function procesarLaboratorios() {
         { clave: 'BD', regex: /(?:bilirrubina\s*directa|bd)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'BI', regex: /(?:bilirrubina\s*indirecta|bi)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'TGO', regex: /(?:ast|tgo)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'TGP', regex: /(?:alt|tgo)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'TGP', regex: /(?:alt|tgp)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'FA', regex: /(?:fosfatasa\s*alcalina|fa)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'GGT', regex: /(?:ggt|gamma\s*glutamil)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'ALB', regex: /(?:albúmina|albumina|alb)\D*(\d+(?:\.\d+)?)/i },
@@ -948,7 +948,20 @@ function procesarLaboratorios() {
         { clave: 'LEUC_O', regex: /(?:leucocitos)\D*(\d+(?:\.\d+)?|negativo|campo)/i },
         { clave: 'NITR', regex: /(?:nitritos)\D*(positivo|negativo)/i },
         { clave: 'CET', regex: /(?:cetonas)\D*(negativo|\+|\d+)/i },
-        { clave: 'ERIT_O', regex: /(?:eritrocitos|sangre)\D*(\d+(?:\.\d+)?|negativo|campo)/i }
+        { clave: 'ERIT_O', regex: /(?:eritrocitos|sangre)\D*(\d+(?:\.\d+)?|negativo|campo)/i },
+
+      // Coprológico / Coproparasitoscópico
+      { clave: 'COLOR_COPRO', regex: /(?:color)\D*([a-zA-záéíóúÁÉÍÓÚñÑ]+)/i },
+      { clave: 'CONSIST_COPRO', regex: /(?:consistencia)\D*([a-zA-záéíóúÁÉÍÓÚñÑ]+)/i },
+      { clave: 'MOCO_COPRO', regex: /(?:moco)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'SANGRE_COPRO', regex: /(?:sangre\s*macroscopica|sangre\s*macroscópica)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'RESTOS_COPRO', regex: /(?:restos\s*alimenticios)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'PARAS_COPRO', regex: /(?:parasitos\s*macroscopicos|parásitos\s*macroscópicos)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'PH_COPRO', regex: /(?:ph)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'AZUC_RED_COPRO', regex: /(?:azucares\s*reductores|azúcares\s*reductores)\D*([a-zA-záéíóúÁÉÍÓÚñÑ]+)/i },
+      { clave: 'ERIT_COPRO', regex: /(?:eritrocitos)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'LEUC_COPRO', regex: /(?:leucocitos\s*en\s*heces)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'AMIBA_COPRO', regex: /(?:amiba\s*en\s*fresco)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i }
     ];
 
     const lineas = texto.split('\n');
