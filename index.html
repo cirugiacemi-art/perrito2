@@ -973,20 +973,13 @@ function procesarLaboratorios() {
       { clave: 'PH COPRO', regex: /(?:ph)\D*(\d+(?:\.\d+)?)/i }
     ];
 
-    const lineas = texto.split('\n');
-    const hallazgos = [];
-
-    lineas.forEach(linea => {
-        if (!linea.trim()) return;
-
-        diccParams.forEach(item => {
-            if (hallazgos.some(h => h.startsWith(item.clave))) return;
-
-            const match = linea.match(item.regex);
-            if (match && match[1]) {
-                hallazgos.push(`${item.clave} ${match[1]}`);
-            }
-        });
+const hallazgos = [];
+    diccParams.forEach(item => {
+      const regexGlobal = new RegExp(item.regex.source, 'gi');
+      const match = regexGlobal.exec(texto);
+      if (match && match[1] && match[1].trim()) {
+        hallazgos.push(`${item.clave} ${match[1].trim()}`);
+      }
     });
 
     const salida = hallazgos.join(' | ');
