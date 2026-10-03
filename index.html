@@ -874,21 +874,21 @@ function procesarLaboratorios() {
     const texto = inputElement.value;
 
     const diccParams = [
-        // Biometría Hemática (BH)
-        { clave: 'ERI', regex: /(?:eritrocitos|glóbulos\s*rojos|rbc)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'HB', regex: /(?:hemoglobina|hb)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'HTO', regex: /(?:hematocrito|hto)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'VCM', regex: /(?:v\.?c\.?m\.?|volumen\s*corpuscular\s*medio)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'HCM', regex: /(?:h\.?c\.?m\.?|hemoglobina\s*corpuscular\s*media)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'CHCM', regex: /(?:c\.?h\.?c\.?m\.?)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'RDW', regex: /(?:rdw|ade)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'LEU', regex: /(?:leucocitos|leucos|wbc)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'NEU', regex: /(?:neutrofilos|neutrófilos|neuts)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'LINF', regex: /(?:linfocitos|linfs)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'MONO', regex: /(?:monocitos|monos)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'EOS', regex: /(?:eosinofilos|eosinófilos|eos)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'BASO', regex: /(?:basofilos|basófilos|baso)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'PLAQ', regex: /(?:plaquetas|plq|plt)\D*(\d+(?:\.\d+)?)/i },
+// Biometría Hemática (BH)
+      { clave: 'ERI', regex: /\b(?:eritrocitos|glóbulos\s*rojos|rbc|eri)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'HB', regex: /\b(?:hemoglobina|hb)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'HTO', regex: /\b(?:hematocrito|hto)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'VCM', regex: /\b(?:v\.?c\.?m\.?|volumen\s*corpuscular\s*medio)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'HCM', regex: /\b(?:h\.?c\.?m\.?|hemoglobina\s*corpuscular\s*media)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'CHCM', regex: /\b(?:c\.?h\.?c\.?m\.?)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'RDW', regex: /\b(?:rdw|ade)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'LEU', regex: /\b(?:leucocitos|leucos|wbc|leu)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'NEU', regex: /\b(?:neutrofilos|neutrófilos|neuts|neu)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'LINF', regex: /\b(?:linfocitos|linfs|linf)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'MONO', regex: /\b(?:monocitos|monos|mono)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'EOS', regex: /\b(?:eosinofilos|eosinófilos|eos)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'BASO', regex: /\b(?:basofilos|basófilos|baso)\b\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'PLAQ', regex: /\b(?:plaquetas|plq|plt|plaq)\b\D*(\d+(?:\.\d+)?)/i },
 
         // Química Sanguínea (QS)
         { clave: 'GLUC', regex: /(?:glucosa|glu)\D*(\d+(?:\.\d+)?)/i },
@@ -912,7 +912,7 @@ function procesarLaboratorios() {
         // Pruebas de Función Hepática (PFH)
         { clave: 'BT', regex: /(?:bilirrubina\s*total|bt)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'BD', regex: /(?:bilirrubina\s*directa|bd)\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'BI', regex: /(?:bilirrubina\s*indirecta|bi)\D*(\d+(?:\.\d+)?)/i },
+       { clave : 'BI' , regex : /\b(?:bilirrubina\s*indirecta|\bbi\b)\D*(\d+(?:\.\d+)?)/i } ,
         { clave: 'TGO', regex: /(?:ast|tgo)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'TGP', regex: /(?:alt|tgp)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'FA', regex: /(?:fosfatasa\s*alcalina|fa)\D*(\d+(?:\.\d+)?)/i },
@@ -950,18 +950,18 @@ function procesarLaboratorios() {
         { clave: 'CET', regex: /(?:cetonas)\D*(negativo|\+|\d+)/i },
         { clave: 'ERIT_O', regex: /(?:eritrocitos|sangre)\D*(\d+(?:\.\d+)?|negativo|campo)/i },
 
-      // Coprológico / Coproparasitoscópico
-      { clave: 'COLOR_COPRO', regex: /(?:color)\D*([a-zA-záéíóúÁÉÍÓÚñÑ]+)/i },
-      { clave: 'CONSIST_COPRO', regex: /(?:consistencia)\D*([a-zA-záéíóúÁÉÍÓÚñÑ]+)/i },
-      { clave: 'MOCO_COPRO', regex: /(?:moco)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'SANGRE_COPRO', regex: /(?:sangre\s*macroscopica|sangre\s*macroscópica)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'RESTOS_COPRO', regex: /(?:restos\s*alimenticios)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'PARAS_COPRO', regex: /(?:parasitos\s*macroscopicos|parásitos\s*macroscópicos)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'PH_COPRO', regex: /(?:ph)\D*(\d+(?:\.\d+)?)/i },
-      { clave: 'AZUC_RED_COPRO', regex: /(?:azucares\s*reductores|azúcares\s*reductores)\D*([a-zA-záéíóúÁÉÍÓÚñÑ]+)/i },
-      { clave: 'ERIT_COPRO', regex: /(?:eritrocitos)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'LEUC_COPRO', regex: /(?:leucocitos\s*en\s*heces)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
-      { clave: 'AMIBA_COPRO', regex: /(?:amiba\s*en\s*fresco)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i }
+      // Coprológico / Coproparasitoscópico (Abreviados)
+      { clave: 'COLOR', regex: /(?:color)\D*([a-zA-záéíóúÁÉÍÓÚñÑ]+)/i },
+      { clave: 'CONSIST', regex: /(?:consistencia)\D*([a-zA-záéíóúÁÉÍÓÚñÑ]+)/i },
+      { clave: 'MOCO', regex: /(?:moco)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'RESTOS ALIM', regex: /(?:restos\s*alimenticios)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'ERIT', regex: /(?:eritrocitos)\D*([a-zA-záéíóúÁÉÍÓÚñÑ0-9\-\/]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'LEU', regex: /(?:leucocitos\s*en\s*heces|leucocitos)\D*([a-zA-záéíóúÁÉÍÓÚñÑ0-9\-\/]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'SANGRE OCULTA', regex: /(?:sangre\s*macroscopica|sangre\s*macroscópica|sangre\s*oculta)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'PARASITOS', regex: /(?:parasitos\s*macroscopicos|parásitos\s*macroscópicos|parasitos)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'AMIBA', regex: /(?:amiba\s*en\s*fresco|amiba)\D*([a-zA-záéíóúÁÉÍÓÚñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+      { clave: 'AZUCARES RED', regex: /(?:azucares\s*reductores|azúcares\s*reductores)\D*([a-zA-záéíóúÁÉÍÓÚñÑ]+)/i },
+      { clave: 'PH COPRO', regex: /(?:ph)\D*(\d+(?:\.\d+)?)/i }
     ];
 
     const lineas = texto.split('\n');
