@@ -523,6 +523,33 @@
     </div>
   </div>
   <div class="notes-grid" id="notesBoard"></div>
+      <!-- TARJETA: Tiro al Blanco (Mini-Desestrés) -->
+      <div class="card" style="text-align: center;">
+        <div class="card-title">
+          <span>🎯 Tiro al Blanco (Guardia)</span>
+        </div>
+        <p style="font-size:0.75rem; color:#64748B; margin-bottom:10px;">
+          Desestrésate: Atínale a los pendientes y 'enemigos' de la guardia.
+        </p>
+
+        <!-- Puntuación -->
+        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; background: #F1F5F9; padding: 6px 12px; border-radius: 8px;">
+          <span style="color:#1E293B;">Puntos: <span id="targetScore" style="color:#10B981;">0</span></span>
+          <span style="color:#1E293B;">Récord: <span id="targetHighScore" style="color:#0284C7;">0</span></span>
+        </div>
+
+        <!-- Área del Juego -->
+        <div id="targetArea" style="position: relative; width: 100%; height: 160px; background: #0F172A; border-radius: 10px; overflow: hidden; cursor: crosshair; display: flex; align-items: center; justify-content: center; border: 2px solid #334155;">
+          <div id="targetItem" onclick="impactoTarget(event)" style="position: absolute; padding: 6px 12px; background: #EF4444; color: white; font-weight: 700; font-size: 0.75rem; border-radius: 20px; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); user-select: none; transition: transform 0.1s ease;">
+            📋 Nota sin Firma
+          </div>
+        </div>
+
+        <!-- Botón de inicio/reiniciar -->
+        <button onclick="reiniciarJuegoTarget()" style="width: 100%; margin-top: 10px; background-color: #8B5CF6;">
+          🎮 Reiniciar Juego
+        </button>
+      </div>
 </div>
 
 <script>
@@ -1344,6 +1371,74 @@ const cuentasMedicos = {
 
     // Cargar notas al abrir la app
     cargarNotasNube();
-  </script>
+  // --- LÓGICA DEL JUEGO TIRO AL BLANCO ---
+  const enemigosGuardia = [
+    "📋 Nota sin Firma",
+    "🧪 Lab Perdióse",
+    "💻 SIPEM Trabo",
+    "📞 Interconsulta",
+    "💉 Vena Difícil",
+    "🍕 Pizza Fría",
+    "📄 Hoja Indicación"
+  ];
+
+  let targetPuntos = 0;
+  let targetRecord = localStorage.getItem('perrito_target_record') || 0;
+  let targetVelocidad = 1200;
+  let targetTimer = null;
+
+  const elHighScore = document.getElementById('targetHighScore');
+  if (elHighScore) elHighScore.textContent = targetRecord;
+
+  function moverTarget() {
+    const area = document.getElementById('targetArea');
+    const item = document.getElementById('targetItem');
+    if (!area || !item) return;
+
+    const maxX = area.clientWidth - item.clientWidth - 10;
+    const maxY = area.clientHeight - item.clientHeight - 10;
+
+    const randomX = Math.max(5, Math.floor(Math.random() * maxX));
+    const randomY = Math.max(5, Math.floor(Math.random() * maxY));
+
+    item.style.left = `${randomX}px`;
+    item.style.top = `${randomY}px`;
+  }
+
+  function impactoTarget(event) {
+    event.stopPropagation();
+    targetPuntos += 10;
+    document.getElementById('targetScore').textContent = targetPuntos;
+
+    if (targetPuntos > targetRecord) {
+      targetRecord = targetPuntos;
+      localStorage.setItem('perrito_target_record', targetRecord);
+      document.getElementById('targetHighScore').textContent = targetRecord;
+    }
+
+    const item = document.getElementById('targetItem');
+    const enemigoRandom = enemigosGuardia[Math.floor(Math.random() * enemigosGuardia.length)];
+    item.textContent = enemigoRandom;
+
+    if (targetVelocidad > 400) {
+      targetVelocidad -= 50;
+      clearInterval(targetTimer);
+      targetTimer = setInterval(moverTarget, targetVelocidad);
+    }
+
+    moverTarget();
+  }
+
+  function reiniciarJuegoTarget() {
+    targetPuntos = 0;
+    targetVelocidad = 1200;
+    document.getElementById('targetScore').textContent = 0;
+    clearInterval(targetTimer);
+    moverTarget();
+    targetTimer = setInterval(moverTarget, targetVelocidad);
+  }
+
+  targetTimer = setInterval(moverTarget, targetVelocidad);
+</script>
 </body>
 </html>
