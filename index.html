@@ -523,6 +523,8 @@
     </div>
   </div>
   <div class="notes-grid" id="notesBoard"></div>
+ </div>
+    
       <!-- TARJETA: Tiro al Blanco (Mini-Desestrés) -->
       <div class="card" style="text-align: center;">
         <div class="card-title">
@@ -538,8 +540,8 @@
           <span style="color:#1E293B;">Récord: <span id="targetHighScore" style="color:#0284C7;">0</span></span>
         </div>
 
-        <!-- Área del Juego -->
-        <div id="targetArea" style="position: relative; width: 100%; height: 160px; background: #0F172A; border-radius: 10px; overflow: hidden; cursor: crosshair; display: flex; align-items: center; justify-content: center; border: 2px solid #334155;">
+        <!-- Área del Juego (Fondo Azul) -->
+        <div id="targetArea" style="position: relative; width: 100%; height: 160px; background: #1E40AF; border-radius: 10px; overflow: hidden; cursor: crosshair; display: flex; align-items: center; justify-content: center; border: 2px solid #3B82F6;">
           <div id="targetItem" onclick="impactoTarget(event)" style="position: absolute; padding: 6px 12px; background: #EF4444; color: white; font-weight: 700; font-size: 0.75rem; border-radius: 20px; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); user-select: none; transition: transform 0.1s ease;">
             📋 Nota sin Firma
           </div>
@@ -1374,12 +1376,15 @@ const cuentasMedicos = {
   // --- LÓGICA DEL JUEGO TIRO AL BLANCO ---
   const enemigosGuardia = [
     "📋 Nota sin Firma",
-    "🧪 Lab Perdióse",
-    "💻 SIPEM Trabo",
+    "📋 Ubi del Sub",
+    "🧪 Labs perdidos",
+    "💻 SIPEM MALO",
     "📞 Interconsulta",
-    "💉 Vena Difícil",
+    "💉 Gaso Difícil",
     "🍕 Pizza Fría",
-    "📄 Hoja Indicación"
+    "📄 Indicas",
+    "📄 La nota",
+    "📞 MIP a Laboor",
   ];
 
   let targetPuntos = 0;
