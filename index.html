@@ -1025,10 +1025,8 @@ const diccParams = [
       { clave: 'COVID19', regex: /(?:sars\s*-?\s*cov\s*-?\s*2|covid\s*-?\s*19|ag\s*covid)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
       { clave: 'VDRL', regex: /(?:vdrl|rpr|sífilis|sifilis)\D*(no\s*reactivo|reactivo(?:\s*\d+\/\d+)?|positivo|negativo)/i },
       // --- TIEMPOS DE COAGULACIÓN ---
-      { clave: 'TPT', regex: /(?:tpt|ttpa|ttp|tiempo\s*de\s*tromboplastina)\D*(\d+(?:\.\d+)?)/i },
-      { clave: 'TP', regex: /(?:tp|tiempo\s*de\s*protrombina)\D*(\d+(?:\.\d+)?)/i },
-      { clave: 'INR', regex: /(?:inr)\D*(\d+(?:\.\d+)?)/i },
-    ]
+      { clave: 'TPT', regex: /(?:tpt|ttpa|ttp|tiempo\s*de\s*tromboplastina)\D*(\d+(?:\.\d+)?)/i }
+    ];
 
     const hallazgos = [];
     const lineas = texto.split(/\r?\n/);
