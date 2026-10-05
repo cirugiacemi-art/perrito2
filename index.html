@@ -962,6 +962,24 @@ const diccParams = [
       { clave: 'INR', regex: /(?:inr)\D*(\d+(?:\.\d+)?)/i },
       { clave: 'TPT', regex: /(?:ttpa|ttp|tiempo\s*de\s*tromboplastina)\D*(\d+(?:\.\d+)?)/i },
 
+// --- NUEVOS LABS: PFH, TPT, REACTANTES Y LÍPIDOS ---
+      { clave: 'BT', regex: /(?:bilirrubina\s*total|bil\s*tot)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'BD', regex: /(?:bilirrubina\s*directa|bil\s*dir)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'BI', regex: /(?:bilirrubina\s*indirecta|bil\s*ind)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'DHL', regex: /(?:deshidrogenasa\s*láctica|deshidrogenasa\s*lactica|dhl|ldh)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'FA', regex: /(?:fosfatasa\s*alcalina|fa)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'PROT_TOT', regex: /(?:proteínas\s*totales|proteinas\s*totales|prot\s*tot)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'AST', regex: /(?:aspartato\s*aminotransferasa|ast|tgo)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'ALT', regex: /(?:alanina\s*amino\s*transferasa|alt|tgp)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'GGT', regex: /(?:gamma\s*glutamil\s*transferasa|ggt)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'ALB', regex: /(?:albúmina|albumina|alb)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'AMILASA', regex: /(?:amilasa)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'LIPASA', regex: /(?:lipasa)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'COL', regex: /(?:colesterol\s*total|colesterol)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'TRIG', regex: /(?:triglicéridos|trigliceridos|trigli)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'PCR', regex: /(?:pcr\s*-?\s*hs|pcr\s*ultrasensible|pcr)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'VSG', regex: /(?:vsg|velocidad\s*de\s*sedimentación|velocidad\s*de\s*sedimentacion)\D*(\d+(?:\.\d+)?)/i },
+  
      // Examen General de Orina (EGO - Exige estar en contexto de orina o traer dos puntos)
       { clave: 'COLOR_O', regex: /color\s*:\s*([a-záéíóúñÑ\s]+?)(?=\s*aspecto|\s*densidad)/i },
       { clave: 'ASPECTO', regex: /aspecto\s*[:=]?\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*densidad|\s*ph|\s*$)/i },
@@ -993,6 +1011,20 @@ const diccParams = [
       { clave: 'ERIT COPRO', regex: /eritrocitos\s+([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*leucocitos)/i },
       { clave: 'LEU COPRO', regex: /leucocitos\s+en\s+heces\s+([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*amiba)/i },
       { clave: 'AMIBA', regex: /amiba\s+en\s+fresco\s+([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*$)/i }
+
+  // --- PANELES VIRALES Y SEROLOGÍA ---
+      { clave: 'VIH', regex: /(?:vih\s*1\s*y\s*2|vih\s*1\/2|vih|hiv)\D*(reactivo|no\s*reactivo|positivo|negativo)/i },
+      { clave: 'VHB_AgHBs', regex: /(?:antigeno\s*de\s*superficie\s*hepatitis\s*b|aghbs|vfb|vhb\s*aghbs)\D*(reactivo|no\s*reactivo|positivo|negativo)/i },
+      { clave: 'VHC_Ac', regex: /(?:anticuerpos\s*hepatitis\s*c|anti\s*-?\s*vhc|vhc)\D*(reactivo|no\s*reactivo|positivo|negativo)/i },
+      { clave: 'VHA_IgM', regex: /(?:hepatitis\s*a\s*igm|anti\s*-?\s*vha\s*igm|vha\s*igm)\D*(reactivo|no\s*reactivo|positivo|negativo)/i },
+      { clave: 'DENGUE_NS1', regex: /(?:dengue\s*ns1|ns1\s*dengue|antigeno\s*ns1)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
+      { clave: 'DENGUE_IGM', regex: /(?:dengue\s*igm|anti\s*-?\s*dengue\s*igm)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
+      { clave: 'DENGUE_IGG', regex: /(?:dengue\s*igg|anti\s*-?\s*dengue\s*igg)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
+      { clave: 'VSR', regex: /(?:virus\s*sincitial\s*respiratorio|vsr)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
+      { clave: 'INFLUENZA_A', regex: /(?:influenza\s*a|inf\s*a)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
+      { clave: 'INFLUENZA_B', regex: /(?:influenza\s*b|inf\s*b)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
+      { clave: 'COVID19', regex: /(?:sars\s*-?\s*cov\s*-?\s*2|covid\s*-?\s*19|ag\s*covid)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
+      { clave: 'VDRL', regex: /(?:vdrl|rpr|sífilis|sifilis)\D*(no\s*reactivo|reactivo(?:\s*\d+\/\d+)?|positivo|negativo)/i }
     ];
 
     const hallazgos = [];
