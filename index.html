@@ -968,7 +968,7 @@ const diccParams = [
       { clave: 'DHL', regex: /(?:deshidrogenasa\s*láctica|deshidrogenasa\s*lactica|dhl|ldh)\D*(\d+(?:\.\d+)?)/i },
       { clave: 'FA', regex: /(?:fosfatasa\s*alcalina|fa)\D*(\d+(?:\.\d+)?)/i },
       { clave: 'PROT_TOT', regex: /(?:proteínas\s*totales|proteinas\s*totales|prot\s*tot)\D*(\d+(?:\.\d+)?)/i },
-      { clave: 'AST', regex: /(?:aspartato\s*aminotransferasa|ast|tgo)\D*(\d+(?:\.\d+)?)/i },
+      { clave: 'AST', regex: /\b(?:ast|tgo|sgot)\b\D*?(\d+(?:\.\d+)?)/i },
       { clave: 'ALT', regex: /(?:alanina\s*amino\s*transferasa|alt|tgp)\D*(\d+(?:\.\d+)?)/i },
       { clave: 'GGT', regex: /(?:gamma\s*glutamil\s*transferasa|ggt)\D*(\d+(?:\.\d+)?)/i },
       { clave: 'ALB', regex: /(?:albúmina|albumina|alb)\D*(\d+(?:\.\d+)?)/i },
