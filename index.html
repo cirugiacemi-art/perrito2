@@ -1026,7 +1026,8 @@ const diccParams = [
       { clave: 'VDRL', regex: /(?:vdrl|rpr|sífilis|sifilis)\D*(no\s*reactivo|reactivo(?:\s*\d+\/\d+)?|positivo|negativo)/i },
       // --- TIEMPOS DE COAGULACIÓN ---
       { clave : 'TPT' , regex : /(?:tpt|ttpa|ttp|parcial)\D*?(\d+(?:\.\d+)?)/i } ,
-      { clave : 'ACTIVIDAD_TP' , regex : /(?:%\s*de\s*actividad|actividad)\D*?(\d+(?:\.\d+)?)/i }
+      { clave : 'ACTIVIDAD_TP' , regex : /(?:%\s*de\s*actividad|actividad)\D*?(\d+(?:\.\d+)?)/i } ,
+      { clave : 'DIMERO_D' , regex : /(?:dimero\s*d|d-dimero|dimero-d)\D*?(\d+(?:\.\d+)?)/i } ,
     ];
 
     const hallazgos = [];
