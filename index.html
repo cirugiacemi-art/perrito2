@@ -1025,22 +1025,21 @@ const diccParams = [
       { clave: 'COVID19', regex: /(?:sars\s*-?\s*cov\s*-?\s*2|covid\s*-?\s*19|ag\s*covid)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
       { clave: 'VDRL', regex: /(?:vdrl|rpr|sífilis|sifilis)\D*(no\s*reactivo|reactivo(?:\s*\d+\/\d+)?|positivo|negativo)/i },
       // --- TIEMPOS DE COAGULACIÓN ---
-      { clave: 'TPT', regex: /(?:tpt|ttpa|ttp|parcial|tiempo\s*de\s*tromboplastina)\D*?(\d+(?:\.\d+)?)/i },
-      { clave: 'ACTIVIDAD_TP', regex: /(?:%\s*de\s*actividad|actividad)\D*?(\d+(?:\.\d+)?)/i }
+      { clave : 'TPT' , regex : /(?:tpt|ttpa|ttp|parcial)\D*?(\d+(?:\.\d+)?)/i } ,
+      { clave : 'ACTIVIDAD_TP' , regex : /(?:%\s*de\s*actividad|actividad)\D*?(\d+(?:\.\d+)?)/i }
     ];
 
     const hallazgos = [];
     const lineas = texto.split(/\r?\n/);
 
-    diccParams.forEach(item => {
-      for (let linea of lineas) {
-        const match = linea.match(item.regex);
-        if (match && match[1] && match[1].trim()) {
-          hallazgos.push(`${item.clave} ${match[1].trim().toUpperCase()}`);
-          break;
-        }
-      }
-    });
+diccParams.forEach(item => {
+    // Busca en todo el texto reemplazando saltos de línea por espacios
+    const textoLimpio = texto.replace(/\r?\n/g, ' ');
+    const match = textoLimpio.match(item.regex);
+    if (match && match[1] && match[1].trim()) {
+      hallazgos.push(`${item.clave} ${match[1].trim()}`);
+    }
+  });
 
     const salida = hallazgos.join(' | ');
     if (outputElement) {
