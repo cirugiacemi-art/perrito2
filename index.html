@@ -720,37 +720,34 @@
  async function guardarUsuario() {
     const usr = document.getElementById('usernameInput').value.trim();
     const pwd = document.getElementById('passwordInput').value.trim();
-
     if (!usr || !pwd) return;
 
     // Normalizamos para comparar sin paréntesis ni mayúsculas/minúsculas
     const baseUsrNuevo = obtenerLimpio(usr).toLowerCase();
 
-    // Buscamos si ya existe una cuenta con el mismo usuario base
-    const idx = usuarios.findIndex(u => obtenerLimpio(u.usuario).toLowerCase() === baseUsrNuevo);
+    // 1. Eliminamos TODAS las entradas previas que tengan el mismo nombre base para evitar duplicados
+    usuarios = usuarios.filter(u => obtenerLimpio(u.usuario).toLowerCase() !== baseUsrNuevo);
 
-    if (idx !== -1) {
-        // Si ya existe, actualiza la cuenta vieja con los datos nuevos
-        usuarios[idx] = { usuario: usr, clave: pwd };
-    } else {
-        // Si no existe, la agrega al inicio
-        usuarios.unshift({ usuario: usr, clave: pwd });
-    }
+    // 2. Agregamos la versión actualizada al inicio de la lista
+    usuarios.unshift({ usuario: usr, clave: pwd });
 
+    // 3. Guardamos localmente y actualizamos la vista
     localStorage.setItem('perrito_cuentas', JSON.stringify(usuarios));
     filtrarUsuarios();
+
     document.getElementById('usernameInput').value = '';
     document.getElementById('passwordInput').value = '';
 
-    // Guardar en la nube
+    // 4. Guardamos en la nube
     try {
         await fetch(API_URL, {
             method: "POST",
             body: JSON.stringify({ action: "add", usuario: usr, clave: pwd })
         });
-    } catch (e) {}
+    } catch (e) {
+        console.error("Error al guardar en la nube:", e);
+    }
 }
-
   async function eliminarUsuario() {
     const usr = document.getElementById('usernameInput').value.trim();
     if (!usr) return;
