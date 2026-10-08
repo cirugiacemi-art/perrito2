@@ -936,7 +936,7 @@ function procesarLaboratorios() {
     texto = texto.replace(/0\s*-\s*1/gi, '');
     texto = texto.replace(/0\.2\s*-\s*1/gi, '');
     texto = texto.replace(/LEU\/ul/gi, '');
-    texto = texto.replace(/\/Campo/gi, '');
+    texto = texto.replace(/\/(?:campo|c)\b/gi, '');
     texto = texto.replace(/\bN\/A\b/gi, '');
 
     const diccParams = [
@@ -1006,8 +1006,8 @@ function procesarLaboratorios() {
         { clave: 'UROBIL', regex: /urobilinógeno\s*[:=]?\s*(normal|\d+(?:\.\d+)?\s*(?:mg\/dl)?)/i },
         { clave: 'BIL', regex: /bilirrubina\s*[:=]?\s*(negativo|positivo|\d+)/i },
         { clave: 'SANGRE', regex: /sangre\s*[:=]?\s*(negativo|positivo|\d+)/i },
-        { clave: 'LEUC_O', regex: /leucocitos\s*[:=]?\s*([0-9\sA-a\-\/]+?)(?=\s*\/campo|\s*0\s*-\s*5|\s*negativo|$)/i },
-        { clave: 'ERIT_O', regex: /eritrocitos\s*[:=]?\s*([0-9O\sA-a\-\/]+?)(?=\s*\/campo|\s*0\s*-\s*1|\s*negativo|$)/i },
+        { clave: 'LEUC_O', regex: /leucocitos\s*[:=]?\s*([0-9\sA-a\-]+?)(?=\s*\/campo|\s*0\s*-\s*5|\s*eritrocitos|\s*negativo|$)/i },
+        { clave: 'ERIT_O', regex: /eritrocitos\s*[:=]?\s*([0-9O\sA-a\-]+?)(?=\s*\/campo|\s*0\s*-\s*1|\s*bacterias|\s*negativo|$)/i },
         { clave: 'BACT', regex: /bacterias\s*[:=]?\s*(escasas|moderadas|abundantes|negativo|no\s*se\s*observa)/i },
         { clave: 'CEL EPIT', regex: /células\s*epiteliales\s*[:=]?\s*(escasas|moderadas|abundantes|negativo)/i },
         { clave: 'LEVADURAS', regex: /levaduras\s*[:=]?\s*(no\s*se\s*observa|no\s*se\s*observan|escasas|presente|positivo|negativo)/i },
