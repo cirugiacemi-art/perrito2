@@ -649,23 +649,33 @@
     { usuario: "ALEJANDRA.LANDERO (JEFA)", clave: "Alejandra2023" }
   ];
 
-  let usuarios = JSON.parse(localStorage.getItem('perrito_cuentas')) || cuentasIniciales;
+  let usuariosGuardados = JSON.parse(localStorage.getItem('perrito_cuentas')) || cuentasIniciales;
+let usuarios = usuariosGuardados.filter((u, i, arr) => arr.findIndex(item => obtenerLimpio(item.usuario).toLowerCase() === obtenerLimpio(u.usuario).toLowerCase()) === i);
   const guardias = ['A', 'B', 'C', 'D'];
 
   // Cargar cuentas en vivo desde Google Sheets
-  async function sincronizarCuentasNube() {
+async function sincronizarCuentasNube() {
     try {
-      const res = await fetch(API_URL);
-      const data = await res.json();
-      if (data && data.length > 0) {
-        usuarios = data;
-        localStorage.setItem('perrito_cuentas', JSON.stringify(usuarios));
-        filtrarUsuarios();
-      }
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        if (data && data.length > 0) {
+            // Filtrar duplicados por nombre de usuario base para quedarse solo con el último
+            const cuentasLimpias = [];
+            data.forEach(u => {
+                const baseUsr = obtenerLimpio(u.usuario).toLowerCase();
+                if (!cuentasLimpias.some(item => obtenerLimpio(item.usuario).toLowerCase() === baseUsr)) {
+                    cuentasLimpias.push(u);
+                }
+            });
+
+            usuarios = cuentasLimpias;
+            localStorage.setItem('perrito_cuentas', JSON.stringify(usuarios));
+            filtrarUsuarios();
+        }
     } catch (err) {
-      console.log("Cargando base local...");
+        console.log("Cargando base local...");
     }
-  }
+}
 
   function obtenerLimpio(texto) {
     return texto.replace(/\s*\(.*?\)\s*/g, '').trim();
