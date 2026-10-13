@@ -548,9 +548,8 @@ function eliminarPostit(idx) {
     }
 
     // Estilos avanzados para unificar barras, títulos y rediseñar por completo el cuadro de la guardia de hoy
-    dynamicStyle.innerHTML = `
-        /* Barras superiores y barra dinámica con color propio combinado */
-        header, .header, .banner-superior, div[style*="background"] {
+dynamicStyle.innerHTML = `
+        header, .header, .banner-superior {
             background-color: ${t.headerBg} !important;
             border-color: ${t.primary} !important;
         }
@@ -562,14 +561,25 @@ function eliminarPostit(idx) {
             border-color: ${t.primary} !important;
             background-color: ${t.cardBg} !important;
         }
-        
-        /* 🌟 Nuevo formato moderno y llamativo para el cuadro de la Guardia de Hoy */
-        .guardia-hoy-box, div:has(> .guardia-title), div[style*="text-align: center"]:has(h2), .guardia-badge, .card:has(#guardiaHoy), div[style*="border-radius"] {
+        button:not(.btn-danger):not(.postit-btn) {
+            background-color: ${t.cardBg} !important;
+            border: 1px solid ${t.primary} !important;
+            color: #ffffff !important;
+        }
+/* 🌟 Nuevo formato moderno y directo para el cuadro de la Guardia de Hoy */
+        .guardia-badge {
             background: linear-gradient(135deg, ${t.cardBg} 0%, ${t.headerBg} 100%) !important;
             border: 2px solid ${t.primary} !important;
             border-radius: 20px !important;
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.35) !important;
-            padding: 20px !important;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.4) !important;
+            padding: 22px !important;
+            text-align: center;
+        }
+        .guardia-actual {
+            font-size: 2rem !important;
+            font-weight: 900 !important;
+            color: ${t.primary} !important;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         button:not(.btn-danger):not(.postit-btn) {
