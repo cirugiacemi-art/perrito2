@@ -18,8 +18,6 @@
       --bg-gradient: linear-gradient(-45deg, #a8c0ff, #3f2b96, #89f7fe, #66a6ff, #f77062, #fe5196);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-
     body {
       background: var(--bg-gradient);
       background-size: 400% 400%;
@@ -311,17 +309,13 @@
       margin-top: 8px;
     }
 
-    .postit { 
-            background-color: #FEF08A; 
-            border-radius: 8px; 
-            padding: 8px; 
-            box-shadow: 2px 4px 6px rgba(0,0,0,0.1); 
-            position: relative; 
-        }
-        .postit.yellow { background-color: #FEF08A !important; border-color: #FDE047 !important; color: #713F12 !important; }
-        .postit.blue { background-color: #BAE6FD !important; border-color: #7DD3FC !important; color: #0C4A6E !important; }
-        .postit.pink { background-color: #FBCFE8 !important; border-color: #F472B6 !important; color: #831843 !important; }
-        .postit.orange { background-color: #FFEDD5 !important; border-color: #FDBA74 !important; color: #7C2D12 !important; }
+    .postit {
+      background: #FEF08A;
+      border-radius: 8px;
+      padding: 8px;
+      box-shadow: 2px 4px 6px rgba(0,0,0,0.1);
+      position: relative;
+    }
 
     .postit textarea {
       background: transparent;
@@ -522,6 +516,35 @@
   <div class="notes-grid" id="notesBoard"></div>
  </div>
     
+      <!-- TARJETA: Tiro al Blanco (Mini-Desestrés) -->
+      <div class="card" style="text-align: center;">
+        <div class="card-title">
+          <span>🎯 Tiro al Blanco (Guardia)</span>
+        </div>
+        <p style="font-size:0.75rem; color:#64748B; margin-bottom:10px;">
+          Desestrésate: Atínale a los pendientes y 'enemigos' de la guardia.
+        </p>
+
+        <!-- Puntuación -->
+        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; background: #F1F5F9; padding: 6px 12px; border-radius: 8px;">
+          <span style="color:#1E293B;">Puntos: <span id="targetScore" style="color:#10B981;">0</span></span>
+          <span style="color:#1E293B;">Récord: <span id="targetHighScore" style="color:#0284C7;">0</span></span>
+        </div>
+
+        <!-- Área del Juego (Fondo Azul) -->
+        <div id="targetArea" style="position: relative; width: 100%; height: 160px; background: #1E40AF; border-radius: 10px; overflow: hidden; cursor: crosshair; display: flex; align-items: center; justify-content: center; border: 2px solid #3B82F6;">
+          <div id="targetItem" onclick="impactoTarget(event)" style="position: absolute; padding: 6px 12px; background: #EF4444; color: white; font-weight: 700; font-size: 0.75rem; border-radius: 20px; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); user-select: none; transition: transform 0.1s ease;">
+            📋 Nota sin Firma
+          </div>
+        </div>
+
+        <!-- Botón de inicio/reiniciar -->
+        <button onclick="reiniciarJuegoTarget()" style="width: 100%; margin-top: 10px; background-color: #8B5CF6;">
+          🎮 Reiniciar Juego
+        </button>
+      </div>
+</div>
+
 <script>
   // Enlace directo a tu API de Google Sheets
   const API_URL = "https://script.google.com/macros/s/AKfycbx9mM7l2CwqdCqtqIChzHfzI0Ti6ohpp31WG3f-zsRjRR_4LbXr-uIn3KO-gY2vrCQt8w/exec";
@@ -1053,28 +1076,25 @@ function copiarResultado() {
 }
   let postits = JSON.parse(localStorage.getItem('perrito_postits')) || ["Revisar pendientes MIP", "Pase de ronda 8:00 AM"];
 
- function renderizarNotas() {
-        const board = document.getElementById('notesBoard');
-        if (!board) return;
-        board.innerHTML = '';
-        notasGlobales.forEach((n, idx) => {
-            const div = document.createElement('div');
-            div.className = `postit ${n.color || 'yellow'}`;
-            div.innerHTML = `
-                <span class="postit-del" onclick="eliminarPostit(${idx})">×</span>
-                <textarea oninput="actualizarTextoLocal(${idx}, this.value)" placeholder="Escribe aquí...">${n.texto || ''}</textarea>
-            `;
-            board.appendChild(div);
-        });
-    }
+  function renderizarPostits() {
+    const board = document.getElementById('notesBoard');
+    board.innerHTML = '';
+    postits.forEach((txt, idx) => {
+      const p = document.createElement('div');
+      p.className = 'postit';
+      p.innerHTML = `
+        <span class="postit-del" onclick="eliminarPostit(${idx})">&times;</span>
+        <textarea onchange="actualizarPostit(${idx}, this.value)">${txt}</textarea>
+      `;
+      board.appendChild(p);
+    });
+  }
 
   function agregarPostit() {
-        const colores = ['yellow', 'blue', 'pink', 'orange'];
-        const colorAleatorio = colores[notasGlobales.length % colores.length];
-        const nuevaNota = { id: Date.now(), texto: "", color: colorAleatorio };
-        notasGlobales.push(nuevaNota);
-        renderizarNotas();
-    }
+    postits.push("Nota rápida...");
+    localStorage.setItem('perrito_postits', JSON.stringify(postits));
+    renderizarPostits();
+  }
 
   function actualizarPostit(idx, val) {
     postits[idx] = val;
@@ -1220,13 +1240,14 @@ const cuentasMedicos = {
     if (typeof accounts !== 'undefined') accounts = fusionadas;
     if (typeof renderizarCuentas === 'function') renderizarCuentas(fusionadas);
     if (typeof mostrarCuentas === 'function') mostrarCuentas(fusionadas);
+})();
+// ... aquí termina el código JavaScript que ya tenías ...
 
    // ==========================================
     // PALETAS DIARIAS CON TÍTULOS CENTRADOS Y POST-ITS CONSERVADOS
     // ==========================================
     (function aplicarPaletaDiariaCoordinada() {
         const paletas = [
-            { bg: "linear-gradient(-45deg, #3b82f6, #1d4ed8, #60a5fa, #93c5fd)", cardBg: "#eff6ff", border: "#bfdbfe", headerBg: "#1e40af", titleColor: "#ffffff", primary: "#2563eb" },
             { bg: "linear-gradient(-45deg, #0f172a, #1e3a8a, #0284c7, #38bdf8)", cardBg: "#e0f2fe", border: "#7dd3fc", headerBg: "#0369a1", titleColor: "#ffffff", primary: "#0284c7" },
             { bg: "linear-gradient(-45deg, #064e3b, #047857, #10b981, #6ee7b7)", cardBg: "#d1fae5", border: "#6ee7b7", headerBg: "#065f46", titleColor: "#ffffff", primary: "#047857" },
             { bg: "linear-gradient(-45deg, #4c1d95, #7c3aed, #f43f5e, #fb923c)", cardBg: "#ffedd5", border: "#fdba74", headerBg: "#5b21b6", titleColor: "#ffffff", primary: "#7c3aed" },
@@ -1237,15 +1258,16 @@ const cuentasMedicos = {
             { bg: "linear-gradient(-45deg, #581c87, #7e22ce, #ea580c, #facc15)", cardBg: "#f3e8ff", border: "#c084fc", headerBg: "#6b21a8", titleColor: "#facc15", primary: "#ea580c" },
             { bg: "linear-gradient(-45deg, #14532d, #15803d, #22c55e, #86efac)", cardBg: "#dcfce7", border: "#86efac", headerBg: "#166534", titleColor: "#ffffff", primary: "#15803d" },
             { bg: "linear-gradient(-45deg, #111827, #1f2937, #4b5563, #9ca3af)", cardBg: "#f3f4f6", border: "#d1d5db", headerBg: "#111827", titleColor: "#ffffff", primary: "#374151" },
-            { bg: "linear-gradient(-45deg, #8b5cf6, #6d28d9, #c084fc, #e879f9)", cardBg: "#faf5ff", border: "#e9d5ff", headerBg: "#581c87", titleColor: "#ffffff", primary: "#7c3aed" },
-            { bg: "linear-gradient(-45deg, #ec4899, #be185d, #f472b6, #fbcfe8)", cardBg: "#fdf2f8", border: "#fbcfe8", headerBg: "#9d174d", titleColor: "#ffffff", primary: "#db2777" },
-            { bg: "linear-gradient(-45deg, #059669, #047857, #34d399, #6ee7b7)", cardBg: "#ecfdf5", border: "#a7f3d0", headerBg: "#065f46", titleColor: "#ffffff", primary: "#059669" },
-            { bg: "linear-gradient(-45deg, #d97706, #b45309, #fbbf24, #fde68a)", cardBg: "#fffbeb", border: "#fde68a", headerBg: "#92400e", titleColor: "#ffffff", primary: "#d97706" },
-            { bg: "linear-gradient(-45deg, #0284c7, #0369a1, #38bdf8, #bae6fd)", cardBg: "#f0f9ff", border: "#bae6fd", headerBg: "#075985", titleColor: "#ffffff", primary: "#0284c7" },
-            { bg: "linear-gradient(-45deg, #475569, #1e293b, #64748b, #94a3b8)", cardBg: "#f1f5f9", border: "#cbd5e1", headerBg: "#0f172a", titleColor: "#ffffff", primary: "#334155" },
-            { bg: "linear-gradient(-45deg, #6366f1, #4338ca, #818cf8, #c7d2fe)", cardBg: "#eef2ff", border: "#c7d2fe", headerBg: "#3730a3", titleColor: "#ffffff", primary: "#4f46e5" },
-            { bg: "linear-gradient(-45deg, #14b8a6, #0f766e, #2dd4bf, #99f6e4)", cardBg: "#f0fdfa", border: "#99f6e4", headerBg: "#115e59", titleColor: "#ffffff", primary: "#0d9488" },
-            { bg: "linear-gradient(-45deg, #f43f5e, #9f1239, #fb7185, #fecdd3)", cardBg: "#fff1f2", border: "#fecdd3", headerBg: "#881337", titleColor: "#ffffff", primary: "#e11d48" }
+          { bg: "linear-gradient(-45deg, #311042, #581c87, #9333ea, #c084fc)", cardBg: "#faf5ff", border: "#d8b4fe", headerBg: "#6b21a8", titleColor: "#ffffff", primary: "#9333ea" },
+    { bg: "linear-gradient(-45deg, #082f49, #0369a1, #0ea5e9, #38bdf8)", cardBg: "#f0f9ff", border: "#bae6fd", headerBg: "#0369a1", titleColor: "#ffffff", primary: "#0ea5e9" },
+    { bg: "linear-gradient(-45deg, #450a0a, #7f1d1d, #dc2626, #f87171)", cardBg: "#fef2f2", border: "#fecaca", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#dc2626" },
+    { bg: "linear-gradient(-45deg, #022c22, #065f46, #059669, #34d399)", cardBg: "#ecfdf5", border: "#a7f3d0", headerBg: "#047857", titleColor: "#ffffff", primary: "#059669" },
+    { bg: "linear-gradient(-45deg, #431407, #9a3412, #ea580c, #fb923c)", cardBg: "#fff7ed", border: "#fed7aa", headerBg: "#c2410c", titleColor: "#ffffff", primary: "#ea580c" },
+    { bg: "linear-gradient(-45deg, #3f3f46, #52525b, #71717a, #a1a1aa)", cardBg: "#fafafa", border: "#e4e4e7", headerBg: "#27272a", titleColor: "#ffffff", primary: "#52525b" },
+    { bg: "linear-gradient(-45deg, #1e1b4b, #312e81, #4f46e5, #818cf8)", cardBg: "#eef2ff", border: "#c7d2fe", headerBg: "#3730a3", titleColor: "#ffffff", primary: "#4f46e5" },
+    { bg: "linear-gradient(-45deg, #500724, #831843, #db2777, #f472b6)", cardBg: "#fdf2f8", border: "#fbcfe8", headerBg: "#9d174d", titleColor: "#ffffff", primary: "#db2777" },
+    { bg: "linear-gradient(-45deg, #365314, #4d7c0f, #65a30d, #bef264)", cardBg: "#f7fee7", border: "#d9f99d", headerBg: "#3f6212", titleColor: "#ffffff", primary: "#65a30d" },
+    { bg: "linear-gradient(-45deg, #134e4a, #115e59, #0d9488, #5eead4)", cardBg: "#f0fdfa", border: "#99f6e4", headerBg: "#0f766e", titleColor: "#ffffff", primary: "#0d9488" }
         ];
 
         // Calcular día del año (1-366)
