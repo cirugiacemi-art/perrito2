@@ -322,7 +322,6 @@
         .postit.blue { background-color: #BAE6FD !important; border-color: #7DD3FC !important; color: #0C4A6E !important; }
         .postit.pink { background-color: #FBCFE8 !important; border-color: #F472B6 !important; color: #831843 !important; }
         .postit.orange { background-color: #FFEDD5 !important; border-color: #FDBA74 !important; color: #7C2D12 !important; }
-    }
 
     .postit textarea {
       background: transparent;
@@ -523,35 +522,6 @@
   <div class="notes-grid" id="notesBoard"></div>
  </div>
     
-      <!-- TARJETA: Tiro al Blanco (Mini-Desestrés) -->
-      <div class="card" style="text-align: center;">
-        <div class="card-title">
-          <span>🎯 Tiro al Blanco (Guardia)</span>
-        </div>
-        <p style="font-size:0.75rem; color:#64748B; margin-bottom:10px;">
-          Desestrésate: Atínale a los pendientes y 'enemigos' de la guardia.
-        </p>
-
-        <!-- Puntuación -->
-        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; background: #F1F5F9; padding: 6px 12px; border-radius: 8px;">
-          <span style="color:#1E293B;">Puntos: <span id="targetScore" style="color:#10B981;">0</span></span>
-          <span style="color:#1E293B;">Récord: <span id="targetHighScore" style="color:#0284C7;">0</span></span>
-        </div>
-
-        <!-- Área del Juego (Fondo Azul) -->
-        <div id="targetArea" style="position: relative; width: 100%; height: 160px; background: #1E40AF; border-radius: 10px; overflow: hidden; cursor: crosshair; display: flex; align-items: center; justify-content: center; border: 2px solid #3B82F6;">
-          <div id="targetItem" onclick="impactoTarget(event)" style="position: absolute; padding: 6px 12px; background: #EF4444; color: white; font-weight: 700; font-size: 0.75rem; border-radius: 20px; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); user-select: none; transition: transform 0.1s ease;">
-            📋 Nota sin Firma
-          </div>
-        </div>
-
-        <!-- Botón de inicio/reiniciar -->
-        <button onclick="reiniciarJuegoTarget()" style="width: 100%; margin-top: 10px; background-color: #8B5CF6;">
-          🎮 Reiniciar Juego
-        </button>
-      </div>
-</div>
-
 <script>
   // Enlace directo a tu API de Google Sheets
   const API_URL = "https://script.google.com/macros/s/AKfycbx9mM7l2CwqdCqtqIChzHfzI0Ti6ohpp31WG3f-zsRjRR_4LbXr-uIn3KO-gY2vrCQt8w/exec";
