@@ -352,6 +352,53 @@
       color: #A16207;
     }
   </style>
+  <!-- === SCRIPT DE COLORES DIARIOS CON AZUL PARA GUARDIA A === -->
+<script>
+  function aplicarColorDinamicoPorDia() {
+      const coloresDelMes = {
+          1: "#0f172a",  // Azul medianoche
+          2: "#111827",  // Gris muy oscuro
+          3: "#1d4ed8",  // 🔵 Guardia A
+          4: "#3b0764",  // Morado profundo
+          5: "#7c2d12",  // Óxido
+          6: "#065f46",  // Verde esmeralda oscuro
+          7: "#2563eb",  // 🔵 Guardia A
+          8: "#831843",  // Vino
+          9: "#14532d",  // Verde bosque
+          10: "#581c87", // Lila oscuro
+          11: "#0284c7", // 🔵 Guardia A
+          12: "#701a75", // Fucsia oscuro
+          13: "#365314", // Oliva oscuro (Hoy martes)
+          14: "#6b21a8", // Púrpura
+          15: "#1e40af", // 🔵 Guardia A - ¡Jueves! (Azul marino intenso)
+          16: "#9f1239", // Rojo carmesí
+          17: "#042f2e", // Turquesa oscuro
+          18: "#451a03", // Café tabaco
+          19: "#3b82f6", // 🔵 Guardia A
+          20: "#881337", // Vino tinto
+          21: "#134e4a", // Verde cian oscuro
+          22: "#500724", // Vino uva
+          23: "#1d4ed8", // 🔵 Guardia A
+          24: "#14452f", // Verde pino
+          25: "#592507", // Ámbar quemado
+          26: "#4a044e", // Ciruela
+          27: "#2563eb", // 🔵 Guardia A
+          28: "#064e3b", // Verde menta oscuro
+          29: "#0f766e", // Verde petróleo
+          30: "#1e3a8a", // Azul rey clásico
+          31: "#0284c7"  // 🔵 Guardia A
+      };
+
+      const fechaActual = new Date();
+      const diaMes = fechaActual.getDate();
+      let colorAsignado = coloresDelMes[diaMes] || "#0f172a";
+
+      document.body.style.backgroundColor = colorAsignado;
+      document.body.style.transition = "background-color 0.6s ease";
+  }
+
+  window.addEventListener("DOMContentLoaded", aplicarColorDinamicoPorDia);
+</script>
 </head>
 <body id="app-body">
 
