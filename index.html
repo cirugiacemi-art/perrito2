@@ -18,20 +18,6 @@
       --bg-gradient: linear-gradient(-45deg, #a8c0ff, #3f2b96, #89f7fe, #66a6ff, #f77062, #fe5196);
     }
 
-    /* Temáticas mensuales de fondo con degradado animado */
-    body.theme-0 { --bg-gradient: linear-gradient(-45deg, #2b5876, #4e4376, #1e3c72, #2a5298); } /* Enero */
-    body.theme-1 { --bg-gradient: linear-gradient(-45deg, #ff758c, #ff7eb3, #ffa07a, #f76b1c); } /* Febrero */
-    body.theme-2 { --bg-gradient: linear-gradient(-45deg, #11998e, #38ef7d, #00b09b, #96c93d); } /* Marzo */
-    body.theme-3 { --bg-gradient: linear-gradient(-45deg, #89f7fe, #66a6ff, #13547a, #80d0c7); } /* Abril */
-    body.theme-4 { --bg-gradient: linear-gradient(-45deg, #ff0844, #ffb199, #f12711, #f5af19); } /* Mayo */
-    body.theme-5 { --bg-gradient: linear-gradient(-45deg, #00c6ff, #0072ff, #2af598, #009efd); } /* Junio */
-    body.theme-6 { --bg-gradient: linear-gradient(-45deg, #b224ef, #7579ff, #e0c3fc, #8ec5fc); } /* Julio */
-    body.theme-7 { --bg-gradient: linear-gradient(-45deg, #f77062, #fe5196, #f83600, #fe8c00); } /* Agosto */
-    body.theme-8 { --bg-gradient: linear-gradient(-45deg, #00b09b, #96c93d, #11998e, #38ef7d); } /* Septiembre - Fiestas Patrias */
-    body.theme-9 { --bg-gradient: linear-gradient(-45deg, #f83600, #fe8c00, #b20a2c, #fffbd5); } /* Octubre - Día de Muertos / Halloween */
-    body.theme-10 { --bg-gradient: linear-gradient(-45deg, #13547a, #80d0c7, #00b09b, #96c93d); } /* Noviembre - Revolución */
-    body.theme-11 { --bg-gradient: linear-gradient(-45deg, #eb3349, #f45c43, #11998e, #38ef7d); } /* Diciembre - Navidad */
-
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
 
     body {
@@ -325,12 +311,17 @@
       margin-top: 8px;
     }
 
-    .postit {
-      background: #FEF08A;
-      border-radius: 8px;
-      padding: 8px;
-      box-shadow: 2px 4px 6px rgba(0,0,0,0.1);
-      position: relative;
+    .postit { 
+            background-color: #FEF08A; 
+            border-radius: 8px; 
+            padding: 8px; 
+            box-shadow: 2px 4px 6px rgba(0,0,0,0.1); 
+            position: relative; 
+        }
+        .postit.yellow { background-color: #FEF08A !important; border-color: #FDE047 !important; color: #713F12 !important; }
+        .postit.blue { background-color: #BAE6FD !important; border-color: #7DD3FC !important; color: #0C4A6E !important; }
+        .postit.pink { background-color: #FBCFE8 !important; border-color: #F472B6 !important; color: #831843 !important; }
+        .postit.orange { background-color: #FFEDD5 !important; border-color: #FDBA74 !important; color: #7C2D12 !important; }
     }
 
     .postit textarea {
@@ -1092,25 +1083,28 @@ function copiarResultado() {
 }
   let postits = JSON.parse(localStorage.getItem('perrito_postits')) || ["Revisar pendientes MIP", "Pase de ronda 8:00 AM"];
 
-  function renderizarPostits() {
-    const board = document.getElementById('notesBoard');
-    board.innerHTML = '';
-    postits.forEach((txt, idx) => {
-      const p = document.createElement('div');
-      p.className = 'postit';
-      p.innerHTML = `
-        <span class="postit-del" onclick="eliminarPostit(${idx})">&times;</span>
-        <textarea onchange="actualizarPostit(${idx}, this.value)">${txt}</textarea>
-      `;
-      board.appendChild(p);
-    });
-  }
+ function renderizarNotas() {
+        const board = document.getElementById('notesBoard');
+        if (!board) return;
+        board.innerHTML = '';
+        notasGlobales.forEach((n, idx) => {
+            const div = document.createElement('div');
+            div.className = `postit ${n.color || 'yellow'}`;
+            div.innerHTML = `
+                <span class="postit-del" onclick="eliminarPostit(${idx})">×</span>
+                <textarea oninput="actualizarTextoLocal(${idx}, this.value)" placeholder="Escribe aquí...">${n.texto || ''}</textarea>
+            `;
+            board.appendChild(div);
+        });
+    }
 
   function agregarPostit() {
-    postits.push("Nota rápida...");
-    localStorage.setItem('perrito_postits', JSON.stringify(postits));
-    renderizarPostits();
-  }
+        const colores = ['yellow', 'blue', 'pink', 'orange'];
+        const colorAleatorio = colores[notasGlobales.length % colores.length];
+        const nuevaNota = { id: Date.now(), texto: "", color: colorAleatorio };
+        notasGlobales.push(nuevaNota);
+        renderizarNotas();
+    }
 
   function actualizarPostit(idx, val) {
     postits[idx] = val;
@@ -1264,6 +1258,7 @@ const cuentasMedicos = {
     // ==========================================
     (function aplicarPaletaDiariaCoordinada() {
         const paletas = [
+            { bg: "linear-gradient(-45deg, #3b82f6, #1d4ed8, #60a5fa, #93c5fd)", cardBg: "#eff6ff", border: "#bfdbfe", headerBg: "#1e40af", titleColor: "#ffffff", primary: "#2563eb" },
             { bg: "linear-gradient(-45deg, #0f172a, #1e3a8a, #0284c7, #38bdf8)", cardBg: "#e0f2fe", border: "#7dd3fc", headerBg: "#0369a1", titleColor: "#ffffff", primary: "#0284c7" },
             { bg: "linear-gradient(-45deg, #064e3b, #047857, #10b981, #6ee7b7)", cardBg: "#d1fae5", border: "#6ee7b7", headerBg: "#065f46", titleColor: "#ffffff", primary: "#047857" },
             { bg: "linear-gradient(-45deg, #4c1d95, #7c3aed, #f43f5e, #fb923c)", cardBg: "#ffedd5", border: "#fdba74", headerBg: "#5b21b6", titleColor: "#ffffff", primary: "#7c3aed" },
@@ -1273,7 +1268,16 @@ const cuentasMedicos = {
             { bg: "linear-gradient(-45deg, #0c4a6e, #0369a1, #06b6d4, #67e8f9)", cardBg: "#cffaff", border: "#67e8f9", headerBg: "#075985", titleColor: "#ffffff", primary: "#0284c7" },
             { bg: "linear-gradient(-45deg, #581c87, #7e22ce, #ea580c, #facc15)", cardBg: "#f3e8ff", border: "#c084fc", headerBg: "#6b21a8", titleColor: "#facc15", primary: "#ea580c" },
             { bg: "linear-gradient(-45deg, #14532d, #15803d, #22c55e, #86efac)", cardBg: "#dcfce7", border: "#86efac", headerBg: "#166534", titleColor: "#ffffff", primary: "#15803d" },
-            { bg: "linear-gradient(-45deg, #111827, #1f2937, #4b5563, #9ca3af)", cardBg: "#f3f4f6", border: "#d1d5db", headerBg: "#111827", titleColor: "#ffffff", primary: "#374151" }
+            { bg: "linear-gradient(-45deg, #111827, #1f2937, #4b5563, #9ca3af)", cardBg: "#f3f4f6", border: "#d1d5db", headerBg: "#111827", titleColor: "#ffffff", primary: "#374151" },
+            { bg: "linear-gradient(-45deg, #8b5cf6, #6d28d9, #c084fc, #e879f9)", cardBg: "#faf5ff", border: "#e9d5ff", headerBg: "#581c87", titleColor: "#ffffff", primary: "#7c3aed" },
+            { bg: "linear-gradient(-45deg, #ec4899, #be185d, #f472b6, #fbcfe8)", cardBg: "#fdf2f8", border: "#fbcfe8", headerBg: "#9d174d", titleColor: "#ffffff", primary: "#db2777" },
+            { bg: "linear-gradient(-45deg, #059669, #047857, #34d399, #6ee7b7)", cardBg: "#ecfdf5", border: "#a7f3d0", headerBg: "#065f46", titleColor: "#ffffff", primary: "#059669" },
+            { bg: "linear-gradient(-45deg, #d97706, #b45309, #fbbf24, #fde68a)", cardBg: "#fffbeb", border: "#fde68a", headerBg: "#92400e", titleColor: "#ffffff", primary: "#d97706" },
+            { bg: "linear-gradient(-45deg, #0284c7, #0369a1, #38bdf8, #bae6fd)", cardBg: "#f0f9ff", border: "#bae6fd", headerBg: "#075985", titleColor: "#ffffff", primary: "#0284c7" },
+            { bg: "linear-gradient(-45deg, #475569, #1e293b, #64748b, #94a3b8)", cardBg: "#f1f5f9", border: "#cbd5e1", headerBg: "#0f172a", titleColor: "#ffffff", primary: "#334155" },
+            { bg: "linear-gradient(-45deg, #6366f1, #4338ca, #818cf8, #c7d2fe)", cardBg: "#eef2ff", border: "#c7d2fe", headerBg: "#3730a3", titleColor: "#ffffff", primary: "#4f46e5" },
+            { bg: "linear-gradient(-45deg, #14b8a6, #0f766e, #2dd4bf, #99f6e4)", cardBg: "#f0fdfa", border: "#99f6e4", headerBg: "#115e59", titleColor: "#ffffff", primary: "#0d9488" },
+            { bg: "linear-gradient(-45deg, #f43f5e, #9f1239, #fb7185, #fecdd3)", cardBg: "#fff1f2", border: "#fecdd3", headerBg: "#881337", titleColor: "#ffffff", primary: "#e11d48" }
         ];
 
         // Calcular día del año (1-366)
