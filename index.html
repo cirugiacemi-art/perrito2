@@ -354,248 +354,111 @@
   </style>
  <script>
 // ==========================================
-// 1. SCRIPT DE COLORES DIARIOS CON TONOS AZULES PARA GUARDIA A
+// 1. SCRIPT DE COLORES DIARIOS CON TONOS AZULES Y 31 DÍAS
 // ==========================================
-function aplicarColorDinamicoPorDia() {
-    const coloresDelMes = {
-        1: "#0f172a", 2: "#111827", 3: "#1d4ed8", 4: "#3b0764", 5: "#7c2d12", 
-        6: "#065f46", 7: "#2563eb", 8: "#831843", 9: "#14532d", 10: "#581c87", 
-        11: "#0284c7", 12: "#701a75", 13: "#365314", 14: "#6b21a8", 15: "#1e40af", 
-        16: "#9f1239", 17: "#042f2e", 18: "#451a03", 19: "#3b82f6", 20: "#881337", 
-        21: "#134e4a", 22: "#500724", 23: "#1d4ed8", 24: "#14452f", 25: "#592507", 
-        26: "#4a044e", 27: "#2563eb", 28: "#064e3b", 29: "#0f766e", 30: "#1e3a8a", 31: "#0284c7"
-    };
-    const fechaActual = new Date();
-    const diaMes = fechaActual.getDate();
-    let colorAsignado = coloresDelMes[diaMes] || "#0f172a";
-    document.body.style.backgroundColor = colorAsignado;
-    document.body.style.transition = "background-color 0.6s ease";
-}
+const dynamicStyle = document.createElement('style');
+    document.head.appendChild(dynamicStyle);
 
-// ==========================================
-// 2. GESTIÓN DE POST-ITS (Amarillo, Azul y Naranja)
-// ==========================================
-let postits = JSON.parse(localStorage.getItem('perrito_postits')) || [
-    { texto: "NO ES UNA GUARDIA MÁS, ES UNA GUARDIA MENOS. TQM A TODOS<3", color: "yellow" },
-    { texto: "20 GUARDIAS MAS Y NO NOS VUELVEN A VER EN LA VIDA... <3", color: "blue" },
-    { texto: "UMF DEBERIA HACER GUARDIA EN URG, PORQUE SINO NO SIRVEN PARA NADA", color: "orange" }
-];
+    function aplicarColorDinamicoPorDia() {
+        const hoy = new Date();
+        const mes = hoy.getMonth(); 
+        const dia = hoy.getDate();  
 
-function renderizarPostits() {
-    const board = document.getElementById('notesBoard');
-    if (!board) return;
-    board.innerHTML = '';
-    postits.forEach((nota, idx) => {
-        let txt = typeof nota === 'string' ? nota : nota.texto;
-        let col = typeof nota === 'string' ? 'yellow' : (nota.color || 'yellow');
+        // 31 Paletas de tonos azules elegantes que combinan con el fondo y la interfaz
+        const paletasMes = [
+            { headerBg: '#05111b', primary: '#38bdf8', cardBg: '#132f4c', text: '#f0f9ff' },
+            { headerBg: '#081b29', primary: '#0ea5e9', cardBg: '#0f2744', text: '#e0f2fe' },
+            { headerBg: '#020e18', primary: '#7dd3fc', cardBg: '#102a43', text: '#f0f9ff' },
+            { headerBg: '#031926', primary: '#38bdf8', cardBg: '#13315c', text: '#bae6fd' },
+            { headerBg: '#061a2b', primary: '#0284c7', cardBg: '#0c2340', text: '#e0f2fe' },
+            { headerBg: '#04101a', primary: '#60a5fa', cardBg: '#1d4ed8', text: '#ffffff' },
+            { headerBg: '#0a192f', primary: '#38bdf8', cardBg: '#172554', text: '#f8fafc' },
+            { headerBg: '#071321', primary: '#2563eb', cardBg: '#1e3a8a', text: '#eff6ff' },
+            { headerBg: '#0b1d33', primary: '#0ea5e9', cardBg: '#0f172a', text: '#f0f9ff' },
+            { headerBg: '#010d18', primary: '#38bdf8', cardBg: '#132f4c', text: '#e0f2fe' },
+            { headerBg: '#051422', primary: '#7dd3fc', cardBg: '#1e293b', text: '#f0f9ff' },
+            { headerBg: '#091c30', primary: '#0284c7', cardBg: '#0f2744', text: '#bae6fd' },
+            { headerBg: '#030c14', primary: '#38bdf8', cardBg: '#1d4ed8', text: '#ffffff' },
+            { headerBg: '#061726', primary: '#60a5fa', cardBg: '#172554', text: '#f0f9ff' },
+            /* Variante especial para Guardia A (Jueves 15 y rotativos) */
+            { headerBg: '#0f172a', primary: '#3b82f6', cardBg: '#1e40af', text: '#ffffff' },
+            { headerBg: '#020b14', primary: '#38bdf8', cardBg: '#13315c', text: '#e0f2fe' },
+            { headerBg: '#071829', primary: '#0ea5e9', cardBg: '#102a43', text: '#f0f9ff' },
+            { headerBg: '#04121d', primary: '#7dd3fc', cardBg: '#0f2744', text: '#bae6fd' },
+            { headerBg: '#081a2b', primary: '#2563eb', cardBg: '#1e3a8a', text: '#f0f9ff' },
+            { headerBg: '#03101c', primary: '#38bdf8', cardBg: '#132f4c', text: '#e0f2fe' },
+            { headerBg: '#0a223a', primary: '#60a5fa', cardBg: '#1d4ed8', text: '#ffffff' },
+            { headerBg: '#051320', primary: '#0284c7', cardBg: '#172554', text: '#f0f9ff' },
+            { headerBg: '#010912', primary: '#38bdf8', cardBg: '#0f172a', text: '#f0f9ff' },
+            { headerBg: '#061625', primary: '#7dd3fc', cardBg: '#1e293b', text: '#e0f2fe' },
+            { headerBg: '#091d31', primary: '#0ea5e9', cardBg: '#102a43', text: '#f0f9ff' },
+            { headerBg: '#020d17', primary: '#38bdf8', cardBg: '#132f4c', text: '#bae6fd' },
+            { headerBg: '#041422', primary: '#60a5fa', cardBg: '#1e40af', text: '#ffffff' },
+            { headerBg: '#07192a', primary: '#0284c7', cardBg: '#172554', text: '#f0f9ff' },
+            { headerBg: '#030f1a', primary: '#38bdf8', cardBg: '#13315c', text: '#e0f2fe' },
+            { headerBg: '#081b2d', primary: '#7dd3fc', cardBg: '#0f2744', text: '#f0f9ff' },
+            { headerBg: '#05111b', primary: '#38bdf8', cardBg: '#132f4c', text: '#f0f9ff' }
+        ];
+
+        const t = paletasMes[(dia - 1) % paletasMes.length];
+
+        // Sincronización total de elementos: fondo, tarjetas, cuadros, líneas, botones y letras
+        document.body.style.color = t.text;
         
-        const p = document.createElement('div');
-        p.className = `postit ${col}`;
-        p.innerHTML = `
-            <span class="postit-del" onclick="eliminarPostit(${idx})">&times;</span>
-            <textarea onchange="actualizarPostit(${idx}, this.value)" placeholder="Escribe aquí...">${txt}</textarea>
+        dynamicStyle.innerHTML = `
+            /* Cuadro principal del título (PERRITO 2) */
+            header {
+                background-color: ${t.headerBg} !important;
+                border: 2px solid ${t.primary} !important;
+            }
+            header h1 {
+                color: ${t.primary} !important;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            }
+
+            /* Tarjetas, contenedores y cuadros generales */
+            .card, .user-list, .metric-card, .calendar-day {
+                background-color: ${t.cardBg} !important;
+                border-color: ${t.primary} !important;
+                color: ${t.text} !important;
+            }
+            .card-title, .calendar-header {
+                color: ${t.primary} !important;
+                border-bottom-color: rgba(56, 189, 248, 0.3) !important;
+            }
+
+            /* Cuadro moderno y elegante de la Guardia de Hoy (Con variantes especiales para Guardia A) */
+            .guardia-badge {
+                background: linear-gradient(135deg, ${t.cardBg} 0%, ${t.headerBg} 100%) !important;
+                border: 2px solid ${t.primary} !important;
+                border-radius: 20px !important;
+                box-shadow: 0 0 25px rgba(56, 189, 248, 0.4) !important;
+                padding: 22px !important;
+                text-align: center;
+            }
+            .guardia-actual {
+                font-size: 2rem !important;
+                font-weight: 900 !important;
+                color: ${t.primary} !important;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            }
+
+            /* Líneas divisorias, inputs y campos de texto */
+            input[type="text"], input[type="password"], input[type="date"], select, textarea {
+                border-color: ${t.primary} !important;
+                background-color: ${t.headerBg} !important;
+                color: ${t.text} !important;
+            }
+
+            /* Botones unificados */
+            button:not(.btn-danger):not(.postit-btn) {
+                background-color: ${t.cardBg} !important;
+                border: 1px solid ${t.primary} !important;
+                color: #ffffff !important;
+            }
         `;
-        board.appendChild(p);
-    });
-}
-
-function agregarPostit() {
-    const colores = ['yellow', 'blue', 'orange'];
-    const colorActual = colores[postits.length % colores.length];
-    postits.push({ texto: "", color: colorActual });
-    localStorage.setItem('perrito_postits', JSON.stringify(postits));
-    renderizarPostits();
-}
-
-function actualizarPostit(idx, val) {
-    if (typeof postits[idx] === 'string') {
-        postits[idx] = { texto: val, color: 'yellow' };
-    } else {
-        postits[idx].texto = val;
     }
-    localStorage.setItem('perrito_postits', JSON.stringify(postits));
-}
-
-function eliminarPostit(idx) {
-    postits.splice(idx, 1);
-    localStorage.setItem('perrito_postits', JSON.stringify(postits));
-    renderizarPostits();
-}
-
-// Inicializar funciones al cargar la página
-window.addEventListener("DOMContentLoaded", () => {
     aplicarColorDinamicoPorDia();
-    renderizarPostits();
-});
-<script>
-// ==========================================
-// 1. SCRIPT DE COLORES DIARIOS (TONOS AZULES PARA GUARDIA A)
-// ==========================================
-function aplicarColorDinamicoPorDia() {
-    const coloresDelMes = {
-        1: "#0f172a", 2: "#111827", 3: "#1d4ed8", 4: "#3b0764", 5: "#7c2d12", 
-        6: "#065f46", 7: "#2563eb", 8: "#831843", 9: "#14532d", 10: "#581c87", 
-        11: "#0284c7", 12: "#701a75", 13: "#365314", 14: "#6b21a8", 15: "#1e40af", 
-        16: "#9f1239", 17: "#042f2e", 18: "#451a03", 19: "#3b82f6", 20: "#881337", 
-        21: "#134e4a", 22: "#500724", 23: "#1d4ed8", 24: "#14452f", 25: "#592507", 
-        26: "#4a044e", 27: "#2563eb", 28: "#064e3b", 29: "#0f766e", 30: "#1e3a8a", 31: "#0284c7"
-    };
-    const fechaActual = new Date();
-    const diaMes = fechaActual.getDate();
-    let colorAsignado = coloresDelMes[diaMes] || "#0f172a";
-    document.body.style.backgroundColor = colorAsignado;
-    document.body.style.transition = "background-color 0.6s ease";
-}
-
-// ==========================================
-// 2. GESTIÓN DE POST-ITS (Amarillo, Azul y Naranja)
-// ==========================================
-let postits = JSON.parse(localStorage.getItem('perrito_postits')) || [
-    { texto: "NO ES UNA GUARDIA MÁS, ES UNA GUARDIA MENOS. TQM A TODOS<3", color: "yellow" },
-    { texto: "20 GUARDIAS MAS Y NO NOS VUELVEN A VER EN LA VIDA... <3", color: "blue" },
-    { texto: "UMF DEBERIA HACER GUARDIA EN URG, PORQUE SINO NO SIRVEN PARA NADA", color: "orange" }
-];
-
-function renderizarPostits() {
-    const board = document.getElementById('notesBoard');
-    if (!board) return;
-    board.innerHTML = '';
-    postits.forEach((nota, idx) => {
-        let txt = typeof nota === 'string' ? nota : nota.texto;
-        let col = typeof nota === 'string' ? 'yellow' : (nota.color || 'yellow');
-        
-        const p = document.createElement('div');
-        p.className = `postit ${col}`;
-        p.innerHTML = `
-            <span class="postit-del" onclick="eliminarPostit(${idx})">&times;</span>
-            <textarea onchange="actualizarPostit(${idx}, this.value)" placeholder="Escribe aquí...">${txt}</textarea>
-        `;
-        board.appendChild(p);
-    });
-}
-
-function agregarPostit() {
-    const colores = ['yellow', 'blue', 'orange'];
-    const colorActual = colores[postits.length % colores.length];
-    postits.push({ texto: "", color: colorActual });
-    localStorage.setItem('perrito_postits', JSON.stringify(postits));
-    renderizarPostits();
-}
-
-function actualizarPostit(idx, val) {
-    if (typeof postits[idx] === 'string') {
-        postits[idx] = { texto: val, color: 'yellow' };
-    } else {
-        postits[idx].texto = val;
-    }
-    localStorage.setItem('perrito_postits', JSON.stringify(postits));
-}
-
-function eliminarPostit(idx) {
-    postits.splice(idx, 1);
-    localStorage.setItem('perrito_postits', JSON.stringify(postits));
-    renderizarPostits();
-});
-<script>
-  function aplicarColorDinamicoPorDia() {
-    const paletasDelMes = {
-        1:  { bg: "#0f172a", primary: "#38bdf8", cardBg: "#1e293b", headerBg: "#090d16", text: "#f8fafc" },
-        2:  { bg: "#111827", primary: "#60a5fa", cardBg: "#1f2937", headerBg: "#0b0f19", text: "#f9fafb" },
-        3:  { bg: "#1d4ed8", primary: "#93c5fd", cardBg: "#1e40af", headerBg: "#172554", text: "#ffffff" }, // 🔵 Guardia A
-        4:  { bg: "#3b0764", primary: "#d8b4fe", cardBg: "#581c87", headerBg: "#2e1065", text: "#fdf4ff" },
-        5:  { bg: "#7c2d12", primary: "#fdba74", cardBg: "#9a3412", headerBg: "#431407", text: "#fff7ed" },
-        6:  { bg: "#065f46", primary: "#6ee7b7", cardBg: "#047857", headerBg: "#022c22", text: "#ecfdf5" },
-        7:  { bg: "#2563eb", primary: "#93c5fd", cardBg: "#1d4ed8", headerBg: "#1e3a8a", text: "#ffffff" }, // 🔵 Guardia A
-        8:  { bg: "#831843", primary: "#f472b6", cardBg: "#9d174d", headerBg: "#500724", text: "#fdf2f8" },
-        9:  { bg: "#14532d", primary: "#4ade80", cardBg: "#166534", headerBg: "#052e16", text: "#f0fdf4" },
-        10: { bg: "#581c87", primary: "#c084fc", cardBg: "#6b21a8", headerBg: "#3b0764", text: "#faf5ff" },
-        11: { bg: "#0284c7", primary: "#bae6fd", cardBg: "#0369a1", headerBg: "#034873", text: "#f0f9ff" }, // 🔵 Guardia A
-        12: { bg: "#701a75", primary: "#e879f9", cardBg: "#86198f", headerBg: "#4a044e", text: "#fdf4ff" },
-        13: { bg: "#091a28", primary: "#38bdf8", cardBg: "#132f4c", headerBg: "#05111b", text: "#f0f9ff" }, // 🌟 Hoy (Martes 13 - Azul elegante y distintivo)
-        14: { bg: "#6b21a8", primary: "#d8b4fe", cardBg: "#7e22ce", headerBg: "#581c87", text: "#faf5ff" },
-        15: { bg: "#1e40af", primary: "#93c5fd", cardBg: "#1d4ed8", headerBg: "#172554", text: "#ffffff" }, // 🔵 Guardia A (¡Próximo Jueves!)
-        16: { bg: "#9f1239", primary: "#fda4af", cardBg: "#be123c", headerBg: "#881337", text: "#fff1f2" },
-        17: { bg: "#042f2e", primary: "#5eead4", cardBg: "#115e59", headerBg: "#022c22", text: "#f0fdfa" },
-        18: { bg: "#451a03", primary: "#fed7aa", cardBg: "#78350f", headerBg: "#291303", text: "#fffbeb" },
-        19: { bg: "#3b82f6", primary: "#bfdbfe", cardBg: "#2563eb", headerBg: "#1e40af", text: "#ffffff" }, // 🔵 Guardia A
-        20: { bg: "#881337", primary: "#fca5a5", cardBg: "#9f1239", headerBg: "#500724", text: "#fff1f2" },
-        21: { bg: "#134e4a", primary: "#2dd4bf", cardBg: "#0f766e", headerBg: "#042f2e", text: "#f0fdfa" },
-        22: { bg: "#500724", primary: "#f472b6", cardBg: "#831843", headerBg: "#380418", text: "#fdf2f8" },
-        23: { bg: "#1d4ed8", primary: "#93c5fd", cardBg: "#1e40af", headerBg: "#172554", text: "#ffffff" }, // 🔵 Guardia A
-        24: { bg: "#14452f", primary: "#86efac", cardBg: "#166534", headerBg: "#052e16", text: "#f0fdf4" },
-        25: { bg: "#592507", primary: "#fdbcb4", cardBg: "#7c2d12", headerBg: "#431407", text: "#fff7ed" },
-        26: { bg: "#4a044e", primary: "#e879f9", cardBg: "#701a75", headerBg: "#3b0764", text: "#fdf4ff" },
-        27: { bg: "#2563eb", primary: "#93c5fd", cardBg: "#1d4ed8", headerBg: "#1e3a8a", text: "#ffffff" }, // 🔵 Guardia A
-        28: { bg: "#064e3b", primary: "#34d399", cardBg: "#065f46", headerBg: "#022c22", text: "#ecfdf5" },
-        29: { bg: "#0f766e", primary: "#5eead4", cardBg: "#115e59", headerBg: "#042f2e", text: "#f0fdfa" },
-        30: { bg: "#1e3a8a", primary: "#93c5fd", cardBg: "#1e40af", headerBg: "#172554", text: "#ffffff" },
-        31: { bg: "#0284c7", primary: "#bae6fd", cardBg: "#0369a1", headerBg: "#034873", text: "#f0f9ff" }  // 🔵 Guardia A
-    };
-
-    const fechaActual = new Date();
-    const diaMes = fechaActual.getDate();
-    const t = paletasDelMes[diaMes] || paletasDelMes[1];
-
-    document.body.style.backgroundColor = t.bg;
-    document.body.style.color = t.text;
-    document.body.style.transition = "background-color 0.6s ease";
-
-    let dynamicStyle = document.getElementById('dynamic-theme-style');
-    if (!dynamicStyle) {
-        dynamicStyle = document.createElement('style');
-        dynamicStyle.id = 'dynamic-theme-style';
-        document.head.appendChild(dynamicStyle);
-    }
-
-    // Estilos avanzados para unificar barras, títulos y rediseñar por completo el cuadro de la guardia de hoy
-dynamicStyle.innerHTML = `
-        header, .header, .banner-superior {
-            background-color: ${t.headerBg} !important;
-            border-color: ${t.primary} !important;
-        }
-        header h1, h1 {
-            color: ${t.primary} !important;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
-        }
-        .card, .user-card, .metric-card {
-            border-color: ${t.primary} !important;
-            background-color: ${t.cardBg} !important;
-        }
-        button:not(.btn-danger):not(.postit-btn) {
-            background-color: ${t.cardBg} !important;
-            border: 1px solid ${t.primary} !important;
-            color: #ffffff !important;
-        }
-/* 🌟 Nuevo formato moderno y directo para el cuadro de la Guardia de Hoy */
-        .guardia-badge {
-            background: linear-gradient(135deg, ${t.cardBg} 0%, ${t.headerBg} 100%) !important;
-            border: 2px solid ${t.primary} !important;
-            border-radius: 20px !important;
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.4) !important;
-            padding: 22px !important;
-            text-align: center;
-        }
-        .guardia-actual {
-            font-size: 2rem !important;
-            font-weight: 900 !important;
-            color: ${t.primary} !important;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        button:not(.btn-danger):not(.postit-btn) {
-            background-color: ${t.cardBg} !important;
-            border: 1px solid ${t.primary} !important;
-            color: #ffffff !important;
-        }
-    `;
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-    aplicarColorDinamicoPorDia();
-    if (typeof renderizarPostits === 'function') {
-        renderizarPostits();
-    }
-});
 </script>
 </head>
 <body id="app-body">
