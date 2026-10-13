@@ -1306,51 +1306,138 @@ const cuentasMedicos = {
 })();
 // ... aquí termina el código JavaScript que ya tenías ...
 
-   // ==========================================
-    // PALETAS DIARIAS CON TÍTULOS CENTRADOS Y POST-ITS CONSERVADOS
-    // ==========================================
-    (function aplicarPaletaDiariaCoordinada() {
-        const paletas = [
-            { bg: "linear-gradient(-45deg, #0f172a, #1e3a8a, #0284c7, #38bdf8)", cardBg: "#e0f2fe", border: "#7dd3fc", headerBg: "#0369a1", titleColor: "#ffffff", primary: "#0284c7" },
-            { bg: "linear-gradient(-45deg, #064e3b, #047857, #10b981, #6ee7b7)", cardBg: "#d1fae5", border: "#6ee7b7", headerBg: "#065f46", titleColor: "#ffffff", primary: "#047857" },
-            { bg: "linear-gradient(-45deg, #4c1d95, #7c3aed, #f43f5e, #fb923c)", cardBg: "#ffedd5", border: "#fdba74", headerBg: "#5b21b6", titleColor: "#ffffff", primary: "#7c3aed" },
-            { bg: "linear-gradient(-45deg, #831843, #be185d, #d946ef, #818cf8)", cardBg: "#fce7f3", border: "#f472b6", headerBg: "#9d174d", titleColor: "#ffffff", primary: "#be185d" },
-            { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #ef4444, #fca5a5)", cardBg: "#fee2e2", border: "#fca5a5", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#b91c1c" },
-            { bg: "linear-gradient(-45deg, #78350f, #d97706, #f59e0b, #fbbf24)", cardBg: "#fef3c7", border: "#fcd34d", headerBg: "#92400e", titleColor: "#ffffff", primary: "#d97706" },
-            { bg: "linear-gradient(-45deg, #0c4a6e, #0369a1, #06b6d4, #67e8f9)", cardBg: "#cffaff", border: "#67e8f9", headerBg: "#075985", titleColor: "#ffffff", primary: "#0284c7" },
-            { bg: "linear-gradient(-45deg, #581c87, #7e22ce, #ea580c, #facc15)", cardBg: "#f3e8ff", border: "#c084fc", headerBg: "#6b21a8", titleColor: "#facc15", primary: "#ea580c" },
-            { bg: "linear-gradient(-45deg, #14532d, #15803d, #22c55e, #86efac)", cardBg: "#dcfce7", border: "#86efac", headerBg: "#166534", titleColor: "#ffffff", primary: "#15803d" },
-            { bg: "linear-gradient(-45deg, #111827, #1f2937, #4b5563, #9ca3af)", cardBg: "#f3f4f6", border: "#d1d5db", headerBg: "#111827", titleColor: "#ffffff", primary: "#374151" }
-        ];
+// ========================================== //
+// PALETAS DIARIAS ÚNICAS (31 DÍAS) - AZULES PARA GUARDIA A Y COMBINADOS EL RESTO
+// ========================================== //
+(function aplicarPaletaDiariaCoordinada() {
+    const paletas = [
+        // Día 1
+        { bg: "linear-gradient(-45deg, #0f172a, #1e3a8a, #0284c7, #38bdf8)", cardBg: "#e0f2fe", border: "#7dd3fc", headerBg: "#0369a1", titleColor: "#ffffff", primary: "#0284c7" },
+        // Día 2
+        { bg: "linear-gradient(-45deg, #4c1d95, #7c3aed, #f43f5e, #fb923c)", cardBg: "#ffedd5", border: "#fdba74", headerBg: "#5b21b6", titleColor: "#ffffff", primary: "#7c3aed" },
+        // Día 3 (🔵 Guardia A - Azul)
+        { bg: "linear-gradient(-45deg, #1e3a8a, #2563eb, #60a5fa, #93c5fd)", cardBg: "#dbeafe", border: "#93c5fd", headerBg: "#1d4ed8", titleColor: "#ffffff", primary: "#2563eb" },
+        // Día 4
+        { bg: "linear-gradient(-45deg, #064e3b, #047857, #10b981, #6ee7b7)", cardBg: "#d1fae5", border: "#6ee7b7", headerBg: "#065f46", titleColor: "#ffffff", primary: "#047857" },
+        // Día 5
+        { bg: "linear-gradient(-45deg, #78350f, #d97706, #f59e0b, #fbbf24)", cardBg: "#fef3c7", border: "#fcd34d", headerBg: "#92400e", titleColor: "#ffffff", primary: "#d97706" },
+        // Día 6
+        { bg: "linear-gradient(-45deg, #831843, #be185d, #d946ef, #818cf8)", cardBg: "#fce7f3", border: "#f472b6", headerBg: "#9d174d", titleColor: "#ffffff", primary: "#be185d" },
+        // Día 7 (🔵 Guardia A - Azul)
+        { bg: "linear-gradient(-45deg, #0f172a, #0284c7, #38bdf8, #7dd3fc)", cardBg: "#e0f2fe", border: "#38bdf8", headerBg: "#0369a1", titleColor: "#ffffff", primary: "#0284c7" },
+        // Día 8
+        { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #ef4444, #fca5a5)", cardBg: "#fee2e2", border: "#fca5a5", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#b91c1c" },
+        // Día 9
+        { bg: "linear-gradient(-45deg, #581c87, #7e22ce, #ea580c, #facc15)", cardBg: "#f3e8ff", border: "#c084fc", headerBg: "#6b21a8", titleColor: "#facc15", primary: "#ea580c" },
+        // Día 10
+        { bg: "linear-gradient(-45deg, #14532d, #15803d, #22c55e, #86efac)", cardBg: "#dcfce7", border: "#86efac", headerBg: "#166534", titleColor: "#ffffff", primary: "#15803d" },
+        // Día 11 (🔵 Guardia A - Azul)
+        { bg: "linear-gradient(-45deg, #172554, #1e40af, #3b82f6, #93c5fd)", cardBg: "#e0f2fe", border: "#60a5fa", headerBg: "#1e40af", titleColor: "#ffffff", primary: "#2563eb" },
+        // Día 12
+        { bg: "linear-gradient(-45deg, #311042, #581c87, #c084fc, #f472b6)", cardBg: "#f3e8ff", border: "#e879f9", headerBg: "#6b21a8", titleColor: "#ffffff", primary: "#a855f7" },
+        // Día 13 (HOY - Combinación atractiva estilo Naranja/Morado)
+        { bg: "linear-gradient(-45deg, #4c1d95, #7c3aed, #ea580c, #f97316)", cardBg: "#ffedd5", border: "#fdba74", headerBg: "#5b21b6", titleColor: "#facc15", primary: "#ea580c" },
+        // Día 14
+        { bg: "linear-gradient(-45deg, #022c22, #065f46, #14b8a6, #5eead4)", cardBg: "#ccfbf1", border: "#5eead4", headerBg: "#0f766e", titleColor: "#ffffff", primary: "#0d9488" },
+        // Día 15 (🔵 Guardia A - Jueves / Azul profundo)
+        { bg: "linear-gradient(-45deg, #0f172a, #1d4ed8, #2563eb, #60a5fa)", cardBg: "#dbeafe", border: "#93c5fd", headerBg: "#1e40af", titleColor: "#ffffff", primary: "#1d4ed8" },
+        // Día 16
+        { bg: "linear-gradient(-45deg, #451a03, #9a3412, #ea580c, #fdba74)", cardBg: "#ffedd5", border: "#fdba74", headerBg: "#c2410c", titleColor: "#ffffff", primary: "#ea580c" },
+        // Día 17
+        { bg: "linear-gradient(-45deg, #500724, #881337, #e11d48, #fda4af)", cardBg: "#ffe4e6", border: "#fda4af", headerBg: "#be123c", titleColor: "#ffffff", primary: "#e11d48" },
+        // Día 18
+        { bg: "linear-gradient(-45deg, #042f2e, #115e59, #0d9488, #2dd4bf)", cardBg: "#ccfbf1", border: "#2dd4bf", headerBg: "#0f766e", titleColor: "#ffffff", primary: "#0d9488" },
+        // Día 19 (🔵 Guardia A - Azul)
+        { bg: "linear-gradient(-45deg, #1e3a8a, #0284c7, #0ea5e9, #38bdf8)", cardBg: "#e0f2fe", border: "#7dd3fc", headerBg: "#0369a1", titleColor: "#ffffff", primary: "#0284c7" },
+        // Día 20
+        { bg: "linear-gradient(-45deg, #3b0764, #6b21a8, #a855f7, #e879f9)", cardBg: "#f3e8ff", border: "#d8b4fe", headerBg: "#7e22ce", titleColor: "#ffffff", primary: "#9333ea" },
+        // Día 21
+        { bg: "linear-gradient(-45deg, #14532d, #166534, #16a34a, #4ade80)", cardBg: "#dcfce7", border: "#86efac", headerBg: "#15803d", titleColor: "#ffffff", primary: "#16a34a" },
+        // Día 22
+        { bg: "linear-gradient(-45deg, #7c2d12, #c2410c, #f97316, #fed7aa)", cardBg: "#ffedd5", border: "#fdba74", headerBg: "#ea580c", titleColor: "#ffffff", primary: "#f97316" },
+        // Día 23 (🔵 Guardia A - Azul)
+        { bg: "linear-gradient(-45deg, #0f172a, #1e40af, #2563eb, #60a5fa)", cardBg: "#dbeafe", border: "#93c5fd", headerBg: "#1d4ed8", titleColor: "#ffffff", primary: "#2563eb" },
+        // Día 24
+        { bg: "linear-gradient(-45deg, #831843, #9d174d, ec4899, #f472b6)", cardBg: "#fce7f3", border: "#f472b6", headerBg: "#be185d", titleColor: "#ffffff", primary: "#db2777" },
+        // Día 25
+        { bg: "linear-gradient(-45deg, #111827, #374151, #4b5563, #9ca3af)", cardBg: "#f3f4f6", border: "#d1d5db", headerBg: "#1f2937", titleColor: "#ffffff", primary: "#4b5563" },
+        // Día 26
+        { bg: "linear-gradient(-45deg, #365314, #4d7c0f, #65a30d, #bef264)", cardBg: "#ecfccb", border: "#bef264", headerBg: "#3f6212", titleColor: "#ffffff", primary: "#65a30d" },
+        // Día 27 (🔵 Guardia A - Azul)
+        { bg: "linear-gradient(-45deg, #0c4a6e, #0369a1, #0284c7, #38bdf8)", cardBg: "#e0f2fe", border: "#7dd3fc", headerBg: "#0284c7", titleColor: "#ffffff", primary: "#0284c7" },
+        // Día 28
+        { bg: "linear-gradient(-45deg, #4a044e, #701a75, #a21caf, #e879f9)", cardBg: "#fce7f3", border: "#f472b6", headerBg: "#86198f", titleColor: "#ffffff", primary: "#c026d3" },
+        // Día 29
+        { bg: "linear-gradient(-45deg, #1a2e05, #3f6212, #65a30d, #a3e635)", cardBg: "#ecfccb", border: "#bef264", headerBg: "#365314", titleColor: "#ffffff", primary: "#4d7c0f" },
+        // Día 30
+        { bg: "linear-gradient(-45deg, #2e1065, #5b21b6, #7c3aed, #c084fc)", cardBg: "#f3e8ff", border: "#d8b4fe", headerBg: "#6d28d9", titleColor: "#ffffff", primary: "#7c3aed" },
+        // Día 31 (🔵 Guardia A - Azul)
+        { bg: "linear-gradient(-45deg, #0f172a, #1e3a8a, #1d4ed8, #3b82f6)", cardBg: "#dbeafe", border: "#93c5fd", headerBg: "#1e40af", titleColor: "#ffffff", primary: "#2563eb" }
+    ];
 
-        // Calcular día del año (1-366)
-        const ahora = new Date();
-        const inicioAno = new Date(ahora.getFullYear(), 0, 0);
-        const dif = ahora - inicioAno;
-        const unDia = 1000 * 60 * 60 * 24;
-        const diaDelAno = Math.floor(dif / unDia);
+    // Obtener el día actual del mes (1 al 31) para que cambie de manera exacta cada día
+    const ahora = new Date();
+    const diaDelMes = ahora.getDate(); // Del 1 al 31
+    const p = paletas[(diaDelMes - 1) % paletas.length];
 
-        const p = paletas[diaDelAno % paletas.length];
-
-        const style = document.createElement('style');
-        style.innerHTML = `
-            /* Fondo Animado Continuo */
-            body {
-                background: ${p.bg} !important;
-                background-size: 400% 400% !important;
-                animation: gradientBG 12s ease infinite !important;
-            }
-
-            /* Header Principal */
-            header {
-                background-color: ${p.headerBg} !important;
-                border: 2px solid ${p.border} !important;
-                box-shadow: 0 8px 25px rgba(0,0,0,0.25) !important;
-            }
-            header h1 {
-                color: ${p.titleColor} !important;
-                text-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
-            }
+    const style = document.createElement('style');
+    style.innerHTML = `
+        /* Fondo Animado Continuo */
+        body {
+            background: ${p.bg} !important;
+            background-size: 400% 400% !important;
+            animation: gradientBG 12s ease infinite !important;
+        }
+        /* Header Principal */
+        header {
+            background-color: ${p.headerBg} !important;
+            border: 2px solid ${p.border} !important;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25) !important;
+        }
+        header h1 {
+            color: ${p.titleColor} !important;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+        }
+        /* Recuadros / Tarjetas Blancas coordinadas */
+        .card, .user-card, .metric-card {
+            background-color: ${p.cardBg} !important;
+            border: 2px solid ${p.border} !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
+        }
+        /* CENTRAR TÍTULOS DE CADA RECUADRO */
+        .card-title {
+            color: ${p.primary} !important;
+            text-align: center !important;
+            justify-content: center !important;
+            display: flex !important;
+            width: 100% !important;
+            font-size: 1.15rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.5px !important;
+        }
+        /* Botones principales */
+        button:not(.btn-danger):not(.postit-btn) {
+            background-color: ${p.primary} !important;
+            color: #FFFFFF !important;
+        }
+        /* CONSERVAR ESTILOS TRADICIONALES DE LOS POST-ITS */
+        .postit, .post-it, div[class*="postit"] {
+            background-color: #FEF08A !important;
+            border: 1px solid #FDE047 !important;
+            color: #713F12 !important;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.15) !important;
+        }
+        .postit.blue, .post-it.blue, div[class*="postit-blue"] {
+            background-color: #BAE6FD !important;
+            border: 1px solid #7DD3FC !important;
+            color: #0C4A6E !important;
+        }
+        .postit .card-title, .post-it .card-title {
+            color: inherit !important;
+        }
+    `;
+    document.head.appendChild(style);
+})();
 
             /* Recuadros / Tarjetas Blancas coordinadas */
             .card, .user-card, .metric-card {
