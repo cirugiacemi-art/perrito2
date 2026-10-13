@@ -352,115 +352,7 @@
       color: #A16207;
     }
   </style>
- <script>
-// ==========================================
-// 1. SCRIPT DE COLORES DIARIOS CON TONOS AZULES Y 31 DÍAS
-// ==========================================
-const dynamicStyle = document.createElement('style');
-    document.head.appendChild(dynamicStyle);
-
-    function aplicarColorDinamicoPorDia() {
-        const hoy = new Date();
-        const mes = hoy.getMonth(); 
-        const dia = hoy.getDate();  
-
-        // 31 Paletas de tonos azules elegantes que combinan con el fondo y la interfaz
-        const paletasMes = [
-            { headerBg: '#05111b', primary: '#38bdf8', cardBg: '#132f4c', text: '#f0f9ff' },
-            { headerBg: '#081b29', primary: '#0ea5e9', cardBg: '#0f2744', text: '#e0f2fe' },
-            { headerBg: '#020e18', primary: '#7dd3fc', cardBg: '#102a43', text: '#f0f9ff' },
-            { headerBg: '#031926', primary: '#38bdf8', cardBg: '#13315c', text: '#bae6fd' },
-            { headerBg: '#061a2b', primary: '#0284c7', cardBg: '#0c2340', text: '#e0f2fe' },
-            { headerBg: '#04101a', primary: '#60a5fa', cardBg: '#1d4ed8', text: '#ffffff' },
-            { headerBg: '#0a192f', primary: '#38bdf8', cardBg: '#172554', text: '#f8fafc' },
-            { headerBg: '#071321', primary: '#2563eb', cardBg: '#1e3a8a', text: '#eff6ff' },
-            { headerBg: '#0b1d33', primary: '#0ea5e9', cardBg: '#0f172a', text: '#f0f9ff' },
-            { headerBg: '#010d18', primary: '#38bdf8', cardBg: '#132f4c', text: '#e0f2fe' },
-            { headerBg: '#051422', primary: '#7dd3fc', cardBg: '#1e293b', text: '#f0f9ff' },
-            { headerBg: '#091c30', primary: '#0284c7', cardBg: '#0f2744', text: '#bae6fd' },
-            { headerBg: '#030c14', primary: '#38bdf8', cardBg: '#1d4ed8', text: '#ffffff' },
-            { headerBg: '#061726', primary: '#60a5fa', cardBg: '#172554', text: '#f0f9ff' },
-            /* Variante especial para Guardia A (Jueves 15 y rotativos) */
-            { headerBg: '#0f172a', primary: '#3b82f6', cardBg: '#1e40af', text: '#ffffff' },
-            { headerBg: '#020b14', primary: '#38bdf8', cardBg: '#13315c', text: '#e0f2fe' },
-            { headerBg: '#071829', primary: '#0ea5e9', cardBg: '#102a43', text: '#f0f9ff' },
-            { headerBg: '#04121d', primary: '#7dd3fc', cardBg: '#0f2744', text: '#bae6fd' },
-            { headerBg: '#081a2b', primary: '#2563eb', cardBg: '#1e3a8a', text: '#f0f9ff' },
-            { headerBg: '#03101c', primary: '#38bdf8', cardBg: '#132f4c', text: '#e0f2fe' },
-            { headerBg: '#0a223a', primary: '#60a5fa', cardBg: '#1d4ed8', text: '#ffffff' },
-            { headerBg: '#051320', primary: '#0284c7', cardBg: '#172554', text: '#f0f9ff' },
-            { headerBg: '#010912', primary: '#38bdf8', cardBg: '#0f172a', text: '#f0f9ff' },
-            { headerBg: '#061625', primary: '#7dd3fc', cardBg: '#1e293b', text: '#e0f2fe' },
-            { headerBg: '#091d31', primary: '#0ea5e9', cardBg: '#102a43', text: '#f0f9ff' },
-            { headerBg: '#020d17', primary: '#38bdf8', cardBg: '#132f4c', text: '#bae6fd' },
-            { headerBg: '#041422', primary: '#60a5fa', cardBg: '#1e40af', text: '#ffffff' },
-            { headerBg: '#07192a', primary: '#0284c7', cardBg: '#172554', text: '#f0f9ff' },
-            { headerBg: '#030f1a', primary: '#38bdf8', cardBg: '#13315c', text: '#e0f2fe' },
-            { headerBg: '#081b2d', primary: '#7dd3fc', cardBg: '#0f2744', text: '#f0f9ff' },
-            { headerBg: '#05111b', primary: '#38bdf8', cardBg: '#132f4c', text: '#f0f9ff' }
-        ];
-
-        const t = paletasMes[(dia - 1) % paletasMes.length];
-
-        // Sincronización total de elementos: fondo, tarjetas, cuadros, líneas, botones y letras
-        document.body.style.color = t.text;
-        
-        dynamicStyle.innerHTML = `
-            /* Cuadro principal del título (PERRITO 2) */
-            header {
-                background-color: ${t.headerBg} !important;
-                border: 2px solid ${t.primary} !important;
-            }
-            header h1 {
-                color: ${t.primary} !important;
-                text-shadow: 0 2px 10px rgba(0,0,0,0.4);
-            }
-
-            /* Tarjetas, contenedores y cuadros generales */
-            .card, .user-list, .metric-card, .calendar-day {
-                background-color: ${t.cardBg} !important;
-                border-color: ${t.primary} !important;
-                color: ${t.text} !important;
-            }
-            .card-title, .calendar-header {
-                color: ${t.primary} !important;
-                border-bottom-color: rgba(56, 189, 248, 0.3) !important;
-            }
-
-            /* Cuadro moderno y elegante de la Guardia de Hoy (Con variantes especiales para Guardia A) */
-            .guardia-badge {
-                background: linear-gradient(135deg, ${t.cardBg} 0%, ${t.headerBg} 100%) !important;
-                border: 2px solid ${t.primary} !important;
-                border-radius: 20px !important;
-                box-shadow: 0 0 25px rgba(56, 189, 248, 0.4) !important;
-                padding: 22px !important;
-                text-align: center;
-            }
-            .guardia-actual {
-                font-size: 2rem !important;
-                font-weight: 900 !important;
-                color: ${t.primary} !important;
-                text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            }
-
-            /* Líneas divisorias, inputs y campos de texto */
-            input[type="text"], input[type="password"], input[type="date"], select, textarea {
-                border-color: ${t.primary} !important;
-                background-color: ${t.headerBg} !important;
-                color: ${t.text} !important;
-            }
-
-            /* Botones unificados */
-            button:not(.btn-danger):not(.postit-btn) {
-                background-color: ${t.cardBg} !important;
-                border: 1px solid ${t.primary} !important;
-                color: #ffffff !important;
-            }
-        `;
-    }
-    aplicarColorDinamicoPorDia();
-</script>
-
+</head>
 <body id="app-body">
 
 <header>
@@ -1367,79 +1259,95 @@ const cuentasMedicos = {
 })();
 // ... aquí termina el código JavaScript que ya tenías ...
 
-// ==========================================
-// PALETA COMBINADA DIARIA Y ESTILOS VISUALES
-// ==========================================
-const paletas = [
-    { bg: "linear-gradient(135deg, #0f172a, #1e3a8a, #0284c7)", headerBg: "rgba(15, 23, 42, 0.85)", titleColor: "#38bdf8", cardBg: "rgba(255, 255, 255, 0.95)", border: "#38bdf8", primary: "#0284c7" },
-    { bg: "linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5)", headerBg: "rgba(30, 27, 75, 0.85)", titleColor: "#818cf8", cardBg: "rgba(255, 255, 255, 0.95)", border: "#818cf8", primary: "#4f46e5" },
-    { bg: "linear-gradient(135deg, #064e3b, #065f46, #059669)", headerBg: "rgba(6, 78, 59, 0.85)", titleColor: "#34d399", cardBg: "rgba(255, 255, 255, 0.95)", border: "#34d399", primary: "#059669" },
-    { bg: "linear-gradient(135deg, #581c87, #6b21a8, #9333ea)", headerBg: "rgba(88, 28, 135, 0.85)", titleColor: "#c084fc", cardBg: "rgba(255, 255, 255, 0.95)", border: "#c084fc", primary: "#9333ea" },
-    { bg: "linear-gradient(135deg, #701a75, #86198f, #c026d3)", headerBg: "rgba(112, 26, 117, 0.85)", titleColor: "#f472b6", cardBg: "rgba(255, 255, 255, 0.95)", border: "#f472b6", primary: "#c026d3" },
-    { bg: "linear-gradient(135deg, #7f1d1d, #991b1b, #dc2626)", headerBg: "rgba(127, 29, 29, 0.85)", titleColor: "#f87171", cardBg: "rgba(255, 255, 255, 0.95)", border: "#f87171", primary: "#dc2626" },
-    { bg: "linear-gradient(135deg, #14532d, #166534, #22c55e)", headerBg: "rgba(20, 83, 45, 0.85)", titleColor: "#4ade80", cardBg: "rgba(255, 255, 255, 0.95)", border: "#4ade80", primary: "#166534" },
-    { bg: "linear-gradient(135deg, #0c4a6e, #0369a1, #0ea5e9)", headerBg: "rgba(12, 74, 110, 0.85)", titleColor: "#38bdf8", cardBg: "rgba(255, 255, 255, 0.95)", border: "#0ea5e9", primary: "#0284c7" },
-    { bg: "linear-gradient(135deg, #311042, #4a1d6e, #7c3aed)", headerBg: "rgba(49, 16, 66, 0.85)", titleColor: "#a78bfa", cardBg: "rgba(255, 255, 255, 0.95)", border: "#a78bfa", primary: "#7c3aed" },
-    { bg: "linear-gradient(135deg, #1e293b, #334155, #64748b)", headerBg: "rgba(30, 41, 59, 0.85)", titleColor: "#cbd5e1", cardBg: "rgba(255, 255, 255, 0.95)", border: "#94a3b8", primary: "#475569" }
-];
+   // ==========================================
+    // PALETAS DIARIAS CON TÍTULOS CENTRADOS Y POST-ITS CONSERVADOS
+    // ==========================================
+    (function aplicarPaletaDiariaCoordinada() {
+        const paletas = [
+            { bg: "linear-gradient(-45deg, #0f172a, #1e3a8a, #0284c7, #38bdf8)", cardBg: "#e0f2fe", border: "#7dd3fc", headerBg: "#0369a1", titleColor: "#ffffff", primary: "#0284c7" },
+            { bg: "linear-gradient(-45deg, #064e3b, #047857, #10b981, #6ee7b7)", cardBg: "#d1fae5", border: "#6ee7b7", headerBg: "#065f46", titleColor: "#ffffff", primary: "#047857" },
+            { bg: "linear-gradient(-45deg, #4c1d95, #7c3aed, #f43f5e, #fb923c)", cardBg: "#ffedd5", border: "#fdba74", headerBg: "#5b21b6", titleColor: "#ffffff", primary: "#7c3aed" },
+            { bg: "linear-gradient(-45deg, #831843, #be185d, #d946ef, #818cf8)", cardBg: "#fce7f3", border: "#f472b6", headerBg: "#9d174d", titleColor: "#ffffff", primary: "#be185d" },
+            { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #ef4444, #fca5a5)", cardBg: "#fee2e2", border: "#fca5a5", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#b91c1c" },
+            { bg: "linear-gradient(-45deg, #78350f, #d97706, #f59e0b, #fbbf24)", cardBg: "#fef3c7", border: "#fcd34d", headerBg: "#92400e", titleColor: "#ffffff", primary: "#d97706" },
+            { bg: "linear-gradient(-45deg, #0c4a6e, #0369a1, #06b6d4, #67e8f9)", cardBg: "#cffaff", border: "#67e8f9", headerBg: "#075985", titleColor: "#ffffff", primary: "#0284c7" },
+            { bg: "linear-gradient(-45deg, #581c87, #7e22ce, #ea580c, #facc15)", cardBg: "#f3e8ff", border: "#c084fc", headerBg: "#6b21a8", titleColor: "#facc15", primary: "#ea580c" },
+            { bg: "linear-gradient(-45deg, #14532d, #15803d, #22c55e, #86efac)", cardBg: "#dcfce7", border: "#86efac", headerBg: "#166534", titleColor: "#ffffff", primary: "#15803d" },
+            { bg: "linear-gradient(-45deg, #111827, #1f2937, #4b5563, #9ca3af)", cardBg: "#f3f4f6", border: "#d1d5db", headerBg: "#111827", titleColor: "#ffffff", primary: "#374151" }
+        ];
 
-const ahora = new Date();
-const diaDelMes = ahora.getDate(); 
-const p = paletas[(diaDelMes - 1) % paletas.length];
+        // Calcular día del año (1-366)
+        const ahora = new Date();
+        const inicioAno = new Date(ahora.getFullYear(), 0, 0);
+        const dif = ahora - inicioAno;
+        const unDia = 1000 * 60 * 60 * 24;
+        const diaDelAno = Math.floor(dif / unDia);
 
-const style = document.createElement('style');
-style.innerHTML = `
-    /* Fondo Animado Continuo */
-    body {
-        background: ${p.bg} !important;
-        background-size: 400% 400% !important;
-        animation: gradientBG 12s ease infinite !important;
-    }
-    @keyframes gradientBG {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-    /* Header Principal */
-    header {
-        background-color: ${p.headerBg} !important;
-        border: 2px solid ${p.border} !important;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.25) !important;
-    }
-    header h1 {
-        color: ${p.titleColor} !important;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
-    }
-    /* Recuadros / Tarjetas Blancas coordinadas */
-    .card, .user-card, .metric-card {
-        background-color: ${p.cardBg} !important;
-        border: 2px solid ${p.border} !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
-    }
-    /* CENTRAR TÍTULOS DE CADA RECUADRO */
-    .card-title {
-        color: ${p.primary} !important;
-        text-align: center !important;
-        justify-content: center !important;
-        display: flex !important;
-        width: 100% !important;
-        font-size: 1.15rem !important;
-        font-weight: 800 !important;
-        letter-spacing: 0.5px !important;
-    }
-    /* Botones principales */
-    button:not(.btn-danger):not(.postit-btn) {
-        background-color: ${p.primary} !important;
-        color: #FFFFFF !important;
-    }
-    /* Tonos azules específicos y elegantes para Guardias A y métricas */
-    .guardia-a-badge, [class*="guardia-a"] {
-        background-color: #0284c7 !important;
-        color: #ffffff !important;
-        border-color: #0369a1 !important;
-    }
-`;
-document.head.appendChild(style);
+        const p = paletas[diaDelAno % paletas.length];
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            /* Fondo Animado Continuo */
+            body {
+                background: ${p.bg} !important;
+                background-size: 400% 400% !important;
+                animation: gradientBG 12s ease infinite !important;
+            }
+
+            /* Header Principal */
+            header {
+                background-color: ${p.headerBg} !important;
+                border: 2px solid ${p.border} !important;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.25) !important;
+            }
+            header h1 {
+                color: ${p.titleColor} !important;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+            }
+
+            /* Recuadros / Tarjetas Blancas coordinadas */
+            .card, .user-card, .metric-card {
+                background-color: ${p.cardBg} !important;
+                border: 2px solid ${p.border} !important;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
+            }
+
+            /* CENTRAR TÍTULOS DE CADA RECUADRO */
+            .card-title {
+                color: ${p.primary} !important;
+                text-align: center !important;
+                justify-content: center !important;
+                display: flex !important;
+                width: 100% !important;
+                font-size: 1.15rem !important;
+                font-weight: 800 !important;
+                letter-spacing: 0.5px !important;
+            }
+
+            /* Botones principales */
+            button:not(.btn-danger):not(.postit-btn) {
+                background-color: ${p.primary} !important;
+                color: #FFFFFF !important;
+            }
+
+            /* CONSERVAR ESTILOS TRADICIONALES DE LOS POST-ITS (Amarillos y Azules) */
+            .postit, .post-it, div[class*="postit"] {
+                background-color: #FEF08A !important; /* Amarillo Nota */
+                border: 1px solid #FDE047 !important;
+                color: #713F12 !important;
+                box-shadow: 3px 3px 10px rgba(0,0,0,0.15) !important;
+            }
+            .postit.blue, .post-it.blue, div[class*="postit-blue"] {
+                background-color: #BAE6FD !important; /* Azul Nota */
+                border: 1px solid #7DD3FC !important;
+                color: #0C4A6E !important;
+            }
+            .postit .card-title, .post-it .card-title {
+                color: inherit !important;
+            }
+        `;
+        document.head.appendChild(style);
+    })();
   // ==========================================
     // NOTAS (POST-ITS) CON BOTÓN DE GUARDADO EN LA NUBE
     // ==========================================
