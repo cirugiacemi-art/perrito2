@@ -430,32 +430,6 @@
       </div>
         </div>
     </div>
-
-  <!-- TARJETA: Cuenta Regresiva 2027 -->
-            <div class="card" style="text-align: center;">
-                <div class="card-title"><span>⏳ Cuenta Regresiva 2027</span></div>
-                <p style="font-size:0.75rem; color:#64748B; margin-bottom:8px;">Tiempo restante para el 1 de Enero de 2027:</p>
-                <div id="cuentaRegresiva" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 6px;">
-                    <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
-                        <strong id="diasFaltantes" style="display: block; font-size: 1.1rem; color: var(--primary);">00</strong>
-                        <span style="font-size: 0.65rem; color: #64748B;">Días</span>
-                    </div>
-                    <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
-                        <strong id="horasFaltantes" style="display: block; font-size: 1.1rem; color: var(--primary);">00</strong>
-                        <span style="font-size: 0.65rem; color: #64748B;">Hrs</span>
-                    </div>
-                    <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
-                        <strong id="minFaltantes" style="display: block; font-size: 1.1rem; color: var(--primary);">00</strong>
-                        <span style="font-size: 0.65rem; color: #64748B;">Min</span>
-                    </div>
-                    <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
-                        <strong id="segFaltantes" style="display: block; font-size: 1.1rem; color: var(--primary);">00</strong>
-                        <span style="font-size: 0.65rem; color: #64748B;">Seg</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
   
   <!-- COLUMNA 2: Guardiómetro y Calendario -->
   <div class="column">
@@ -1527,33 +1501,6 @@ const cuentasMedicos = {
   }
 
   targetTimer = setInterval(moverTarget, targetVelocidad);
-
-<script>
-        function actualizarCuentaRegresiva() {
-            const fechaDestino = new Date('2027-01-01T00:00:00').getTime();
-            const ahora = new Date().getTime();
-            const diferencia = fechaDestino - ahora;
-
-            if (diferencia > 0) {
-                const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-                const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-                const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
-
-                const elDias = document.getElementById('diasFaltantes');
-                const elHoras = document.getElementById('horasFaltantes');
-                const elMin = document.getElementById('minFaltantes');
-                const elSeg = document.getElementById('segFaltantes');
-
-                if (elDias) elDias.innerText = String(dias).padStart(2, '0');
-                if (elHoras) elHoras.innerText = String(horas).padStart(2, '0');
-                if (elMin) elMin.innerText = String(minutos).padStart(2, '0');
-                if (elSeg) elSeg.innerText = String(segundos).padStart(2, '0');
-            }
-        }
-
-        setInterval(actualizarCuentaRegresiva, 1000);
-        actualizarCuentaRegresiva();
-    </script>
+</script>
 </body>
 </html>
