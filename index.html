@@ -430,6 +430,37 @@
       </div>
         </div>
     </div>
+
+  <!-- ========================================== -->
+    <!-- NUEVO: TARJETA DE CUENTA REGRESIVA 2027     -->
+    <!-- ========================================== -->
+    <div class="card" style="text-align: center;">
+        <div class="card-title"><span>⏳ Cuenta Regresiva 2027</span></div>
+        <p style="font-size:0.75rem; color:#64748B; margin-bottom:12px;">Tiempo restante para el 1 de Enero de 2027:</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px;">
+            <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
+                <strong id="cdDays" style="display: block; font-size: 1.2rem; color: var(--primary);">00</strong>
+                <span style="font-size: 0.65rem; color: #64748B;">Días</span>
+            </div>
+            <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
+                <strong id="cdHours" style="display: block; font-size: 1.2rem; color: var(--primary);">00</strong>
+                <span style="font-size: 0.65rem; color: #64748B;">Hrs</span>
+            </div>
+            <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
+                <strong id="cdMinutes" style="display: block; font-size: 1.2rem; color: var(--primary);">00</strong>
+                <span style="font-size: 0.65rem; color: #64748B;">Min</span>
+            </div>
+            <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
+                <strong id="cdSeconds" style="display: block; font-size: 1.2rem; color: var(--primary);">00</strong>
+                <span style="font-size: 0.65rem; color: #64748B;">Seg</span>
+            </div>
+        </div>
+        <small style="font-size: 0.7rem; color: var(--primary); font-weight: 600;">¡A darle con todo al internado! 🩺🐶</small>
+    </div>
+    <!-- ========================================== -->
+
+</div> <!-- Cierra la Columna 1 -->
   
   <!-- COLUMNA 2: Guardiómetro y Calendario -->
   <div class="column">
@@ -1502,5 +1533,38 @@ const cuentasMedicos = {
 
   targetTimer = setInterval(moverTarget, targetVelocidad);
 </script>
+
+    <!-- ========================================== -->
+    <!-- SCRIPT DE LA CUENTA REGRESIVA AL 2027      -->
+    <!-- ========================================== -->
+    <script>
+    function actualizarCuentaRegresiva() {
+        const fechaDestino = new Date('January 1, 2027 00:00:00').getTime();
+        const ahora = new Date().getTime();
+        const diferencia = fechaDestino - ahora;
+
+        if (diferencia < 0) {
+            document.getElementById('cdDays').innerText = "00";
+            document.getElementById('cdHours').innerText = "00";
+            document.getElementById('cdMinutes').innerText = "00";
+            document.getElementById('cdSeconds').innerText = "00";
+            return;
+        }
+
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((diferencia % (1000 * 60 * 60 * 60)) / (1000 * 60));
+        const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+        document.getElementById('cdDays').innerText = String(dias).padStart(2, '0');
+        document.getElementById('cdHours').innerText = String(horas).padStart(2, '0');
+        document.getElementById('cdMinutes').innerText = String(minutos).padStart(2, '0');
+        document.getElementById('cdSeconds').innerText = String(segundos).padStart(2, '0');
+    }
+
+    // Inicializar el reloj de inmediato y actualizar cada segundo
+    actualizarCuentaRegresiva();
+    setInterval(actualizarCuentaRegresiva, 1000);
+    </script>
 </body>
 </html>
