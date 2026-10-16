@@ -1559,8 +1559,9 @@ const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
     document.getElementById('cdSeconds').innerText = String(segundos).padStart(2, '0');
 }
 
-// Inicializar el reloj de inmediato y actualizar cada segundo
-actualizarCuentaRegresiva();
-    </script>
+// Inicializar el reloj de inmediato y actualizar cada segundo de forma automática
+    actualizarCuentaRegresiva();
+    setInterval(actualizarCuentaRegresiva, 1000);
+  </script>
 </body>
 </html>
