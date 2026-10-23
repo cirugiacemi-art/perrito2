@@ -991,6 +991,10 @@ function procesarLaboratorios() {
     texto = texto.replace(/\/(?:campo|c)\b/gi, '');
     texto = texto.replace(/\bN\/A\b/gi, '');
 
+  // Limpieza de puntos suspensivos y espacios de más del formato PDF nuevo
+    texto = texto.replace(/\.{2,}/g, ' ');
+    texto = texto.replace(/\s+/g, ' ');
+
     const diccParams = [
         // Biometría Hemática (BH)
         { clave: 'ERI', regex: /\b(?:eritrocitos|glóbulos\s*rojos|rbc)\b\D*(\d+\.\d+)/i },
