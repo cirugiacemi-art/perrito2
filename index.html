@@ -1640,33 +1640,59 @@ const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
   </script>
 
 <script>
-function seleccionarDestino(btn, servicio) {
-    const contenedor = btn.parentElement;
-    const botones = contenedor.querySelectorAll('button');
-    
-    // Apagamos y opacamos ambos primero
-    botones.forEach(b => {
-        b.style.backgroundColor = "#cbd5e1";
-        b.style.color = "#94a3b8";
-        b.style.fontWeight = "400";
-        b.style.opacity = "0.5";
-    });
-    
-    // Encendemos con fuerza el que se seleccionó
-    btn.style.opacity = "1";
-    if(servicio === 'MI') {
-        btn.style.backgroundColor = "#7e22ce";
-        btn.style.color = "white";
-        btn.style.fontWeight = "750";
-    } else {
-        btn.style.backgroundColor = "#2563eb";
-        btn.style.color = "white";
-        btn.style.fontWeight = "750";
+// --- SINCRONIZACIÓN Y LÓGICA DE PASES A PISO EN LA NUBE ---
+let pasesGlobales = JSON.parse(localStorage.getItem('perrito_pases')) || [
+    { origen: "Urg-04", destino: "312", paciente: "J. Pérez (45a)", servicio: "MI" }
+];
+
+async function cargarPasesNube() {
+    try {
+        const res = await fetch(API_URL + "?action=get_pases");
+        const data = await res.json();
+        if (data && Array.isArray(data) && data.length > 0) {
+            pasesGlobales = data;
+            localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
+            renderizarPases();
+        }
+    } catch (e) {
+        renderizarPases(); // Si falla la red, carga local
     }
 }
 
-function agregarPaseSimplificado() {
+function renderizarPases() {
     const tbody = document.getElementById('bodyPasesSimplificados');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    if (pasesGlobales.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="p-2 text-center text-gray-400">No hay pases activos</td></tr>`;
+        return;
+    }
+
+    pasesGlobales.forEach((p, idx) => {
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = "1px solid rgba(0,0,0,0.05);";
+        
+        const isMI = p.servicio === 'MI';
+        
+        tr.innerHTML = `
+            <td class="p-1 font-semibold">${p.origen} ➔ ${p.destino}</td>
+            <td class="p-1">${p.paciente}</td>
+            <td class="p-1 text-center">
+                <div class="inline-flex rounded overflow-hidden border border-orange-300 text-[10px]" style="background: #e2e8f0;">
+                    <button onclick="cambiarServicioPase(${idx}, 'MI')" style="background-color: ${isMI ? '#7e22ce' : '#cbd5e1'}; color: ${isMI ? 'white' : '#94a3b8'}; padding: 2px 8px; border:none; cursor:pointer; font-weight:${isMI ? '750' : '400'}; opacity: ${isMI ? '1' : '0.5'};">MI</button>
+                    <button onclick="cambiarServicioPase(${idx}, 'CIRUGIA')" style="background-color: ${!isMI ? '#2563eb' : '#cbd5e1'}; color: ${!isMI ? 'white' : '#94a3b8'}; padding: 2px 8px; border:none; cursor:pointer; font-weight:${!isMI ? '750' : '400'}; opacity: ${!isMI ? '1' : '0.5'};">CIRUGÍA</button>
+                </div>
+            </td>
+            <td class="p-1 text-center">
+                <button onclick="eliminarFilaPase(${idx})" class="btn-danger" style="padding: 2px 6px; font-size: 10px;">🗑️</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+async function agregarPaseSimplificado() {
     const camaOrigen = prompt("Cama de Urgencias (Ej: Urg-04):", "Urg-");
     if(!camaOrigen) return;
     const camaDestino = prompt("Cama asignada en Piso (Ej: 312):", "");
@@ -1674,28 +1700,46 @@ function agregarPaseSimplificado() {
     const nuevoPaciente = prompt("Nombre y Edad del Paciente (Ej: R. Gómez 50a):", "");
     if(!nuevoPaciente) return;
 
-    const tr = document.createElement('tr');
-    tr.style.borderBottom = "1px solid rgba(0,0,0,0.05);";
-    tr.innerHTML = `
-        <td class="p-1 font-semibold">${camaOrigen} ➔ ${camaDestino}</td>
-        <td class="p-1">${nuevoPaciente}</td>
-        <td class="p-1 text-center">
-            <div class="inline-flex rounded overflow-hidden border border-orange-300 text-[10px]" style="background: #e2e8f0;">
-                <button onclick="seleccionarDestino(this, 'MI')" style="background-color: #7e22ce; color: white; padding: 2px 8px; border:none; cursor:pointer; font-weight:750;">MI</button>
-                <button onclick="seleccionarDestino(this, 'CIRUGIA')" style="background-color: #cbd5e1; color: #94a3b8; padding: 2px 8px; border:none; cursor:pointer; font-weight:400; opacity: 0.5;" class="font-medium">CIRUGÍA</button>
-            </div>
-        </td>
-        <td class="p-1 text-center">
-            <button onclick="eliminarFilaPase(this)" class="btn-danger" style="padding: 2px 6px; font-size: 10px;">🗑️</button>
-        </td>
-    `;
-    tbody.appendChild(tr);
+    const nuevoPase = {
+        origen: camaOrigen,
+        destino: camaDestino,
+        paciente: nuevoPaciente,
+        servicio: "MI" // Default
+    };
+
+    pasesGlobales.push(nuevoPase);
+    localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
+    renderizarPases();
+    await sincronizarPasesNube();
 }
 
-function eliminarFilaPase(btn) {
-    const fila = btn.closest('tr');
-    fila.remove();
+async function cambiarServicioPase(idx, servicio) {
+    pasesGlobales[idx].servicio = servicio;
+    localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
+    renderizarPases();
+    await sincronizarPasesNube();
 }
+
+async function eliminarFilaPase(idx) {
+    pasesGlobales.splice(idx, 1);
+    localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
+    renderizarPases();
+    await sincronizarPasesNube();
+}
+
+async function sincronizarPasesNube() {
+    try {
+        await fetch(API_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: "save_pases", pases: pasesGlobales })
+        });
+    } catch(e) {
+        console.error("Error al sincronizar pases en la nube:", e);
+    }
+}
+
+// Cargar pases al iniciar la app
+cargarPasesNube();
 </script>
 </body>
 </html>
