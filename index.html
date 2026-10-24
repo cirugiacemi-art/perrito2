@@ -481,45 +481,6 @@
                 <small style="font-size: 0.7rem; color: var(--primary); font-weight: 600;">¡A darle con todo al internado! 🩺🐶</small>
             </div>
 
-<!-- MÓDULO: Pases de Urgencias a Piso (Actualizado) -->
-    <div class="card p-4 shadow-sm" style="background-color: var(--card-bg, #fff7ed); border: 2px solid var(--border-color, #fed7aa); border-radius: 12px; width: 100%; margin-top: 20px;">
-        <div class="flex justify-between items-center mb-3">
-            <h3 class="card-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">
-                <span>🏥</span> Pases a Piso
-            </h3>
-            <button onclick="agregarPaseSimplificado()" class="px-2 py-1 text-xs font-bold" title="Agregar Cama">
-                + Cama
-            </button>
-        </div>
-        
-        <div class="overflow-x-auto" style="margin-top: 10px;">
-            <table class="w-full text-left border-collapse text-xs" id="tablaPasesSimplificados">
-                <thead>
-                    <tr style="border-bottom: 2px solid var(--border, #fed7aa); color: var(--primary);">
-                        <th class="p-1">Origen ➔ Destino</th>
-                        <th class="p-1">Paciente</th>
-                        <th class="p-1 text-center">Destino (Servicio)</th>
-                        <th class="p-1 text-center">❌</th>
-                    </tr>
-                </thead>
-                <tbody id="bodyPasesSimplificados">
-                    <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
-                        <td class="p-1 font-semibold">Urg-04 ➔ 312</td>
-                        <td class="p-1">J. Pérez (45a)</td>
-                        <td class="p-1 text-center">
-                            <div class="inline-flex rounded overflow-hidden border border-orange-300 text-[10px]" style="background: #e2e8f0;">
-                                <button onclick="seleccionarDestino(this, 'MI')" style="background-color: #7e22ce; color: white; padding: 2px 8px; border:none; cursor:pointer; font-weight:750;">MI</button>
-                                <button onclick="seleccionarDestino(this, 'CIRUGIA')" style="background-color: #cbd5e1; color: #94a3b8; padding: 2px 8px; border:none; cursor:pointer; font-weight:400; opacity: 0.5;" class="font-medium">CIRUGÍA</button>
-                            </div>
-                        </td>
-                        <td class="p-1 text-center">
-                            <button onclick="eliminarFilaPase(this)" class="btn-danger" style="padding: 2px 6px; font-size: 10px;">🗑️</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
   </div> <!-- Cierra la Columna 1 -->
   
   <!-- COLUMNA 2: Guardiómetro y Calendario -->
