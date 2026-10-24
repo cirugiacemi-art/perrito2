@@ -481,7 +481,7 @@
                 <small style="font-size: 0.7rem; color: var(--primary); font-weight: 600;">¡A darle con todo al internado! 🩺🐶</small>
             </div>
 
-          <!-- MÓDULO: Pases de Urgencias a Piso (Simplificado) -->
+<!-- MÓDULO: Pases de Urgencias a Piso (Actualizado) -->
     <div class="card p-4 shadow-sm" style="background-color: var(--card-bg, #fff7ed); border: 2px solid var(--border-color, #fed7aa); border-radius: 12px; width: 100%; margin-top: 20px;">
         <div class="flex justify-between items-center mb-3">
             <h3 class="card-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">
@@ -496,20 +496,20 @@
             <table class="w-full text-left border-collapse text-xs" id="tablaPasesSimplificados">
                 <thead>
                     <tr style="border-bottom: 2px solid var(--border, #fed7aa); color: var(--primary);">
-                        <th class="p-1">Cama</th>
+                        <th class="p-1">Origen ➔ Destino</th>
                         <th class="p-1">Paciente</th>
-                        <th class="p-1 text-center">Destino</th>
+                        <th class="p-1 text-center">Destino (Servicio)</th>
                         <th class="p-1 text-center">❌</th>
                     </tr>
                 </thead>
                 <tbody id="bodyPasesSimplificados">
                     <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
-                        <td class="p-1 font-semibold">Urg-04</td>
+                        <td class="p-1 font-semibold">Urg-04 ➔ 312</td>
                         <td class="p-1">J. Pérez (45a)</td>
                         <td class="p-1 text-center">
-                            <div class="inline-flex rounded overflow-hidden border border-orange-300 text-[10px]">
-                                <button onclick="seleccionarDestino(this, 'MI')" style="background-color: #7e22ce !important; color: white; padding: 2px 6px; border:none; cursor:pointer;" class="font-bold">MI</button>
-                                <button onclick="seleccionarDestino(this, 'CIRUGIA')" style="background-color: #cbd5e1 !important; color: #475569; padding: 2px 6px; border:none; cursor:pointer;" class="font-medium">CIRUGÍA</button>
+                            <div class="inline-flex rounded overflow-hidden border border-orange-300 text-[10px]" style="background: #e2e8f0;">
+                                <button onclick="seleccionarDestino(this, 'MI')" style="background-color: #7e22ce; color: white; padding: 2px 8px; border:none; cursor:pointer; font-weight:750;">MI</button>
+                                <button onclick="seleccionarDestino(this, 'CIRUGIA')" style="background-color: #cbd5e1; color: #94a3b8; padding: 2px 8px; border:none; cursor:pointer; font-weight:400; opacity: 0.5;" class="font-medium">CIRUGÍA</button>
                             </div>
                         </td>
                         <td class="p-1 text-center">
@@ -1639,44 +1639,50 @@ const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
     setInterval(actualizarCuentaRegresiva, 1000);
   </script>
 
-  <script>
+<script>
 function seleccionarDestino(btn, servicio) {
     const contenedor = btn.parentElement;
     const botones = contenedor.querySelectorAll('button');
     
+    // Apagamos y opacamos ambos primero
     botones.forEach(b => {
         b.style.backgroundColor = "#cbd5e1";
-        b.style.color = "#475569";
-        b.style.fontWeight = "500";
+        b.style.color = "#94a3b8";
+        b.style.fontWeight = "400";
+        b.style.opacity = "0.5";
     });
     
+    // Encendemos con fuerza el que se seleccionó
+    btn.style.opacity = "1";
     if(servicio === 'MI') {
         btn.style.backgroundColor = "#7e22ce";
         btn.style.color = "white";
-        btn.style.fontWeight = "700";
+        btn.style.fontWeight = "750";
     } else {
         btn.style.backgroundColor = "#2563eb";
         btn.style.color = "white";
-        btn.style.fontWeight = "700";
+        btn.style.fontWeight = "750";
     }
 }
 
 function agregarPaseSimplificado() {
     const tbody = document.getElementById('bodyPasesSimplificados');
-    const nuevaCama = prompt("Número de Cama / Urg (Ej: Urg-08):", "Urg-");
-    if(!nuevaCama) return;
+    const camaOrigen = prompt("Cama de Urgencias (Ej: Urg-04):", "Urg-");
+    if(!camaOrigen) return;
+    const camaDestino = prompt("Cama asignada en Piso (Ej: 312):", "");
+    if(!camaDestino) return;
     const nuevoPaciente = prompt("Nombre y Edad del Paciente (Ej: R. Gómez 50a):", "");
     if(!nuevoPaciente) return;
 
     const tr = document.createElement('tr');
     tr.style.borderBottom = "1px solid rgba(0,0,0,0.05);";
     tr.innerHTML = `
-        <td class="p-1 font-semibold">${nuevaCama}</td>
+        <td class="p-1 font-semibold">${camaOrigen} ➔ ${camaDestino}</td>
         <td class="p-1">${nuevoPaciente}</td>
         <td class="p-1 text-center">
-            <div class="inline-flex rounded overflow-hidden border border-orange-300 text-[10px]">
-                <button onclick="seleccionarDestino(this, 'MI')" style="background-color: #7e22ce !important; color: white; padding: 2px 6px; border:none; cursor:pointer;" class="font-bold">MI</button>
-                <button onclick="seleccionarDestino(this, 'CIRUGIA')" style="background-color: #cbd5e1 !important; color: #475569; padding: 2px 6px; border:none; cursor:pointer;" class="font-medium">CIRUGÍA</button>
+            <div class="inline-flex rounded overflow-hidden border border-orange-300 text-[10px]" style="background: #e2e8f0;">
+                <button onclick="seleccionarDestino(this, 'MI')" style="background-color: #7e22ce; color: white; padding: 2px 8px; border:none; cursor:pointer; font-weight:750;">MI</button>
+                <button onclick="seleccionarDestino(this, 'CIRUGIA')" style="background-color: #cbd5e1; color: #94a3b8; padding: 2px 8px; border:none; cursor:pointer; font-weight:400; opacity: 0.5;" class="font-medium">CIRUGÍA</button>
             </div>
         </td>
         <td class="p-1 text-center">
