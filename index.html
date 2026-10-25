@@ -1729,10 +1729,13 @@ function eliminarFilaPase(idx) {
 async function guardarPasesNubeManual() {
     const btn = document.getElementById('btnGuardarPases');
     if(btn) btn.innerText = "💾 Guardando...";
+    
+    // Pedir permiso por si es la primera vez
+    solicitarPermisoNotificacion();
+
     try {
         localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
         
-        // Enviamos con ambos nombres de acción para asegurar que el Apps Script lo reciba sí o sí
         await fetch(API_URL, {
             method: "POST",
             body: JSON.stringify({ 
@@ -1746,12 +1749,32 @@ async function guardarPasesNubeManual() {
             btn.innerText = "✅ ¡Guardado!";
             setTimeout(() => btn.innerText = "💾 Guardar Pases", 2000);
         }
+
+        // 🔔 ¡Lanzar la notificación en Chrome!
+        mostrarNotificacionPase("Se han actualizado los pases a piso correctamente.");
+
     } catch(e) {
         console.error("Error al guardar:", e);
         if(btn) btn.innerText = "❌ Error";
     }
 }
 
+// Función para pedir permiso de notificaciones a Chrome
+function solicitarPermisoNotificacion() {
+    if ("Notification" in window && Notification.permission !== "granted") {
+        Notification.requestPermission();
+    }
+}
+
+// Función para mostrar la notificación flotante en Chrome
+function mostrarNotificacionPase(mensaje) {
+    if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("🏥 PERRITO 2 - Nuevo Pase", {
+            body: mensaje,
+            icon: "https://cdn-icons-png.flaticon.com/512/2966/2966327.png" // Icono genérico médico
+        });
+    }
+}
 // Cargar al iniciar la app
 cargarPasesNube();
 </script>
