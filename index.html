@@ -1491,10 +1491,15 @@ function renderizarNotas() {
 function agregarPostit() {
     const colores = ['yellow', 'blue', 'pink', 'green'];
     const colorActual = colores[notasGlobales.length % colores.length];
-    const nuevaNota = { id: Date.now(), texto: "", color: colorActual };
-    notasGlobales.push(nuevaNota);
+    
+    notasGlobales.push({
+        id: Date.now(),
+        texto: "",
+        color: colorActual
+    });
+    
     localStorage.setItem('perrito_notas', JSON.stringify(notasGlobales));
-    renderizarPostits();
+    renderizarNotas();
 }
 
     function eliminarPostit(idx) {
