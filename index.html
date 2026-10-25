@@ -1660,13 +1660,17 @@ function renderizarPases() {
     if (!tbody) return;
     tbody.innerHTML = '';
     
+    // Filtramos para eliminar objetos vacíos, nulos o que no tengan origen/paciente real
+    if (Array.isArray(pasesGlobales)) {
+        pasesGlobales = pasesGlobales.filter(p => p && typeof p === 'object' && (p.origen || p.paciente) && p.origen !== "---");
+    }
+
     if (!pasesGlobales || pasesGlobales.length === 0) {
         tbody.innerHTML = `<tr><td colspan="4" style="padding: 12px; text-align: center; color: #64748b;">No hay pases activos</td></tr>`;
         return;
     }
 
     pasesGlobales.forEach((p, idx) => {
-        if (!p || typeof p !== 'object') return; // Evita datos corruptos
         const tr = document.createElement('tr');
         tr.style.borderBottom = "1px solid rgba(0,0,0,0.05)";
         const isMI = (p.servicio || 'MI') === 'MI';
