@@ -482,11 +482,14 @@
             </div>
 
 <!-- Tarjeta de Pases a Piso -->
-<div class="card" style="margin-top: 15px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <h3 style="font-size: 16px; font-weight: bold; color: #1e293b;">🏥 Pases a Piso (Urgencias ➔ Piso)</h3>
-        <button onclick="agregarPaseSimplificado()" class="btn-primary" style="background: #2563eb; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px;">+ Cama</button>
-    </div>
+    <div class="card" style="margin-top: 15px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h3 style="font-size: 16px; font-weight: bold; color: #1e293b;">🏥 Pases a Piso (Urgencias ➔ Piso)</h3>
+            <div style="display: flex; gap: 6px;">
+                <button onclick="agregarPaseSimplificado()" class="btn-primary" style="background: #2563eb; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px;">+ Cama</button>
+                <button id="btnGuardarPases" onclick="guardarPasesNubeManual()" style="background: #16a34a; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600;">💾 Guardar Pases</button>
+            </div>
+        </div>
     <div style="overflow-x: auto;">
         <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
             <thead>
@@ -1673,8 +1676,8 @@ function renderizarPases() {
             <td style="padding: 6px;">${p.paciente || 'Sin nombre'}</td>
             <td style="padding: 6px; text-align: center;">
                 <div style="display: inline-flex; border-radius: 4px; overflow: hidden; border: 1px solid #cbd5e1; background: #e2e8f0; font-size: 10px;">
-                    <button onclick="cambiarServicioPase(${idx}, 'MI')" style="background-color: ${isMI ? '#7e22ce' : '#cbd5e1'}; color: ${isMI ? 'white' : '#64748b'}; padding: 3px 8px; border:none; cursor:pointer; font-weight:${isMI ? 'bold' : 'normal'};">MI</button>
-                    <button onclick="cambiarServicioPase(${idx}, 'CIRUGIA')" style="background-color: ${!isMI ? '#2563eb' : '#cbd5e1'}; color: ${!isMI ? 'white' : '#64748b'}; padding: 3px 8px; border:none; cursor:pointer; font-weight:${!isMI ? 'bold' : 'normal'};">CIRUGÍA</button>
+                    <button onclick="cambiarServicioPase(${idx}, 'MI')" style="background-color: ${isMI ? '#7e22ce' : '#cbd5e1'}; color: ${isMI ? 'white' : '#64748b'}; padding: 3px 8px; border:none; cursor:pointer; font-weight: ${isMI ? 'bold' : 'normal'};">MI</button>
+                    <button onclick="cambiarServicioPase(${idx}, 'CIRUGIA')" style="background-color: ${!isMI ? '#2563eb' : '#cbd5e1'}; color: ${!isMI ? 'white' : '#64748b'}; padding: 3px 8px; border:none; cursor:pointer; font-weight: ${!isMI ? 'bold' : 'normal'};">CIRUGÍA</button>
                 </div>
             </td>
             <td style="padding: 6px; text-align: center;">
@@ -1702,31 +1705,36 @@ async function agregarPaseSimplificado() {
 
     localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
     renderizarPases();
-    await sincronizarPasesNube();
 }
 
-async function cambiarServicioPase(idx, servicio) {
+function cambiarServicioPase(idx, servicio) {
     pasesGlobales[idx].servicio = servicio;
     localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
     renderizarPases();
-    await sincronizarPasesNube();
 }
 
-async function eliminarFilaPase(idx) {
+function eliminarFilaPase(idx) {
     pasesGlobales.splice(idx, 1);
     localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
     renderizarPases();
-    await sincronizarPasesNube();
 }
 
-async function sincronizarPasesNube() {
+async function guardarPasesNubeManual() {
+    const btn = document.getElementById('btnGuardarPases');
+    if(btn) btn.innerText = "💾 Guardando...";
     try {
+        localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
         await fetch(API_URL, {
             method: "POST",
             body: JSON.stringify({ action: "save_pases", pases: pasesGlobales })
         });
+        if(btn) {
+            btn.innerText = "✅ ¡Guardado!";
+            setTimeout(() => btn.innerText = "💾 Guardar Pases", 2000);
+        }
     } catch(e) {
-        console.error("Error al sincronizar pases:", e);
+        console.error("Error al guardar:", e);
+        if(btn) btn.innerText = "❌ Error";
     }
 }
 
