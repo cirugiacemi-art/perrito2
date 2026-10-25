@@ -1634,19 +1634,22 @@ async function cargarPasesNube() {
         const res = await fetch(API_URL + "?action=get_pases");
         const textData = await res.text();
         
-        let data = [];
-        if (textData && textData.trim() !== "") {
+        if (textData && textData.trim() !== "" && textData !== "[]" && textData !== '""') {
             try {
-                data = JSON.parse(textData);
+                let parsed = JSON.parse(textData);
+                if (typeof parsed === "string") {
+                    parsed = JSON.parse(parsed);
+                }
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    pasesGlobales = parsed;
+                } else {
+                    pasesGlobales = JSON.parse(localStorage.getItem('perrito_pases')) || [];
+                }
             } catch (err) {
-                data = JSON.parse(JSON.parse(textData)); // Doble parseo de seguridad por si viene envuelto en string
+                pasesGlobales = JSON.parse(localStorage.getItem('perrito_pases')) || [];
             }
-        }
-
-        if (Array.isArray(data) && data.length > 0) {
-            pasesGlobales = data;
         } else {
-            pasesGlobales = [];
+            pasesGlobales = JSON.parse(localStorage.getItem('perrito_pases')) || [];
         }
     } catch (e) {
         console.error("Usando respaldo local", e);
