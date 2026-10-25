@@ -1624,23 +1624,32 @@ const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
   </script>
 
 <script>
-// --- SINCRONIZACIÓN Y LÓGICA DE PASES A PISO EN LA NUBE ---
-let pasesGlobales = JSON.parse(localStorage.getItem('perrito_pases')) || [
-    { origen: "Urg-04", destino: "312", paciente: "J. Pérez (45a)", servicio: "MI" }
-];
+let pasesGlobales = [];
 
 async function cargarPasesNube() {
     try {
         const res = await fetch(API_URL + "?action=get_pases");
-        const data = await res.json();
-        if (data && Array.isArray(data) && data.length > 0) {
+        const textData = await res.text();
+        
+        let data = [];
+        if (textData && textData.trim() !== "") {
+            try {
+                data = JSON.parse(textData);
+            } catch (err) {
+                data = JSON.parse(JSON.parse(textData)); // Doble parseo de seguridad por si viene envuelto en string
+            }
+        }
+
+        if (Array.isArray(data) && data.length > 0) {
             pasesGlobales = data;
-            localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
-            renderizarPases();
+        } else {
+            pasesGlobales = [];
         }
     } catch (e) {
-        renderizarPases(); // Si falla la red, carga local
+        console.error("Usando respaldo local", e);
+        pasesGlobales = JSON.parse(localStorage.getItem('perrito_pases')) || [];
     }
+    renderizarPases();
 }
 
 function renderizarPases() {
@@ -1648,28 +1657,28 @@ function renderizarPases() {
     if (!tbody) return;
     tbody.innerHTML = '';
     
-    if (pasesGlobales.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="p-2 text-center text-gray-400">No hay pases activos</td></tr>`;
+    if (!pasesGlobales || pasesGlobales.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="padding: 12px; text-align: center; color: #64748b;">No hay pases activos</td></tr>`;
         return;
     }
 
     pasesGlobales.forEach((p, idx) => {
+        if (!p || typeof p !== 'object') return; // Evita datos corruptos
         const tr = document.createElement('tr');
-        tr.style.borderBottom = "1px solid rgba(0,0,0,0.05);";
-        
-        const isMI = p.servicio === 'MI';
+        tr.style.borderBottom = "1px solid rgba(0,0,0,0.05)";
+        const isMI = (p.servicio || 'MI') === 'MI';
         
         tr.innerHTML = `
-            <td class="p-1 font-semibold">${p.origen} ➔ ${p.destino}</td>
-            <td class="p-1">${p.paciente}</td>
-            <td class="p-1 text-center">
-                <div class="inline-flex rounded overflow-hidden border border-orange-300 text-[10px]" style="background: #e2e8f0;">
-                    <button onclick="cambiarServicioPase(${idx}, 'MI')" style="background-color: ${isMI ? '#7e22ce' : '#cbd5e1'}; color: ${isMI ? 'white' : '#94a3b8'}; padding: 2px 8px; border:none; cursor:pointer; font-weight:${isMI ? '750' : '400'}; opacity: ${isMI ? '1' : '0.5'};">MI</button>
-                    <button onclick="cambiarServicioPase(${idx}, 'CIRUGIA')" style="background-color: ${!isMI ? '#2563eb' : '#cbd5e1'}; color: ${!isMI ? 'white' : '#94a3b8'}; padding: 2px 8px; border:none; cursor:pointer; font-weight:${!isMI ? '750' : '400'}; opacity: ${!isMI ? '1' : '0.5'};">CIRUGÍA</button>
+            <td style="padding: 6px; font-weight: 600;">${p.origen || '---'} ➔ ${p.destino || '---'}</td>
+            <td style="padding: 6px;">${p.paciente || 'Sin nombre'}</td>
+            <td style="padding: 6px; text-align: center;">
+                <div style="display: inline-flex; border-radius: 4px; overflow: hidden; border: 1px solid #cbd5e1; background: #e2e8f0; font-size: 10px;">
+                    <button onclick="cambiarServicioPase(${idx}, 'MI')" style="background-color: ${isMI ? '#7e22ce' : '#cbd5e1'}; color: ${isMI ? 'white' : '#64748b'}; padding: 3px 8px; border:none; cursor:pointer; font-weight:${isMI ? 'bold' : 'normal'};">MI</button>
+                    <button onclick="cambiarServicioPase(${idx}, 'CIRUGIA')" style="background-color: ${!isMI ? '#2563eb' : '#cbd5e1'}; color: ${!isMI ? 'white' : '#64748b'}; padding: 3px 8px; border:none; cursor:pointer; font-weight:${!isMI ? 'bold' : 'normal'};">CIRUGÍA</button>
                 </div>
             </td>
-            <td class="p-1 text-center">
-                <button onclick="eliminarFilaPase(${idx})" class="btn-danger" style="padding: 2px 6px; font-size: 10px;">🗑️</button>
+            <td style="padding: 6px; text-align: center;">
+                <button onclick="eliminarFilaPase(${idx})" style="background: #fee2e2; color: #dc2626; border: none; padding: 3px 6px; border-radius: 4px; cursor: pointer; font-size: 10px;">🗑️</button>
             </td>
         `;
         tbody.appendChild(tr);
