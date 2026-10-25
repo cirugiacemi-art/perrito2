@@ -1728,10 +1728,17 @@ async function guardarPasesNubeManual() {
     if(btn) btn.innerText = "💾 Guardando...";
     try {
         localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
+        
+        // Enviamos con ambos nombres de acción para asegurar que el Apps Script lo reciba sí o sí
         await fetch(API_URL, {
             method: "POST",
-            body: JSON.stringify({ action: "save_pases", pases: pasesGlobales })
+            body: JSON.stringify({ 
+                action: "save_pases", 
+                guardar_contraseñas: "save_pases", 
+                pases: pasesGlobales 
+            })
         });
+
         if(btn) {
             btn.innerText = "✅ ¡Guardado!";
             setTimeout(() => btn.innerText = "💾 Guardar Pases", 2000);
