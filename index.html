@@ -1430,6 +1430,16 @@ const cuentasMedicos = {
                 border: 1px solid #7DD3FC !important;
                 color: #0C4A6E !important;
             }
+            .postit.pink, .post-it.pink, div[class*="postit-pink"] {
+                background-color: #FBCFE8 !important; /* Rosado Nota */
+                border: 1px solid #F472B6 !important;
+                color: #831843 !important;
+            }
+            .postit.green, .post-it.green, div[class*="postit-green"] {
+                background-color: #A7F3D0 !important; /* Verde Nota */
+                border: 1px solid #34D399 !important;
+                color: #065F46 !important;
+            }
             .postit .card-title, .post-it .card-title {
                 color: inherit !important;
             }
@@ -1458,33 +1468,34 @@ const cuentasMedicos = {
         }
     }
 
-    function renderizarNotas() {
-        const board = document.getElementById('notesBoard');
-        if (!board) return;
-        board.innerHTML = '';
-        notasGlobales.forEach((n, idx) => {
-            const div = document.createElement('div');
-            div.className = `postit ${n.color === 'blue' ? 'blue' : ''}`;
-            div.innerHTML = `
-                <span class="postit-del" onclick="eliminarPostit(${idx})">×</span>
-                <textarea oninput="actualizarTextoLocal(${idx}, this.value)" placeholder="Escribe aquí...">${n.texto || ''}</textarea>
-            `;
-            board.appendChild(div);
-        });
-    }
+function renderizarNotas() {
+    const board = document.getElementById('notesBoard');
+    if (!board) return;
+    board.innerHTML = '';
+    notasGlobales.forEach((n, idx) => {
+        const div = document.createElement('div');
+        div.className = `postit ${n.color || 'yellow'}`;
+        div.innerHTML = `
+            <span class="postit-del" onclick="eliminarPostit(${idx})">×</span>
+            <textarea oninput="actualizarTextoLocal(${idx}, this.value)" placeholder="Escribe aquí...">${n.texto || ''}</textarea>
+        `;
+        board.appendChild(div);
+    });
+}
 
     function actualizarTextoLocal(idx, texto) {
         notasGlobales[idx].texto = texto;
         localStorage.setItem('perrito_notas', JSON.stringify(notasGlobales));
     }
 
-    function agregarPostit() {
-        const color = notasGlobales.length % 2 === 0 ? 'yellow' : 'blue';
-        const nuevaNota = { id: Date.now(), texto: "", color: color };
-        notasGlobales.push(nuevaNota);
-        localStorage.setItem('perrito_notas', JSON.stringify(notasGlobales));
-        renderizarNotas();
-    }
+function agregarPostit() {
+    const colores = ['yellow', 'blue', 'pink', 'green'];
+    const colorActual = colores[notasGlobales.length % colores.length];
+    const nuevaNota = { id: Date.now(), texto: "", color: colorActual };
+    notasGlobales.push(nuevaNota);
+    localStorage.setItem('perrito_notas', JSON.stringify(notasGlobales));
+    renderizarPostits();
+}
 
     function eliminarPostit(idx) {
         notasGlobales.splice(idx, 1);
