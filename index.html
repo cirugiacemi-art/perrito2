@@ -1818,6 +1818,26 @@ function mostrarNotificacionPase(mensaje) {
 }
 // Cargar al iniciar la app
 cargarPasesNube();
+function convertirTexto(accion) {
+    const txt = document.getElementById('textoConversor');
+    if (!txt || !txt.value) return;
+    
+    if (accion === 'mayusculas') {
+        txt.value = txt.value.toUpperCase();
+    } else if (accion === 'minusculas') {
+        txt.value = txt.value.toLowerCase();
+    } else if (accion === 'capitalizar') {
+        txt.value = txt.value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+    }
+}
+
+function copiarTextoConversor() {
+    const txt = document.getElementById('textoConversor');
+    if (!txt || !txt.value) return;
+    txt.select();
+    navigator.clipboard.writeText(txt.value);
+    alert('¡Texto copiado al portapapeles!');
+}
 </script>
 </body>
 </html>
