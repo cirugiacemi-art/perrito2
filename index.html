@@ -1834,9 +1834,22 @@ function convertirTexto(accion) {
 function copiarTextoConversor() {
     const txt = document.getElementById('textoConversor');
     if (!txt || !txt.value) return;
+    
+    // Buscamos el botón de copiar dentro del cuadro
+    const btn = event.target;
+    const textoOriginal = btn.textContent;
+    
     txt.select();
-    navigator.clipboard.writeText(txt.value);
-    alert('¡Texto copiado al portapapeles!');
+    navigator.clipboard.writeText(txt.value).then(() => {
+        // Cambiamos el texto y estilo del botón temporalmente
+        btn.classList.add('btn-copiado');
+        btn.textContent = '✓ ¡Copiado!';
+        
+        setTimeout(() => {
+            btn.classList.remove('btn-copiado');
+            btn.textContent = textoOriginal;
+        }, 1200);
+    });
 }
 </script>
 </body>
