@@ -1357,9 +1357,104 @@ const cuentasMedicos = {
     // ==========================================
     (function aplicarPaletaDiariaCoordinada() {
         const paletas = [
+    // SABADO. Halloween
     { bg: "linear-gradient(-45deg, #18181b, #27272a, #7f1d1d, #991b1b)", cardBg: "#fef2f2", border: "#fecaca", headerBg: "#18181b", titleColor: "#f87171", primary: "#dc2626" },
+   
+    // DOM. 1 NOV
     { bg: "linear-gradient(-45deg, #1a1a1a, #4a154b, #ff6b00, #ff1493, #ffbf00)", cardBg: "#fff5f9", border: "#ffb3d9", headerBg: "#360f37", titleColor: "#ffbf00", primary: "#ff1493" },
-      { bg: "linear-gradient(-45deg, #1a1a1a, #4a154b, #ff6b00, #ff1493, #ffbf00)", cardBg: "#fff5f9", border: "#ffb3d9", headerBg: "#360f37", titleColor: "#ffbf00", primary: "#ff1493" }
+    
+    // LUN. 2 NOV
+    { bg: "linear-gradient(-45deg, #3b0764, #581c87, #db2777, #f43f5e)", cardBg: "#fdf2f8", border: "#fbcfe8", headerBg: "#4c1d95", titleColor: "#fde047", primary: "#db2777" },
+
+     // 1. Océano Profundo y Turquesa
+    { bg: "linear-gradient(-45deg, #020617, #0f172a, #0284c7, #38bdf8)", cardBg: "#f0f9ff", border: "#bae6fd", headerBg: "#0369a1", titleColor: "#e0f2fe", primary: "#0284c7" },
+    
+    // 2. Esmeralda y Menta Quirúrgica
+    { bg: "linear-gradient(-45deg, #022c22, #064e3b, #059669, #34d399)", cardBg: "#ecfdf5", border: "#a7f3d0", headerBg: "#047857", titleColor: "#d1fae5", primary: "#059669" },
+    
+    // 3. Atardecer Cálido / Terracota
+    { bg: "linear-gradient(-45deg, #431407, #7c2d12, #ea580c, #fb923c)", cardBg: "#fff7ed", border: "#ffedd5", headerBg: "#9a3412", titleColor: "#ffedd5", primary: "#ea580c" },
+    
+    // 4. Amatista y Morado Real
+    { bg: "linear-gradient(-45deg, #2e1065, #4c1d95, #7c3aed, #c084fc)", cardBg: "#f5f3ff", border: "#ddd6fe", headerBg: "#5b21b6", titleColor: "#ede9fe", primary: "#7c3aed" },
+    
+    // 5. Rosa Neón y Fucsia Pop
+    { bg: "linear-gradient(-45deg, #500724, #831843, #db2777, #f472b6)", cardBg: "#fdf2f8", border: "#fbcfe8", headerBg: "#9d174d", titleColor: "#fce7f3", primary: "#db2777" },
+    
+    // 6. Ámbar y Café Madera (Cafetería / Cálido)
+    { bg: "linear-gradient(-45deg, #271c19, #451a03, #b45309, #f59e0b)", cardBg: "#fffbeb", border: "#fde68a", headerBg: "#78350f", titleColor: "#fef3c7", primary: "#d97706" },
+    
+    // 7. Gris Acero y Azul Industrial
+    { bg: "linear-gradient(-45deg, #0f172a, #334155, #475569, #94a3b8)", cardBg: "#f8fafc", border: "#e2e8f0", headerBg: "#1e293b", titleColor: "#f1f5f9", primary: "#475569" },
+    
+    // 8. Cobre, Bronce y Dorado Antiguo
+    { bg: "linear-gradient(-45deg, #1c1917, #292524, #b45309, #d97706)", cardBg: "#fafaf9", border: "#e7e5e4", headerBg: "#44403c", titleColor: "#fef3c7", primary: "#b45309" },
+    
+    // 9. Verde Oliva y Beige Papel Antiguo
+    { bg: "linear-gradient(-45deg, #1a2e05, #365314, #65a30d, #bef264)", cardBg: "#f7fee7", border: "#ecfccb", headerBg: "#3f6212", titleColor: "#ecfccb", primary: "#65a30d" },
+    
+    // 10. Índigo Eléctrico y Azul Profundo
+    { bg: "linear-gradient(-45deg, #1e1b4b, #312e81, #4f46e5, #818cf8)", cardBg: "#eef2ff", border: "#e0e7ff", headerBg: "#3730a3", titleColor: "#e0e7ff", primary: "#4f46e5" },
+    
+    // 11. Carbón y Rojo Fuego Intenso
+    { bg: "linear-gradient(-45deg, #18181b, #27272a, #dc2626, #f87171)", cardBg: "#fef2f2", border: "#fecaca", headerBg: "#3f3f46", titleColor: "#fee2e2", primary: "#dc2626" },
+    
+    // 12. Turquesa Neón y Azul Oscuro
+    { bg: "linear-gradient(-45deg, #042f2e, #115e59, #0d9488, #2dd4bf)", cardBg: "#f0fdfa", border: "#ccfbf1", headerBg: "#134e4a", titleColor: "#99f6e4", primary: "#0d9488" },
+    
+    // 13. Orquídea y Rosa Pastel
+    { bg: "linear-gradient(-45deg, #4a044e, #701a75, #a21caf, #e879f9)", cardBg: "#fdf4ff", border: "#fae8ff", headerBg: "#86198f", titleColor: "#f5d0fe", primary: "#a21caf" },
+    
+    // 14. Azul Hielo y Menta Suave
+    { bg: "linear-gradient(-45deg, #082f49, #0f766e, #14b8a6, #5eead4)", cardBg: "#f0fdf4", border: "#ccfbf1", headerBg: "#0f766e", titleColor: "#99f6e4", primary: "#14b8a6" },
+    
+    // 15. Naranja Mandarina y Violeta Noche
+    { bg: "linear-gradient(-45deg, #2e1065, #581c87, #c2410c, #ea580c)", cardBg: "#fff7ed", border: "#ffedd5", headerBg: "#3b0764", titleColor: "#ffedd5", primary: "#c2410c" },
+    
+    // 16. Lima Ácida y Grafito
+    { bg: "linear-gradient(-45deg, #111827, #1f2937, #16a34a, #4ade80)", cardBg: "#f0fdf4", border: "#dcfce7", headerBg: "#111827", titleColor: "#bbf7d0", primary: "#16a34a" },
+    
+    // 17. Rubí Profundo y Vino Tinto
+    { bg: "linear-gradient(-45deg, #4c0519, #881337, #be123c, #fb7185)", cardBg: "#fff1f2", border: "#ffe4e6", headerBg: "#9f1239", titleColor: "#ffe4e6", primary: "#be123c" },
+    
+    // 18. Azul Zafiro y Cian Claro
+    { bg: "linear-gradient(-45deg, #0c4a6e, #0369a1, #0284c7, #38bdf8)", cardBg: "#f0f9ff", border: "#bae6fd", headerBg: "#075985", titleColor: "#e0f2fe", primary: "#0284c7" },
+    
+    // 19. Moka y Crema Café
+    { bg: "linear-gradient(-45deg, #292524, #44403c, #78716c, #a8a29e)", cardBg: "#fafaf9", border: "#f5f5f4", headerBg: "#1c1917", titleColor: "#e7e5e4", primary: "#78716c" },
+    
+    // 20. Lavanda y Azul Cielo Pastel
+    { bg: "linear-gradient(-45deg, #312e81, #3730a3, #6366f1, #a5b4fc)", cardBg: "#eef2ff", border: "#e0e7ff", headerBg: "#312e81", titleColor: "#c7d2fe", primary: "#6366f1" },
+    
+    // 21. Salmón Cálido y Frambuesa
+    { bg: "linear-gradient(-45deg, #4c0519, #9f1239, #e11d48, #fb7185)", cardBg: "#fff1f2", border: "#ffe4e6", headerBg: "#881337", titleColor: "#ffe4e6", primary: "#e11d48" },
+    
+    // 22. Azul Espacial y Verde Neón (Cyberpunk Médico)
+    { bg: "linear-gradient(-45deg, #030712, #111827, #059669, #10b981)", cardBg: "#f0fdf4", border: "#dcfce7", headerBg: "#030712", titleColor: "#34d399", primary: "#059669" },
+    
+    // 23. Perla y Gris Humo Minimalista
+    { bg: "linear-gradient(-45deg, #1c1917, #292524, #57534e, #78716c)", cardBg: "#fafaf9", border: "#e7e5e4", headerBg: "#292524", titleColor: "#d6d3d1", primary: "#57534e" },
+    
+    // 24. Ciruela Oscuro y Rosa Antiguo
+    { bg: "linear-gradient(-45deg, #3b0764, #581c87, #9333ea, #c084fc)", cardBg: "#faf5ff", border: "#f3e8ff", headerBg: "#4c1d95", titleColor: "#e9d5ff", primary: "#9333ea" },
+    
+    // 25. Azul Océano Profundo y Coral Brillante
+    { bg: "linear-gradient(-45deg, #082f49, #0369a1, #f43f5e, #fb7185)", cardBg: "#fff1f2", border: "#ffe4e6", headerBg: "#0c4a6e", titleColor: "#ffe4e6", primary: "#f43f5e" },
+    
+    // 26. Esmeralda Oscuro y Dorado Clásico
+    { bg: "linear-gradient(-45deg, #022c22, #064e3b, #b45309, #d97706)", cardBg: "#fefce8", border: "#fef08a", headerBg: "#065f46", titleColor: "#fef08a", primary: "#d97706" },
+    
+    // 27. Azul Cobalto y Amarillo Sol
+    { bg: "linear-gradient(-45deg, #172554, #1e40af, #2563eb, #eab308)", cardBg: "#fefce8", border: "#fef08a", headerBg: "#1e3a8a", titleColor: "#fef08a", primary: "#2563eb" },
+    
+    // 28. Púrpura Reina y Turquesa Claro
+    { bg: "linear-gradient(-45deg, #3b0764, #6b21a8, #0d9488, #2dd4bf)", cardBg: "#f0fdfa", border: "#ccfbf1", headerBg: "#581c87", titleColor: "#99f6e4", primary: "#0d9488" },
+    
+    // 29. Rojo Granate y Azul Marino Sobrio
+    { bg: "linear-gradient(-45deg, #1e1b4b, #312e81, #7f1d1d, #991b1b)", cardBg: "#fef2f2", border: "#fee2e2", headerBg: "#1e1b4b", titleColor: "#fee2e2", primary: "#991b1b" },
+    
+    // 30. Galaxia Completa (Multicolor Dinámico)
+    { bg: "linear-gradient(-45deg, #0f172a, #312e81, #701a75, #0f766e)", cardBg: "#f8fafc", border: "#e2e8f0", headerBg: "#1e1b4b", titleColor: "#e0e7ff", primary: "#6366f1" }     
         ];
 
         // Calcular día del año (1-366)
