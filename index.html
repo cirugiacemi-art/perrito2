@@ -522,44 +522,36 @@
         </div>
       </div>
       <!-- === FIN IMAGEN NEÓN === -->
-   
-   <!-- 📊 Guardiómetro Mejorado -->
-<div class="guardiometro-container">
-    <h3>📊 Guardiómetro</h3>
-    <div id="guardia-hoy-box">Guardia Hoy: <strong id="texto-guardia-hoy">Cargando...</strong></div>
-    
-    <!-- Sección de configuración de rotación / fechas personalizadas -->
-    <div class="config-promocion" style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.03); border-radius: 8px;">
-        <label style="font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 5px;">Rotación / Periodo del Internado:</label>
-        
-        <select id="select-promocion" onchange="cambiarPromocion()" style="width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; margin-bottom: 8px;">
-            <option value="mip2026">MIP 1 (1 Jul 2026 - 30 Jun 2027)</option>
-            <option value="mip2027">MIP (1 Jul 2027 - 30 Jun 2028)</option>
-            <option value="personalizado">Personalizado (Elegir fechas)</option>
-        </select>
+    <div class="card">
+      <div class="card-title"><span>📊 Guardiómetro</span></div>
+      
+      <div class="guardia-badge">
+        <span style="font-size:0.85rem; color:#475569;">Guardia Hoy:</span>
+        <div class="guardia-actual" id="guardiaHoy">Guardia A</div>
+        <small id="fechaHoyText" style="color:#64748B; font-size:0.75rem;"></small>
+      </div>
 
-        <!-- Contenedor de fechas personalizadas (Se activa al elegir 'Personalizado') -->
-        <div id="inputs-personalizados" style="display: none; gap: 8px; margin-top: 8px;">
-            <div>
-                <label style="font-size: 0.75rem; display: block;">Inicio:</label>
-                <input type="date" id="fecha-inicio-custom" style="width: 100%; padding: 4px; border-radius: 4px; border: 1px solid #ccc;">
-            </div>
-            <div>
-                <label style="font-size: 0.75rem; display: block;">Fin:</label>
-                <input type="date" id="fecha-fin-custom" style="width: 100%; padding: 4px; border-radius: 4px; border: 1px solid #ccc;">
-            </div>
-            <button onclick="aplicarFechasPersonalizadas()" style="grid-column: span 2; margin-top: 6px; padding: 6px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Aplicar Fechas</button>
-        </div>
-    </div>
+      <label style="font-size:0.8rem;">Seleccionar Promoción / Rotación:</label>
+      <select id="tipoMip" onchange="actualizarGuardias()">
+        <option value="mip2">MIP 2 (1 Ene 2026 - 31 Dic 2026)</option>
+        <option value="mip1">MIP 1 (1 Jul 2026 - 30 Jun 2027)</option>
+        <option value="custom">Personalizado</option>
+      </select>
 
-    <!-- Contadores de Guardias (A, B, C, D) -->
-    <div class="contadores-guardias" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 12px;">
-        <div class="card-guardia">Guardias A <br><span id="count-a">61</span></div>
-        <div class="card-guardia">Guardias B <br><span id="count-b">61</span></div>
-        <div class="card-guardia">Guardias C <br><span id="count-c">60</span></div>
-        <div class="card-guardia">Guardias D <br><span id="count-d">60</span></div>
+      <div id="customFechas" style="display:none; margin-top:5px;">
+        <label style="font-size:0.75rem;">Fecha Inicio:</label>
+        <input type="date" id="fechaInicio" onchange="actualizarGuardias()">
+        <label style="font-size:0.75rem;">Fecha Término:</label>
+        <input type="date" id="fechaFin" onchange="actualizarGuardias()">
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">Guardias A<strong id="restA">0</strong></div>
+        <div class="metric-card">Guardias B<strong id="restB">0</strong></div>
+        <div class="metric-card">Guardias C<strong id="restC">0</strong></div>
+        <div class="metric-card">Guardias D<strong id="restD">0</strong></div>
+      </div>
     </div>
-</div>
 
   <div class="card">
         <div class="card-title">
