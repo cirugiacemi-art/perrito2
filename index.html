@@ -21,6 +21,9 @@
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
     
     body {
+      <div style="background: transparent !important; width: 100%; display: flex; justify-content: center; align-items: center; margin-bottom: 12px; padding: 10px;">
+    <img src="PERRITO2.png" alt="PERRITO 2" style="max-height: 90px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25));">
+</div>
       background: var(--bg-gradient);
       background-size: 400% 400%;
       animation: gradientBG 12s ease infinite;
@@ -66,7 +69,44 @@
       font-weight: 600;
     }
 
-    
+    /* Cinta Horizontal Dinámica */
+    .word-rain-wrapper {
+      width: 100%;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 6px 0;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .word-rain-track {
+      display: flex;
+      gap: 12px;
+      white-space: nowrap;
+      animation: rainScroll 22s linear infinite;
+    }
+
+    .word-item {
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 4px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: inline-block;
+    }
+
+    .word-item.initial {
+      background: rgba(245, 158, 11, 0.8);
+      font-weight: 900;
+    }
+
+    @keyframes rainScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
 
     /* Layout Estricto de 3 Columnas */
     .dashboard {
@@ -300,49 +340,89 @@
       font-weight: bold;
       color: #A16207;
     }
-
-    
   </style>
 </head>
 <body id="app-body">
 
 <header>
-<header style="background: transparent !important; box-shadow: none !important; padding: 0 !important; margin-bottom: 25px;">
-    <!-- 🏥 Contenedor Exclusivo del Header (Sin afectar el resto de la página) -->
-    <div style="display: grid; grid-template-columns: 1fr 2.15fr; gap: 20px; width: 100%;">
-        
-        <!-- CUADRO IZQUIERDO: Contenedor con la imagen PERRITO2.png -->
-        <div class="card" style="display: flex; justify-content: center; align-items: center; background-color: #064e3b; border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-            <img src="PERRITO2.png" alt="Perrito 2" style="max-height: 95px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
-        </div>
-
-        <!-- CUADRO DERECHO: Contenedor Transparente + Línea Animada Abajo -->
-        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; background-color: #064e3b; border-radius: 20px; padding: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-            
-            <!-- Arriba: Contenedor transparente -->
-            <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding: 5px; background: transparent; margin-bottom: 8px; min-height: 45px;">
-                <!-- Espacio transparente libre -->
-            </div>
-
-            <!-- Abajo: Línea animada de frases -->
-            <div style="width: 100%; overflow: hidden; background: rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 6px 0; white-space: nowrap; position: relative;">
-                <div style="display: inline-flex; gap: 15px; animation: marquee 25s linear infinite; color: white; font-size: 0.75rem; font-weight: 700;">
-                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">I</span> URGENCIAS 
-                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">J</span> LECHUGA 
-                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">Z</span> PEDIATRIA 
-                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">A</span> CHEEMS 
-                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">P</span> AY PADRE 
-                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">P</span> PURAS FALLAS 
-                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">K</span> QUE FEO ERES 
-                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">V</span> SIPEM MALO
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</header>
+  <div style="background: transparent !important; width: 100%; display: flex; justify-content: center; align-items: center; margin-bottom: 12px; padding: 10px;">
+    <img src="PERRITO2.png" alt="PERRITO 2" style="max-height: 90px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25));">
+</div>
   
+  <div class="word-rain-wrapper">
+    <div class="word-rain-track">
+      <span class="word-item">GYO</span>
+      <span class="word-item initial">E</span>
+      <span class="word-item">PECHUGA</span>
+      <span class="word-item initial">C</span>
+      <span class="word-item">CIRUGIA</span>
+      <span class="word-item initial">I</span>
+      <span class="word-item">URGENCIAS</span>
+      <span class="word-item initial">J</span>
+      <span class="word-item">LECHUGA</span>
+      <span class="word-item initial">Z</span>
+      <span class="word-item">PEDIATRIA</span>
+      <span class="word-item initial">A</span>
+      <span class="word-item">CHEEMS</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">AY PADRE</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">PURAS FALLAS</span>
+      <span class="word-item initial">K</span>
+      <span class="word-item">QUE FEO ERES</span>
+      <span class="word-item initial">V</span>
+      <span class="word-item">SIPEM MALO</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">PUES EN SI</span>
+      <span class="word-item initial">Y</span>
+      <span class="word-item">NO HAY PENDIENTES</span>
+      <span class="word-item initial">K</span>
+      <span class="word-item">PECHUGA</span>
+      <span class="word-item initial">S</span>
+      <span class="word-item">UBI DEL SUB</span>
+      <span class="word-item initial">C</span>
+      <span class="word-item">OK ENTIENDO</span>
+      <span class="word-item initial">L</span>
+      <span class="word-item">EXCELENTE MANIOBRA</span>
+
+      <!-- Duplicado continuo -->
+      <span class="word-item">GYO</span>
+      <span class="word-item initial">E</span>
+      <span class="word-item">PECHUGA</span>
+      <span class="word-item initial">C</span>
+      <span class="word-item">CIRUGIA</span>
+      <span class="word-item initial">I</span>
+      <span class="word-item">URGENCIAS</span>
+      <span class="word-item initial">J</span>
+      <span class="word-item">LECHUGA</span>
+      <span class="word-item initial">Z</span>
+      <span class="word-item">PEDIATRIA</span>
+      <span class="word-item initial">A</span>
+      <span class="word-item">CHEEMS</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">AY PADRE</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">PURAS FALLAS</span>
+      <span class="word-item initial">K</span>
+      <span class="word-item">QUE FEO ERES</span>
+      <span class="word-item initial">V</span>
+      <span class="word-item">SIPEM MALO</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">PUES EN SI</span>
+      <span class="word-item initial">Y</span>
+      <span class="word-item">NO HAY PENDIENTES</span>
+      <span class="word-item initial">K</span>
+      <span class="word-item">PECHUGA</span>
+      <span class="word-item initial">S</span>
+      <span class="word-item">UBI DEL SUB</span>
+      <span class="word-item initial">C</span>
+      <span class="word-item">OK ENTIENDO</span>
+      <span class="word-item initial">L</span>
+      <span class="word-item">EXCELENTE MANIOBRA</span>
+    </div>
+  </div>
+</header>
+
 <div class="dashboard">
 
  <!-- COLUMNA 1: Buscador y Agregar/Editar -->
