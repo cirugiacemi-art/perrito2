@@ -307,24 +307,41 @@
 <body id="app-body">
 
 <header>
-<!-- 🏥 Contenedor Superior de Dos Cuadros Grandes -->
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; padding: 0 5px;">
-    
-    <!-- Cuadro Grande Izquierdo (Logo) -->
-    <div class="card" style="display: flex; justify-content: center; align-items: center; background-color: #064e3b; border-radius: 20px; padding: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-        <img src="MIPE (1).png" alt="Logo Perrito 2" style="max-height: 110px; width: auto; object-fit: contain;">
+<header style="background: transparent !important; box-shadow: none !important; padding: 0 !important; margin-bottom: 25px;">
+    <!-- 🏥 Contenedor Superior de Dos Cuadros Grandes (Proporción exacta: Columna 1 vs Columnas 2-3) -->
+    <div style="display: grid; grid-template-columns: 1fr 2.15fr; gap: 20px; width: 100%;">
+        
+        <!-- Cuadro Izquierdo (Ancho de la Columna 1): Logo Principal -->
+        <div class="card" style="display: flex; justify-content: center; align-items: center; background-color: #064e3b; border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+            <img src="MIPE (1).png" alt="Logo Perrito 2" style="max-height: 95px; width: auto; object-fit: contain;">
+        </div>
+
+        <!-- Cuadro Derecho (Ancho de Columna 2 a Columna 3): PNG Arriba + Barra Animada Abajo -->
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; background-color: #064e3b; border-radius: 20px; padding: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+            
+            <!-- Contenedor Transparente para tu Imagen PNG -->
+            <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding: 5px; background: transparent; margin-bottom: 8px;">
+                <img src="PERRITO2.png" alt="Perrito 2 PNG" style="max-height: 75px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
+            </div>
+
+            <!-- Espacio / Contenedor para la Línea Animada de Frases -->
+            <div style="width: 100%; overflow: hidden; background: rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 6px 0; white-space: nowrap; position: relative;">
+                <div style="display: inline-flex; gap: 15px; animation: marquee 25s linear infinite; color: white; font-size: 0.75rem; font-weight: 700;">
+                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">I</span> URGENCIAS 
+                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">J</span> LECHUGA 
+                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">Z</span> PEDIATRIA 
+                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">A</span> CHEEMS 
+                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">P</span> AY PADRE 
+                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">P</span> PURAS FALLAS 
+                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">K</span> QUE FEO ERES 
+                    <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">V</span> SIPEM MALO
+                </div>
+            </div>
+
+        </div>
+
     </div>
-
-    <!-- Cuadro Grande Derecho (Imagen PNG Limpia) -->
-    <div class="card" style="display: flex; justify-content: center; align-items: center; background-color: #064e3b; border-radius: 20px; padding: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-        <img src="PERRITO2.png" alt="Perrito 2" style="max-height: 110px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25));">
-    </div>
-
-</div>
-
-
-  
-  </header>
+</header>
 
 <div class="dashboard">
 
