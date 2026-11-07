@@ -308,23 +308,23 @@
 
 <header>
 <header style="background: transparent !important; box-shadow: none !important; padding: 0 !important; margin-bottom: 25px;">
-    <!-- 🏥 Contenedor Superior de Dos Cuadros Grandes (Proporción exacta: Columna 1 vs Columnas 2-3) -->
+    <!-- 🏥 Estructura exacta de Dos Cuadros Grandes -->
     <div style="display: grid; grid-template-columns: 1fr 2.15fr; gap: 20px; width: 100%;">
         
-        <!-- Cuadro Izquierdo (Ancho de la Columna 1): Logo Principal -->
+        <!-- CUADRO IZQUIERDO: Contenedor con la imagen PERRITO2.png -->
         <div class="card" style="display: flex; justify-content: center; align-items: center; background-color: #064e3b; border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-            <img src="MIPE (1).png" alt="Logo Perrito 2" style="max-height: 95px; width: auto; object-fit: contain;">
+            <img src="PERRITO2.png" alt="Perrito 2" style="max-height: 95px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
         </div>
 
-        <!-- Cuadro Derecho (Ancho de Columna 2 a Columna 3): PNG Arriba + Barra Animada Abajo -->
+        <!-- CUADRO DERECHO: Contenedor Transparente + Línea Animada Abajo -->
         <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; background-color: #064e3b; border-radius: 20px; padding: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
             
-            <!-- Contenedor Transparente para tu Imagen PNG -->
-            <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding: 5px; background: transparent; margin-bottom: 8px;">
-                <img src="PERRITO2.png" alt="Perrito 2 PNG" style="max-height: 75px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
+            <!-- Arriba: Contenedor transparente vacío para tus elementos -->
+            <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding: 5px; background: transparent; margin-bottom: 8px; min-height: 45px;">
+                <!-- Espacio transparente listo -->
             </div>
 
-            <!-- Espacio / Contenedor para la Línea Animada de Frases -->
+            <!-- Abajo: Línea animada de frases -->
             <div style="width: 100%; overflow: hidden; background: rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 6px 0; white-space: nowrap; position: relative;">
                 <div style="display: inline-flex; gap: 15px; animation: marquee 25s linear infinite; color: white; font-size: 0.75rem; font-weight: 700;">
                     <span style="background: #d97706; padding: 2px 8px; border-radius: 12px;">I</span> URGENCIAS 
