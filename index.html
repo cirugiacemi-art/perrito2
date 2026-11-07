@@ -21,9 +21,6 @@
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
     
     body {
-      <div style="background: transparent !important; width: 100%; display: flex; justify-content: center; align-items: center; margin-bottom: 12px; padding: 10px;">
-    <img src="PERRITO2.png" alt="PERRITO 2" style="max-height: 90px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25));">
-</div>
       background: var(--bg-gradient);
       background-size: 400% 400%;
       animation: gradientBG 12s ease infinite;
@@ -345,9 +342,20 @@
 <body id="app-body">
 
 <header>
-  <div style="background: transparent !important; width: 100%; display: flex; justify-content: center; align-items: center; margin-bottom: 12px; padding: 10px;">
-    <img src="PERRITO2.png" alt="PERRITO 2" style="max-height: 90px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25));">
-</div>
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; width: 100%; margin-bottom: 12px; padding: 10px;">
+        
+        <!-- CUADRO IZQUIERDO: Ancho de la Columna 1 con Perrito 2 -->
+        <div class="card" style="display: flex; justify-content: center; align-items: center; background-color: #064e3b; border-radius: 20px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+            <img src="PERRITO2.png" alt="PERRITO 2" style="max-height: 90px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25));">
+        </div>
+
+        <!-- CUADRO DERECHO: Ancho de la Columna 2 a 3 (Contenedor transparente + Línea animada) -->
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; background-color: #064e3b; border-radius: 20px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+            
+            <!-- Contenedor transparente superior -->
+            <div style="width: 100%; display: flex; justify-content: center; align-items: center; background: transparent; min-height: 40px;">
+                <!-- Espacio libre para imagen PNG o contenido -->
+            </div>
   
   <div class="word-rain-wrapper">
     <div class="word-rain-track">
