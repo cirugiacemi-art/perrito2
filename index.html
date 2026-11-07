@@ -342,21 +342,99 @@
 <body id="app-body">
 
 <header>
-<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; width: 100%; margin-bottom: 12px; padding: 10px;">
+<header style="background: transparent !important; box-shadow: none !important; padding: 0 !important; margin-bottom: 25px;">
+    <!-- Contenedor general que divide exactamente en 2 cuadros grandes -->
+    <div style="display: grid; grid-template-columns: 1fr 2.15fr; gap: 20px; width: 100%; max-width: 1450px; margin: 0 auto;">
         
-        <!-- CUADRO IZQUIERDO: Ancho de la Columna 1 con Perrito 2 -->
-        <div class="card" style="display: flex; justify-content: center; align-items: center; background-color: #064e3b; border-radius: 20px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-            <img src="PERRITO2.png" alt="PERRITO 2" style="max-height: 90px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25));">
+        <!-- 1. CUADRO GRANDE IZQUIERDO: Tamaño de Columna 1 con Perrito 2 -->
+        <div class="card" style="display: flex; justify-content: center; align-items: center; background-color: #064e3b; border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+            <img src="PERRITO2.png" alt="Perrito 2" style="max-height: 95px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
         </div>
 
-        <!-- CUADRO DERECHO: Ancho de la Columna 2 a 3 (Contenedor transparente + Línea animada) -->
-        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; background-color: #064e3b; border-radius: 20px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+        <!-- 2. CUADRO GRANDE DERECHO: Tamaño de Columna 2 a 3 (Contenedor transparente + Línea animada) -->
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; background-color: #064e3b; border-radius: 20px; padding: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
             
             <!-- Contenedor transparente superior -->
-            <div style="width: 100%; display: flex; justify-content: center; align-items: center; background: transparent; min-height: 40px;">
-                <!-- Espacio libre para imagen PNG o contenido -->
+            <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding: 5px; background: transparent; margin-bottom: 8px; min-height: 45px;">
+                <!-- Espacio libre transparente -->
             </div>
-  
+
+            <!-- Línea animada de frases abajo -->
+            <div class="word-rain-wrapper" style="width: 100%; overflow: hidden;">
+                <div class="word-rain-track">
+                    <span class="word-item">GYO</span>
+                    <span class="word-item initial">E</span>
+                    <span class="word-item">PECHUGA</span>
+                    <span class="word-item initial">C</span>
+                    <span class="word-item">CIRUGIA</span>
+                    <span class="word-item initial">I</span>
+                    <span class="word-item">URGENCIAS</span>
+                    <span class="word-item initial">J</span>
+                    <span class="word-item">LECHUGA</span>
+                    <span class="word-item initial">Z</span>
+                    <span class="word-item">PEDIATRIA</span>
+                    <span class="word-item initial">A</span>
+                    <span class="word-item">CHEEMS</span>
+                    <span class="word-item initial">P</span>
+                    <span class="word-item">AY PADRE</span>
+                    <span class="word-item initial">P</span>
+                    <span class="word-item">PURAS FALLAS</span>
+                    <span class="word-item initial">K</span>
+                    <span class="word-item">QUE FEO ERES</span>
+                    <span class="word-item initial">V</span>
+                    <span class="word-item">SIPEM MALO</span>
+                    <span class="word-item initial">P</span>
+                    <span class="word-item">PUES EN SI</span>
+                    <span class="word-item initial">Y</span>
+                    <span class="word-item">NO HAY PENDIENTES</span>
+                    <span class="word-item initial">K</span>
+                    <span class="word-item">PECHUGA</span>
+                    <span class="word-item initial">S</span>
+                    <span class="word-item">UBI DEL SUB</span>
+                    <span class="word-item initial">C</span>
+                    <span class="word-item">OK ENTIENDO</span>
+                    <span class="word-item initial">L</span>
+                    <span class="word-item">EXCELENTE MANIOBRA</span>
+                    <!-- Duplicado continuo para el loop -->
+                    <span class="word-item">GYO</span>
+                    <span class="word-item initial">E</span>
+                    <span class="word-item">PECHUGA</span>
+                    <span class="word-item initial">C</span>
+                    <span class="word-item">CIRUGIA</span>
+                    <span class="word-item initial">I</span>
+                    <span class="word-item">URGENCIAS</span>
+                    <span class="word-item initial">J</span>
+                    <span class="word-item">LECHUGA</span>
+                    <span class="word-item initial">Z</span>
+                    <span class="word-item">PEDIATRIA</span>
+                    <span class="word-item initial">A</span>
+                    <span class="word-item">CHEEMS</span>
+                    <span class="word-item initial">P</span>
+                    <span class="word-item">AY PADRE</span>
+                    <span class="word-item initial">P</span>
+                    <span class="word-item">PURAS FALLAS</span>
+                    <span class="word-item initial">K</span>
+                    <span class="word-item">QUE FEO ERES</span>
+                    <span class="word-item initial">V</span>
+                    <span class="word-item">SIPEM MALO</span>
+                    <span class="word-item initial">P</span>
+                    <span class="word-item">PUES EN SI</span>
+                    <span class="word-item initial">Y</span>
+                    <span class="word-item">NO HAY PENDIENTES</span>
+                    <span class="word-item initial">K</span>
+                    <span class="word-item">PECHUGA</span>
+                    <span class="word-item initial">S</span>
+                    <span class="word-item">UBI DEL SUB</span>
+                    <span class="word-item initial">C</span>
+                    <span class="word-item">OK ENTIENDO</span>
+                    <span class="word-item initial">L</span>
+                    <span class="word-item">EXCELENTE MANIOBRA</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </header>
 
 <div class="dashboard">
