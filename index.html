@@ -339,27 +339,27 @@
       color: #A16207;
     }
 
-/* Contenedor flotante superior derecho para el cartel */
+/* Contenedor flotante superior derecho ajustado a la altura correcta */
     .cartel-colgante-derecha {
         position: absolute;
-        top: -42px;
+        top: -15px;
         right: 20px;
         z-index: 30;
         pointer-events: none;
     }
 
-    /* Cables negros proporcionales */
+    /* Cables negros proporcionales y bien posicionados desde arriba del contenedor */
     .cable-izq-m, .cable-der-m {
         position: absolute;
-        top: -42px;
+        top: -25px;
         width: 3px;
-        height: 42px;
+        height: 25px;
         background-color: #111111;
         z-index: 25;
         box-shadow: 1px 1px 4px rgba(0,0,0,0.7);
     }
-    .cable-izq-m { left: 22px; }
-    .cable-der-m { right: 22px; }
+    .cable-izq-m { left: 25px; }
+    .cable-der-m { right: 25px; }
     
   </style>
 </head>
@@ -373,12 +373,12 @@
         <img src="PERRITO2.png" alt="Perrito 2" style="max-height: 95px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
     </div>
 
-<!-- CARTEL FLOTANTE CON CABLES Y TAMAÑO GRANDE Y CLARO -->
+<!-- CARTEL FLOTANTE CON CABLES VISIBLES Y TAMAÑO GRANDE -->
     <div class="cartel-colgante-derecha">
         <div class="cable-izq-m"></div>
         <div class="cable-der-m"></div>
         <div style="display: flex; align-items: center; justify-content: center; background: transparent; padding: 0;">
-            <img src="MIPE (1).png" alt="MIPETON ISSET" style="width: 280px; height: auto; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.7));">
+            <img src="MIPE (1).png" alt="MIPETON ISSET" style="width: 250px; height: auto; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.7));">
         </div>
     </div>
     
