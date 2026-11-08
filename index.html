@@ -338,40 +338,6 @@
       font-weight: bold;
       color: #A16207;
     }
-
-/* Contenedor principal superior */
-    .top-banner-container {
-        position: relative;
-        display: grid;
-        grid-template-columns: 1fr 2.15fr;
-        gap: 20px;
-        width: 100%;
-        margin-bottom: 25px;
-    }
-
-    /* El cartel colgante flotando por encima del cuadro derecho */
-    .cartel-colgante {
-        position: absolute;
-        top: -18px;
-        right: 15px;
-        width: 63%; /* Ancho perfecto para cubrir toda la zona derecha superior */
-        z-index: 20;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3);
-        border-radius: 20px;
-    }
-
-    /* Cables negros de suspensión */
-    .cable-izq, .cable-der {
-        position: absolute;
-        top: -28px;
-        width: 3px;
-        height: 28px;
-        background-color: #111111;
-        z-index: 15;
-        box-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-    }
-    .cable-izq { left: 25%; }
-    .cable-der { right: 25%; }
   </style>
 </head>
 <body id="app-body">
@@ -384,20 +350,13 @@
         <img src="PERRITO2.png" alt="Perrito 2" style="max-height: 95px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
     </div>
 
-<!-- CARTEL COLGANTE SUPERPUESTO (Ajustado al tamaño exacto de la imagen) -->
-    <div class="cartel-colgante">
-        <div class="cable-izq"></div>
-        <div class="cable-der"></div>
-
-<div class="card" style="display: inline-flex; justify-content: center; align-items: center; padding: 4px 8px; overflow: hidden; border-radius: 14px; border: 2px solid var(--border); background-color: var(--card-bg);">
-            <img src="MIPE (1).png" alt="Mipe 1" style="display: block; height: 45px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
-        </div>
     
 <!-- Cuadro Derecho -->
     <div style="display: flex; flex-direction: column; justify-content: space-between; background-color: #064e3b; border: 2px solid var(--border); border-radius: 20px; padding: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
         
         <!-- Contenedor superior con DOS imágenes de PERRITO3 juntas a la izquierda -->
         <div style="width: 100%; display: flex; justify-content: flex-start; align-items: center; gap: 10px; padding: 5px 10px; background: transparent; margin-bottom: 8px; min-height: 65px;">
+            <img src="PERRITO3.png" alt="Perrito 3" style="max-height: 55px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
             <img src="PERRITO3.png" alt="Perrito 3" style="max-height: 55px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
             <img src="PERRITO3.png" alt="Perrito 3" style="max-height: 55px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
         </div>
