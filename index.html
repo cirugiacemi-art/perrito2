@@ -223,75 +223,130 @@
 }
     
     /* Guardiómetro y Calendario */
-    .guardia-badge {
-      background: #EFF6FF;
-      border: 2px dashed var(--primary);
-      border-radius: 12px;
-      padding: 14px;
-      text-align: center;
-      margin-bottom: 12px;
-    }
-
-    .guardia-actual {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--primary-dark);
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .metric-card {
-      background: #F1F5F9;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      text-align: center;
-    }
-
-    .metric-card strong {
-      display: block;
-      font-size: 1.2rem;
-      color: var(--primary);
-    }
-
-    .calendar {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-      text-align: center;
-      font-size: 0.8rem;
-      margin-top: 8px;
-    }
-
-    .calendar-header {
-      font-weight: bold;
-      color: var(--primary);
-      padding: 4px 0;
-    }
-
-    .calendar-day {
-      padding: 6px 2px;
-      background: #F8FAFC;
-      border-radius: 6px;
-      border: 1px solid #E2E8F0;
-    }
-
-    .calendar-day.today {
-    background: var(--primary);
-    color: white;
-    font-weight: bold;
-}
-
-.calendar-day.festivo {
-    background-color: #10B981 !important;
-    color: white !important;
-    font-weight: bold;
-}
+<style>
+        .guard-dashboard-card { 
+            background: #ffffff; 
+            border-radius: 16px; 
+            padding: 20px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06); 
+            font-family: inherit; 
+            color: #1e293b; 
+            margin-bottom: 20px;
+        }
+        .semaphore-wrapper { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            margin: 15px 0; 
+        }
+        .semaphore-circle-lg { 
+            width: 120px; 
+            height: 120px; 
+            border-radius: 50%; 
+            background: radial-gradient(circle, #f8fafc 0%, #e2e8f0 100%); 
+            border: 4px solid #0d9488; 
+            box-shadow: 0 0 25px rgba(13, 148, 136, 0.35); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            transition: transform 0.3s ease;
+        }
+        .semaphore-circle-lg:hover { transform: scale(1.05); }
+        .semaphore-letter-val { 
+            font-size: 3.5rem; 
+            font-weight: 900; 
+            line-height: 1; 
+            color: #0f766e; 
+        }
+        .metrics-bar-container { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 8px; 
+            margin: 15px 0; 
+        }
+        .metric-box-item { 
+            background: #f1f5f9; 
+            padding: 10px 6px; 
+            border-radius: 10px; 
+            text-align: center; 
+        }
+        .metric-num-val { 
+            font-size: 1.25rem; 
+            font-weight: bold; 
+            color: #0f766e; 
+        }
+        .progress-bar-track { 
+            width: 100%; 
+            height: 6px; 
+            background: #cbd5e1; 
+            border-radius: 3px; 
+            margin-top: 6px; 
+            overflow: hidden; 
+        }
+        .progress-bar-fill { 
+            height: 100%; 
+            background: #0d9488; 
+            border-radius: 3px; 
+            transition: width 0.4s ease;
+        }
+        .countdown-card-box {
+            margin-top: 15px; 
+            background: #f8fafc; 
+            padding: 12px; 
+            border-radius: 12px; 
+            border: 1px solid #e2e8f0;
+        }
+        .calendar-interactive-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .cal-day-header {
+            font-size: 0.7rem;
+            color: #64748b;
+            font-weight: bold;
+        }
+        .cal-cell-item {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: #f8fafc;
+            font-size: 0.8rem;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .cal-cell-item:hover { background: #e2e8f0; }
+        .cal-cell-item.my-own-guard {
+            border: 2px solid #0d9488 !important;
+            box-shadow: 0 0 6px rgba(13, 148, 136, 0.4);
+        }
+        .cal-cell-item.is-holiday-item {
+            background-color: rgba(234, 179, 8, 0.15);
+            color: #ca8a04;
+            font-weight: bold;
+        }
+        .cal-cell-item.is-holiday-item:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 115%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0f172a;
+            color: #fff;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
 
     textarea { height: 110px; resize: vertical; }
 
@@ -459,31 +514,6 @@
                 </div>
             </div>
 
-            <!-- AQUÍ VA LA CUENTA REGRESIVA (DEBAJO DE AGREGAR CUENTAS) -->
-            <div class="card" style="text-align: center;">
-                <div class="card-title"><span>⏳ Cuenta Regresiva 2027</span></div>
-                <p style="font-size:0.75rem; color:#64748B; margin-bottom:12px;">Tiempo restante para el 1 de Enero de 2027:</p>
-                
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px;">
-                    <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
-                        <strong id="cdDays" style="display: block; font-size: 1.2rem; color: var(--primary);">00</strong>
-                        <span style="font-size: 0.65rem; color: #64748B;">Días</span>
-                    </div>
-                    <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
-                        <strong id="cdHours" style="display: block; font-size: 1.2rem; color: var(--primary);">00</strong>
-                        <span style="font-size: 0.65rem; color: #64748B;">Hrs</span>
-                    </div>
-                    <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
-                        <strong id="cdMinutes" style="display: block; font-size: 1.2rem; color: var(--primary);">00</strong>
-                        <span style="font-size: 0.65rem; color: #64748B;">Min</span>
-                    </div>
-                    <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
-                        <strong id="cdSeconds" style="display: block; font-size: 1.2rem; color: var(--primary);">00</strong>
-                        <span style="font-size: 0.65rem; color: #64748B;">Seg</span>
-                    </div>
-                </div>
-                <small style="font-size: 0.7rem; color: var(--primary); font-weight: 600;">¡A darle con todo al internado! 🩺🐶</small>
-            </div>
 
 <!-- Tarjeta de Pases a Piso -->
     <div class="card" style="margin-top: 15px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
@@ -525,57 +555,104 @@
     <div class="card">
       <div class="card-title"><span>📊 Guardiómetro</span></div>
       
-      <div class="guardia-badge">
-        <span style="font-size:0.85rem; color:#475569;">Guardia Hoy:</span>
-        <div class="guardia-actual" id="guardiaHoy">Guardia A</div>
-        <small id="fechaHoyText" style="color:#64748B; font-size:0.75rem;"></small>
-      </div>
+      <div class="guard-dashboard-card">
+    <h3 style="margin:0 0 10px 0; color:#0d9488; display:flex; align-items:center; gap:6px;">📊 Guardiómetro Moderno</h3>
 
-      <label style="font-size:0.8rem;">Seleccionar Promoción / Rotación:</label>
-      <select id="tipoMip" onchange="actualizarGuardias()">
-        <option value="mip2">MIP 2 (1 Ene 2026 - 31 Dic 2026)</option>
-        <option value="mip1">MIP 1 (1 Jul 2026 - 30 Jun 2027)</option>
-        <option value="custom">Personalizado</option>
-      </select>
-
-      <div id="customFechas" style="display:none; margin-top:5px;">
-        <label style="font-size:0.75rem;">Fecha Inicio:</label>
-        <input type="date" id="fechaInicio" onchange="actualizarGuardias()">
-        <label style="font-size:0.75rem;">Fecha Término:</label>
-        <input type="date" id="fechaFin" onchange="actualizarGuardias()">
-      </div>
-
-      <div class="metrics-grid">
-        <div class="metric-card">Guardias A<strong id="restA">0</strong></div>
-        <div class="metric-card">Guardias B<strong id="restB">0</strong></div>
-        <div class="metric-card">Guardias C<strong id="restC">0</strong></div>
-        <div class="metric-card">Guardias D<strong id="restD">0</strong></div>
-      </div>
+    <!-- SEMÁFORO / INDICADOR CIRCULAR GRANDE -->
+    <div class="semaphore-wrapper">
+        <span style="font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 600;">Guardia Activa Hoy</span>
+        <div class="semaphore-circle-lg">
+            <span class="semaphore-letter-val" id="activeSemaphoreLetter">B</span>
+        </div>
+        <span style="font-size: 0.85rem; color:#475569; margin-top:4px;">lunes, 9 de noviembre de 2026</span>
     </div>
 
-  <div class="card">
-        <div class="card-title">
-          <span>📅 Calendario</span>
-          <div>
-            <button onclick="cambiarMes(-1)">◀</button>
-            <span id="calMonthYear" style="font-size:0.85rem; color:var(--text); font-weight:700; margin:0 4px;">Septiembre 2026</span>
-            <button onclick="cambiarMes(1)">▶</button>
-          </div>
+    <!-- MÉTRICAS DE GUARDIAS Y BARRAS DE PROGRESO -->
+    <div class="metrics-bar-container">
+        <div class="metric-box-item">
+            <div style="font-size:0.7rem; color:#64748b;">Guardias A</div>
+            <div class="metric-num-val">13</div>
+            <div class="progress-bar-track"><div class="progress-bar-fill" style="width: 75%;"></div></div>
         </div>
-
-        <!-- Leyenda de color verde para días festivos -->
-        <div style="display: flex; align-items: center; justify-content: space-between; background-color: #F8FAFC; border: 1px solid #E2E8F0; padding: 6px 10px; border-radius: 8px; margin-bottom: 8px; font-size: 0.72rem;">
-          <div style="display: flex; align-items: center; gap: 5px;">
-            <span style="width: 12px; height: 12px; background-color: #10B981; border-radius: 3px; display: inline-block;"></span>
-            <strong style="color: #065F46;">Día Festivo ISSET</strong>
-          </div>
-          <span style="color: #64748B; font-style: italic;">*Inhábil oficial</span>
+        <div class="metric-box-item">
+            <div style="font-size:0.7rem; color:#64748b;">Guardias B</div>
+            <div class="metric-num-val">13</div>
+            <div class="progress-bar-track"><div class="progress-bar-fill" style="width: 75%;"></div></div>
         </div>
-
-        <div class="calendar" id="calendarGrid"></div>
-      </div>
+        <div class="metric-box-item">
+            <div style="font-size:0.7rem; color:#64748b;">Guardias C</div>
+            <div class="metric-num-val">13</div>
+            <div class="progress-bar-track"><div class="progress-bar-fill" style="width: 75%;"></div></div>
+        </div>
+        <div class="metric-box-item">
+            <div style="font-size:0.7rem; color:#64748b;">Guardias D</div>
+            <div class="metric-num-val">13</div>
+            <div class="progress-bar-track"><div class="progress-bar-fill" style="width: 75%;"></div></div>
+        </div>
     </div>
-    
+
+    <!-- CUENTA REGRESIVA HASTA EL 1 DE ENERO DE 2027 -->
+    <div class="countdown-card-box">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: bold;">Cuenta Regresiva 2027</div>
+                <div id="countdownDisplayTimer" style="font-size: 1rem; font-weight: bold; color: #0d9488; margin-top: 2px;">52d 06h 46m</div>
+            </div>
+            <button onclick="toggleDiscreteClockEditor()" style="background: none; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer; color: #475569;">✏️ Ajustar Reloj</button>
+        </div>
+        
+        <div id="discreteClockPanel" style="display: none; margin-top: 8px; border-top: 1px dashed #cbd5e1; paddingTop: 8px;">
+            <input type="datetime-local" id="customTargetClock" value="2027-01-01T00:00" style="width: 100%; padding: 4px; font-size: 0.75rem; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; margin-bottom: 6px;">
+            <button onclick="saveCustomClock()" style="width: 100%; background: #0d9488; color: white; border: none; padding: 5px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; cursor: pointer;">Guardar Nueva Fecha</button>
+        </div>
+    </div>
+
+    <!-- CALENDARIO INTERACTIVO -->
+    <div style="margin-top: 15px;">
+        <div style="font-size: 0.85rem; font-weight: bold; color: #334155; margin-bottom: 6px;">📅 Calendario Interactivo</div>
+        <div class="calendar-interactive-grid">
+            <div class="cal-day-header">D</div>
+            <div class="cal-day-header">L</div>
+            <div class="cal-day-header">M</div>
+            <div class="cal-day-header">M</div>
+            <div class="cal-day-header">J</div>
+            <div class="cal-day-header">V</div>
+            <div class="cal-day-header">S</div>
+            
+            <div class="cal-cell-item">1</div>
+            <div class="cal-cell-item my-own-guard">2 <span style="font-size:0.55rem; color:#0d9488; font-weight:bold;">B</span></div>
+            <div class="cal-cell-item">3</div>
+            <div class="cal-cell-item">4</div>
+            <div class="cal-cell-item">5</div>
+            <div class="cal-cell-item">6</div>
+            <div class="cal-cell-item">7</div>
+            <div class="cal-cell-item">8</div>
+            <div class="cal-cell-item my-own-guard">9 <span style="font-size:0.55rem; color:#0d9488; font-weight:bold;">B</span></div>
+            <div class="cal-cell-item">10</div>
+            <div class="cal-cell-item">11</div>
+            <div class="cal-cell-item">12</div>
+            <div class="cal-cell-item">13</div>
+            <div class="cal-cell-item">14</div>
+            <div class="cal-cell-item">15</div>
+            <div class="cal-cell-item is-holiday-item" data-tooltip="Día de la Revolución (Inhábil Oficial)">16</div>
+            <div class="cal-cell-item">17</div>
+            <div class="cal-cell-item">18</div>
+            <div class="cal-cell-item">19</div>
+            <div class="cal-cell-item">20</div>
+            <div class="cal-cell-item">21</div>
+            <div class="cal-cell-item">22</div>
+            <div class="cal-cell-item">23</div>
+            <div class="cal-cell-item">24</div>
+            <div class="cal-cell-item">25</div>
+            <div class="cal-cell-item">26</div>
+            <div class="cal-cell-item">27</div>
+            <div class="cal-cell-item">28</div>
+            <div class="cal-cell-item">29</div>
+            <div class="cal-cell-item">30</div>
+        </div>
+    </div>
+</div>  
+      
   <!-- COLUMNA 3: Laboratorios y Post-its -->
   <div class="column">
     <div class="card">
@@ -1916,6 +1993,38 @@ function copiarTextoConversor() {
         }, 1200);
     });
 }
+
+<script>
+    function toggleDiscreteClockEditor() {
+        const panel = document.getElementById('discreteClockPanel');
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function saveCustomClock() {
+        const val = document.getElementById('customTargetClock').value;
+        if(val) {
+            localStorage.setItem('perrito_custom_target_clock', val);
+            alert("¡Reloj de cuenta regresiva actualizado!");
+            toggleDiscreteClockEditor();
+        }
+    }
+
+    // Reloj dinámico en tiempo real
+    setInterval(() => {
+        let targetStr = localStorage.getItem('perrito_custom_target_clock') || "2027-01-01T00:00:00";
+        const diff = new Date(targetStr).getTime() - new Date().getTime();
+        
+        if(diff > 0) {
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            
+            document.getElementById('countdownDisplayTimer').innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        } else {
+            document.getElementById('countdownDisplayTimer').innerText = "¡Liberados! 🎉";
+        }
+    }, 1000);
 </script>
 </body>
 </html>
