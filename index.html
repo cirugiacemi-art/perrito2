@@ -21,6 +21,9 @@
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
     
     body {
+      <div style="background: transparent !important; width: 100%; display: flex; justify-content: center; align-items: center; margin-bottom: 12px; padding: 10px;">
+    <img src="PERRITO2.png" alt="PERRITO 2" style="max-height: 90px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25));">
+</div>
       background: var(--bg-gradient);
       background-size: 400% 400%;
       animation: gradientBG 12s ease infinite;
@@ -95,10 +98,9 @@
       display: inline-block;
     }
 
-   .word-item.initial {
-    background: var(--primary);
-    font-weight: 900;
-    color: #FFFFFF;
+    .word-item.initial {
+      background: rgba(245, 158, 11, 0.8);
+      font-weight: 900;
     }
 
     @keyframes rainScroll {
@@ -338,136 +340,89 @@
       font-weight: bold;
       color: #A16207;
     }
-
-/* Contenedor flotante superior derecho */
-    .cartel-colgante-derecha {
-        position: absolute;
-        top: 8px;
-        right: 40px;
-        z-index: 30;
-        pointer-events: none;
-    }
-
-    /* Cables negros bien posicionados visibles bajando hacia el cartel */
-    .cable-izq-m, .cable-der-m {
-        position: absolute;
-        top: -18px;
-        width: 3px;
-        height: 18px;
-        background-color: #111111;
-        z-index: 25;
-        box-shadow: 1px 1px 4px rgba(0,0,0,0.7);
-    }
-    .cable-izq-m { left: 25px; }
-    .cable-der-m { right: 25px; }
-    
   </style>
 </head>
 <body id="app-body">
 
-
-<div style="display: grid; grid-template-columns: 1fr 2.15fr; gap: 20px; width: 100%; margin-bottom: 25px;">
-    
-    <!-- Cuadro Izquierdo usando el headerBg de la paleta diaria -->
-    <div style="background-color: var(--headerBg); border: 2px solid var(--border); border-radius: 14px; display: flex; justify-content: center; align-items: center; margin: 0; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-        <img src="PERRITO2.png" alt="Perrito 2" style="max-height: 95px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
-    </div>
-
-<!-- CARTEL FLOTANTE CON BORDE AZUL, BORDES REDONDOS Y SIN FONDO BLANCO -->
-    <div class="cartel-colgante-derecha">
-        <div class="cable-izq-m"></div>
-        <div class="cable-der-m"></div>
-        <div style="display: flex; align-items: center; justify-content: center; background: transparent; padding: 0;">
-            <img src="MIPE (1).png" alt="MIPETON ISSET" style="width: 270px; height: auto; object-fit: contain; border: 2px solid var(--primary); border-radius: 12px; background: transparent; padding: 2px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.7));">
-        </div>
-    </div>
-    
-<!-- Cuadro Derecho usando el headerBg de la paleta diaria -->
-    <div style="background-color: var(--headerBg); border: 2px solid var(--border); border-radius: 14px; display: flex; flex-direction: column; justify-content: space-between; margin: 0; padding: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-        
-        <!-- Contenedor superior con las imágenes de PERRITO3 -->
-        <div style="width: 100%; display: flex; justify-content: flex-start; align-items: center; gap: 10px; padding: 5px 10px; background: transparent; margin-bottom: 8px; min-height: 65px;">
-            <img src="PERRITO3.png" alt="Perrito 3" style="max-height: 55px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
-            <img src="PERRITO3.png" alt="Perrito 3" style="max-height: 55px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
-            <img src="PERRITO3.png" alt="Perrito 3" style="max-height: 55px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
-            <img src="PERRITO3.png" alt="Perrito 3" style="max-height: 55px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
-        </div>
-
-        <div class="word-rain-wrapper" style="width: 100%; overflow: hidden;">
-            <div class="word-rain-track">
-                <span class="word-item">URGENCIAS</span>
-                <span class="word-item initial">E</span>
-                <span class="word-item">PECHUGA</span>
-                <span class="word-item initial">C</span>
-                <span class="word-item">MI</span>
-                <span class="word-item initial">Z</span>
-                <span class="word-item">CIRUGIA</span>
-                <span class="word-item initial">J</span>
-                <span class="word-item">LECHUGA</span>
-                <span class="word-item initial">A</span>
-                <span class="word-item">PEDIATRIA</span>
-                <span class="word-item initial">V</span>
-                <span class="word-item">CHEEMS</span>
-                <span class="word-item initial">I</span>
-                <span class="word-item">AY PADRE</span>
-                <span class="word-item initial">P</span>
-                <span class="word-item">PURAS FALLAS</span>
-                <span class="word-item initial">K</span>
-                <span class="word-item">QUE FEO ERES</span>
-                <span class="word-item initial">P</span>
-                <span class="word-item">SIPEM MALO</span>
-                <span class="word-item initial">P</span>
-                <span class="word-item">PUES EN SI</span>
-                <span class="word-item initial">Y</span>
-                <span class="word-item">NO HAY PENDIENTES</span>
-                <span class="word-item initial">K</span>
-                <span class="word-item">GYO</span>
-                <span class="word-item initial">S</span>
-                <span class="word-item">UBI DEL SUB</span>
-                <span class="word-item initial">C</span>
-                <span class="word-item">OK ENTIENDO</span>
-                <span class="word-item initial">L</span>
-                <span class="word-item">EXCELENTE MANIOBRA</span>
-               <span class="word-item">URGENCIAS</span>
-                <span class="word-item initial">E</span>
-                <span class="word-item">PECHUGA</span>
-                <span class="word-item initial">C</span>
-                <span class="word-item">MI</span>
-                <span class="word-item initial">Z</span>
-                <span class="word-item">CIRUGIA</span>
-                <span class="word-item initial">J</span>
-                <span class="word-item">LECHUGA</span>
-                <span class="word-item initial">A</span>
-                <span class="word-item">PEDIATRIA</span>
-                <span class="word-item initial">V</span>
-                <span class="word-item">CHEEMS</span>
-                <span class="word-item initial">I</span>
-                <span class="word-item">AY PADRE</span>
-                <span class="word-item initial">P</span>
-                <span class="word-item">PURAS FALLAS</span>
-                <span class="word-item initial">K</span>
-                <span class="word-item">QUE FEO ERES</span>
-                <span class="word-item initial">P</span>
-                <span class="word-item">SIPEM MALO</span>
-                <span class="word-item initial">P</span>
-                <span class="word-item">PUES EN SI</span>
-                <span class="word-item initial">Y</span>
-                <span class="word-item">NO HAY PENDIENTES</span>
-                <span class="word-item initial">K</span>
-                <span class="word-item">GYO</span>
-                <span class="word-item initial">S</span>
-                <span class="word-item">UBI DEL SUB</span>
-                <span class="word-item initial">C</span>
-                <span class="word-item">OK ENTIENDO</span>
-                <span class="word-item initial">L</span>
-                <span class="word-item">EXCELENTE MANIOBRA</span>
-            </div>
-        </div>
-
-    </div>
-
+<header>
+  <div style="background: transparent !important; width: 100%; display: flex; justify-content: center; align-items: center; margin-bottom: 12px; padding: 10px;">
+    <img src="PERRITO2.png" alt="PERRITO 2" style="max-height: 90px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25));">
 </div>
   
+  <div class="word-rain-wrapper">
+    <div class="word-rain-track">
+      <span class="word-item">GYO</span>
+      <span class="word-item initial">E</span>
+      <span class="word-item">PECHUGA</span>
+      <span class="word-item initial">C</span>
+      <span class="word-item">CIRUGIA</span>
+      <span class="word-item initial">I</span>
+      <span class="word-item">URGENCIAS</span>
+      <span class="word-item initial">J</span>
+      <span class="word-item">LECHUGA</span>
+      <span class="word-item initial">Z</span>
+      <span class="word-item">PEDIATRIA</span>
+      <span class="word-item initial">A</span>
+      <span class="word-item">CHEEMS</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">AY PADRE</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">PURAS FALLAS</span>
+      <span class="word-item initial">K</span>
+      <span class="word-item">QUE FEO ERES</span>
+      <span class="word-item initial">V</span>
+      <span class="word-item">SIPEM MALO</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">PUES EN SI</span>
+      <span class="word-item initial">Y</span>
+      <span class="word-item">NO HAY PENDIENTES</span>
+      <span class="word-item initial">K</span>
+      <span class="word-item">PECHUGA</span>
+      <span class="word-item initial">S</span>
+      <span class="word-item">UBI DEL SUB</span>
+      <span class="word-item initial">C</span>
+      <span class="word-item">OK ENTIENDO</span>
+      <span class="word-item initial">L</span>
+      <span class="word-item">EXCELENTE MANIOBRA</span>
+
+      <!-- Duplicado continuo -->
+      <span class="word-item">GYO</span>
+      <span class="word-item initial">E</span>
+      <span class="word-item">PECHUGA</span>
+      <span class="word-item initial">C</span>
+      <span class="word-item">CIRUGIA</span>
+      <span class="word-item initial">I</span>
+      <span class="word-item">URGENCIAS</span>
+      <span class="word-item initial">J</span>
+      <span class="word-item">LECHUGA</span>
+      <span class="word-item initial">Z</span>
+      <span class="word-item">PEDIATRIA</span>
+      <span class="word-item initial">A</span>
+      <span class="word-item">CHEEMS</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">AY PADRE</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">PURAS FALLAS</span>
+      <span class="word-item initial">K</span>
+      <span class="word-item">QUE FEO ERES</span>
+      <span class="word-item initial">V</span>
+      <span class="word-item">SIPEM MALO</span>
+      <span class="word-item initial">P</span>
+      <span class="word-item">PUES EN SI</span>
+      <span class="word-item initial">Y</span>
+      <span class="word-item">NO HAY PENDIENTES</span>
+      <span class="word-item initial">K</span>
+      <span class="word-item">PECHUGA</span>
+      <span class="word-item initial">S</span>
+      <span class="word-item">UBI DEL SUB</span>
+      <span class="word-item initial">C</span>
+      <span class="word-item">OK ENTIENDO</span>
+      <span class="word-item initial">L</span>
+      <span class="word-item">EXCELENTE MANIOBRA</span>
+    </div>
+  </div>
+</header>
+
 <div class="dashboard">
 
  <!-- COLUMNA 1: Buscador y Agregar/Editar -->
@@ -560,7 +515,13 @@
   
   <!-- COLUMNA 2: Guardiómetro y Calendario -->
   <div class="column">
-
+<!-- === INICIO IMAGEN NEÓN COMPACTA === -->
+      <div style="width: 100%; margin-bottom: 10px;">
+        <div style="width: 100%; height: 120px; overflow: hidden; border-radius: 12px; border: 2px solid #0284C7; box-shadow: 0 4px 12px rgba(0,0,0,0.3); background: #011326; display: flex; align-items: center; justify-content: center;">
+          <img src="MIPE (1).png" alt="MIPETON ISSET" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+      </div>
+      <!-- === FIN IMAGEN NEÓN === -->
     <div class="card">
       <div class="card-title"><span>📊 Guardiómetro</span></div>
       
@@ -693,7 +654,96 @@
   // Enlace directo a tu API de Google Sheets
   const API_URL = "https://script.google.com/macros/s/AKfycbyEfgH-PPHERrISgEG0yCCr-M6EZqwVGuDxwXH_b48PlNkeZUUQ_ffJkYSIuNoy13_4rA/exec";
 
-  const cuentasIniciales = [];
+  const cuentasIniciales = [
+    { usuario: "JULIOC.VAZQUEZ (PADRE DE TODOS)", clave: "JULIOC2024" },
+    { usuario: "NAYELI.MEZQUITA (PISO MAT)", clave: "NAYELIMP2026" },
+    { usuario: "MONICA.HERDEZ (LABOR VESP)", clave: "MONICAAHV26" },
+    { usuario: "ARTURO.RUIZ (LABOR MAT)", clave: "ARTURORR984" },
+    { usuario: "ARTURO.ARIAS (CIRUPEDIA)", clave: "ARTURO47" },
+    { usuario: "JOSECADENA (UCIN MAT)", clave: "JOSECADE05" },
+    { usuario: "JPABLO.MONTALVO (UCIN NOCHES LMV)", clave: "jpablo2023" },
+    { usuario: "DANIEL.AGUILAR (LABOR FINDES)", clave: "DANIELAR670" },
+    { usuario: "CADELARIO.ZAVALA (URG NOCHE)", clave: "CANDELARIO1529" },
+    { usuario: "JOSE.UITZIL (URG NOCHE LMV)", clave: "UITZIL983" },
+    { usuario: "NELLYAU.LAZARO (PEDIATRA)", clave: "NELLYLJ2025" },
+    { usuario: "DANIEL.BROCA (PEDIATRA)", clave: "DANIELD2024" },
+    { usuario: "LENDY.CHAN (NEUROLOGIA)", clave: "LENDYC2024" },
+    { usuario: "ESMERALDA.GOMEZ (FIN DE SEMANA)", clave: "ESMERALDA179" },
+    { usuario: "ROSA.MARTINEZ (PEDIATRA PISO VESP)", clave: "MARBAR" },
+    { usuario: "ISABEL.RAMON (INTERNISTA PISO 1 VESP)", clave: "ISABEL27" },
+    { usuario: "DANIEL.SALVADOR (INTERNISTA PISO 1 MAT)", clave: "DANIEL11" },
+    { usuario: "ARMANDO.ALVAREZ (INTERNISTA PISO 2 MAT)", clave: "BURGOS" },
+    { usuario: "ALEJANDRO.MEJIA (JEFE DE MI)", clave: "encefalitis26" },
+    { usuario: "KARLAG.TREJO (UCI VESP)", clave: "KARLATC2025" },
+    { usuario: "JONATHAN.DLCRUZ (UCI MAT)", clave: "JONATHANEPC26" },
+    { usuario: "JESUS.CHABLED (UCI NOCHES)", clave: "Anchable12" },
+    { usuario: "JAVIER.FLORES (MEDICO DE APOYO NOCHES)", clave: "JAVIERFR479" },
+    { usuario: "MARIANA.BRETON (MEDICO DE APOYO FINDES)", clave: "MARINANM64" },
+    { usuario: "JUANJ.ALVAREZ (MEDICO DE APOYO)", clave: "JUANJAJ2025" },
+    { usuario: "ANDRES.PALOMEQUE (APOYO PISO 2 MAT)", clave: "Andrespz2024" },
+    { usuario: "ERNESTO.LARA (INTERNISTA PISO 2 NOCHES)", clave: "LARSNET025" },
+    { usuario: "MERCEDES.PEREGRINO (APOYO PISO 1 VESP)", clave: "MERCEPH0101" },
+    { usuario: "DANIEL.CONDE (APOYO PISO 1 MAT)", clave: "Danielaca2023" },
+    { usuario: "ROSARIO.MENA (APOYO PISO 1 MAT)", clave: "ROSARIOMENA" },
+    { usuario: "MIRELY.CASASUS (UCI FIN DE SEMANA)", clave: "ISSETCEMI2026" },
+    { usuario: "JAGOPE (CARDIO - PEDRERO)", clave: "690626" },
+    { usuario: "CARLOSART.CORTAZAR (ONCOCIRUGIA)", clave: "CARLOSCS25" },
+    { usuario: "KARENP.HERRERA (CIRUJANO VESP)", clave: "KARENPHV26" },
+    { usuario: "FRANCISCO.CARRADA (CIRUJANO MAT)", clave: "CARRADA37" },
+    { usuario: "BRYAN.MORALES (CIRUJANO VESP)", clave: "BRYANME26" },
+    { usuario: "JULIOC.AVALOS (UROLOGIA)", clave: "JULIOC2026" },
+    { usuario: "ROBERTO.MANZANO (COLOPROCTO)", clave: "ROBERTO17" },
+    { usuario: "JULIOC.MYERYC (UROLOGIA)", clave: "JULIOCMC25" },
+    { usuario: "HORACIO.HERNANDEZ (CIRUJANO)", clave: "HORACIO45" },
+    { usuario: "DANIEL.HERDEZ (JEFE DE TYO)", clave: "DANIELHO25" },
+    { usuario: "JOEL.CRUZG (JEFE CIRUGIA)", clave: "JOELCRUZ23$$" },
+    { usuario: "TILO.AGUILAR (CIRUJANO VESP)", clave: "AGUILAR59" },
+    { usuario: "RODRIGO.REPETTO (CIRUJANO MAT)", clave: "RODRIGO76" },
+    { usuario: "IGNACIO.PAVON (CIRUJANO VESP)", clave: "IGNACIOPR150" },
+    { usuario: "GABRIEL.GONZALEZ (CIRUJANO VESP)", clave: "GABRIELGS25" },
+    { usuario: "FREDDY_MARIN (MAT)", clave: "abcdef12" },
+    { usuario: "KARLA.JEREZ (NOCHES)", clave: "ARAGON10" },
+    { usuario: "JIM.CHABLE (MAT)", clave: "JIMCH972" },
+    { usuario: "MANUEL.DIAZ (MAT)", clave: "MANUELDL765" },
+    { usuario: "JOSED.MARTINEZ (FIN DE SEM)", clave: "JOSEDA2024" },
+    { usuario: "ARMANDO.FRIAS (CRITICA)", clave: "ARMANDOFO715" },
+    { usuario: "LITA.CADENA (CUBRE)", clave: "LITASCA26" },
+    { usuario: "SALVADORHH (NOCHE)", clave: "SALVADORHH12" },
+    { usuario: "MARCIONILADG (INTERNISTA)", clave: "MARCIONILADG210" },
+    { usuario: "JLUISBG.GUTIERREZ (MAT)", clave: "JOSEBG2025" },
+    { usuario: "JUAN.LOPEZ_1233 (JJ- FINDE)", clave: "2802" },
+    { usuario: "DAVIS.ANDERSON (NOCHE)", clave: "DAVISGL850" },
+    { usuario: "NAYRA.CADENA (MAT/NOCHE)", clave: "NAYRAYA2024" },
+    { usuario: "MARTINBG (VESP)", clave: "MARTIN671" },
+    { usuario: "FERNANDO.GARCIA (FINDE)", clave: "GARCIA12" },
+    { usuario: "EDERADIN.TASS (NOCHE)", clave: "EDERASIN2025" },
+    { usuario: "JPAULINO.RIVERA (NOCHE)", clave: "Jpaulino2024" },
+    { usuario: "VERA.CARRERA (CUBRE)", clave: "MILIXA90" },
+    { usuario: "MIGUEL.GONZALEZ (VILLEGAS CRITICA)", clave: "MIGUEL4510" },
+    { usuario: "NESTOR.PEREZ (NOCHE)", clave: "NESTORPA645" },
+    { usuario: "RAFEL.PEREZ (CARRETA)", clave: "Rafaelcp2023" },
+    { usuario: "CARLOS.HERNANDEZ (FINDE)", clave: "NENUCA" },
+    { usuario: "MARIA.ALICIA (CUBRE)", clave: "MARIARR321" },
+    { usuario: "LOUISEK.MONTERRUBIO", clave: "MONTERRUBIO2025" },
+    { usuario: "RAULHS.SANCHEZ", clave: "Raulhs023" },
+    { usuario: "NELSON.MORALES (FIN DE SEMANA)", clave: "Nelson2023" },
+    { usuario: "YOLANDA.GARDUZA", clave: "YOLANDAGL679" },
+    { usuario: "EZEQUIAS.SOBERANOCM (VESP)", clave: "nery25eze3517si" },
+    { usuario: "JOSE.AQUINO", clave: "JOSEOJ56" },
+    { usuario: "JUANC.SOSA (VESP)", clave: "JUANCASTRO93" },
+    { usuario: "ERIKAGI.GARCIA", clave: "ERIKAGR2025" },
+    { usuario: "JOSESP.SANCHEZ", clave: "Josesp2023" },
+    { usuario: "SARAYANETH.SACA (UROGINE)", clave: "SARAYSC2025" },
+    { usuario: "RICARDO.PERALTA (NOCHE)", clave: "RIPEQU85" },
+    { usuario: "JOSE.ANTONIO", clave: "JOSEAD874" },
+    { usuario: "PAOLIS19", clave: "PAOLIS19" },
+    { usuario: "ROBERTO.ROMAN (MAT)", clave: "roaroct08" },
+    { usuario: "JOSE.SASTRE", clave: "JOSEEJ46" },
+    { usuario: "DRESCAYOLA.19 (NOCHE)", clave: "enrique88" },
+    { usuario: "MOISES.PAREDES (VESP)", clave: "MOISESPV2025" },
+    { usuario: "ISRAEL.CIFUENTES", clave: "ISRAELSI69" },
+    { usuario: "ALEJANDRA.LANDERO (JEFA)", clave: "Alejandra2023" }
+  ];
 
   let usuariosGuardados = JSON.parse(localStorage.getItem('perrito_cuentas')) || cuentasIniciales;
 let usuarios = usuariosGuardados.filter((u, i, arr) => arr.findIndex(item => obtenerLimpio(item.usuario).toLowerCase() === obtenerLimpio(u.usuario).toLowerCase()) === i);
@@ -1344,7 +1394,7 @@ const cuentasMedicos = {
     { bg: "linear-gradient(-45deg, #042f2e, #115e59, #0d9488, #2dd4bf)", cardBg: "#f0fdfa", border: "#ccfbf1", headerBg: "#134e4a", titleColor: "#99f6e4", primary: "#0d9488" },
     
     // 13. Orquídea y Rosa Pastel
-    { bg: "linear-gradient(-45deg, #1e3a8a, #1d4ed8, #dc2626, #eab308)", cardBg: "#fefce8", border: "#fef08a", headerBg: "#1e40af", titleColor: "#fef08a", primary: "#dc2626" },
+    { bg: "linear-gradient(-45deg, #4a044e, #701a75, #a21caf, #e879f9)", cardBg: "#fdf4ff", border: "#fae8ff", headerBg: "#86198f", titleColor: "#f5d0fe", primary: "#a21caf" },
     
     // 14. Azul Hielo y Menta Suave
     { bg: "linear-gradient(-45deg, #082f49, #0f766e, #14b8a6, #5eead4)", cardBg: "#f0fdf4", border: "#ccfbf1", headerBg: "#0f766e", titleColor: "#99f6e4", primary: "#14b8a6" },
