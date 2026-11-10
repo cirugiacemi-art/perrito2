@@ -10,7 +10,7 @@
   
   <style>
     :root {
-      --primary: var(--bg-gradient) 
+      --primary: var(--bg-gradient);
       --primary-dark: #1D4ED8;
       --card-bg: #FFFFFF;
       --text: #1E293B;
@@ -341,27 +341,6 @@
       color: #A16207;
     }
 
-/* --- 1. MODO OSCURO GLOBAL --- */
-body.dark-mode {
-    --bg-main: #0f172a;
-    --card-bg: #1e293b;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --border-color: #334155;
-    background-color: var(--bg-main) !important;
-    color: var(--text-main) !important;
-}
-body.dark-mode .card, body.dark-mode .guard-dashboard-card, body.dark-mode .calendar-card-container {
-    background-color: var(--card-bg) !important;
-    border-color: var(--border-color) !important;
-    color: var(--text-main) !important;
-}
-body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
-    background-color: #0f172a !important;
-    color: #fff !important;
-    border-color: var(--border-color) !important;
-}
-
 /* --- 2. COLAPSO DE SECCIONES (ACCORDIONS) --- */
 .accordion-header {
     background: #f1f5f9;
@@ -403,22 +382,6 @@ body.dark-mode .accordion-header { background: #334155; color: #fff; }
 .esp-gyo { background-color: #db2777; }          /* Rosado - GyO */
 .esp-urgencias { background-color: #dc2626; }    /* Rojo - Urgencias */
 .esp-medicina { background-color: #16a34a; }     /* Verde - Medicina Interna */
-
-/* --- 4. CALENDARIO MEJORADO (Día Actual y Leyenda) --- */
-.calendar-day.current-today {
-    border: 2px solid #0d9488 !important;
-    background: rgba(13, 148, 136, 0.2) !important;
-    font-weight: bold;
-}
-.guard-legend {
-    display: flex;
-    gap: 8px;
-    font-size: 0.65rem;
-    color: #64748b;
-    margin-bottom: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
 
 /* --- 5. TEXT TOOLS (FILA HORIZONTAL, ICONO Y JUSTIFICAR) --- */
 .text-tools-row {
@@ -710,21 +673,9 @@ body.dark-mode .text-tools-row button { background: #334155; color: #fff; border
       <label style="font-size:0.8rem; font-weight:600;">Resultado:</label>
       <div class="lab-result" id="labOutput">Esperando datos...</div>
       
-      <button onclick="copiarResultado()" style="width:100%; margin-top:10px; background-color:#10B981;">Copiar Formato</button>
-    </div>
-
-    <!-- B. PROCESADOR DE LABORATORIOS -->
-<div class="card" style="margin-bottom: 15px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <h3 style="margin:0; font-size:1rem; color:#0d9488;">🧪 Procesador de Labs</h3>
-        <span class="lab-status-badge" id="labStatusIndicator"><div class="loading-spinner"></div> Cargando datos...</span>
-    </div>
-    <textarea id="labInputText" placeholder="Pega aquí los laboratorios..." style="width:100%; height:75px; padding:8px; border-radius:6px; border:1px solid #cbd5e1; box-sizing:border-box;"></textarea>
-    <div style="display:flex; gap:6px; margin-top:8px;">
-        <button onclick="copyLabsText()" style="flex:1; background:#0d9488; color:white; border:none; padding:6px; border-radius:6px; cursor:pointer; font-size:0.8rem; font-weight:bold;">📋 Copiar</button>
+    <button onclick="copyLabsText()" style="flex:1; background:#0d9488; color:white; border:none; padding:6px; border-radius:6px; cursor:pointer; font-size:0.8rem; font-weight:bold;">📋 Copiar</button>
         <button onclick="clearLabsText()" style="flex:1; background:#ef4444; color:white; border:none; padding:6px; border-radius:6px; cursor:pointer; font-size:0.8rem; font-weight:bold;">🗑️ Limpiar / Borrar</button>
     </div>
-</div>
 
 <!-- MÓDULO: CONVERSOR DE MAYÚSCULAS Y MINÚSCULAS -->
     <div class="card">
@@ -734,17 +685,14 @@ body.dark-mode .text-tools-row button { background: #334155; color: #fff; border
         
         <textarea id="textoConversor" placeholder="Escribe o pega aquí el texto..." style="width: 100%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; margin-bottom: 8px; box-sizing: border-box;"></textarea>
         
-        <div style="display: flex; flex-direction: column; gap: 6px;">
-            <div style="display: flex; gap: 6px;">
-                <button onclick="convertirTexto('mayusculas')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">MAYÚSCULAS</button>
-                <button onclick="convertirTexto('minusculas')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">minúsculas</button>
-            </div>
-            <div style="display: flex; gap: 6px;">
-                <button onclick="convertirTexto('capitalizar')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">Capitalizar</button>
-                <button onclick="copiarTextoConversor()" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: #10B981;">📋 Copiar</button>
-            </div>
-        </div>
+<div class="text-tools-row">
+        <button onclick="convertText('upper')" title="MAYÚSCULAS">AA</button>
+        <button onclick="convertText('lower')" title="minúsculas">aa</button>
+        <button onclick="convertText('capitalize')" title="Capitalizar">Aa</button>
+        <button onclick="convertText('justify')" title="Justificar / Continuo">☷</button>
+        <button onclick="copyConvertedText()" title="Copiar">📋</button>
     </div>
+</div>
 
      <div class="card">
   <div class="card-title">
@@ -756,25 +704,7 @@ body.dark-mode .text-tools-row button { background: #334155; color: #fff; border
   </div>
   <div class="notes-grid" id="notesBoard"></div>
  </div>
-
-<!-- C. HERRAMIENTA DE TEXTO (HORIZONTAL, ICONO Y JUSTIFICAR) -->
-<div class="card" style="margin-bottom: 15px;">
-    <h3 style="margin:0 0 8px 0; font-size:1rem; color:#0d9488;">✍️ Formato de Texto</h3>
-    <textarea id="textConverterInput" placeholder="Escribe tu nota SOAP o reporte..." style="width:100%; height:70px; padding:8px; border-radius:6px; border:1px solid #cbd5e1; box-sizing:border-box;"></textarea>
     
-    <div class="text-tools-row">
-        <button onclick="convertText('upper')" title="MAYÚSCULAS">AA</button>
-        <button onclick="convertText('lower')" title="minúsculas">aa</button>
-        <button onclick="convertText('capitalize')" title="Capitalizar">Aa</button>
-        <button onclick="convertText('justify')" title="Justificar / Continuo">☷</button>
-        <button onclick="copyConvertedText()" title="Copiar">📋</button>
-    </div>
-</div>
-
-<!-- D. BOTÓN RÁPIDO PARA ACTIVAR MODO OSCURO -->
-<div style="text-align: right; margin-bottom: 15px;">
-    <button onclick="toggleDarkMode()" style="background: #334155; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; font-weight: bold;">🌙 Alternar Modo Oscuro</button>
-</div>
     
       <!-- TARJETA: Tiro al Blanco (Mini-Desestrés) -->
       <div class="card" style="text-align: center;">
