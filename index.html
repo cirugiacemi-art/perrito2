@@ -1870,32 +1870,70 @@ function copiarTextoConversor() {
     });
 }
 
+<script>
+    // --- FUNCIONES CORREGIDAS PARA EL PROCESADOR DE LABORATORIOS ---
+    
+    // Función para borrar / limpiar texto
+    window.clearLabsText = function() {
+        const textarea = document.getElementById('labInputText');
+        if (textarea) {
+            textarea.value = '';
+            const badge = document.getElementById('labStatusIndicator');
+            if (badge) {
+                badge.innerHTML = `🟢 Limpio / Vacío`;
+                badge.style.background = "#dcfce7";
+                badge.style.color = "#166534";
+            }
+        }
+    };
 
-// 2. Limpiar Procesador de Laboratorios
-function clearLabsText() {
-    document.getElementById('labInputText').value = '';
-    const badge = document.getElementById('labStatusIndicator');
-    badge.innerHTML = `🟢 Listo`;
-    badge.style.background = "#dcfce7";
-    badge.style.color = "#166534";
-}
+    // Función robusta para copiar texto (con soporte moderno y respaldo)
+    window.copyLabsText = function() {
+        const textarea = document.getElementById('labInputText');
+        if (!textarea) return;
+        
+        const textToCopy = textarea.value;
+        if (!textToCopy.trim()) {
+            alert("⚠️ La caja de laboratorios está vacía.");
+            return;
+        }
 
-function copyLabsText() {
-    const field = document.getElementById('labInputText');
-    field.select();
-    navigator.clipboard.writeText(field.value);
-    alert("¡Laboratorios copiados!");
-}
+        // Intento con la API moderna del portapapeles
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("¡Laboratorios copiados al portapapeles! 📋");
+            }).catch(() => {
+                fallbackCopy(textarea);
+            });
+        } else {
+            fallbackCopy(textarea);
+        }
+    };
 
-// Simular carga inicial del procesador de labs tras 1.5 segundos
-setTimeout(() => {
-    const badge = document.getElementById('labStatusIndicator');
-    if(badge) {
-        badge.innerHTML = `🟢 Esperando datos...`;
-        badge.style.background = "#dcfce7";
-        badge.style.color = "#166534";
+    // Método de respaldo por si el navegador bloquea el portapapeles directo
+    function fallbackCopy(textarea) {
+        textarea.select();
+        textarea.setSelectionRange(0, 99999); // Para móviles
+        try {
+            document.execCommand('copy');
+            alert("¡Laboratorios copiados!");
+        } catch (err) {
+            alert("No se pudo copiar automáticamente. Cópialo manualmente.");
+        }
     }
-}, 1500);
+
+    // Estado inicial de carga de labs
+    window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            const badge = document.getElementById('labStatusIndicator');
+            if(badge) {
+                badge.innerHTML = `🟢 Esperando datos...`;
+                badge.style.background = "#dcfce7";
+                badge.style.color = "#166534";
+            }
+        }, 1000);
+    });
+  </script>
 
 // 3. Herramienta de Formato de Texto Local
 function convertText(mode) {
@@ -1919,7 +1957,6 @@ function copyConvertedText() {
     navigator.clipboard.writeText(field.value);
     alert("¡Texto copiado al portapapeles!");
 }
-  
 </script>
 </body>
-        </html>
+</html>
