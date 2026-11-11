@@ -1842,50 +1842,67 @@ function copiarTextoConversor() {
             }
         };
 
-        function convertirTexto(accion) {
-            const txt = document.getElementById('textoConversor');
-            if (!txt || !txt.value) return;
-            
-            if (accion === 'mayusculas') {
-                txt.value = txt.value.toUpperCase();
-            } else if (accion === 'minusculas') {
-                txt.value = txt.value.toLowerCase();
-            } else if (accion === 'capitalizar') {
-                txt.value = txt.value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
-            } else if (accion === 'justificar') {
-                txt.value = txt.value.replace(/(\r\n|\n|\r)/gm, " ").replace(/\s+/g, ' ').trim();
+function convertirTexto(accion) {
+        const txt = document.getElementById('textoConversor');
+        if (!txt || !txt.value) return;
+        
+        if (accion === 'mayusculas') {
+            txt.value = txt.value.toUpperCase();
+        } else if (accion === 'minusculas') {
+            txt.value = txt.value.toLowerCase();
+        } else if (accion === 'capitalizar') {
+            txt.value = txt.value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+        } else if (accion === 'justificar') {
+            txt.value = txt.value.replace(/(\r\n|\n|\r)/gm, " ").replace(/\s+/g, ' ').trim();
+        }
+    }
+
+    function limpiarTextoConversor() {
+        const txt = document.getElementById('textoConversor');
+        if (txt) txt.value = '';
+    }
+
+    function copiarTextoConversor() {
+        const txt = document.getElementById('textoConversor');
+        if (!txt || !txt.value.trim()) return;
+        
+        txt.select();
+        navigator.clipboard.writeText(txt.value).then(() => {
+            const feedback = document.getElementById('textCopyFeedback');
+            if (feedback) {
+                feedback.style.display = 'block';
+                setTimeout(() => { feedback.style.display = 'none'; }, 2000);
             }
-        }
-
-        function limpiarTextoConversor() {
-            const txt = document.getElementById('textoConversor');
-            if (txt) txt.value = '';
-        }
-
-        function copiarTextoConversor() {
-            const txt = document.getElementById('textoConversor');
-            if (!txt || !txt.value.trim()) return;
-            
-            txt.select();
-            navigator.clipboard.writeText(txt.value).then(() => {
+        }).catch(() => {
+            try {
+                document.execCommand('copy');
                 const feedback = document.getElementById('textCopyFeedback');
                 if (feedback) {
                     feedback.style.display = 'block';
                     setTimeout(() => { feedback.style.display = 'none'; }, 2000);
                 }
-            }).catch(() => {
-                try {
-                    document.execCommand('copy');
-                    const feedback = document.getElementById('textCopyFeedback');
-                    if (feedback) {
-                        feedback.style.display = 'block';
-                        setTimeout(() => { feedback.style.display = 'none'; }, 2000);
-                    }
-                } catch (e) {
-                    alert("No se pudo copiar automáticamente.");
-                }
-            });
+            } catch (e) {
+                alert("No se pudo copiar automáticamente.");
+            }
+        });
+    }
+
+    window.limpiarLaboratorios = function() {
+        const input = document.getElementById('labInput');
+        const output = document.getElementById('labOutput');
+        if (input) input.value = '';
+        if (output) output.innerText = 'Esperando datos...';
+    };
+
+    const originalCopiarResultado = window.copiarResultado;
+    window.copiarResultado = function() {
+        if (originalCopiarResultado) originalCopiarResultado();
+        const feedback = document.getElementById('labCopyFeedback');
+        if (feedback) {
+            feedback.style.display = 'block';
+            setTimeout(() => { feedback.style.display = 'none'; }, 2000);
         }
-    </script>
+    };
+</script>
 </body>
 </html>
