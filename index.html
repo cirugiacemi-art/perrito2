@@ -578,17 +578,16 @@
     
   <!-- COLUMNA 3: Laboratorios y Post-its -->
  <div class="card">
-          <div class="card-title"><span>🧪 Procesador de Laboratorios</span></div>
-          
-          <textarea id="labInput" placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..." onfocus="this.value='';" oninput="procesarLaboratorios()"></textarea>
-          <label style="font-size:0.8rem; font-weight:600;">Resultado:</label>
-          <div class="lab-result" id="labOutput">Esperando datos...</div>
-          
-          <div style="display: flex; gap: 6px; margin-top: 10px;">
-              <button onclick="copiarResultado()" style="flex: 1; background-color: #10B981; color: white;">Copiar Formato</button>
-              <button onclick="limpiarLaboratorios()" style="flex: 1; background-color: #EF4444; color: white;">Limpiar</button>
-          </div>
-      </div>
+        <div class="card-title"><span>🧪 Procesador de Laboratorios</span></div>
+        <textarea id="labInput" placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..." onfocus="this.value='';" oninput="procesarLaboratorios()"></textarea>
+        <label style="font-size:0.8rem; font-weight:600;">Resultado:</label>
+        <div class="lab-result" id="labOutput">Esperando datos...</div>
+        
+        <div style="display: flex; gap: 6px; margin-top: 10px;">
+            <button onclick="copiarResultado()" style="flex: 1; background-color: #10B981; color: white;">Copiar Formato</button>
+            <button onclick="limpiarLaboratorios()" style="flex: 1; background-color: #EF4444; color: white;">Limpiar</button>
+        </div>
+    </div>
 
 <!-- MÓDULO: CONVERSOR DE MAYÚSCULAS Y MINÚSCULAS -->
     <div class="card">
@@ -1089,14 +1088,14 @@ function copiarResultado() {
         btn.style.backgroundColor = '#10B981';
       }, 1200);
     }
-  });
-}
-function limpiarLaboratorios() {
+  function limpiarLaboratorios() {
         const input = document.getElementById('labInput');
         const output = document.getElementById('labOutput');
         if (input) input.value = '';
         if (output) output.innerText = 'Esperando datos...';
     }
+  });
+}
   
   let postits = JSON.parse(localStorage.getItem('perrito_postits')) || ["Revisar pendientes MIP", "Pase de ronda 8:00 AM"];
 
