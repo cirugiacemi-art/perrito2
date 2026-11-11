@@ -578,23 +578,16 @@
     
   <!-- COLUMNA 3: Laboratorios y Post-its -->
   <div class="column">
-       <!-- MÓDULO: PROCESADOR DE LABORATORIOS -->
-        <div class="card">
-            <div class="card-title">
-                <span>🧪 Procesador de Laboratorios</span>
-            </div>
-            <textarea id="labInput" placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..." style="width: 100%; height: 75px; padding: 8px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; box-sizing: border-box;" oninput="procesarLaboratorios()"></textarea>
-            
-            <label style="font-size: 0.8rem; font-weight: 600; display:block; margin-top:6px;">Resultado:</label>
-            <div class="lab-result" id="labOutput" style="font-size: 0.8rem; background: #F8FAFC; padding: 6px; border-radius: 6px; border: 1px solid #E2E8F0; min-height: 30px;">Esperando datos...</div>
-            
-            <div style="display: flex; gap: 6px; margin-top: 10px;">
-                <button onclick="copiarResultado()" style="flex: 1; background-color: #10B981; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer;">📋 Copiar Formato</button>
-                <button onclick="document.getElementById('labInput').value=''; document.getElementById('labOutput').innerText='Esperando datos...';" style="flex: 1; background-color: #EF4444; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer;">🗑️ Limpiar</button>
-            </div>
-            <div id="labCopyFeedback" style="font-size: 0.7rem; color: #166534; text-align: center; margin-top: 4px; display: none; font-weight: bold;">✓ ¡Se copió el formato!</div>
-        </div>
-
+    <div class="card">
+      <div class="card-title"><span>🧪 Procesador de Laboratorios</span></div>
+      
+      
+<textarea id="labInput" placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..." onfocus="this.value='';" oninput="procesarLaboratorios()"></textarea>
+      <label style="font-size:0.8rem; font-weight:600;">Resultado:</label>
+      <div class="lab-result" id="labOutput">Esperando datos...</div>
+      
+      <button onclick="copiarResultado()" style="width:100%; margin-top:10px; background-color:#10B981;">Copiar Formato</button>
+    </div>
 
 <!-- MÓDULO: CONVERSOR DE MAYÚSCULAS Y MINÚSCULAS -->
     <div class="card">
@@ -1830,23 +1823,6 @@ function copiarTextoConversor() {
         }, 1200);
     });
 }
-<script>
-    window.limpiarLaboratorios = function() {
-        const input = document.getElementById('labInput');
-        const output = document.getElementById('labOutput');
-        if (input) input.value = '';
-        if (output) output.innerText = 'Esperando datos...';
-    };
-
-    const originalCopiarResultado = window.copiarResultado;
-    window.copiarResultado = function() {
-        if (originalCopiarResultado) originalCopiarResultado();
-        const feedback = document.getElementById('labCopyFeedback');
-        if (feedback) {
-            feedback.style.display = 'block';
-            setTimeout(() => { feedback.style.display = 'none'; }, 2000);
-        }
-    };
 </script>
 </body>
         </html>
