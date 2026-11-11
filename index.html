@@ -295,25 +295,17 @@
 
     textarea { height: 110px; resize: vertical; }
 
-.lab-status-badge {
-    font-size: 0.7rem;
-    padding: 2px 6px;
-    border-radius: 4px;
-    background: #dcfce7;
-    color: #166534;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-.loading-spinner {
-    width: 8px;
-    height: 8px;
-    border: 2px solid #166534;
-    border-top: transparent;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .lab-result {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.82rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+      min-height: 70px;
+    }
 
     .notes-grid {
       display: grid;
@@ -348,30 +340,6 @@
       font-weight: bold;
       color: #A16207;
     }
-  .text-tools-row {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-top: 8px;
-}
-.text-tools-row button {
-    flex: 1;
-    min-width: 40px;
-    padding: 8px;
-    font-size: 0.8rem;
-    border-radius: 6px;
-    border: 1px solid #cbd5e1;
-    background: #f8fafc;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    transition: background 0.2s;
-}
-.text-tools-row button:hover {
-    background: #e2e8f0;
-}
   </style>
 </head>
 <body id="app-body">
@@ -618,12 +586,8 @@
       <label style="font-size:0.8rem; font-weight:600;">Resultado:</label>
       <div class="lab-result" id="labOutput">Esperando datos...</div>
       
-<div style="display:flex; gap:6px; margin-top:8px;">
-        <button onclick="copyLabsText()" style="flex:1; background:var(--primary, #0d9488); color:white; border:none; padding:6px; border-radius:6px; cursor:pointer; font-size:0.8rem; font-weight:bold;">📋 Copiar Formato</button>
-        <button onclick="clearLabsText()" style="flex:1; background:#ef4444; color:white; border:none; padding:6px; border-radius:6px; cursor:pointer; font-size:0.8rem; font-weight:bold;">🗑️ Limpiar / Borrar</button>
+      <button onclick="copiarResultado()" style="width:100%; margin-top:10px; background-color:#10B981;">Copiar Formato</button>
     </div>
-    <div id="labCopyFeedback" style="font-size:0.7rem; color:#166534; text-align:center; margin-top:4px; display:none; font-weight:bold;">✓ ¡Se copió el formato!</div>
-</div>
 
 <!-- MÓDULO: CONVERSOR DE MAYÚSCULAS Y MINÚSCULAS -->
     <div class="card">
@@ -634,16 +598,16 @@
         <textarea id="textoConversor" placeholder="Escribe o pega aquí el texto..." style="width: 100%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; margin-bottom: 8px; box-sizing: border-box;"></textarea>
         
         <div style="display: flex; flex-direction: column; gap: 6px;">
-           <div class="text-tools-row">
-        <button onclick="convertText('upper')" title="MAYÚSCULAS">AA</button>
-        <button onclick="convertText('lower')" title="minúsculas">aa</button>
-        <button onclick="convertText('capitalize')" title="Capitalizar">Aa</button>
-        <button onclick="convertText('justify')" title="Justificar / Bloque Continuo">☷</button>
-        <button onclick="clearTextConverter()" title="Borrar texto">🗑️</button>
-        <button onclick="copyConvertedText()" title="Copiar al portapapeles">📋</button>
+            <div style="display: flex; gap: 6px;">
+                <button onclick="convertirTexto('mayusculas')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">MAYÚSCULAS</button>
+                <button onclick="convertirTexto('minusculas')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">minúsculas</button>
+            </div>
+            <div style="display: flex; gap: 6px;">
+                <button onclick="convertirTexto('capitalizar')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">Capitalizar</button>
+                <button onclick="copiarTextoConversor()" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: #10B981;">📋 Copiar</button>
+            </div>
+        </div>
     </div>
-    <div id="textCopyFeedback" style="font-size:0.7rem; color:#166534; text-align:center; margin-top:4px; display:none; font-weight:bold;">✓ ¡Se copió el formato!</div>
-</div>
 
      <div class="card">
   <div class="card-title">
@@ -1859,50 +1823,6 @@ function copiarTextoConversor() {
         }, 1200);
     });
 }
-// --- HERRAMIENTA DE TEXTO (MAYÚSCULAS, MINÚSCULAS, JUSTIFICAR Y LIMPIAR) ---
-    window.convertText = function(mode) {
-        const field = document.getElementById('textConverterInput');
-        if(!field || !field.value) return;
-        
-        if(mode === 'upper') field.value = field.value.toUpperCase();
-        if(mode === 'lower') field.value = field.value.toLowerCase();
-        if(mode === 'capitalize') {
-            field.value = field.value.toLowerCase().replace(/^\w|\s\w/g, l => l.toUpperCase());
-        }
-        if(mode === 'justify') {
-            // Elimina saltos de línea múltiples para dejarlo en un bloque continuo listo para expediente
-            field.value = field.value.replace(/(\r\n|\n|\r)/gm, " ").replace(/\s+/g, ' ').trim();
-        }
-    };
-
-    window.clearTextConverter = function() {
-        const field = document.getElementById('textConverterInput');
-        if(field) field.value = '';
-    };
-
-    window.copyConvertedText = function() {
-        const field = document.getElementById('textConverterInput');
-        if(!field || !field.value.trim()) return;
-        
-        navigator.clipboard.writeText(field.value).then(() => {
-            showFeedback('textCopyFeedback');
-        }).catch(() => {
-            field.select();
-            document.execCommand('copy');
-            showFeedback('textCopyFeedback');
-        });
-    };
-
-    // Función auxiliar para mostrar la palomita de confirmación temporal
-    function showFeedback(elementId) {
-        const feedback = document.getElementById(elementId);
-        if(feedback) {
-            feedback.style.display = 'block';
-            setTimeout(() => {
-                feedback.style.display = 'none';
-            }, 2000);
-        }
-    }
 </script>
 </body>
         </html>
