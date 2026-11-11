@@ -595,22 +595,23 @@
             <div id="labCopyFeedback" style="font-size: 0.7rem; color: #166534; text-align: center; margin-top: 4px; display: none; font-weight: bold;">✓ ¡Se copió el formato!</div>
         </div>
 
-        <!-- MÓDULO: CONVERSOR DE MAYÚSCULAS Y MINÚSCULAS -->
+<!-- MÓDULO: CONVERSOR DE MAYÚSCULAS Y MINÚSCULAS -->
         <div class="card">
             <div class="card-title">
-                <span>🔤 MAYUSCULAS/minusculas</span>
+                <span>🔤 MAYUSculas</span>
             </div>
             <textarea id="textoConversor" placeholder="Escribe o pega aquí el texto..." style="width: 100%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; margin-bottom: 8px; box-sizing: border-box;"></textarea>
-            <div style="display: flex; flex-direction: column; gap: 6px;">
-                <div style="display: flex; gap: 6px;">
-                    <button onclick="convertirTexto('mayusculas')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">MAYÚSCULAS</button>
-                    <button onclick="convertirTexto('minusculas')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">minúsculas</button>
-                </div>
-                <div style="display: flex; gap: 6px;">
-                    <button onclick="convertirTexto('capitalizar')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">Capitalizar</button>
-                    <button onclick="copiarTextoConversor()" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: #10B981;">📋 Copiar</button>
-                </div>
+            
+            <!-- Fila horizontal única para los 6 botones -->
+            <div style="display: flex; gap: 4px; width: 100%;">
+                <button onclick="convertirTexto('mayusculas')" style="flex: 1; font-size: 0.65rem; padding: 6px 2px; background-color: var(--primary); white-space: nowrap;">MAYÚS</button>
+                <button onclick="convertirTexto('minusculas')" style="flex: 1; font-size: 0.65rem; padding: 6px 2px; background-color: var(--primary); white-space: nowrap;">minús</button>
+                <button onclick="convertirTexto('capitalizar')" style="flex: 1; font-size: 0.65rem; padding: 6px 2px; background-color: var(--primary); white-space: nowrap;">Capital</button>
+                <button onclick="convertirTexto('justificar')" style="flex: 1; font-size: 0.65rem; padding: 6px 2px; background-color: #0284C7; white-space: nowrap;" title="Justificar / Bloque Continuo">Justif</button>
+                <button onclick="limpiarTextoConversor()" style="flex: 1; font-size: 0.65rem; padding: 6px 2px; background-color: #EF4444; white-space: nowrap;">Limpiar</button>
+                <button onclick="copiarTextoConversor()" style="flex: 1; font-size: 0.65rem; padding: 6px 2px; background-color: #10B981; white-space: nowrap;">📋 Copiar</button>
             </div>
+            <div id="textCopyFeedback" style="font-size: 0.7rem; color: #166534; text-align: center; margin-top: 4px; display: none; font-weight: bold;">✓ ¡Se copió el formato!</div>
         </div>
 
         <!-- MÓDULO: NOTAS POST-ITS -->
@@ -1840,6 +1841,40 @@ function copiarTextoConversor() {
             setTimeout(() => { feedback.style.display = 'none'; }, 2000);
         }
     };
+  
+function convertirTexto(accion) {
+        const txt = document.getElementById('textoConversor');
+        if (!txt || !txt.value) return;
+        if (accion === 'mayusculas') {
+            txt.value = txt.value.toUpperCase();
+        } else if (accion === 'minusculas') {
+            txt.value = txt.value.toLowerCase();
+        } else if (accion === 'capitalizar') {
+            txt.value = txt.value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+        } else if (accion === 'justificar') {
+            // Elimina saltos de línea para dejar el texto en un bloque continuo ideal para expediente
+            txt.value = txt.value.replace(/(\r\n|\n|\r)/gm, " ").replace(/\s+/g, ' ').trim();
+        }
+    }
+
+    function limpiarTextoConversor() {
+        const txt = document.getElementById('textoConversor');
+        if (txt) txt.value = '';
+    }
+
+    function copiarTextoConversor() {
+        const txt = document.getElementById('textoConversor');
+        if (!txt || !txt.value.trim()) return;
+        
+        txt.select();
+        navigator.clipboard.writeText(txt.value).then(() => {
+            const feedback = document.getElementById('textCopyFeedback');
+            if (feedback) {
+                feedback.style.display = 'block';
+                setTimeout(() => { feedback.style.display = 'none'; }, 2000);
+            }
+        });
+    }
 </script>
 </body>
 </html>
