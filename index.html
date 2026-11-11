@@ -1853,7 +1853,6 @@ function copiarTextoConversor() {
             } else if (accion === 'capitalizar') {
                 txt.value = txt.value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
             } else if (accion === 'justificar') {
-                // Elimina saltos de línea para dejar el texto en un bloque continuo
                 txt.value = txt.value.replace(/(\r\n|\n|\r)/gm, " ").replace(/\s+/g, ' ').trim();
             }
         }
@@ -1875,7 +1874,6 @@ function copiarTextoConversor() {
                     setTimeout(() => { feedback.style.display = 'none'; }, 2000);
                 }
             }).catch(() => {
-                // Respaldo por si el navegador bloquea el portapapeles directo
                 try {
                     document.execCommand('copy');
                     const feedback = document.getElementById('textCopyFeedback');
