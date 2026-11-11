@@ -590,7 +590,7 @@
             
             <div style="display: flex; gap: 6px; margin-top: 10px;">
                 <button onclick="copiarResultado()" style="flex: 1; background-color: #10B981; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer;">📋 Copiar Formato</button>
-                <button onclick="limpiarLaboratorios()" style="flex: 1; background-color: #EF4444; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer;">🗑️ Limpiar</button>
+                <button onclick="document.getElementById('labInput').value=''; document.getElementById('labOutput').innerText='Esperando datos...';" style="flex: 1; background-color: #EF4444; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer;">🗑️ Limpiar</button>
             </div>
             <div id="labCopyFeedback" style="font-size: 0.7rem; color: #166534; text-align: center; margin-top: 4px; display: none; font-weight: bold;">✓ ¡Se copió el formato!</div>
         </div>
