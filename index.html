@@ -576,81 +576,76 @@
       </div>
     </div>
     
-  <!-- COLUMNA 3: Laboratorios y Post-its -->
-<!-- MÓDULO: PROCESADOR DE LABORATORIOS -->
-    <div class="card">
-        <div class="card-title">
-            <span>🧪 Procesador de Laboratorios</span>
-            <span class="lab-status-badge" id="labStatusIndicator" style="font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; background: #dcfce7; color: #166534;"><div class="loading-spinner" style="display:inline-block; width:6px; height:6px; border:2px solid #166534; border-top:transparent; border-radius:50%; animation: spin 0.8s linear infinite; margin-right:4px;"></div> Cargando...</span>
-        </div>
-        <textarea id="labInput" placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..." style="width: 100%; height: 75px; padding: 8px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; box-sizing: border-box;" oninput="procesarLaboratorios()"></textarea>
-        
-        <label style="font-size: 0.8rem; font-weight: 600; display:block; margin-top:6px;">Resultado:</label>
-        <div class="lab-result" id="labOutput" style="font-size: 0.8rem; background: #F8FAFC; padding: 6px; border-radius: 6px; border: 1px solid #E2E8F0; min-height: 30px;">Esperando datos...</div>
-        
-        <div style="display: flex; gap: 6px; margin-top: 10px;">
-            <button onclick="copiarResultado()" style="flex: 1; background-color: #10B981; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer;">📋 Copiar Formato</button>
-            <button onclick="limpiarLaboratorios()" style="flex: 1; background-color: #EF4444; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer;">🗑️ Limpiar</button>
-        </div>
-        <div id="labCopyFeedback" style="font-size: 0.7rem; color: #166534; text-align: center; margin-top: 4px; display: none; font-weight: bold;">✓ ¡Se copió el formato!</div>
-    </div>
-
-<!-- MÓDULO: CONVERSOR DE MAYÚSCULAS Y MINÚSCULAS -->
-    <div class="card">
-        <div class="card-title">
-            <span>🔤 MAYUSCULAS/minusculas</span>
-        </div>
-        
-        <textarea id="textoConversor" placeholder="Escribe o pega aquí el texto..." style="width: 100%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; margin-bottom: 8px; box-sizing: border-box;"></textarea>
-        
-        <div style="display: flex; flex-direction: column; gap: 6px;">
-            <div style="display: flex; gap: 6px;">
-                <button onclick="convertirTexto('mayusculas')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">MAYÚSCULAS</button>
-                <button onclick="convertirTexto('minusculas')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">minúsculas</button>
+<!-- COLUMNA 3: Laboratorios y Post-its -->
+    <div class="column">
+        <!-- MÓDULO: PROCESADOR DE LABORATORIOS -->
+        <div class="card">
+            <div class="card-title">
+                <span>🧪 Procesador de Laboratorios</span>
+                <span class="lab-status-badge" id="labStatusIndicator" style="font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; background: #dcfce7; color: #166534;"><div class="loading-spinner" style="display:inline-block; width:6px; height:6px; border:2px solid #166534; border-top:transparent; border-radius:50%; animation: spin 0.8s linear infinite; margin-right:4px;"></div> Cargando...</span>
             </div>
-            <div style="display: flex; gap: 6px;">
-                <button onclick="convertirTexto('capitalizar')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">Capitalizar</button>
-                <button onclick="copiarTextoConversor()" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: #10B981;">📋 Copiar</button>
+            <textarea id="labInput" placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..." style="width: 100%; height: 75px; padding: 8px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; box-sizing: border-box;" oninput="procesarLaboratorios()"></textarea>
+            
+            <label style="font-size: 0.8rem; font-weight: 600; display:block; margin-top:6px;">Resultado:</label>
+            <div class="lab-result" id="labOutput" style="font-size: 0.8rem; background: #F8FAFC; padding: 6px; border-radius: 6px; border: 1px solid #E2E8F0; min-height: 30px;">Esperando datos...</div>
+            
+            <div style="display: flex; gap: 6px; margin-top: 10px;">
+                <button onclick="copiarResultado()" style="flex: 1; background-color: #10B981; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer;">📋 Copiar Formato</button>
+                <button onclick="limpiarLaboratorios()" style="flex: 1; background-color: #EF4444; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer;">🗑️ Limpiar</button>
+            </div>
+            <div id="labCopyFeedback" style="font-size: 0.7rem; color: #166534; text-align: center; margin-top: 4px; display: none; font-weight: bold;">✓ ¡Se copió el formato!</div>
+        </div>
+
+        <!-- MÓDULO: CONVERSOR DE MAYÚSCULAS Y MINÚSCULAS -->
+        <div class="card">
+            <div class="card-title">
+                <span>🔤 MAYUSCULAS/minusculas</span>
+            </div>
+            <textarea id="textoConversor" placeholder="Escribe o pega aquí el texto..." style="width: 100%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; margin-bottom: 8px; box-sizing: border-box;"></textarea>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="display: flex; gap: 6px;">
+                    <button onclick="convertirTexto('mayusculas')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">MAYÚSCULAS</button>
+                    <button onclick="convertirTexto('minusculas')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">minúsculas</button>
+                </div>
+                <div style="display: flex; gap: 6px;">
+                    <button onclick="convertirTexto('capitalizar')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">Capitalizar</button>
+                    <button onclick="copiarTextoConversor()" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: #10B981;">📋 Copiar</button>
+                </div>
             </div>
         </div>
-    </div>
 
-     <div class="card">
-  <div class="card-title">
-    <span>📌 Notas (Post-its)</span>
-    <div class="btn-group-row">
-      <button onclick="guardarNotasEnNube()" id="btnSaveNotes" style="font-size:0.75rem; padding:4px 8px; background-color:#10B981;">💾 Guardar</button>
-      <button onclick="agregarPostit()" style="font-size:0.75rem; padding:4px 8px;">+ Nueva</button>
-    </div>
-  </div>
-  <div class="notes-grid" id="notesBoard"></div>
- </div>
-    
-      <!-- TARJETA: Tiro al Blanco (Mini-Desestrés) -->
-      <div class="card" style="text-align: center;">
-        <div class="card-title">
-          <span>🎯 Tiro al Blanco (Guardia)</span>
+        <!-- MÓDULO: NOTAS POST-ITS -->
+        <div class="card">
+            <div class="card-title">
+                <span>📌 Notas (Post-its)</span>
+                <div class="btn-group-row">
+                    <button onclick="guardarNotasEnNube()" id="btnSaveNotes" style="font-size:0.75rem; padding:4px 8px; background-color:#10B981;">💾 Guardar</button>
+                    <button onclick="agregarPostit()" style="font-size:0.75rem; padding:4px 8px;">+ Nueva</button>
+                </div>
+            </div>
+            <div class="notes-grid" id="notesBoard"></div>
         </div>
 
-        <!-- Puntuación -->
-        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; background: #F1F5F9; padding: 6px 12px; border-radius: 8px;">
-          <span style="color:#1E293B;">Puntos: <span id="targetScore" style="color:#10B981;">0</span></span>
-          <span style="color:#1E293B;">Récord: <span id="targetHighScore" style="color:#0284C7;">0</span></span>
+        <!-- TARJETA: Tiro al Blanco (Mini-Desestrés) -->
+        <div class="card" style="text-align: center;">
+            <div class="card-title">
+                <span>🎯 Tiro al Blanco (Guardia)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; background: #F1F5F9; padding: 6px 12px; border-radius: 8px;">
+                <span style="color:#1E293B;">Puntos: <span id="targetScore" style="color:#10B981;">0</span></span>
+                <span style="color:#1E293B;">Récord: <span id="targetHighScore" style="color:#0284C7;">0</span></span>
+            </div>
+            <div id="targetArea" style="position: relative; width: 100%; height: 160px; background: #1E40AF; border-radius: 10px; overflow: hidden; cursor: crosshair; display: flex; align-items: center; justify-content: center; border: 2px solid #3B82F6;">
+                <div id="targetItem" onclick="impactoTarget(event)" style="position: absolute; padding: 6px 12px; background: #EF4444; color: white; font-weight: 700; font-size: 0.75rem; border-radius: 20px; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); user-select: none; transition: transform 0.1s ease;">
+                    📋 Nota sin Firma
+                </div>
+            </div>
+            <button onclick="reiniciarJuegoTarget()" style="width: 100%; margin-top: 10px; background-color: #8B5CF6;"> 
+                🎮 Reiniciar Juego 
+            </button>
         </div>
-
-        <!-- Área del Juego (Fondo Azul) -->
-        <div id="targetArea" style="position: relative; width: 100%; height: 160px; background: #1E40AF; border-radius: 10px; overflow: hidden; cursor: crosshair; display: flex; align-items: center; justify-content: center; border: 2px solid #3B82F6;">
-          <div id="targetItem" onclick="impactoTarget(event)" style="position: absolute; padding: 6px 12px; background: #EF4444; color: white; font-weight: 700; font-size: 0.75rem; border-radius: 20px; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); user-select: none; transition: transform 0.1s ease;">
-            📋 Nota sin Firma
-          </div>
-        </div>
-
-        <!-- Botón de inicio/reiniciar -->
-        <button onclick="reiniciarJuegoTarget()" style="width: 100%; margin-top: 10px; background-color: #8B5CF6;">
-          🎮 Reiniciar Juego
-        </button>
-      </div>
-</div>
+    </div> <!-- Cierra la Columna 3 -->
+</div> <!-- Cierra el Dashboard general -->
 
 <script>
   // Enlace directo a tu API de Google Sheets
@@ -1829,7 +1824,7 @@ function copiarTextoConversor() {
         }, 1200);
     });
 }
-  <script>
+ <script>
     window.limpiarLaboratorios = function() {
         const input = document.getElementById('labInput');
         const output = document.getElementById('labOutput');
@@ -1847,7 +1842,6 @@ function copiarTextoConversor() {
             setTimeout(() => { feedback.style.display = 'none'; }, 2000);
         }
     };
-</script>
-</script>
+ </script>
 </body>
-        </html>
+</html>
