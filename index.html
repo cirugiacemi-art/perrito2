@@ -1062,6 +1062,7 @@ function procesarLaboratorios() {
         { clave: 'EOS', regex: /\b(?:eosinofilos|eosinófilos|eos)\b\D*(\d+(?:\.\d+)?)/i },
         { clave: 'BASO', regex: /\b(?:basofilos|basófilos|baso)\b\D*(\d+(?:\.\d+)?)/i },
         { clave: 'PLAQ', regex: /\b(?:plaquetas|plq|plt|plaq)\b\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'OBSERVACION CH', regex: /observaci[oó]n\s*([a-záéíóúñÑ,\s]+?)(?=\s*n\/a|\s*$)/i },
 
       // GAR
         { clave: 'pH', regex: /pH\s*([\d\.]+)/i },
@@ -1113,12 +1114,22 @@ function procesarLaboratorios() {
         { clave: 'ALB', regex: /(?:albúmina|albumina|alb)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'AMILASA', regex: /(?:amilasa)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'LIPASA', regex: /(?:lipasa)\D*(\d+(?:\.\d+)?)/i },
+        { clave: 'GGT', regex: /(?:gamma\s*glutamil\s*transferasa|ggt)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'COL', regex: /(?:colesterol\s*total|colesterol)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'TRIG', regex: /(?:triglicéridos|trigliceridos|trigli)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'PCR', regex: /(?:pcr\s*-?\s*hs|pcr\s*ultrasensible|pcr)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'VSG', regex: /(?:vsg|velocidad\s*de\s*sedimentación|velocidad\s*de\s*sedimentacion)\D*(\d+(?:\.\d+)?)/i },
         { clave: 'TSH', regex: /hormona\s*estimulante\s*de\s*tiroides\s*\(\s*tsh\s*\)\s*([\d\.]+)/i },
+        { clave: 'ACE', regex: /(?:antígeno|antigeno)\s*carcinoembrionario\D*([\d\.]+)/i },
+        { clave: 'AFP', regex: /(?:alfa\s*-?\s*1\s*-?\s*feto\s*proteina|alfa\s*fetoproteina)\D*([\d\.]+)/i },
+        { clave: 'CA 19-9', regex: /(?:ca\s*19\s*-\s*9|antígeno\s*ca\s*19\s*-\s*9)\D*([\d\.]+)/i },
 
+        // Cultivos y Reportes Especiales
+        { clave: 'CULTIVO HERIDA', regex: /(?:cultivo\s*de\s*(?:secrecion\s*)?herida(?:\s*quirúrgica)?)\D*organismo\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
+        { clave: 'ORGANISMO', regex: /organismo\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*responsable|$)/i },
+        { clave: 'DESARROLLO CULTIVO', regex: /(?:desarrollo\s*de|organismo)\s*([a-záéíóúñÑ\s\d\.]+?)(?=\s*n\/a|\s*$)/i },
+        { clave: 'CANTIDAD CULTIVO', regex: /(abundante|moderado|escaso)\s+desarrollo\s*(?:de)?\s*([a-záéíóúñÑ\s\d\.]+?)(?=\s*n\/a|$)/i },
+      
        // Examen General de Orina (EGO)
         { clave: 'COLOR_O', regex: /color\s+([a-záéíóúñÑ\s]+?)(?=\s*amarillo|\s*aspecto|\s*densidad)/i },
         { clave: 'ASPECTO', regex: /aspecto\s+([a-záéíóúñÑ\s]+?)(?=\s*transparente|\s*densidad|\s*ph)/i },
@@ -1140,6 +1151,7 @@ function procesarLaboratorios() {
         { clave: 'CILINDROS', regex: /cilindros\s*(?:granulosos)?\s*[:=]?\s*(no\s*se\s*observa|no\s*se\s*observan|escasos|presentes|negativo)/i },
         { clave: 'FIL MUC', regex: /filamento\s*mucoso\s*[:=]?\s*(no\s*se\s*observa|no\s*se\s*observan|escaso|presente|negativo)/i },
         { clave: 'URATOS', regex: /uratos\s*amorfos\s*[:=]?\s*(\(\+\+\+\)|\(\+\+\)|\(\+\)|escasos|no\s*se\s*observa|negativo)/i },
+        { clave: 'UROCULTIVO', regex: /urocultivo\b[:\s]*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
 
         // Coprológico / Coproparasitoscópico
         { clave: 'COLOR COPRO', regex: /color\s+([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*consistencia)/i },
@@ -1166,6 +1178,9 @@ function procesarLaboratorios() {
         { clave: 'INFLUENZA_A', regex: /(?:influenza\s*a|inf\s*a)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
         { clave: 'INFLUENZA_B', regex: /(?:influenza\s*b|inf\s*b)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
         { clave: 'COVID19', regex: /(?:sars\s*-?\s*cov\s*-?\s*2|covid\s*-?\s*19|ag\s*covid)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
+        { clave: '1RA MUESTRA BAAR', regex: /primera\s*muestra\s*([a-záéíóúñÑ\-\(\)]+?)(?=\s*n\/a|\s*r)/i },
+        { clave: '2DA MUESTRA BAAR', regex: /segunda\s*muestra\s*([a-záéíóúñÑ\-\(\)]+?)(?=\s*n\/a|\s*r)/i },
+        { clave: '3RA MUESTRA BAAR', regex: /tercera\s*muestra\s*([a-záéíóúñÑ\-\(\)]+?)(?=\s*n\/a|\s*r)/i },
         { clave: 'VDRL', regex: /(?:vdrl|rpr|sífilis|sifilis)\b[^a-záéíóúñÑ]*(negativo|no\s*reactivo|positivo|reactivo)/i }
     ];
 
