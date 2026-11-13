@@ -1062,7 +1062,7 @@ function procesarLaboratorios() {
         { clave: 'EOS', regex: /\b(?:eosinofilos|eosinófilos|eos)\b\D*(\d+(?:\.\d+)?)/i },
         { clave: 'BASO', regex: /\b(?:basofilos|basófilos|baso)\b\D*(\d+(?:\.\d+)?)/i },
         { clave: 'PLAQ', regex: /\b(?:plaquetas|plq|plt|plaq)\b\D*(\d+(?:\.\d+)?)/i },
-        { clave: 'OBSERVACION CH', regex: /observaci[oó]n\s*([a-záéíóúñÑ,\s]+?)(?=\s*n\/a|\s*$)/i },
+        { clave: 'OBSERVACION', regex: /observaci[oó]n[:\s\r\n]+([a-záéíóúñÑ0-9\s,\.]+?)(?=\s*n\/a|\s*$)/i },
 
       // GAR
         { clave: 'pH', regex: /pH\s*([\d\.]+)/i },
@@ -1178,9 +1178,9 @@ function procesarLaboratorios() {
         { clave: 'INFLUENZA_A', regex: /(?:influenza\s*a|inf\s*a)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
         { clave: 'INFLUENZA_B', regex: /(?:influenza\s*b|inf\s*b)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
         { clave: 'COVID19', regex: /(?:sars\s*-?\s*cov\s*-?\s*2|covid\s*-?\s*19|ag\s*covid)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
-        { clave: '1RA MUESTRA BAAR', regex: /primera\s*muestra\s*([a-záéíóúñÑ\-\(\)]+?)(?=\s*n\/a|\s*r)/i },
-        { clave: '2DA MUESTRA BAAR', regex: /segunda\s*muestra\s*([a-záéíóúñÑ\-\(\)]+?)(?=\s*n\/a|\s*r)/i },
-        { clave: '3RA MUESTRA BAAR', regex: /tercera\s*muestra\s*([a-záéíóúñÑ\-\(\)]+?)(?=\s*n\/a|\s*r)/i },
+        { clave: '1RA MUESTRA BAAR', regex: /primera\s*muestra\s*([a-záéíóúñÑ\-\(\)]+)/i },
+        { clave: '2DA MUESTRA BAAR', regex: /segunda\s*muestra\s*([a-záéíóúñÑ\-\(\)]+)/i },
+        { clave: '3RA MUESTRA BAAR', regex: /tercera\s*muestra\s*([a-záéíóúñÑ\-\(\)]+)/i },
         { clave: 'VDRL', regex: /(?:vdrl|rpr|sífilis|sifilis)\b[^a-záéíóúñÑ]*(negativo|no\s*reactivo|positivo|reactivo)/i }
     ];
 
