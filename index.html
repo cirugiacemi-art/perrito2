@@ -1191,9 +1191,9 @@ function procesarLaboratorios() {
   diccParams.forEach(item => {
     // Si ya existe un valor previo de gasometría con el mismo nombre base, omitimos el repetido de la química
     const claveUpper = item.clave.toUpperCase();
-    if (['GLUC', 'NA', 'K', 'CA', 'PH_O'].includes(claveUpper)) {
+    if (['GLUC', 'NA', 'K', 'CA', 'PH_O', 'GLUC_O'].includes(claveUpper)) {
       const yaExiste = hallazgos.some(h => {
-        if (claveUpper === 'GLUC' && h.startsWith('Glu ')) return true;
+        if (h.startsWith('Glu ') || h.startsWith('GLUC ') || h.startsWith('GLUCOSA ')) return true;
         if (claveUpper === 'NA' && h.startsWith('Na ')) return true;
         if (claveUpper === 'K' && h.startsWith('K ')) return true;
         if (claveUpper === 'CA' && h.startsWith('Ca ')) return true;
