@@ -1169,20 +1169,6 @@ function procesarLaboratorios() {
   { clave: 'THbc', regex: /THbc\s*([\d\.]+)/i }
 ];
 
-const hallazgosGasometria = [];
-const textoLimpio = texto.replace(/\r?\n/g, ' ');
-
-diccGasometria.forEach(item => {
-  // Ignora asteriscos previos o posteriores al valor numérico
-  const regexModificada = new RegExp(item.regex.source.replace('([', '\\s*\\*?\\s*(['), 'i');
-  const match = textoLimpio.match(item.regex);
-  if (match && match[1] && match[1].trim()) {
-    hallazgosGasometria.push(`${item.clave} ${match[1].trim()}`);
-  }
-});
-
-const salidaGasometria = hallazgosGasometria.join(' | ');
-
     const hallazgos = [];
     const textoLimpio = texto.replace(/\r?\n/g, ' ');
 
