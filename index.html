@@ -1122,6 +1122,7 @@ function procesarLaboratorios() {
         { clave: 'TSH', regex: /hormona\s*estimulante\s*de\s*tiroides\s*\(\s*tsh\s*\)\s*([\d\.]+)/i },
         { clave: 'ACE', regex: /(?:antígeno|antigeno)\s*carcinoembrionario\D*([\d\.]+)/i },
         { clave: 'AFP', regex: /(?:alfa\s*-?\s*1\s*-?\s*feto\s*proteina|alfa\s*fetoproteina)\D*([\d\.]+)/i },
+        { clave: 'PIE', regex: /(?:prueba\s*inmunológica\s*de\s*embarazo|pie)\b[^a-záéíóúñÑ]*(negativo|positivo|reactivo|no\s*reactivo)/i },
         { clave: 'CA 19-9', regex: /\bca\s*19\s*-\s*9\b\D*([\d\.]+)/i },
         
         // Cultivos y Reportes Especiales
