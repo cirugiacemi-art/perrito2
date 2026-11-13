@@ -1122,8 +1122,8 @@ function procesarLaboratorios() {
         { clave: 'TSH', regex: /hormona\s*estimulante\s*de\s*tiroides\s*\(\s*tsh\s*\)\s*([\d\.]+)/i },
         { clave: 'ACE', regex: /(?:antígeno|antigeno)\s*carcinoembrionario\D*([\d\.]+)/i },
         { clave: 'AFP', regex: /(?:alfa\s*-?\s*1\s*-?\s*feto\s*proteina|alfa\s*fetoproteina)\D*([\d\.]+)/i },
-        { clave: 'CA 19-9', regex: /(?:ca\s*19\s*-\s*9|antígeno\s*ca\s*19\s*-\s*9)\D*([\d\.]+)/i },
-
+        { clave: 'CA 19-9', regex: /\bca\s*19\s*-\s*9\b\D*([\d\.]+)/i },
+        
         // Cultivos y Reportes Especiales
         { clave: 'CULTIVO HERIDA', regex: /(?:cultivo\s*de\s*(?:secrecion\s*)?herida(?:\s*quirúrgica)?)\D*organismo\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*$)/i },
         { clave: 'ORGANISMO', regex: /organismo\s*([a-záéíóúñÑ\s]+?)(?=\s*n\/a|\s*responsable|$)/i },
