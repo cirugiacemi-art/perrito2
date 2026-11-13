@@ -1185,19 +1185,36 @@ function procesarLaboratorios() {
     ];
 
     const hallazgos = [];
-    const textoLimpio = texto.replace(/\r?\n/g, ' ');
+  const textoLimpio = texto.replace(/\r?\n/g, ' ');
 
-    diccParams.forEach(item => {
-        const match = textoLimpio.match(item.regex);
-        if (match && match[1] && match[1].trim()) {
-            hallazgos.push(`${item.clave} ${match[1].trim()}`);
-        }
-    });
-
-    const salida = hallazgos.join(' | ');
-    if (outputElement) {
-        outputElement.innerText = salida || "No se detectaron parámetros reconocidos.";
+  diccParams.forEach(item => {
+    // Si ya existe un valor previo de gasometría con el mismo nombre base, omitimos el repetido de la química
+    const claveUpper = item.clave.toUpperCase();
+    if (['GLUC', 'NA', 'K', 'CA', 'PH_O'].includes(claveUpper)) {
+      const yaExiste = hallazgos.some(h => {
+        if (claveUpper === 'GLUC' && h.startsWith('Glu ')) return true;
+        if (claveUpper === 'NA' && h.startsWith('Na ')) return true;
+        if (claveUpper === 'K' && h.startsWith('K ')) return true;
+        if (claveUpper === 'CA' && h.startsWith('Ca ')) return true;
+        if (claveUpper === 'PH_O' && h.startsWith('pH ')) return true;
+        return false;
+      });
+      if (yaExiste) return; // Omitir duplicado de gasometría
     }
+
+    const match = textoLimpio.match(item.regex);
+    if (match && match[1] && match[1].trim()) {
+      const resultadoItem = `${item.clave} ${match[1].trim()}`;
+      if (!hallazgos.includes(resultadoItem)) {
+        hallazgos.push(resultadoItem);
+      }
+    }
+  });
+
+  const salida = hallazgos.join(' | ');
+  if (outputElement) {
+    outputElement.innerText = salida || "No se detectaron parámetros reconocidos.";
+  }
 }
   
 function copiarResultado() {
