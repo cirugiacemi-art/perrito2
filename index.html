@@ -1136,7 +1136,7 @@ function procesarLaboratorios() {
         { clave: 'AMIBA', regex: /amiba\s+en\s+fresco\s+([a-záéíóúñÑ0-9\-\/\s]+?)(?=\s*n\/a|\s*$)/i },
 
         // Paneles Virales y Serología
-        { clave: 'VIH', regex: /(?:vih\s*1\s*y\s*2|vih\s*1\/2|vih|hiv)\D*(reactivo|no\s*reactivo|positivo|negativo)/i },
+        { clave: 'VIH', regex: /VIH\s*-\s*1\s*\/\s*2\s*\(\s*COI\s*=\s*([\d\.]+)\)\s*([^\r\n]+?)(?=\s*INTERPRETACION|$)/i },
         { clave: 'VHB_AgHBs', regex: /(?:antigeno\s*de\s*superficie\s*hepatitis\s*b|aghbs|vfb|vhb\s*aghbs)\D*(reactivo|no\s*reactivo|positivo|negativo)/i },
         { clave: 'VHC_Ac', regex: /(?:anticuerpos\s*hepatitis\s*c|anti\s*-?\s*vhc|vhc)\D*(reactivo|no\s*reactivo|positivo|negativo)/i },
         { clave: 'VHA_IgM', regex: /(?:hepatitis\s*a\s*igm|anti\s*-?\s*vha\s*igm|vha\s*igm)\D*(reactivo|no\s*reactivo|positivo|negativo)/i },
@@ -1147,8 +1147,42 @@ function procesarLaboratorios() {
         { clave: 'INFLUENZA_A', regex: /(?:influenza\s*a|inf\s*a)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
         { clave: 'INFLUENZA_B', regex: /(?:influenza\s*b|inf\s*b)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
         { clave: 'COVID19', regex: /(?:sars\s*-?\s*cov\s*-?\s*2|covid\s*-?\s*19|ag\s*covid)\D*(positivo|negativo|reactivo|no\s*reactivo)/i },
-        { clave: 'VDRL', regex: /(?:vdrl|rpr|sífilis|sifilis)\D*(no\s*reactivo|reactivo(?:\s*\d+\/\d+)?|positivo|negativo)/i }
-    ];
+        { clave: 'VDRL', regex: /(?:vdrl|rpr|sífilis|sifilis)\D*(no\s*reactivo|reactivo(?:\s*\d+\/\d+)?|negativo|positivo)/i },
+        { clave: 'TSH', regex: /hormona\s*estimulante\s*de\s*tiroides\s*\(\s*tsh\s*\)\s*([\d\.]+)/i }
+
+      // Gasometría Arterial
+const diccGasometria = [
+  { clave: 'pH', regex: /pH\s*([\d\.]+)/i },
+  { clave: 'pCO2', regex: /pCO2\s*([\d\.]+)/i },
+  { clave: 'pO2', regex: /pO2\s*([\d\.]+)/i },
+  { clave: 'Na', regex: /\bNa\s*([\d\.]+)/i },
+  { clave: 'K', regex: /\bK\s*([\d\.]+)/i },
+  { clave: 'Ca', regex: /\bCa\s*([\d\.]+)/i },
+  { clave: 'Glu', regex: /Glu\s*([\d\.]+)/i },
+  { clave: 'Lac', regex: /Lac\s*([\d\.]+)/i },
+  { clave: 'Htc', regex: /Htc\s*([\d\.]+)/i },
+  { clave: 'HCO3', regex: /HCO3\s*([\d\.]+)/i },
+  { clave: 'HCO3std', regex: /HCO3std\s*([\d\.]+)/i },
+  { clave: 'TCO2', regex: /TCO2\s*([\d\.]+)/i },
+  { clave: 'BEecf', regex: /BEecf\s*([\+\-]?[\d\.]+)/i },
+  { clave: 'BE(B)', regex: /BE\(B\)\s*([\+\-]?[\d\.]+)/i },
+  { clave: 'SO2c', regex: /SO2c\s*([\d\.]+)/i },
+  { clave: 'THbc', regex: /THbc\s*([\d\.]+)/i }
+];
+
+const hallazgosGasometria = [];
+const textoLimpio = texto.replace(/\r?\n/g, ' ');
+
+diccGasometria.forEach(item => {
+  // Ignora asteriscos previos o posteriores al valor numérico
+  const regexModificada = new RegExp(item.regex.source.replace('([', '\\s*\\*?\\s*(['), 'i');
+  const match = textoLimpio.match(item.regex);
+  if (match && match[1] && match[1].trim()) {
+    hallazgosGasometria.push(`${item.clave} ${match[1].trim()}`);
+  }
+});
+
+const salidaGasometria = hallazgosGasometria.join(' | ');
 
     const hallazgos = [];
     const textoLimpio = texto.replace(/\r?\n/g, ' ');
