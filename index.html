@@ -448,10 +448,10 @@
             <div class="card">
                 <div class="card-title"><span>➕ Agregar / Editar Cuenta</span></div>
                 <label style="font-size:0.8rem;">Usuario / Servicio</label>
-                <input type="text" id="usernameInput" placeholder="Ej. ARTURO.RUIZ">
+                <input type="text" id="usernameInput" placeholder="Ej. ZAMIR.SANT">
                 
                 <label style="font-size:0.8rem;">Contraseña / Clave</label>
-                <input type="text" id="passwordInput" placeholder="Ej. ARTURORR984">
+                <input type="text" id="passwordInput" placeholder="Ej. ZSANT2026">
                 
                 <div class="btn-group-row">
                     <button onclick="guardarUsuario()" style="width: 100%;">Guardar Cuenta</button>
@@ -522,46 +522,38 @@
         </div>
       </div>
       <!-- === FIN IMAGEN NEÓN === -->
-    
     <div class="card">
-    <div class="card-title">
-        <span>📊 Guardiómetro</span>
-    </div>
-    <div class="guardia-badge">
-        <span style="font-size: 0.85rem; color:#475569;">Guardia Hoy:</span>
+      <div class="card-title"><span>📊 Guardiómetro</span></div>
+      
+      <div class="guardia-badge">
+        <span style="font-size:0.85rem; color:#475569;">Guardia Hoy:</span>
         <div class="guardia-actual" id="guardiaHoy">Guardia A</div>
-        <small id="fechaHoyText" style="color:#64748B; font-size: 0.75rem;"></small>
-    </div>
-    
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-        <label style="font-size: 0.8rem;">Promoción / Rotación:</label>
-        <div>
-            <button onclick="editarPromocionActual()" style="background: #0284c7; color: white; border: none; padding: 2px 6px; border-radius: 4px; font-size: 10px; cursor: pointer;">✏️ Editar</button>
-            <button onclick="eliminarPromocionActual()" style="background: #dc2626; color: white; border: none; padding: 2px 6px; border-radius: 4px; font-size: 10px; cursor: pointer;">🗑️ Eliminar</button>
-        </div>
-    </div>
-    
-    <select id="tipoMip" onchange="actualizarGuardias()">
+        <small id="fechaHoyText" style="color:#64748B; font-size:0.75rem;"></small>
+      </div>
+
+      <label style="font-size:0.8rem;">Seleccionar Promoción / Rotación:</label>
+      <select id="tipoMip" onchange="actualizarGuardias()">
         <option value="mip2">MIP 2 (1 Ene 2026 - 31 Dic 2026)</option>
         <option value="mip1">MIP 1 (1 Jul 2026 - 30 Jun 2027)</option>
+        <option value="mip1">MIP 2 (1 Jul 2026 - 30 Jun 2027)</option>
+         <option value="mip2">MIP 1 (1 Ene 2027 - 31 Dic 2027)</option>
         <option value="custom">Personalizado</option>
-    </select>
-      
-<div id="customFechas" style="display: none; margin-top: 5px; background: #f8fafc; padding: 8px; border-radius: 8px; border: 1px solid #cbd5e1;">
-    <label style="font-size: 0.75rem;">Fecha Inicio:</label>
-    <input type="date" id="fechaInicio" onchange="actualizarGuardias()">
-    <label style="font-size: 0.75rem;">Fecha Término:</label>
-    <input type="date" id="fechaFin" onchange="actualizarGuardias()">
-    <button onclick="guardarFechasPersonalizadas()" style="width: 100%; background: #10B981; color: white; margin-top: 4px;">💾 Guardar Periodo</button>
-</div>
-    
-    <div class="metrics-grid">
-        <div class="metric-card">Guardias A <strong id="restA">0</strong></div>
-        <div class="metric-card">Guardias B <strong id="restB">0</strong></div>
-        <div class="metric-card">Guardias C <strong id="restC">0</strong></div>
-        <div class="metric-card">Guardias D <strong id="restD">0</strong></div>
+      </select>
+
+      <div id="customFechas" style="display:none; margin-top:5px;">
+        <label style="font-size:0.75rem;">Fecha Inicio:</label>
+        <input type="date" id="fechaInicio" onchange="actualizarGuardias()">
+        <label style="font-size:0.75rem;">Fecha Término:</label>
+        <input type="date" id="fechaFin" onchange="actualizarGuardias()">
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">Guardias A<strong id="restA">0</strong></div>
+        <div class="metric-card">Guardias B<strong id="restB">0</strong></div>
+        <div class="metric-card">Guardias C<strong id="restC">0</strong></div>
+        <div class="metric-card">Guardias D<strong id="restD">0</strong></div>
+      </div>
     </div>
-</div>
 
   <div class="card">
         <div class="card-title">
@@ -590,7 +582,6 @@
   <div class="column">
     <div class="card">
       <div class="card-title"><span>🧪 Procesador de Laboratorios</span></div>
-      <p style="font-size:0.75rem; color:#64748B; margin-bottom:8px;">Pega laboratorios crudos para formatearlos automáticamente con el estudio rotulado.</p>
       
 <textarea id="labInput" placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..." onfocus="this.value='';" oninput="procesarLaboratorios()"></textarea>
       <label style="font-size:0.8rem; font-weight:600;">Resultado:</label>
@@ -604,7 +595,6 @@
         <div class="card-title">
             <span>🔤 MAYUSCULAS/minusculas</span>
         </div>
-        <p style="font-size: 0.75rem; color: #64748B; margin-bottom: 8px;">Pega texto para cambiar rápidamente entre mayúsculas, minúsculas o capitalizar.</p>
         
         <textarea id="textoConversor" placeholder="Escribe o pega aquí el texto..." style="width: 100%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; margin-bottom: 8px; box-sizing: border-box;"></textarea>
         
@@ -914,42 +904,39 @@ function esFestivoISSET(fecha) {
 
     return false;
 }
-function actualizarGuardias() {
+  function actualizarGuardias() {
     const hoy = new Date();
     document.getElementById('fechaHoyText').innerText = hoy.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     
-    const guardiaHoy = obtenerGuardiaPorFecha(hoy);
-    document.getElementById('guardiaHoy').innerText = "Guardia " + guardiaHoy;
+    const fechaInicio = new Date(2026, 0, 1);
+const diferenciaDias = Math.floor((hoy - fechaInicio) / (1000 * 60 * 60 * 24));
+const guardias = ["Guardia B", "Guardia C", "Guardia D", "Guardia A"];
+const guardiaHoy = guardias[((diferenciaDias % 4) + 4) % 4];
+document.getElementById('guardiaHoy').innerText = guardiaHoy;
 
     const tipoMip = document.getElementById('tipoMip').value;
     const customDiv = document.getElementById('customFechas');
-    let fechaInicio, fechaFin;
+    let fechaFin;
 
-    // Fechas base exactas de inicio y fin para sincronizar las guardias limpiamente
     if (tipoMip === 'mip2') {
-        customDiv.style.display = 'none';
-        fechaInicio = new Date(2026, 0, 4);  // 4 de Enero 2026
-        fechaFin = new Date(2026, 11, 30);   // 30 de Diciembre 2026
+      customDiv.style.display = 'none';
+      fechaFin = new Date(2026, 11, 31);
     } else if (tipoMip === 'mip1') {
-        customDiv.style.display = 'none';
-        fechaInicio = new Date(2026, 6, 1);  // 1 de Julio 2026
-        fechaFin = new Date(2027, 5, 30);    // 30 de Junio 2027
+      customDiv.style.display = 'none';
+      fechaFin = new Date(2027, 5, 30);
     } else {
-        customDiv.style.display = 'block';
-        const inputInicio = document.getElementById('fechaInicio').value;
-        const inputFin = document.getElementById('fechaFin').value;
-        fechaInicio = inputInicio ? new Date(inputInicio) : new Date(2026, 0, 4);
-        fechaFin = inputFin ? new Date(inputFin) : new Date(2026, 11, 30);
+      customDiv.style.display = 'block';
+      const inputFin = document.getElementById('fechaFin').value;
+      fechaFin = inputFin ? new Date(inputFin) : new Date(2026, 11, 31);
     }
 
     let counts = { A: 0, B: 0, C: 0, D: 0 };
-    let tempDate = new Date(fechaInicio);
+    let tempDate = new Date(hoy);
 
-    // Recorrer desde el inicio del periodo configurado hasta el término exacto
     while (tempDate <= fechaFin) {
-        let g = obtenerGuardiaPorFecha(tempDate);
-        counts[g]++;
-        tempDate.setDate(tempDate.getDate() + 1);
+      let g = obtenerGuardiaPorFecha(tempDate);
+      counts[g]++;
+      tempDate.setDate(tempDate.getDate() + 1);
     }
 
     document.getElementById('restA').innerText = counts.A;
@@ -1984,152 +1971,6 @@ function copiarTextoConversor() {
         }, 1200);
     });
 }
-// ==========================================
-// GUARDIÓMETRO SINCRONIZADO EN LA NUBE
-// ==========================================
-function actualizarGuardias() {
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
-    document.getElementById('fechaHoyText').innerText = hoy.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    
-    const guardiaHoy = obtenerGuardiaPorFecha(hoy);
-    document.getElementById('guardiaHoy').innerText = "Guardia " + guardiaHoy;
-
-    const tipoMip = document.getElementById('tipoMip').value;
-    const customDiv = document.getElementById('customFechas');
-    let fechaInicio, fechaFin;
-
-    if (tipoMip === 'mip2') {
-        customDiv.style.display = 'none';
-        fechaInicio = new Date(2026, 1, 1);
-        fechaFin = new Date(2026, 12, 31);
-    } else if (tipoMip === 'mip1') {
-        customDiv.style.display = 'none';
-        fechaInicio = new Date(2026, 7, 1);
-        fechaFin = new Date(2027, 6, 30);
-    } else {
-        customDiv.style.display = 'block';
-        const inputInicio = document.getElementById('fechaInicio').value;
-        const inputFin = document.getElementById('fechaFin').value;
-        fechaInicio = inputInicio ? new Date(inputInicio + 'T00:00:00') : new Date(hoy);
-        fechaFin = inputFin ? new Date(inputFin + 'T00:00:00') : new Date(2026, 11, 30);
-    }
-
-    let counts = { A: 0, B: 0, C: 0, D: 0 };
-    let tempDate = hoy > fechaInicio ? new Date(hoy) : new Date(fechaInicio);
-
-    while (tempDate <= fechaFin) {
-        let g = obtenerGuardiaPorFecha(tempDate);
-        if (counts[g] !== undefined) counts[g]++;
-        tempDate.setDate(tempDate.getDate() + 1);
-    }
-
-    document.getElementById('restA').innerText = counts.A;
-    document.getElementById('restB').innerText = counts.B;
-    document.getElementById('restC').innerText = counts.C;
-    document.getElementById('restD').innerText = counts.D;
-
-    if (typeof generarCalendario === 'function') generarCalendario();
-}
-
-async function guardarGuardiasNube(configData) {
-    try {
-        await fetch(API_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "guardarGuardias", data: configData })
-        });
-        alert("✅ Periodo guardado en la nube.");
-    } catch (e) {
-        alert("❌ Error al guardar en la nube.");
-    }
-}
-
-function guardarFechasPersonalizadas() {
-    const select = document.getElementById('tipoMip');
-    const inicio = document.getElementById('fechaInicio').value;
-    const fin = document.getElementById('fechaFin').value;
-    if (!inicio || !fin) {
-        alert("Selecciona fecha de inicio y término.");
-        return;
-    }
-    const nombre = prompt("Nombre para este periodo (Ej: Rotación Pediatría):", "Personalizado");
-    if (!nombre) return;
-
-    const customId = 'custom_' + Date.now();
-    let opt = document.createElement('option');
-    opt.value = customId;
-    opt.text = nombre;
-    select.add(opt);
-    select.value = customId;
-
-    actualizarGuardias();
-    guardarGuardiasNube({ tipoSeleccionado: customId, nombre: nombre, inicio: inicio, fin: fin });
-}
-
-async function cargarGuardiasNube() {
-    try {
-        const res = await fetch(API_URL + "?action=get_guardias");
-        const data = await res.json();
-        if (data && data.tipoSeleccionado) {
-            const select = document.getElementById('tipoMip');
-            if (data.tipoSeleccionado.startsWith('custom_')) {
-                let opt = document.createElement('option');
-                opt.value = data.tipoSeleccionado;
-                opt.text = data.nombre || "Personalizado";
-                select.add(opt);
-                select.value = data.tipoSeleccionado;
-                document.getElementById('fechaInicio').value = data.inicio || "";
-                document.getElementById('fechaFin').value = data.fin || "";
-            } else {
-                select.value = data.tipoSeleccionado;
-            }
-            actualizarGuardias();
-        }
-    } catch (e) {
-        console.log("Usando configuración local de guardias.");
-    }
-}
-
-function eliminarPromocionActual() {
-    const select = document.getElementById('tipoMip');
-    if (select.value === 'mip1' || select.value === 'mip2' || select.value === 'custom') {
-        alert("Las opciones base no se eliminan. Selecciona un periodo personalizado creado para borrarlo.");
-        return;
-    }
-    if (confirm("¿Eliminar este periodo de rotación?")) {
-        select.remove(select.selectedIndex);
-        select.value = 'mip2';
-        actualizarGuardias();
-        guardarGuardiasNube({ tipoSeleccionado: 'mip2' });
-    }
-}
-
-function editarPromocionActual() {
-    const select = document.getElementById('tipoMip');
-    const opcionActual = select.options[select.selectedIndex];
-    const nuevoNombre = prompt("Nombre de la promoción o rotación:", opcionActual.text);
-    if (!nuevoNombre) return;
-    const nuevaFechaInicio = prompt("Fecha de inicio (YYYY-MM-DD):", document.getElementById('fechaInicio').value || "2026-11-17");
-    const nuevaFechaFin = prompt("Fecha de término (YYYY-MM-DD):", document.getElementById('fechaFin').value || "2026-12-30");
-    
-    if (nuevaFechaInicio && nuevaFechaFin) {
-        const customId = 'custom_' + Date.now();
-        let opt = document.createElement('option');
-        opt.text = nuevoNombre;
-        opt.value = customId;
-        select.add(opt);
-        select.value = customId;
-        
-        document.getElementById('customFechas').style.display = 'block';
-        document.getElementById('fechaInicio').value = nuevaFechaInicio;
-        document.getElementById('fechaFin').value = nuevaFechaFin;
-        
-        actualizarGuardias();
-        guardarGuardiasNube({ tipoSeleccionado: customId, nombre: nuevoNombre, inicio: nuevaFechaInicio, fin: nuevaFechaFin });
-    }
-}
-
-cargarGuardiasNube();
 </script>
 </body>
 </html>
