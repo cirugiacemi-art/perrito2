@@ -882,28 +882,26 @@ let calViewDate = new Date();
     if (idx < 0) idx += 4;
     return guardias[idx];
   }
-  
 // Función para verificar días festivos del ISSET
-function obtenerNombreFestivo(fecha) {
-  const d = fecha.getDate();
-  const m = fecha.getMonth(); 
-  const dayOfWeek = fecha.getDay(); 
+function esFestivoISSET(fecha) {
+    const d = fecha.getDate();
+    const m = fecha.getMonth(); // 0 = Ene, 1 = Feb, 2 = Mar, 4 = May, 8 = Sep, 10 = Nov, 11 = Dic
+    const dayOfWeek = fecha.getDay(); // 1 = Lunes
 
-  // Fechas fijas
-  if (m === 0 && d === 1) return "Año Nuevo";
-  if (m === 1 && d === 27) return "Invasión Francesa en Tabasco";
-  if (m === 4 && d === 1) return "Día del Trabajo";
-  if (m === 8 && d === 16) return "Independencia de México";
-  if (m === 11 && d === 25) return "Navidad";
+    // Fechas fijas
+    if (m === 0 && d === 1) return true;   // 1 Enero (Año Nuevo)
+    if (m === 1 && d === 27) return true;  // 27 Febrero (Invasión Francesa en Tabasco)
+    if (m === 4 && d === 1) return true;   // 1 Mayo (Día del Trabajo)
+    if (m === 8 && d === 16) return true;  // 16 Septiembre (Independencia)
+    if (m === 11 && d === 25) return true; // 25 Diciembre (Navidad)
 
-  // Fechas móviles (Lunes)
-  if (m === 1 && dayOfWeek === 1 && d <= 7) return "Día de la Constitución";
-  if (m === 2 && dayOfWeek === 1 && d >= 15 && d <= 21) return "Natalicio de Benito Juárez";
-  if (m === 10 && dayOfWeek === 1 && d >= 15 && d <= 21) return "Día de la Revolución";
+    // Fechas móviles (Lunes)
+    if (m === 1 && dayOfWeek === 1 && d <= 7) return true;               // 1er lunes de Feb (Constitución)
+    if (m === 2 && dayOfWeek === 1 && d >= 15 && d <= 21) return true;   // 3er lunes de Mar (Benito Juárez)
+    if (m === 10 && dayOfWeek === 1 && d >= 15 && d <= 21) return true;  // 3er lunes de Nov (Revolución)
 
-  return null;
+    return false;
 }
-  
   function actualizarGuardias() {
     const hoy = new Date();
     document.getElementById('fechaHoyText').innerText = hoy.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -982,35 +980,25 @@ document.getElementById('guardiaHoy').innerText = guardiaHoy;
 
     const hoyReal = new Date();
 
-for (let day = 1; day <= daysInMonth; day++) {
-    const cellDate = new Date(year, month, day);
-    const cell = document.createElement('div');
-    cell.className = 'calendar-day';
-    
-    const gText = obtenerGuardiaPorFecha(cellDate);
-    const gLetter = gText.replace('Guardia ', '');
-    
-    cell.innerHTML = `${day}<br><small style="font-size:0.65rem; opacity:0.8; font-weight:bold;">${gLetter}</small>`;
+    for (let day = 1; day <= daysInMonth; day++) {
+      const cellDate = new Date(year, month, day);
+      const cell = document.createElement('div');
+      cell.className = 'calendar-day';
+      
+      const gLetter = obtenerGuardiaPorFecha(cellDate);
+      cell.innerHTML = `${day}<br><small style="font-size:0.65rem; opacity:0.8; font-weight:bold;">${gLetter}</small>`;
 
-    const esHoy = cellDate.toDateString() === hoyReal.toDateString();
-    const nombreFestivo = obtenerNombreFestivo(cellDate);
+     const esHoy = cellDate.toDateString() === hoyReal.toDateString();
+const esFestivo = esFestivoISSET(cellDate);
 
-    if (esHoy) {
-      cell.classList.add('today');
-    } 
-    
-    if (nombreFestivo) {
-      cell.classList.add('festivo');
-      // Agregamos el título nativo para que aparezca al pasar el ratón (Tooltip)
-      cell.title = nombreFestivo; 
+if (esHoy) {
+    cell.classList.add('today');
+} else if (esFestivo) {
+    cell.classList.add('festivo');
+}
+
+      calendarGrid.appendChild(cell);
     }
-
-    // Ejemplo: Si quieres resaltar con un borde de acento especial las de una guardia en específico (ej. Guardia A)
-    if (gLetter === 'A') {
-      cell.style.border = '2px dashed var(--primary)';
-    }
-
-    calendarGrid.appendChild(cell);
   }
 
 // LABORATORIOS ROTULADOS
