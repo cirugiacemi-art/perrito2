@@ -448,10 +448,10 @@
             <div class="card">
                 <div class="card-title"><span>➕ Agregar / Editar Cuenta</span></div>
                 <label style="font-size:0.8rem;">Usuario / Servicio</label>
-                <input type="text" id="usernameInput" placeholder="Ej. ARTURO.RUIZ">
+                <input type="text" id="usernameInput" placeholder="Ej. ZAMIR.SANT">
                 
                 <label style="font-size:0.8rem;">Contraseña / Clave</label>
-                <input type="text" id="passwordInput" placeholder="Ej. ARTURORR984">
+                <input type="text" id="passwordInput" placeholder="Ej. ZSANT2026">
                 
                 <div class="btn-group-row">
                     <button onclick="guardarUsuario()" style="width: 100%;">Guardar Cuenta</button>
@@ -535,6 +535,8 @@
       <select id="tipoMip" onchange="actualizarGuardias()">
         <option value="mip2">MIP 2 (1 Ene 2026 - 31 Dic 2026)</option>
         <option value="mip1">MIP 1 (1 Jul 2026 - 30 Jun 2027)</option>
+        <option value="mip1">MIP 2 (1 Jul 2026 - 30 Jun 2027)</option>
+         <option value="mip2">MIP 1 (1 Ene 2027 - 31 Dic 2027)</option>
         <option value="custom">Personalizado</option>
       </select>
 
@@ -580,7 +582,6 @@
   <div class="column">
     <div class="card">
       <div class="card-title"><span>🧪 Procesador de Laboratorios</span></div>
-      <p style="font-size:0.75rem; color:#64748B; margin-bottom:8px;">Pega laboratorios crudos para formatearlos automáticamente con el estudio rotulado.</p>
       
 <textarea id="labInput" placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..." onfocus="this.value='';" oninput="procesarLaboratorios()"></textarea>
       <label style="font-size:0.8rem; font-weight:600;">Resultado:</label>
@@ -594,7 +595,6 @@
         <div class="card-title">
             <span>🔤 MAYUSCULAS/minusculas</span>
         </div>
-        <p style="font-size: 0.75rem; color: #64748B; margin-bottom: 8px;">Pega texto para cambiar rápidamente entre mayúsculas, minúsculas o capitalizar.</p>
         
         <textarea id="textoConversor" placeholder="Escribe o pega aquí el texto..." style="width: 100%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; margin-bottom: 8px; box-sizing: border-box;"></textarea>
         
@@ -908,8 +908,11 @@ function esFestivoISSET(fecha) {
     const hoy = new Date();
     document.getElementById('fechaHoyText').innerText = hoy.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     
-    const guardiaHoy = obtenerGuardiaPorFecha(hoy);
-    document.getElementById('guardiaHoy').innerText = "Guardia " + guardiaHoy;
+    const fechaInicio = new Date(2026, 0, 1);
+const diferenciaDias = Math.floor((hoy - fechaInicio) / (1000 * 60 * 60 * 24));
+const guardias = ["Guardia B", "Guardia C", "Guardia D", "Guardia A"];
+const guardiaHoy = guardias[((diferenciaDias % 4) + 4) % 4];
+document.getElementById('guardiaHoy').innerText = guardiaHoy;
 
     const tipoMip = document.getElementById('tipoMip').value;
     const customDiv = document.getElementById('customFechas');
