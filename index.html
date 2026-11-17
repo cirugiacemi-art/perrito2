@@ -1984,8 +1984,56 @@ function copiarTextoConversor() {
     });
 }
 // Sincronización del Guardiómetro con Google Apps Script
+// 1. Cálculo de guardias restantes (iniciando desde HOY para que no muestre el año entero)
+function actualizarGuardias() {
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    document.getElementById('fechaHoyText').innerText = hoy.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    
+    const guardiaHoy = obtenerGuardiaPorFecha(hoy);
+    document.getElementById('guardiaHoy').innerText = "Guardia " + guardiaHoy;
+
+    const tipoMip = document.getElementById('tipoMip').value;
+    const customDiv = document.getElementById('customFechas');
+    let fechaInicio, fechaFin;
+
+    if (tipoMip === 'mip2') {
+        customDiv.style.display = 'none';
+        fechaInicio = new Date(2026, 0, 4);
+        fechaFin = new Date(2026, 11, 30);
+    } else if (tipoMip === 'mip1') {
+        customDiv.style.display = 'none';
+        fechaInicio = new Date(2026, 6, 1);
+        fechaFin = new Date(2027, 5, 30);
+    } else {
+        customDiv.style.display = 'block';
+        const inputInicio = document.getElementById('fechaInicio').value;
+        const inputFin = document.getElementById('fechaFin').value;
+        fechaInicio = inputInicio ? new Date(inputInicio + 'T00:00:00') : new Date(2026, 0, 4);
+        fechaFin = inputFin ? new Date(inputFin + 'T00:00:00') : new Date(2026, 11, 30);
+    }
+
+    let counts = { A: 0, B: 0, C: 0, D: 0 };
+    let tempDate = hoy > fechaInicio ? new Date(hoy) : new Date(fechaInicio);
+
+    while (tempDate <= fechaFin) {
+        let g = obtenerGuardiaPorFecha(tempDate);
+        if (counts[g] !== undefined) counts[g]++;
+        tempDate.setDate(tempDate.getDate() + 1);
+    }
+
+    document.getElementById('restA').innerText = counts.A;
+    document.getElementById('restB').innerText = counts.B;
+    document.getElementById('restC').innerText = counts.C;
+    document.getElementById('restD').innerText = counts.D;
+
+    if (typeof generarCalendario === 'function') generarCalendario();
+}
+
+// 2. Sincronización en la nube con tu Google Apps Script
+const API_URL_GUARDIAS = "https://script.google.com/macros/s/AKfycbyEfgH-PPHERrISgEG0yCCr-M6EZqwVGuDxwXH_b48PlNkeZUUQ_ffJkYSIuNoy13_4rA/exec";
+
 async function guardarGuardiasNube(configData) {
-    const API_URL_GUARDIAS = "https://script.google.com/macros/s/AKfycbyEfgH-PPHERrISgEG0yCCr-M6EZqwVGuDxwXH_b48PlNkeZUUQ_ffJkYSIuNoy13_4rA/exec";
     try {
         await fetch(API_URL_GUARDIAS, {
             method: "POST",
@@ -1993,60 +2041,83 @@ async function guardarGuardiasNube(configData) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ action: "guardarGuardias", data: configData })
         });
-        console.log("Guardiómetro sincronizado en la nube.");
+        alert("✅ Guardiómetro guardado en la nube.");
     } catch (e) {
-        console.error("Error al sincronizar guardias:", e);
+        alert("❌ Error al guardar en la nube.");
     }
 }
 
-// Función para eliminar la promoción o rotación seleccionada
+async function cargarGuardiasNube() {
+    try {
+        const res = await fetch(API_URL_GUARDIAS + "?action=get_guardias");
+        const data = await res.json();
+        if (data && data.tipoSeleccionado) {
+            const select = document.getElementById('tipoMip');
+            if (data.tipoSeleccionado.startsWith('custom_')) {
+                let opt = document.createElement('option');
+                opt.value = data.tipoSeleccionado;
+                opt.text = data.nombre || "Personalizado";
+                select.add(opt);
+                select.value = data.tipoSeleccionado;
+                document.getElementById('fechaInicio').value = data.inicio;
+                document.getElementById('fechaFin').value = data.fin;
+            } else {
+                select.value = data.tipoSeleccionado;
+            }
+            actualizarGuardias();
+        }
+    } catch (e) {
+        console.error("Error cargando guardias:", e);
+    }
+}
+
+// 3. Controles de botones de Edición y Eliminación de rotaciones
 function eliminarPromocionActual() {
     const select = document.getElementById('tipoMip');
-    const valorActual = select.value;
-    
-    if (valorActual === 'mip1' || valorActual === 'mip2') {
-        alert("Las promociones base del sistema no se pueden eliminar por completo, pero puedes editarlas.");
+    if (select.value === 'mip1' || select.value === 'mip2') {
+        alert("Las promociones base no se eliminan, pero puedes editarlas.");
         return;
     }
-    
-    if (confirm("¿Estás seguro de eliminar este periodo de rotación?")) {
+    if (confirm("¿Eliminar este periodo de rotación?")) {
         select.remove(select.selectedIndex);
-        select.value = 'mip2'; // Regresar a una por defecto
+        select.value = 'mip2';
         actualizarGuardias();
-        guardarGuardiasNube({ tipoSeleccionado: select.value });
+        guardarGuardiasNube({ tipoSeleccionado: 'mip2' });
     }
 }
 
-// Función para editar el periodo activo
 function editarPromocionActual() {
     const select = document.getElementById('tipoMip');
     const opcionActual = select.options[select.selectedIndex];
-    
     const nuevoNombre = prompt("Nombre de la promoción o rotación:", opcionActual.text);
     if (!nuevoNombre) return;
-    
-    const nuevaFechaInicio = prompt("Fecha de inicio (YYYY-MM-DD):", "2026-01-01");
-    const nuevaFechaFin = prompt("Fecha de término (YYYY-MM-DD):", "2026-12-31");
+    const nuevaFechaInicio = prompt("Fecha de inicio (YYYY-MM-DD):", "2026-01-04");
+    const nuevaFechaFin = prompt("Fecha de término (YYYY-MM-DD):", "2026-12-30");
     
     if (nuevaFechaInicio && nuevaFechaFin) {
-        opcionActual.text = nuevoNombre;
-        opcionActual.value = 'custom_' + Date.now();
+        const customId = 'custom_' + Date.now();
+        let opt = document.createElement('option');
+        opt.text = nuevoNombre;
+        opt.value = customId;
+        select.add(opt);
+        select.value = customId;
         
-        // Cambiar a modo personalizado para fijar las fechas
-        select.value = opcionActual.value;
         document.getElementById('customFechas').style.display = 'block';
         document.getElementById('fechaInicio').value = nuevaFechaInicio;
         document.getElementById('fechaFin').value = nuevaFechaFin;
         
         actualizarGuardias();
         guardarGuardiasNube({
-            tipoSeleccionado: select.value,
+            tipoSeleccionado: customId,
             nombre: nuevoNombre,
             inicio: nuevaFechaInicio,
             fin: nuevaFechaFin
         });
     }
 }
+
+// Cargar configuración guardada al abrir la página
+window.addEventListener('DOMContentLoaded', cargarGuardiasNube);
 </script>
 </body>
 </html>
