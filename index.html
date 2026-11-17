@@ -524,61 +524,59 @@
       <!-- === FIN IMAGEN NEÓN === -->
     <div class="card">
       <div class="card-title"><span>📊 Guardiómetro</span></div>
-      
-      <div class="guardia-badge">
-        <span style="font-size:0.85rem; color:#475569;">Guardia Hoy:</span>
-        <div class="guardia-actual" id="guardiaHoy">Guardia A</div>
-        <small id="fechaHoyText" style="color:#64748B; font-size:0.75rem;"></small>
-      </div>
 
-      <label style="font-size:0.8rem;">Seleccionar Promoción / Rotación:</label>
-      <select id="tipoMip" onchange="actualizarGuardias()">
-        <option value="mip2">MIP 2 (1 Ene 2026 - 31 Dic 2026)</option>
-        <option value="mip1">MIP 1 (1 Jul 2026 - 30 Jun 2027)</option>
-        <option value="mip1">MIP 2 (1 Jul 2026 - 30 Jun 2027)</option>
-         <option value="mip2">MIP 1 (1 Ene 2027 - 31 Dic 2027)</option>
-        <option value="custom">Personalizado</option>
-      </select>
+  <!-- ========================================== -->
+<!-- SECCIÓN 1: PANEL DEL GUARDIÓMETRO          -->
+<!-- ========================================== -->
+<div id="guardiometro-section" class="card-seccion">
+  <h2>Guardiómetro</h2>
+  <p>Fecha de hoy: <span id="fechaHoyText"></span></p>
+  <p>Guardia actual: <strong id="guardiaHoy">--</strong></p>
 
-      <div id="customFechas" style="display:none; margin-top:5px;">
-        <label style="font-size:0.75rem;">Fecha Inicio:</label>
-        <input type="date" id="fechaInicio" onchange="actualizarGuardias()">
-        <label style="font-size:0.75rem;">Fecha Término:</label>
-        <input type="date" id="fechaFin" onchange="actualizarGuardias()">
-      </div>
+  <!-- Controles de Tipo de MIP -->
+  <div class="form-group">
+    <label for="tipoMip">Selecciona tu categoría:</label>
+    <select id="tipoMip" onchange="actualizarGuardias()">
+      <option value="mip2">MIP 2 (Finaliza Dic 2026)</option>
+      <option value="mip1">MIP 1 (Finaliza Jun 2027)</option>
+      <option value="custom">Personalizado</option>
+    </select>
+  </div>
 
-      <div class="metrics-grid">
-        <div class="metric-card">Guardias A<strong id="restA">0</strong></div>
-        <div class="metric-card">Guardias B<strong id="restB">0</strong></div>
-        <div class="metric-card">Guardias C<strong id="restC">0</strong></div>
-        <div class="metric-card">Guardias D<strong id="restD">0</strong></div>
-      </div>
-    </div>
+  <!-- Contenedor personalizado (oculto por defecto según selección) -->
+  <div id="customFechas" style="display: none;">
+    <label for="fechaFin">Fecha de término:</label>
+    <input type="date" id="fechaFin" onchange="actualizarGuardias()">
+  </div>
 
-  <div class="card">
-        <div class="card-title">
-          <span>📅 Calendario</span>
-          <div>
-            <button onclick="cambiarMes(-1)">◀</button>
-            <span id="calMonthYear" style="font-size:0.85rem; color:var(--text); font-weight:700; margin:0 4px;">Septiembre 2026</span>
-            <button onclick="cambiarMes(1)">▶</button>
-          </div>
-        </div>
+  <!-- Conteo de Guardias Restantes -->
+  <div class="guardias-restantes">
+    <div class="badge-guardia">A: <span id="restA">0</span></div>
+    <div class="badge-guardia">B: <span id="restB">0</span></div>
+    <div class="badge-guardia">C: <span id="restC">0</span></div>
+    <div class="badge-guardia">D: <span id="restD">0</span></div>
+  </div>
+</div>
 
-        <!-- Leyenda de color verde para días festivos -->
-        <div style="display: flex; align-items: center; justify-content: space-between; background-color: #F8FAFC; border: 1px solid #E2E8F0; padding: 6px 10px; border-radius: 8px; margin-bottom: 8px; font-size: 0.72rem;">
-          <div style="display: flex; align-items: center; gap: 5px;">
-            <span style="width: 12px; height: 12px; background-color: #10B981; border-radius: 3px; display: inline-block;"></span>
-            <strong style="color: #065F46;">Día Festivo ISSET</strong>
-          </div>
-          <span style="color: #64748B; font-style: italic;">*Inhábil oficial</span>
-        </div>
+<hr style="margin: 20px 0;">
 
-        <div class="calendar" id="calendarGrid"></div>
-      </div>
-    </div>
-    
+<!-- ========================================== -->
+<!-- SECCIÓN 2: CALENDARIO INTERACTIVO          -->
+<!-- ========================================== -->
+<div id="calendario-section" class="card-seccion">
+  <div class="calendar-controls">
+    <button onclick="cambiarMes(-1)">◀ Mes Anterior</button>
+    <h3 id="calMonthYear">Mes Año</h3>
+    <button onclick="cambiarMes(1)">Mes Siguiente ▶</button>
+  </div>
+
+  <!-- Cuadrícula donde se inyectan los días del mes -->
+  <div id="calendarGrid" class="calendar-grid"></div>
+</div>    
+
+<!-- ========================================== -->
   <!-- COLUMNA 3: Laboratorios y Post-its -->
+<!-- ========================================== -->
   <div class="column">
     <div class="card">
       <div class="card-title"><span>🧪 Procesador de Laboratorios</span></div>
@@ -873,137 +871,178 @@ async function sincronizarCuentasNube() {
     } catch(e) {}
   }
 
-// GUARDIÓMETRO Y CALENDARIO
-const baseDate = new Date(2026, 8, 29);
+//GUARDIOMETRO//-------------------------------------------------------------
+// ==========================================
+// MÓDULO 1: GUARDIÓMETRO Y CÁLCULOS
+// ==========================================
+
+const baseDate = new Date(2026, 8, 29); // 29 de septiembre de 2026
+const guardias = ["Guardia B", "Guardia C", "Guardia D", "Guardia A"];
+
+// Función para obtener la letra de la guardia según una fecha objetivo
+function obtenerGuardiaPorFecha(fechaTarget) {
+  const diffTime = fechaTarget.getTime() - baseDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  let idx = (diffDays % 4);
+  if (idx < 0) idx += 4;
+  return guardias[idx];
+}
+
+// Función para verificar días festivos institucionales (ISSET)
+function esFestivoISSET(fecha) {
+  const d = fecha.getDate();
+  const m = fecha.getMonth(); // 0 = Ene, 1 = Feb, 2 = Mar, 4 = May, 8 = Sep, 10 = Nov, 11 = Dic
+  const dayOfWeek = fecha.getDay(); // 0 = Domingo, 1 = Lunes...
+
+  // Fechas fijas
+  if (m === 0 && d === 1) return true;   // 1 Enero (Año Nuevo)
+  if (m === 1 && d === 27) return true;  // 27 Febrero (Invasión Francesa en Tabasco)
+  if (m === 4 && d === 1) return true;   // 1 Mayo (Día del Trabajo)
+  if (m === 8 && d === 16) return true;  // 16 Septiembre (Independencia)
+  if (m === 11 && d === 25) return true; // 25 Diciembre (Navidad)
+
+  // Fechas móviles (Lunes)
+  if (m === 1 && dayOfWeek === 1 && d <= 7) return true;               // 1er lunes de Feb (Constitución)
+  if (m === 2 && dayOfWeek === 1 && d >= 15 && d <= 21) return true;   // 3er lunes de Mar (Benito Juárez)
+  if (m === 10 && dayOfWeek === 1 && d >= 15 && d <= 21) return true;  // 3er lunes de Nov (Revolución)
+
+  return false;
+}
+
+// Función principal para actualizar los contadores y el estado actual del guardiómetro
+function actualizarGuardias() {
+  const hoy = new Date();
+  
+  const fechaHoyText = document.getElementById('fechaHoyText');
+  if (fechaHoyText) {
+    fechaHoyText.innerText = hoy.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  }
+  
+  const fechaInicio = new Date(2026, 0, 1);
+  const diferenciaDias = Math.floor((hoy - fechaInicio) / (1000 * 60 * 60 * 24));
+  const guardiaHoy = guardias[((diferenciaDias % 4) + 4) % 4];
+  
+  const guardiaHoyElem = document.getElementById('guardiaHoy');
+  if (guardiaHoyElem) {
+    guardiaHoyElem.innerText = guardiaHoy;
+  }
+
+  const tipoMipElem = document.getElementById('tipoMip');
+  const customDiv = document.getElementById('customFechas');
+  let fechaFin;
+
+  const tipoMip = tipoMipElem ? tipoMipElem.value : 'mip2';
+
+  if (tipoMip === 'mip2') {
+    if (customDiv) customDiv.style.display = 'none';
+    fechaFin = new Date(2026, 11, 31);
+  } else if (tipoMip === 'mip1') {
+    if (customDiv) customDiv.style.display = 'none';
+    fechaFin = new Date(2027, 5, 30);
+  } else {
+    if (customDiv) customDiv.style.display = 'block';
+    const inputFin = document.getElementById('fechaFin').value;
+    fechaFin = inputFin ? new Date(inputFin) : new Date(2026, 11, 31);
+  }
+
+  let counts = { A: 0, B: 0, C: 0, D: 0 };
+  let tempDate = new Date(hoy);
+
+  while (tempDate <= fechaFin) {
+    let g = obtenerGuardiaPorFecha(tempDate);
+    // Limpiamos la cadena para sumar en el objeto counts (ej: "Guardia A" -> "A")
+    let letra = g.replace('Guardia ', '');
+    if (counts[letra] !== undefined) counts[letra]++;
+    tempDate.setDate(tempDate.getDate() + 1);
+  }
+
+  if (document.getElementById('restA')) document.getElementById('restA').innerText = counts.A;
+  if (document.getElementById('restB')) document.getElementById('restB').innerText = counts.B;
+  if (document.getElementById('restC')) document.getElementById('restC').innerText = counts.C;
+  if (document.getElementById('restD')) document.getElementById('restD').innerText = counts.D;
+
+  // Llama a la renderización del calendario al actualizar
+  if (typeof generarCalendario === 'function') {
+    generarCalendario();
+  }
+}
+
+// ==========================================
+// MÓDULO 2: CALENDARIO VISUAL E INTERFAZ
+// ==========================================
+
 let calViewDate = new Date();
 
-  function obtenerGuardiaPorFecha(fechaTarget) {
-    const diffTime = fechaTarget.getTime() - baseDate.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    let idx = (diffDays % 4);
-    if (idx < 0) idx += 4;
-    return guardias[idx];
-  }
-// Función para verificar días festivos del ISSET
-function esFestivoISSET(fecha) {
-    const d = fecha.getDate();
-    const m = fecha.getMonth(); // 0 = Ene, 1 = Feb, 2 = Mar, 4 = May, 8 = Sep, 10 = Nov, 11 = Dic
-    const dayOfWeek = fecha.getDay(); // 1 = Lunes
-
-    // Fechas fijas
-    if (m === 0 && d === 1) return true;   // 1 Enero (Año Nuevo)
-    if (m === 1 && d === 27) return true;  // 27 Febrero (Invasión Francesa en Tabasco)
-    if (m === 4 && d === 1) return true;   // 1 Mayo (Día del Trabajo)
-    if (m === 8 && d === 16) return true;  // 16 Septiembre (Independencia)
-    if (m === 11 && d === 25) return true; // 25 Diciembre (Navidad)
-
-    // Fechas móviles (Lunes)
-    if (m === 1 && dayOfWeek === 1 && d <= 7) return true;               // 1er lunes de Feb (Constitución)
-    if (m === 2 && dayOfWeek === 1 && d >= 15 && d <= 21) return true;   // 3er lunes de Mar (Benito Juárez)
-    if (m === 10 && dayOfWeek === 1 && d >= 15 && d <= 21) return true;  // 3er lunes de Nov (Revolución)
-
-    return false;
+function cambiarMes(delta) {
+  calViewDate.setMonth(calViewDate.getMonth() + delta);
+  generarCalendario();
 }
-  function actualizarGuardias() {
-    const hoy = new Date();
-    document.getElementById('fechaHoyText').innerText = hoy.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+function generarCalendario() {
+  const calendarGrid = document.getElementById('calendarGrid');
+  if (!calendarGrid) return;
+  
+  calendarGrid.innerHTML = '';
+
+  const year = calViewDate.getFullYear();
+  const month = calViewDate.getMonth();
+
+  const appBody = document.getElementById('app-body');
+  if (appBody) {
+    appBody.className = `theme-${month}`;
+  }
+
+  const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  const calMonthYear = document.getElementById('calMonthYear');
+  if (calMonthYear) {
+    calMonthYear.innerText = `${monthNames[month]} ${year}`;
+  }
+
+  const headers = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+  headers.forEach(h => {
+    const div = document.createElement('div');
+    div.className = 'calendar-header';
+    div.innerText = h;
+    calendarGrid.appendChild(div);
+  });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    const emptyCell = document.createElement('div');
+    calendarGrid.appendChild(emptyCell);
+  }
+
+  const hoyReal = new Date();
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const cellDate = new Date(year, month, day);
+    const cell = document.createElement('div');
+    cell.className = 'calendar-day';
     
-    const fechaInicio = new Date(2026, 0, 1);
-const diferenciaDias = Math.floor((hoy - fechaInicio) / (1000 * 60 * 60 * 24));
-const guardias = ["Guardia B", "Guardia C", "Guardia D", "Guardia A"];
-const guardiaHoy = guardias[((diferenciaDias % 4) + 4) % 4];
-document.getElementById('guardiaHoy').innerText = guardiaHoy;
+    // Hace uso de la función de guardias del módulo 1
+    const gText = obtenerGuardiaPorFecha(cellDate);
+    const gLetter = gText.replace('Guardia ', ''); // Extrae solo la letra para que quepa bien en el diseño chico
+    
+    cell.innerHTML = `${day}<br><small style="font-size:0.65rem; opacity:0.8; font-weight:bold;">${gLetter}</small>`;
 
-    const tipoMip = document.getElementById('tipoMip').value;
-    const customDiv = document.getElementById('customFechas');
-    let fechaFin;
+    const esHoy = cellDate.toDateString() === hoyReal.toDateString();
+    const esFestivo = esFestivoISSET(cellDate);
 
-    if (tipoMip === 'mip2') {
-      customDiv.style.display = 'none';
-      fechaFin = new Date(2026, 11, 31);
-    } else if (tipoMip === 'mip1') {
-      customDiv.style.display = 'none';
-      fechaFin = new Date(2027, 5, 30);
-    } else {
-      customDiv.style.display = 'block';
-      const inputFin = document.getElementById('fechaFin').value;
-      fechaFin = inputFin ? new Date(inputFin) : new Date(2026, 11, 31);
+    if (esHoy) {
+      cell.classList.add('today');
+    } else if (esFestivo) {
+      cell.classList.add('festivo');
     }
 
-    let counts = { A: 0, B: 0, C: 0, D: 0 };
-    let tempDate = new Date(hoy);
-
-    while (tempDate <= fechaFin) {
-      let g = obtenerGuardiaPorFecha(tempDate);
-      counts[g]++;
-      tempDate.setDate(tempDate.getDate() + 1);
-    }
-
-    document.getElementById('restA').innerText = counts.A;
-    document.getElementById('restB').innerText = counts.B;
-    document.getElementById('restC').innerText = counts.C;
-    document.getElementById('restD').innerText = counts.D;
-
-    generarCalendario();
+    calendarGrid.appendChild(cell);
   }
-
-  function cambiarMes(delta) {
-    calViewDate.setMonth(calViewDate.getMonth() + delta);
-    generarCalendario();
-  }
-
-  function generarCalendario() {
-    const calendarGrid = document.getElementById('calendarGrid');
-    calendarGrid.innerHTML = '';
-
-    const year = calViewDate.getFullYear();
-    const month = calViewDate.getMonth();
-
-    document.getElementById('app-body').className = `theme-${month}`;
-
-    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-    document.getElementById('calMonthYear').innerText = `${monthNames[month]} ${year}`;
-
-    const headers = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
-    headers.forEach(h => {
-      const div = document.createElement('div');
-      div.className = 'calendar-header';
-      div.innerText = h;
-      calendarGrid.appendChild(div);
-    });
-
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    for (let i = 0; i < firstDay; i++) {
-      const emptyCell = document.createElement('div');
-      calendarGrid.appendChild(emptyCell);
-    }
-
-    const hoyReal = new Date();
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      const cellDate = new Date(year, month, day);
-      const cell = document.createElement('div');
-      cell.className = 'calendar-day';
-      
-      const gLetter = obtenerGuardiaPorFecha(cellDate);
-      cell.innerHTML = `${day}<br><small style="font-size:0.65rem; opacity:0.8; font-weight:bold;">${gLetter}</small>`;
-
-     const esHoy = cellDate.toDateString() === hoyReal.toDateString();
-const esFestivo = esFestivoISSET(cellDate);
-
-if (esHoy) {
-    cell.classList.add('today');
-} else if (esFestivo) {
-    cell.classList.add('festivo');
 }
 
-      calendarGrid.appendChild(cell);
-    }
-  }
-
+// ==========================================
 // LABORATORIOS ROTULADOS
+// ==========================================
 function procesarLaboratorios() {
     const inputElement = document.getElementById('labInput');
     const outputElement = document.getElementById('labOutput');
