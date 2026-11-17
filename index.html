@@ -513,67 +513,67 @@
           
   </div> <!-- Cierra la Columna 1 -->
   
-  <!-- COLUMNA 2: Guardiómetro y Calendario -->
-  <div class="column">
-<!-- === INICIO IMAGEN NEÓN COMPACTA === -->
-      <div style="width: 100%; margin-bottom: 10px;">
-        <div style="width: 100%; height: 120px; overflow: hidden; border-radius: 12px; border: 2px solid #0284C7; box-shadow: 0 4px 12px rgba(0,0,0,0.3); background: #011326; display: flex; align-items: center; justify-content: center;">
-          <img src="MIPE (1).png" alt="MIPETON ISSET" style="width: 100%; height: 100%; object-fit: contain;">
-        </div>
-      </div>
-      <!-- === FIN IMAGEN NEÓN === -->
-    <div class="card">
-      <div class="card-title"><span>📊 Guardiómetro</span></div>
-
-  <!-- ========================================== -->
-<!-- SECCIÓN 1: PANEL DEL GUARDIÓMETRO          -->
-<!-- ========================================== -->
-<div id="guardiometro-section" class="card-seccion">
-  <h2>Guardiómetro</h2>
-  <p>Fecha de hoy: <span id="fechaHoyText"></span></p>
-  <p>Guardia actual: <strong id="guardiaHoy">--</strong></p>
-
-  <!-- Controles de Tipo de MIP -->
-  <div class="form-group">
-    <label for="tipoMip">Selecciona tu categoría:</label>
-    <select id="tipoMip" onchange="actualizarGuardias()">
-      <option value="mip2">MIP 2 (Finaliza Dic 2026)</option>
-      <option value="mip1">MIP 1 (Finaliza Jun 2027)</option>
-      <option value="custom">Personalizado</option>
-    </select>
+<!-- COLUMNA 2: Guardiómetro y Calendario -->
+<div class="column">
+  
+  <!-- Imagen Neón Compacta -->
+  <div style="width: 100%; margin-bottom: 10px;">
+    <div style="width: 100%; height: 120px; overflow: hidden; border-radius: 12px; border: 2px solid #0284C7; box-shadow: 0 4px 12px rgba(0,0,0,0.3); background: #011326; display: flex; align-items: center; justify-content: center;">
+      <img src="MIPE (1).png" alt="MIPETON ISSET" style="width: 100%; height: 100%; object-fit: contain;">
+    </div>
   </div>
 
-  <!-- Contenedor personalizado (oculto por defecto según selección) -->
-  <div id="customFechas" style="display: none;">
-    <label for="fechaFin">Fecha de término:</label>
-    <input type="date" id="fechaFin" onchange="actualizarGuardias()">
+  <!-- Tarjeta del Guardiómetro -->
+  <div class="card">
+    <div class="card-title"><span>📊 Guardiómetro</span></div>
+    
+    <p>Fecha de hoy: <span id="fechaHoyText"></span></p>
+    <p>Guardia actual: <strong id="guardiaHoy">--</strong></p>
+
+    <!-- Controles de Tipo de MIP -->
+    <div class="form-group" style="margin-top: 10px;">
+      <label for="tipoMip" style="font-size: 0.8rem;">Selecciona tu categoría:</label>
+      <select id="tipoMip" onchange="actualizarGuardias()">
+        <option value="mip2">MIP 2 (Finaliza Dic 2026)</option>
+        <option value="mip1">MIP 1 (Finaliza Jun 2027)</option>
+        <option value="custom">Personalizado</option>
+      </select>
+    </div>
+
+    <!-- Contenedor personalizado -->
+    <div id="customFechas" style="display: none;">
+      <label for="fechaFin" style="font-size: 0.8rem;">Fecha de término:</label>
+      <input type="date" id="fechaFin" onchange="actualizarGuardias()">
+    </div>
+
+    <!-- Conteo de Guardias Restantes -->
+    <div class="metrics-grid">
+      <div class="metric-card">Guardia A <strong id="restA">0</strong></div>
+      <div class="metric-card">Guardia B <strong id="restB">0</strong></div>
+      <div class="metric-card">Guardia C <strong id="restC">0</strong></div>
+      <div class="metric-card">Guardia D <strong id="restD">0</strong></div>
+    </div>
   </div>
 
-  <!-- Conteo de Guardias Restantes -->
-  <div class="guardias-restantes">
-    <div class="badge-guardia">A: <span id="restA">0</span></div>
-    <div class="badge-guardia">B: <span id="restB">0</span></div>
-    <div class="badge-guardia">C: <span id="restC">0</span></div>
-    <div class="badge-guardia">D: <span id="restD">0</span></div>
-  </div>
-</div>
+  <!-- Tarjeta del Calendario Interactivo -->
+  <div class="card">
+    <div class="card-title">
+      <span>📅 Calendario</span>
+    </div>
+    
+    <div class="calendar-controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <button onclick="cambiarMes(-1)" style="padding: 4px 8px; font-size: 0.75rem;">◀ Anterior</button>
+      <h3 id="calMonthYear" style="font-size: 0.95rem; color: var(--primary);">Mes Año</h3>
+      <button onclick="cambiarMes(1)" style="padding: 4px 8px; font-size: 0.75rem;">Siguiente ▶</button>
+    </div>
 
-<hr style="margin: 20px 0;">
-
-<!-- ========================================== -->
-<!-- SECCIÓN 2: CALENDARIO INTERACTIVO          -->
-<!-- ========================================== -->
-<div id="calendario-section" class="card-seccion">
-  <div class="calendar-controls">
-    <button onclick="cambiarMes(-1)">◀ Mes Anterior</button>
-    <h3 id="calMonthYear">Mes Año</h3>
-    <button onclick="cambiarMes(1)">Mes Siguiente ▶</button>
+    <!-- Cuadrícula del Calendario -->
+    <div id="calendarGrid" class="calendar"></div>
   </div>
 
-  <!-- Cuadrícula donde se inyectan los días del mes -->
-  <div id="calendarGrid" class="calendar-grid"></div>
-</div>    
+</div> <!-- Fin de la Columna 2 -->
 
+  
 <!-- ========================================== -->
   <!-- COLUMNA 3: Laboratorios y Post-its -->
 <!-- ========================================== -->
@@ -873,13 +873,14 @@ async function sincronizarCuentasNube() {
 
 //GUARDIOMETRO//-------------------------------------------------------------
 // ==========================================
-// MÓDULO 1: GUARDIÓMETRO Y CÁLCULOS
+// MÓDULO SEPARADO: GUARDIÓMETRO Y CALENDARIO
 // ==========================================
 
 const baseDate = new Date(2026, 8, 29); // 29 de septiembre de 2026
 const guardias = ["Guardia B", "Guardia C", "Guardia D", "Guardia A"];
+let calViewDate = new Date();
 
-// Función para obtener la letra de la guardia según una fecha objetivo
+// Obtener letra de guardia por fecha
 function obtenerGuardiaPorFecha(fechaTarget) {
   const diffTime = fechaTarget.getTime() - baseDate.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
@@ -888,28 +889,28 @@ function obtenerGuardiaPorFecha(fechaTarget) {
   return guardias[idx];
 }
 
-// Función para verificar días festivos institucionales (ISSET)
+// Verificar días festivos del ISSET
 function esFestivoISSET(fecha) {
   const d = fecha.getDate();
-  const m = fecha.getMonth(); // 0 = Ene, 1 = Feb, 2 = Mar, 4 = May, 8 = Sep, 10 = Nov, 11 = Dic
-  const dayOfWeek = fecha.getDay(); // 0 = Domingo, 1 = Lunes...
+  const m = fecha.getMonth(); 
+  const dayOfWeek = fecha.getDay(); 
 
   // Fechas fijas
-  if (m === 0 && d === 1) return true;   // 1 Enero (Año Nuevo)
-  if (m === 1 && d === 27) return true;  // 27 Febrero (Invasión Francesa en Tabasco)
-  if (m === 4 && d === 1) return true;   // 1 Mayo (Día del Trabajo)
-  if (m === 8 && d === 16) return true;  // 16 Septiembre (Independencia)
-  if (m === 11 && d === 25) return true; // 25 Diciembre (Navidad)
+  if (m === 0 && d === 1) return true;   // 1 Enero
+  if (m === 1 && d === 27) return true;  // 27 Febrero (Tabasco)
+  if (m === 4 && d === 1) return true;   // 1 Mayo
+  if (m === 8 && d === 16) return true;  // 16 Septiembre
+  if (m === 11 && d === 25) return true; // 25 Diciembre
 
   // Fechas móviles (Lunes)
-  if (m === 1 && dayOfWeek === 1 && d <= 7) return true;               // 1er lunes de Feb (Constitución)
-  if (m === 2 && dayOfWeek === 1 && d >= 15 && d <= 21) return true;   // 3er lunes de Mar (Benito Juárez)
-  if (m === 10 && dayOfWeek === 1 && d >= 15 && d <= 21) return true;  // 3er lunes de Nov (Revolución)
+  if (m === 1 && dayOfWeek === 1 && d <= 7) return true;               
+  if (m === 2 && dayOfWeek === 1 && d >= 15 && d <= 21) return true;   
+  if (m === 10 && dayOfWeek === 1 && d >= 15 && d <= 21) return true;  
 
   return false;
 }
 
-// Función principal para actualizar los contadores y el estado actual del guardiómetro
+// Actualizar contadores del Guardiómetro
 function actualizarGuardias() {
   const hoy = new Date();
   
@@ -930,7 +931,6 @@ function actualizarGuardias() {
   const tipoMipElem = document.getElementById('tipoMip');
   const customDiv = document.getElementById('customFechas');
   let fechaFin;
-
   const tipoMip = tipoMipElem ? tipoMipElem.value : 'mip2';
 
   if (tipoMip === 'mip2') {
@@ -950,7 +950,6 @@ function actualizarGuardias() {
 
   while (tempDate <= fechaFin) {
     let g = obtenerGuardiaPorFecha(tempDate);
-    // Limpiamos la cadena para sumar en el objeto counts (ej: "Guardia A" -> "A")
     let letra = g.replace('Guardia ', '');
     if (counts[letra] !== undefined) counts[letra]++;
     tempDate.setDate(tempDate.getDate() + 1);
@@ -961,23 +960,16 @@ function actualizarGuardias() {
   if (document.getElementById('restC')) document.getElementById('restC').innerText = counts.C;
   if (document.getElementById('restD')) document.getElementById('restD').innerText = counts.D;
 
-  // Llama a la renderización del calendario al actualizar
-  if (typeof generarCalendario === 'function') {
-    generarCalendario();
-  }
+  generarCalendario();
 }
 
-// ==========================================
-// MÓDULO 2: CALENDARIO VISUAL E INTERFAZ
-// ==========================================
-
-let calViewDate = new Date();
-
+// Navegar entre meses del calendario
 function cambiarMes(delta) {
   calViewDate.setMonth(calViewDate.getMonth() + delta);
   generarCalendario();
 }
 
+// Generar la cuadrícula visual del calendario
 function generarCalendario() {
   const calendarGrid = document.getElementById('calendarGrid');
   if (!calendarGrid) return;
@@ -986,11 +978,6 @@ function generarCalendario() {
 
   const year = calViewDate.getFullYear();
   const month = calViewDate.getMonth();
-
-  const appBody = document.getElementById('app-body');
-  if (appBody) {
-    appBody.className = `theme-${month}`;
-  }
 
   const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   const calMonthYear = document.getElementById('calMonthYear');
@@ -1021,9 +1008,8 @@ function generarCalendario() {
     const cell = document.createElement('div');
     cell.className = 'calendar-day';
     
-    // Hace uso de la función de guardias del módulo 1
     const gText = obtenerGuardiaPorFecha(cellDate);
-    const gLetter = gText.replace('Guardia ', ''); // Extrae solo la letra para que quepa bien en el diseño chico
+    const gLetter = gText.replace('Guardia ', '');
     
     cell.innerHTML = `${day}<br><small style="font-size:0.65rem; opacity:0.8; font-weight:bold;">${gLetter}</small>`;
 
@@ -1039,6 +1025,11 @@ function generarCalendario() {
     calendarGrid.appendChild(cell);
   }
 }
+
+// Ejecutar al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+  actualizarGuardias();
+});
 
 // ==========================================
 // LABORATORIOS ROTULADOS
