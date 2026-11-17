@@ -448,10 +448,10 @@
             <div class="card">
                 <div class="card-title"><span>➕ Agregar / Editar Cuenta</span></div>
                 <label style="font-size:0.8rem;">Usuario / Servicio</label>
-                <input type="text" id="usernameInput" placeholder="Ej. ZAMIR.SANT">
+                <input type="text" id="usernameInput" placeholder="Ej. ARTURO.RUIZ">
                 
                 <label style="font-size:0.8rem;">Contraseña / Clave</label>
-                <input type="text" id="passwordInput" placeholder="Ej. ZSANT2026">
+                <input type="text" id="passwordInput" placeholder="Ej. ARTURORR984">
                 
                 <div class="btn-group-row">
                     <button onclick="guardarUsuario()" style="width: 100%;">Guardar Cuenta</button>
@@ -538,13 +538,11 @@
         <option value="custom">Personalizado</option>
       </select>
 
-      <!-- Bloque para fechas personalizadas (inicialmente oculto) -->
-      <div id="divPersonalizado" style="display: none; margin-top: 8px; padding: 8px; background: #F1F5F9; border-radius: 6px;">
-          <label style="font-size: 0.75rem;">Inicio (Guardia B):</label>
-          <input type="date" id="customInicio" style="margin-bottom: 6px;">
-          <label style="font-size: 0.75rem;">Fin:</label>
-          <input type="date" id="customFin" style="margin-bottom: 8px;">
-          <button onclick="guardarFechasPersonalizadas()" style="width: 100%; font-size: 0.75rem; background-color: #10B981;">💾 Guardar Fechas</button>
+      <div id="customFechas" style="display:none; margin-top:5px;">
+        <label style="font-size:0.75rem;">Fecha Inicio:</label>
+        <input type="date" id="fechaInicio" onchange="actualizarGuardias()">
+        <label style="font-size:0.75rem;">Fecha Término:</label>
+        <input type="date" id="fechaFin" onchange="actualizarGuardias()">
       </div>
 
       <div class="metrics-grid">
@@ -582,6 +580,7 @@
   <div class="column">
     <div class="card">
       <div class="card-title"><span>🧪 Procesador de Laboratorios</span></div>
+      <p style="font-size:0.75rem; color:#64748B; margin-bottom:8px;">Pega laboratorios crudos para formatearlos automáticamente con el estudio rotulado.</p>
       
 <textarea id="labInput" placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..." onfocus="this.value='';" oninput="procesarLaboratorios()"></textarea>
       <label style="font-size:0.8rem; font-weight:600;">Resultado:</label>
@@ -595,6 +594,7 @@
         <div class="card-title">
             <span>🔤 MAYUSCULAS/minusculas</span>
         </div>
+        <p style="font-size: 0.75rem; color: #64748B; margin-bottom: 8px;">Pega texto para cambiar rápidamente entre mayúsculas, minúsculas o capitalizar.</p>
         
         <textarea id="textoConversor" placeholder="Escribe o pega aquí el texto..." style="width: 100%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; margin-bottom: 8px; box-sizing: border-box;"></textarea>
         
@@ -908,11 +908,8 @@ function esFestivoISSET(fecha) {
     const hoy = new Date();
     document.getElementById('fechaHoyText').innerText = hoy.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     
-    const fechaInicio = new Date(2026, 0, 1);
-const diferenciaDias = Math.floor((hoy - fechaInicio) / (1000 * 60 * 60 * 24));
-const guardias = ["Guardia B", "Guardia C", "Guardia D", "Guardia A"];
-const guardiaHoy = guardias[((diferenciaDias % 4) + 4) % 4];
-document.getElementById('guardiaHoy').innerText = guardiaHoy;
+    const guardiaHoy = obtenerGuardiaPorFecha(hoy);
+    document.getElementById('guardiaHoy').innerText = "Guardia " + guardiaHoy;
 
     const tipoMip = document.getElementById('tipoMip').value;
     const customDiv = document.getElementById('customFechas');
@@ -1971,26 +1968,6 @@ function copiarTextoConversor() {
         }, 1200);
     });
 }
-function togglePersonalizado() {
-            const select = document.getElementById('tipoMip');
-            const div = document.getElementById('divPersonalizado');
-            if (select && div) {
-                div.style.display = select.value === 'custom' ? 'block' : 'none';
-            }
-        }
-
-        function guardarFechasPersonalizadas() {
-            const inicio = document.getElementById('customInicio').value;
-            const fin = document.getElementById('customFin').value;
-            if (inicio && fin) {
-                localStorage.setItem('custom_inicio', inicio);
-                localStorage.setItem('custom_fin', fin);
-                alert('¡Fechas personalizadas guardadas con éxito!');
-                actualizarGuardias();
-            } else {
-                alert('Por favor selecciona ambas fechas.');
-            }
-        }
 </script>
 </body>
 </html>
