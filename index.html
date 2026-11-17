@@ -535,16 +535,16 @@
       <select id="tipoMip" onchange="actualizarGuardias()">
         <option value="mip2">MIP 2 (1 Ene 2026 - 31 Dic 2026)</option>
         <option value="mip1">MIP 1 (1 Jul 2026 - 30 Jun 2027)</option>
-        <option value="mip1">MIP 2 (1 Jul 2026 - 30 Jun 2027)</option>
-         <option value="mip2">MIP 1 (1 Ene 2027 - 31 Dic 2027)</option>
         <option value="custom">Personalizado</option>
       </select>
 
-      <div id="customFechas" style="display:none; margin-top:5px;">
-        <label style="font-size:0.75rem;">Fecha Inicio:</label>
-        <input type="date" id="fechaInicio" onchange="actualizarGuardias()">
-        <label style="font-size:0.75rem;">Fecha Término:</label>
-        <input type="date" id="fechaFin" onchange="actualizarGuardias()">
+      <!-- Bloque para fechas personalizadas (inicialmente oculto) -->
+      <div id="divPersonalizado" style="display: none; margin-top: 8px; padding: 8px; background: #F1F5F9; border-radius: 6px;">
+          <label style="font-size: 0.75rem;">Inicio (Guardia B):</label>
+          <input type="date" id="customInicio" style="margin-bottom: 6px;">
+          <label style="font-size: 0.75rem;">Fin:</label>
+          <input type="date" id="customFin" style="margin-bottom: 8px;">
+          <button onclick="guardarFechasPersonalizadas()" style="width: 100%; font-size: 0.75rem; background-color: #10B981;">💾 Guardar Fechas</button>
       </div>
 
       <div class="metrics-grid">
@@ -1971,6 +1971,26 @@ function copiarTextoConversor() {
         }, 1200);
     });
 }
+function togglePersonalizado() {
+            const select = document.getElementById('tipoMip');
+            const div = document.getElementById('divPersonalizado');
+            if (select && div) {
+                div.style.display = select.value === 'custom' ? 'block' : 'none';
+            }
+        }
+
+        function guardarFechasPersonalizadas() {
+            const inicio = document.getElementById('customInicio').value;
+            const fin = document.getElementById('customFin').value;
+            if (inicio && fin) {
+                localStorage.setItem('custom_inicio', inicio);
+                localStorage.setItem('custom_fin', fin);
+                alert('¡Fechas personalizadas guardadas con éxito!');
+                actualizarGuardias();
+            } else {
+                alert('Por favor selecciona ambas fechas.');
+            }
+        }
 </script>
 </body>
 </html>
