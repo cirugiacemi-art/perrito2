@@ -979,8 +979,8 @@ function actualizarGuardias() {
       const cell = document.createElement('div');
       cell.className = 'calendar-day';
       
-      const gLetter = obtenerGuardiaPorFecha(cellDate);
-      cell.innerHTML = `${day}<br><small style="font-size:0.65rem; opacity:0.8; font-weight:bold;">${gLetter}</small>`;
+      const gLetter = obtenerGuardiaPorFecha(cellDate).replace('Guardia ', '');
+cell.innerHTML = `${day}<br><small style="font-size:0.65rem; opacity:0.8; font-weight:bold;">${gLetter}</small>`;
 
      const esHoy = cellDate.toDateString() === hoyReal.toDateString();
 const esFestivo = esFestivoISSET(cellDate);
