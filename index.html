@@ -1933,12 +1933,10 @@ function renderizarConsultorios() {
     const fila = document.createElement('div');
     fila.className = 'consultorio-row';
 
-    // Columna izquierda fija (1 al 50)
     const numBox = document.createElement('div');
     numBox.className = 'consultorio-num';
     numBox.textContent = idx + 1;
 
-    // Slot derecho arrastrable y editable
     const slot = document.createElement('div');
     slot.className = 'consultorio-slot';
     slot.draggable = true;
@@ -2018,13 +2016,13 @@ async function cargarConsultoriosNube() {
   try {
     const res = await fetch(`${API_URL}?action=get_consultorios`);
     const data = await res.json();
-    if (data) {
+    if (Array.isArray(data) && data.length > 0) {
       listaConsultorios = normalizarConsultorios(data);
       localStorage.setItem('perrito_consultorios', JSON.stringify(listaConsultorios));
       renderizarConsultorios();
     }
   } catch (err) {
-    // Mantiene los datos locales si hay error de red
+    // Mantiene localStorage si hay error de red
   }
 }
 
