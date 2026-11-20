@@ -445,20 +445,21 @@
                 <div class="user-list" id="userList"></div>
             </div>
 
-            <div class="card">
-                <div class="card-title"><span>➕ Agregar / Editar Cuenta</span></div>
-                <label style="font-size:0.8rem;">Usuario / Servicio</label>
-                <input type="text" id="usernameInput" placeholder="Ej. ZAMIR.SANT">
-                
-                <label style="font-size:0.8rem;">Contraseña / Clave</label>
-                <input type="text" id="passwordInput" placeholder="Ej. ZSANT2026">
-                
-                <div class="btn-group-row">
-                    <button onclick="guardarUsuario()" style="width: 100%;">Guardar Cuenta</button>
-                    <button class="btn-danger" onclick="eliminarUsuario()">Eliminar</button>
-                </div>
-            </div>
-
+           <div class="card">
+  <div class="card-title" onclick="toggleAgregarCuenta()" style="cursor: pointer; user-select: none;">
+    <span>➕ Agregar / Editar Cuenta <small id="flechaAgregarCuenta" style="font-size: 0.85rem; margin-left: 6px;">▸</small></span>
+  </div>
+  <div id="contenidoAgregarCuenta" style="display: none; margin-top: 8px;">
+    <label style="font-size:0.8rem;">Usuario / Servicio</label>
+    <input type="text" id="usernameInput" placeholder="Ej. ZAMIR.SANT">
+    <label style="font-size:0.8rem;">Contraseña / Clave</label>
+    <input type="text" id="passwordInput" placeholder="Ej. ZSANT2026">
+    <div class="btn-group-row">
+      <button onclick="guardarUsuario()" style="width: 100%;">Guardar Cuenta</button>
+      <button class="btn-danger" onclick="eliminarUsuario()">Eliminar</button>
+    </div>
+  </div>
+</div>
             <!-- AQUÍ VA LA CUENTA REGRESIVA (DEBAJO DE AGREGAR CUENTAS) -->
             <div class="card" style="text-align: center;">
                 <div class="card-title"><span>⏳ Cuenta Regresiva 2027</span></div>
@@ -1896,6 +1897,7 @@ function convertirTexto(accion) {
     }
 }
 
+  //AGREGAR CUENTAS DESPLEGABLE
 function copiarTextoConversor() {
     const txt = document.getElementById('textoConversor');
     if (!txt || !txt.value) return;
@@ -1915,6 +1917,17 @@ function copiarTextoConversor() {
             btn.textContent = textoOriginal;
         }, 1200);
     });
+}
+function toggleAgregarCuenta() {
+  const contenido = document.getElementById('contenidoAgregarCuenta');
+  const flecha = document.getElementById('flechaAgregarCuenta');
+  if (!contenido) return;
+
+  const estaOculto = contenido.style.display === 'none';
+  contenido.style.display = estaOculto ? 'block' : 'none';
+  if (flecha) {
+    flecha.textContent = estaOculto ? '▾' : '▸';
+  }
 }
 </script>
 </body>
