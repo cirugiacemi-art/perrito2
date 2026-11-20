@@ -340,6 +340,95 @@
       font-weight: bold;
       color: #A16207;
     }
+
+    /* Tabla de Consultorios (Columna 2) */
+.consultorios-wrapper {
+  max-height: 440px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  padding: 6px;
+}
+
+.consultorio-row {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.consultorio-row:last-child {
+  margin-bottom: 0;
+}
+
+.consultorio-num {
+  background: var(--primary);
+  color: #FFFFFF;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 8px 4px;
+  border-radius: 8px;
+  user-select: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.consultorio-slot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.consultorio-slot.dragging {
+  opacity: 0.55;
+  transform: scale(0.99);
+}
+
+.consultorio-slot.drag-over {
+  border: 2px dashed var(--primary);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.15);
+}
+
+.drag-handle {
+  cursor: grab;
+  color: #64748B;
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 2px 4px;
+  user-select: none;
+  line-height: 1;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.consultorio-input {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 5px 8px !important;
+  border: 1px solid transparent !important;
+  border-radius: 6px !important;
+  background: transparent !important;
+  font-size: 0.78rem !important;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.consultorio-input:hover,
+.consultorio-input:focus {
+  background: #F8FAFC !important;
+  border-color: var(--border) !important;
+  box-shadow: none !important;
+}
   </style>
 </head>
 <body id="app-body">
@@ -561,7 +650,22 @@
         <div class="calendar" id="calendarGrid"></div>
       </div>
     </div>
-    
+
+<!-- CUADRO DE CONSULTORIOS 1 AL 45 -->
+<div class="card">
+  <div class="card-title">
+    <span>🚪 Consultorios (1 - 45)</span>
+    <button onclick="guardarConsultoriosNube(this)" style="font-size: 0.72rem; padding: 4px 8px; background-color: #10B981;">
+      💾 Guardar
+    </button>
+  </div>
+  <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #64748B; margin-bottom: 8px; padding: 0 4px;">
+    <span><strong>#</strong> Fijo</span>
+    <span>☰ Arrastra para reubicar · Clic para editar</span>
+  </div>
+  <div id="consultoriosTabla" class="consultorios-wrapper"></div>
+</div>
+  
   <!-- COLUMNA 3: Laboratorios y Post-its -->
   <div class="column">
     <div class="card">
@@ -1760,6 +1864,163 @@ function toggleAgregarCuenta() {
     flecha.textContent = estaOculto ? '▾' : '▸';
   }
 }
+
+// ==========================================
+// TABLA DE CONSULTORIOS 1 - 45 (ARRASTRABLE Y EDITABLE)
+// ==========================================
+const TOTAL_CONSULTORIOS = 45;
+const consultoriosIniciales = Array.from({ length: TOTAL_CONSULTORIOS }, (_, i) => {
+  const num = i + 1;
+  if (num === 1) return "ONCOCLINICA / DR EDGAR LOPEZ";
+  return `CONSULTORIO ${num} / POR ASIGNAR`;
+});
+
+let listaConsultorios = JSON.parse(localStorage.getItem('perrito_consultorios')) || [...consultoriosIniciales];
+let draggedConsultorioIdx = null;
+
+function normalizarConsultorios(arr) {
+  const base = Array.isArray(arr) ? arr.slice(0, TOTAL_CONSULTORIOS) : [];
+  while (base.length < TOTAL_CONSULTORIOS) {
+    base.push(`CONSULTORIO ${base.length + 1} / POR ASIGNAR`);
+  }
+  return base;
+}
+
+listaConsultorios = normalizarConsultorios(listaConsultorios);
+
+function renderizarConsultorios() {
+  const contenedor = document.getElementById('consultoriosTabla');
+  if (!contenedor) return;
+  contenedor.innerHTML = '';
+
+  listaConsultorios.forEach((valor, idx) => {
+    const fila = document.createElement('div');
+    fila.className = 'consultorio-row';
+
+    // Columna izquierda fija (1 al 45)
+    const numBox = document.createElement('div');
+    numBox.className = 'consultorio-num';
+    numBox.textContent = idx + 1;
+
+    // Slot derecho arrastrable y editable
+    const slot = document.createElement('div');
+    slot.className = 'consultorio-slot';
+    slot.draggable = true;
+    slot.dataset.index = idx;
+
+    const handle = document.createElement('span');
+    handle.className = 'drag-handle';
+    handle.title = 'Arrastrar para cambiar de consultorio';
+    handle.textContent = '☰';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'consultorio-input';
+    input.value = valor;
+    input.placeholder = 'ESPECIALIDAD / DR. NOMBRE';
+
+    input.addEventListener('input', (e) => {
+      listaConsultorios[idx] = e.target.value;
+      localStorage.setItem('perrito_consultorios', JSON.stringify(listaConsultorios));
+    });
+
+    input.addEventListener('change', () => {
+      guardarConsultoriosNube();
+    });
+
+    slot.addEventListener('dragstart', (e) => {
+      draggedConsultorioIdx = idx;
+      slot.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', String(idx));
+    });
+
+    slot.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      if (draggedConsultorioIdx !== null && draggedConsultorioIdx !== idx) {
+        slot.classList.add('drag-over');
+      }
+    });
+
+    slot.addEventListener('dragleave', () => {
+      slot.classList.remove('drag-over');
+    });
+
+    slot.addEventListener('drop', (e) => {
+      e.preventDefault();
+      slot.classList.remove('drag-over');
+      const origenIdx = draggedConsultorioIdx !== null ? draggedConsultorioIdx : parseInt(e.dataTransfer.getData('text/plain'), 10);
+      if (isNaN(origenIdx) || origenIdx === idx) return;
+
+      // Mover el elemento arrastrado hacia la posición destino
+      const [movido] = listaConsultorios.splice(origenIdx, 1);
+      listaConsultorios.splice(idx, 0, movido);
+
+      localStorage.setItem('perrito_consultorios', JSON.stringify(listaConsultorios));
+      renderizarConsultorios();
+      guardarConsultoriosNube();
+    });
+
+    slot.addEventListener('dragend', () => {
+      draggedConsultorioIdx = null;
+      document.querySelectorAll('.consultorio-slot').forEach(el => {
+        el.classList.remove('dragging', 'drag-over');
+      });
+    });
+
+    slot.appendChild(handle);
+    slot.appendChild(input);
+    fila.appendChild(numBox);
+    fila.appendChild(slot);
+    contenedor.appendChild(fila);
+  });
+}
+
+async function cargarConsultoriosNube() {
+  renderizarConsultorios();
+  try {
+    const res = await fetch(`${API_URL}?action=get_consultorios`);
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0) {
+      listaConsultorios = normalizarConsultorios(data);
+      localStorage.setItem('perrito_consultorios', JSON.stringify(listaConsultorios));
+      renderizarConsultorios();
+    }
+  } catch (err) {
+    // Si el endpoint aún no está configurado en Apps Script, conserva localStorage
+  }
+}
+
+async function guardarConsultoriosNube(btn) {
+  localStorage.setItem('perrito_consultorios', JSON.stringify(listaConsultorios));
+  const textoOriginal = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.innerHTML = '⏳...';
+    btn.disabled = true;
+  }
+  try {
+    await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'save_consultorios',
+        consultorios: listaConsultorios
+      })
+    });
+    if (btn) btn.innerHTML = '✅';
+  } catch (e) {
+    if (btn) btn.innerHTML = '💾';
+  }
+  if (btn) {
+    setTimeout(() => {
+      btn.innerHTML = textoOriginal;
+      btn.disabled = false;
+    }, 1500);
+  }
+}
+
+cargarConsultoriosNube();
+  
 </script>
 </body>
 </html>
