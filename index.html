@@ -1868,9 +1868,9 @@ function toggleAgregarCuenta() {
 }
 
 // ==========================================
-// TABLA DE CONSULTORIOS 1 - 45 (ARRASTRABLE Y EDITABLE)
+// TABLA DE CONSULTORIOS 1 - 50 (ARRASTRABLE Y EDITABLE)
 // ==========================================
-const TOTAL_CONSULTORIOS = 45;
+const TOTAL_CONSULTORIOS = 50;
 const consultoriosIniciales = Array.from({ length: TOTAL_CONSULTORIOS }, (_, i) => {
   const num = i + 1;
   if (num === 1) return "ONCOCLINICA / DR EDGAR LOPEZ";
@@ -1880,10 +1880,44 @@ const consultoriosIniciales = Array.from({ length: TOTAL_CONSULTORIOS }, (_, i) 
 let listaConsultorios = JSON.parse(localStorage.getItem('perrito_consultorios')) || [...consultoriosIniciales];
 let draggedConsultorioIdx = null;
 
+function limpiarTextoConsultorio(item, num) {
+  if (typeof item === "string") return item;
+  if (typeof item === "number" || typeof item === "boolean") return String(item);
+  if (item && typeof item === "object") {
+    const candidato = item.texto ?? item.nombre ?? item.especialidad ?? item.medico ?? item.value ?? "";
+    if (typeof candidato === "string" && candidato.trim() !== "") {
+      return candidato;
+    }
+    return `CONSULTORIO ${num} / POR ASIGNAR`;
+  }
+  return `CONSULTORIO ${num} / POR ASIGNAR`;
+}
+
 function normalizarConsultorios(arr) {
-  const base = Array.isArray(arr) ? arr.slice(0, TOTAL_CONSULTORIOS) : [];
-  while (base.length < TOTAL_CONSULTORIOS) {
-    base.push(`CONSULTORIO ${base.length + 1} / POR ASIGNAR`);
+  let fuente = [];
+  if (typeof arr === "string") {
+    try {
+      const parsed = JSON.parse(arr);
+      if (Array.isArray(parsed)) fuente = parsed;
+    } catch (_) {
+      fuente = [];
+    }
+  } else if (Array.isArray(arr)) {
+    fuente = arr;
+  } else if (arr && typeof arr === "object") {
+    if (Array.isArray(arr.consultorios)) fuente = arr.consultorios;
+    else if (Array.isArray(arr.data)) fuente = arr.data;
+  }
+
+  const base = [];
+  for (let i = 0; i < TOTAL_CONSULTORIOS; i++) {
+    const num = i + 1;
+    const raw = fuente[i];
+    if (raw === undefined || raw === null || String(raw).trim() === "") {
+      base.push(num === 1 ? "ONCOCLINICA / DR EDGAR LOPEZ" : `CONSULTORIO ${num} / POR ASIGNAR`);
+    } else {
+      base.push(limpiarTextoConsultorio(raw, num));
+    }
   }
   return base;
 }
@@ -1899,7 +1933,7 @@ function renderizarConsultorios() {
     const fila = document.createElement('div');
     fila.className = 'consultorio-row';
 
-    // Columna izquierda fija (1 al 45)
+    // Columna izquierda fija (1 al 50)
     const numBox = document.createElement('div');
     numBox.className = 'consultorio-num';
     numBox.textContent = idx + 1;
@@ -1918,7 +1952,7 @@ function renderizarConsultorios() {
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'consultorio-input';
-    input.value = valor;
+    input.value = limpiarTextoConsultorio(valor, idx + 1);
     input.placeholder = 'ESPECIALIDAD / DR. NOMBRE';
 
     input.addEventListener('input', (e) => {
@@ -1955,9 +1989,9 @@ function renderizarConsultorios() {
       const origenIdx = draggedConsultorioIdx !== null ? draggedConsultorioIdx : parseInt(e.dataTransfer.getData('text/plain'), 10);
       if (isNaN(origenIdx) || origenIdx === idx) return;
 
-      // Mover el elemento arrastrado hacia la posición destino
       const [movido] = listaConsultorios.splice(origenIdx, 1);
       listaConsultorios.splice(idx, 0, movido);
+      listaConsultorios = normalizarConsultorios(listaConsultorios);
 
       localStorage.setItem('perrito_consultorios', JSON.stringify(listaConsultorios));
       renderizarConsultorios();
@@ -1984,17 +2018,18 @@ async function cargarConsultoriosNube() {
   try {
     const res = await fetch(`${API_URL}?action=get_consultorios`);
     const data = await res.json();
-    if (Array.isArray(data) && data.length > 0) {
+    if (data) {
       listaConsultorios = normalizarConsultorios(data);
       localStorage.setItem('perrito_consultorios', JSON.stringify(listaConsultorios));
       renderizarConsultorios();
     }
   } catch (err) {
-    // Si el endpoint aún no está configurado en Apps Script, conserva localStorage
+    // Mantiene los datos locales si hay error de red
   }
 }
 
 async function guardarConsultoriosNube(btn) {
+  listaConsultorios = normalizarConsultorios(listaConsultorios);
   localStorage.setItem('perrito_consultorios', JSON.stringify(listaConsultorios));
   const textoOriginal = btn ? btn.innerHTML : '';
   if (btn) {
@@ -2022,7 +2057,6 @@ async function guardarConsultoriosNube(btn) {
 }
 
 cargarConsultoriosNube();
-  
 </script>
 </body>
 </html>
