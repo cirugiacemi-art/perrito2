@@ -486,31 +486,15 @@
                 <small style="font-size: 0.7rem; color: var(--primary); font-weight: 600;">¡A darle con todo al internado! 🩺🐶</small>
             </div>
 
-<!-- Tarjeta de Pases a Piso -->
-    <div class="card" style="margin-top: 15px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <h3 style="font-size: 16px; font-weight: bold; color: #1e293b;">🏥 Pases a Piso (Urgencias ➔ Piso)</h3>
-            <div style="display: flex; gap: 6px;">
-                <button onclick="agregarPaseSimplificado()" class="btn-primary" style="background: #2563eb; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px;">+ Cama</button>
-                <button id="btnGuardarPases" onclick="guardarPasesNubeManual()" style="background: #16a34a; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600;">💾 Guardar Pases</button>
-            </div>
-        </div>
-    <div style="overflow-x: auto;">
-        <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
-            <thead>
-                <tr style="background: #f8fafc; text-align: left; border-bottom: 2px solid #e2e8f0;">
-                    <th style="padding: 6px;">Ruta</th>
-                    <th style="padding: 6px;">Paciente</th>
-                    <th style="padding: 6px; text-align: center;">Servicio</th>
-                    <th style="padding: 6px; text-align: center;">Acción</th>
-                </tr>
-            </thead>
-            <tbody id="bodyPasesSimplificados">
-                <!-- Se llena dinámicamente con JavaScript -->
-            </tbody>
-        </table>
+<!-- Tarjeta Homenaje TYO -->
+  <div class="card" style="margin-top: 15px; background: white; padding: 18px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; border-left: 5px solid var(--primary);">
+    <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); margin-bottom: 6px;">
+      🦴 RECONOCIMIENTO TYO
     </div>
-</div>
+    <div style="font-size: 1rem; font-weight: 800; color: #1e293b; line-height: 1.4;">
+      LA MEJOR RESIDENTE DE TYO ES LA DRA !MARLHEN MENDEZ!
+    </div>
+  </div>
           
   </div> <!-- Cierra la Columna 1 -->
   
@@ -1734,168 +1718,6 @@ const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
   </script>
 
 <script>
-let pasesGlobales = [];
-
-async function cargarPasesNube() {
-    try {
-        const res = await fetch(API_URL + "?action=get_pases");
-        const textData = await res.text();
-        
-        if (textData && textData.trim() !== "" && textData !== "[]" && textData !== '""') {
-            try {
-                let parsed = JSON.parse(textData);
-                if (typeof parsed === "string") {
-                    parsed = JSON.parse(parsed);
-                }
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    pasesGlobales = parsed;
-                } else {
-                    pasesGlobales = JSON.parse(localStorage.getItem('perrito_pases')) || [];
-                }
-            } catch (err) {
-                pasesGlobales = JSON.parse(localStorage.getItem('perrito_pases')) || [];
-            }
-        } else {
-            pasesGlobales = JSON.parse(localStorage.getItem('perrito_pases')) || [];
-        }
-    } catch (e) {
-        console.error("Usando respaldo local", e);
-        pasesGlobales = JSON.parse(localStorage.getItem('perrito_pases')) || [];
-    }
-    renderizarPases();
-}
-
-function renderizarPases() {
-    const tbody = document.getElementById('bodyPasesSimplificados');
-    if (!tbody) return;
-    tbody.innerHTML = '';
-    
-    // Filtramos para eliminar objetos vacíos, nulos o que no tengan origen/paciente real
-    if (Array.isArray(pasesGlobales)) {
-        pasesGlobales = pasesGlobales.filter(p => p && typeof p === 'object' && (p.origen || p.paciente) && p.origen !== "---");
-    }
-
-    if (!pasesGlobales || pasesGlobales.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" style="padding: 12px; text-align: center; color: #64748b;">No hay pases activos</td></tr>`;
-        return;
-    }
-
-    pasesGlobales.forEach((p, idx) => {
-        const tr = document.createElement('tr');
-        tr.style.borderBottom = "1px solid rgba(0,0,0,0.05)";
-        const isMI = (p.servicio || 'MI') === 'MI';
-        
-        tr.innerHTML = `
-            <td style="padding: 6px; font-weight: 600;">${p.origen || '---'} ➔ ${p.destino || '---'}</td>
-            <td style="padding: 6px;">${p.paciente || 'Sin nombre'}</td>
-            <td style="padding: 6px; text-align: center;">
-                <div style="display: inline-flex; border-radius: 4px; overflow: hidden; border: 1px solid #cbd5e1; background: #e2e8f0; font-size: 10px;">
-                    <button onclick="cambiarServicioPase(${idx}, 'MI')" style="background-color: ${isMI ? '#7e22ce' : '#cbd5e1'}; color: ${isMI ? 'white' : '#64748b'}; padding: 3px 8px; border:none; cursor:pointer; font-weight: ${isMI ? 'bold' : 'normal'};">MI</button>
-                    <button onclick="cambiarServicioPase(${idx}, 'CIRUGIA')" style="background-color: ${!isMI ? '#2563eb' : '#cbd5e1'}; color: ${!isMI ? 'white' : '#64748b'}; padding: 3px 8px; border:none; cursor:pointer; font-weight: ${!isMI ? 'bold' : 'normal'};">CIRUGÍA</button>
-                </div>
-            </td>
-            <td style="padding: 6px; text-align: center;">
-                <button onclick="eliminarFilaPase(${idx})" style="background: #fee2e2; color: #dc2626; border: none; padding: 3px 6px; border-radius: 4px; cursor: pointer; font-size: 10px;">🗑️</button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-async function agregarPaseSimplificado() {
-    const camaOrigen = prompt("Cama de Urgencias (Ej: Urg-04):", "Urg-");
-    if(!camaOrigen) return;
-    const camaDestino = prompt("Cama asignada en Piso (Ej: 312):", "");
-    if(!camaDestino) return;
-    const nuevoPaciente = prompt("Nombre y Edad del Paciente (Ej: R. Gómez 50a):", "");
-    if(!nuevoPaciente) return;
-
-    pasesGlobales.push({
-        origen: camaOrigen,
-        destino: camaDestino,
-        paciente: nuevoPaciente,
-        servicio: "MI"
-    });
-
-    localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
-    renderizarPases();
-}
-
-function cambiarServicioPase(idx, servicio) {
-    pasesGlobales[idx].servicio = servicio;
-    localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
-    renderizarPases();
-}
-
-function eliminarFilaPase(idx) {
-    pasesGlobales.splice(idx, 1);
-    localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
-    renderizarPases();
-}
-
-async function guardarPasesNubeManual() {
-    const btn = document.getElementById('btnGuardarPases');
-    if(btn) btn.innerText = "💾 Guardando...";
-    
-    // Pedir permiso por si es la primera vez
-    solicitarPermisoNotificacion();
-
-    try {
-        localStorage.setItem('perrito_pases', JSON.stringify(pasesGlobales));
-        
-        await fetch(API_URL, {
-            method: "POST",
-            body: JSON.stringify({ 
-                action: "save_pases", 
-                guardar_contraseñas: "save_pases", 
-                pases: pasesGlobales 
-            })
-        });
-
-        if(btn) {
-            btn.innerText = "✅ ¡Guardado!";
-            setTimeout(() => btn.innerText = "💾 Guardar Pases", 2000);
-        }
-
-        // 🔔 ¡Lanzar la notificación en Chrome!
-        mostrarNotificacionPase("Se han actualizado los pases a piso correctamente.");
-
-    } catch(e) {
-        console.error("Error al guardar:", e);
-        if(btn) btn.innerText = "❌ Error";
-    }
-}
-
-// Función para pedir permiso de notificaciones a Chrome
-function solicitarPermisoNotificacion() {
-    if ("Notification" in window && Notification.permission !== "granted") {
-        Notification.requestPermission();
-    }
-}
-
-// Función para mostrar la notificación flotante en Chrome
-function mostrarNotificacionPase(mensaje) {
-    if ("Notification" in window && Notification.permission === "granted") {
-        new Notification("🏥 PERRITO 2 - Nuevo Pase", {
-            body: mensaje,
-            icon: "https://cdn-icons-png.flaticon.com/512/2966/2966327.png" // Icono genérico médico
-        });
-    }
-}
-// Cargar al iniciar la app
-cargarPasesNube();
-function convertirTexto(accion) {
-    const txt = document.getElementById('textoConversor');
-    if (!txt || !txt.value) return;
-    
-    if (accion === 'mayusculas') {
-        txt.value = txt.value.toUpperCase();
-    } else if (accion === 'minusculas') {
-        txt.value = txt.value.toLowerCase();
-    } else if (accion === 'capitalizar') {
-        txt.value = txt.value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
-    }
-}
 
   //AGREGAR CUENTAS DESPLEGABLE
 function copiarTextoConversor() {
