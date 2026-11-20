@@ -1868,68 +1868,59 @@ function toggleAgregarCuenta() {
 }
 
 // ==========================================
-// TABLA DE CONSULTORIOS 1 - 50 (ARRASTRABLE Y EDITABLE)
+// TABLA DE CONSULTORIOS 1 - 50 (FORMATO [{}] TIPO NOTAS)
 // ==========================================
 const TOTAL_CONSULTORIOS = 50;
-const consultoriosIniciales = Array.from({ length: TOTAL_CONSULTORIOS }, (_, i) => {
-  const num = i + 1;
-  if (num === 1) return "ONCOCLINICA / DR EDGAR LOPEZ";
-  return `CONSULTORIO ${num} / POR ASIGNAR`;
-});
 
-let listaConsultorios = JSON.parse(localStorage.getItem('perrito_consultorios')) || [...consultoriosIniciales];
-let draggedConsultorioIdx = null;
-
-function limpiarTextoConsultorio(item, num) {
-  if (typeof item === "string") return item;
-  if (typeof item === "number" || typeof item === "boolean") return String(item);
-  if (item && typeof item === "object") {
-    const candidato = item.texto ?? item.nombre ?? item.especialidad ?? item.medico ?? item.value ?? "";
-    if (typeof candidato === "string" && candidato.trim() !== "") {
-      return candidato;
-    }
-    return `CONSULTORIO ${num} / POR ASIGNAR`;
-  }
-  return `CONSULTORIO ${num} / POR ASIGNAR`;
+function textoInicialConsultorio(num) {
+  return num === 1 ? "ONCOCLINICA / DR EDGAR LOPEZ" : `CONSULTORIO ${num} / POR ASIGNAR`;
 }
 
-function normalizarConsultorios(arr) {
-  let fuente = [];
-  if (typeof arr === "string") {
+function normalizarConsultorios(fuente) {
+  let rawList = [];
+  if (typeof fuente === "string") {
     try {
-      const parsed = JSON.parse(arr);
-      if (Array.isArray(parsed)) fuente = parsed;
+      const parsed = JSON.parse(fuente);
+      if (Array.isArray(parsed)) rawList = parsed;
     } catch (_) {
-      fuente = [];
+      rawList = [];
     }
-  } else if (Array.isArray(arr)) {
-    fuente = arr;
-  } else if (arr && typeof arr === "object") {
-    if (Array.isArray(arr.consultorios)) fuente = arr.consultorios;
-    else if (Array.isArray(arr.data)) fuente = arr.data;
+  } else if (Array.isArray(fuente)) {
+    rawList = fuente;
   }
 
-  const base = [];
+  const resultado = [];
   for (let i = 0; i < TOTAL_CONSULTORIOS; i++) {
     const num = i + 1;
-    const raw = fuente[i];
-    if (raw === undefined || raw === null || String(raw).trim() === "") {
-      base.push(num === 1 ? "ONCOCLINICA / DR EDGAR LOPEZ" : `CONSULTORIO ${num} / POR ASIGNAR`);
-    } else {
-      base.push(limpiarTextoConsultorio(raw, num));
+    const item = rawList[i];
+    let texto = "";
+
+    if (typeof item === "string") {
+      texto = item;
+    } else if (item && typeof item === "object") {
+      texto = typeof item.texto === "string" ? item.texto : "";
     }
+
+    if (!texto || !texto.trim()) {
+      texto = textoInicialConsultorio(num);
+    }
+
+    resultado.push({ consultorio: num, texto: texto });
   }
-  return base;
+  return resultado;
 }
 
-listaConsultorios = normalizarConsultorios(listaConsultorios);
+let listaConsultorios = normalizarConsultorios(
+  JSON.parse(localStorage.getItem('perrito_consultorios') || '[]')
+);
+let draggedConsultorioIdx = null;
 
 function renderizarConsultorios() {
   const contenedor = document.getElementById('consultoriosTabla');
   if (!contenedor) return;
   contenedor.innerHTML = '';
 
-  listaConsultorios.forEach((valor, idx) => {
+  listaConsultorios.forEach((item, idx) => {
     const fila = document.createElement('div');
     fila.className = 'consultorio-row';
 
@@ -1950,11 +1941,11 @@ function renderizarConsultorios() {
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'consultorio-input';
-    input.value = limpiarTextoConsultorio(valor, idx + 1);
+    input.value = item.texto;
     input.placeholder = 'ESPECIALIDAD / DR. NOMBRE';
 
     input.addEventListener('input', (e) => {
-      listaConsultorios[idx] = e.target.value;
+      listaConsultorios[idx].texto = e.target.value;
       localStorage.setItem('perrito_consultorios', JSON.stringify(listaConsultorios));
     });
 
@@ -1987,9 +1978,14 @@ function renderizarConsultorios() {
       const origenIdx = draggedConsultorioIdx !== null ? draggedConsultorioIdx : parseInt(e.dataTransfer.getData('text/plain'), 10);
       if (isNaN(origenIdx) || origenIdx === idx) return;
 
-      const [movido] = listaConsultorios.splice(origenIdx, 1);
-      listaConsultorios.splice(idx, 0, movido);
-      listaConsultorios = normalizarConsultorios(listaConsultorios);
+      const textosMovidos = listaConsultorios.map(c => c.texto);
+      const [movido] = textosMovidos.splice(origenIdx, 1);
+      textosMovidos.splice(idx, 0, movido);
+
+      listaConsultorios = textosMovidos.map((txt, i) => ({
+        consultorio: i + 1,
+        texto: txt
+      }));
 
       localStorage.setItem('perrito_consultorios', JSON.stringify(listaConsultorios));
       renderizarConsultorios();
