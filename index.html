@@ -1868,7 +1868,7 @@ function toggleAgregarCuenta() {
 }
 
 // ==========================================
-// TABLA DE CONSULTORIOS 1 - 50 (FORMATO [{}] TIPO NOTAS)
+// TABLA DE CONSULTORIOS 1 - 50 (EN A1 COMO [])
 // ==========================================
 const TOTAL_CONSULTORIOS = 50;
 
@@ -2010,16 +2010,17 @@ function renderizarConsultorios() {
 async function cargarConsultoriosNube() {
   renderizarConsultorios();
   try {
-    const res = await fetch(`${API_URL}?action=get_consultorios`);
+    const res = await fetch(`${API_URL}?action=get_consultorios`, {
+      method: 'GET',
+      redirect: 'follow'
+    });
     const data = await res.json();
     if (Array.isArray(data) && data.length > 0) {
       listaConsultorios = normalizarConsultorios(data);
       localStorage.setItem('perrito_consultorios', JSON.stringify(listaConsultorios));
       renderizarConsultorios();
     }
-  } catch (err) {
-    // Mantiene localStorage si hay error de red
-  }
+  } catch (err) {}
 }
 
 async function guardarConsultoriosNube(btn) {
@@ -2033,6 +2034,8 @@ async function guardarConsultoriosNube(btn) {
   try {
     await fetch(API_URL, {
       method: 'POST',
+      redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
         action: 'save_consultorios',
         consultorios: listaConsultorios
