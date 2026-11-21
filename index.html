@@ -980,29 +980,54 @@
     });
   }
 
-  // Cargar cuentas en vivo desde Google Sheets
+// Cargar cuentas en vivo desde Google Sheets y subir especialidades locales pendientes
   async function sincronizarCuentasNube() {
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
       if (data && Array.isArray(data) && data.length > 0) {
         const cuentasLimpias = [];
+        const pendientesSubir = [];
+
         data.forEach(u => {
           const baseUsr = obtenerLimpio(u.usuario).toLowerCase();
           if (!baseUsr) return;
           if (!cuentasLimpias.some(item => obtenerLimpio(item.usuario).toLowerCase() === baseUsr)) {
             const prevLocal = usuarios.find(item => obtenerLimpio(item.usuario).toLowerCase() === baseUsr);
             const espNube = (u.especialidad || u.esp || "").toString().trim().toUpperCase();
-            const espValida = ESPECIALIDADES_CUENTAS[espNube]
-              ? espNube
-              : (especialidadesGuardadas[baseUsr] || (prevLocal && prevLocal.especialidad) || "");
+            const espLocal = especialidadesGuardadas[baseUsr] || (prevLocal && prevLocal.especialidad) || "";
 
-            if (espValida) {
-              especialidadesGuardadas[baseUsr] = espValida;
+            let espInferida = "";
+            if (!espNube && !espLocal) {
+              const raw = String(u.usuario || "").toUpperCase();
+              if (raw.includes("GYO") || raw.includes("GINEC")) espInferida = "GYO";
+              else if (raw.includes("M.I") || raw.includes("MI ") || raw.includes("INTERNA")) espInferida = "MI";
+              else if (raw.includes("TYO") || raw.includes("TRAUMA") || raw.includes("ORTO")) espInferida = "TYO";
+              else if (raw.includes("URG")) espInferida = "URG";
+              else if (raw.includes("CIRU")) espInferida = "CIRUGIA";
+              else if (raw.includes("PEDIA")) espInferida = "PEDIA";
+              else if (raw.includes("APOYO") || raw.includes("CUBRE")) espInferida = "APOYO";
             }
+
+            const espFinal = ESPECIALIDADES_CUENTAS[espNube]
+              ? espNube
+              : (ESPECIALIDADES_CUENTAS[espLocal] ? espLocal : espInferida);
+
+            if (espFinal) {
+              especialidadesGuardadas[baseUsr] = espFinal;
+            }
+
+            if (!ESPECIALIDADES_CUENTAS[espNube] && espFinal && API_URL) {
+              pendientesSubir.push({
+                usuario: u.usuario,
+                clave: u.clave || "",
+                especialidad: espFinal
+              });
+            }
+
             cuentasLimpias.push({
               ...u,
-              especialidad: espValida
+              especialidad: espFinal
             });
           }
         });
@@ -1011,6 +1036,20 @@
         usuarios = cuentasLimpias;
         localStorage.setItem('perrito_cuentas', JSON.stringify(usuarios));
         filtrarUsuarios();
+
+        for (const item of pendientesSubir) {
+          try {
+            await fetch(API_URL, {
+              method: "POST",
+              body: JSON.stringify({
+                action: "update_specialty",
+                usuario: item.usuario,
+                clave: item.clave,
+                especialidad: item.especialidad
+              })
+            });
+          } catch (e) {}
+        }
       }
     } catch (err) {
       console.log("Cargando base local...");
