@@ -429,158 +429,6 @@
   border-color: var(--border) !important;
   box-shadow: none !important;
 }
-
-const ESPECIALIDADES_CONFIG = {
-  GYO:     { label: "GYO",     emoji: "🤰", color: "#EC4899", bg: "#FCE7F3" },
-  MI:      { label: "MI",      emoji: "🩺", color: "#0EA5E9", bg: "#E0F2FE" },
-  TYO:     { label: "TYO",     emoji: "🦴", color: "#EF4444", bg: "#FEE2E2" },
-  URG:     { label: "URG",     emoji: "🚨", color: "#991B1B", bg: "#FEE2E2" },
-  CIRUGIA: { label: "CIRUGIA", emoji: "🔪", color: "#1E3A8A", bg: "#DBEAFE" },
-  PEDIA:   { label: "PEDIA",   emoji: "🧸", color: "#EAB308", bg: "#FEF9C3" }
-};
-
-let especialidadActiva = "TODAS";
-let especialidadesPorUsuario = JSON.parse(localStorage.getItem("perrito_esp_cuentas") || "{}");
-
-function inferirEspecialidadCuenta(cuenta) {
-  const claveUsr = obtenerLimpio(cuenta.usuario).toLowerCase();
-  if (especialidadesPorUsuario[claveUsr]) {
-    return especialidadesPorUsuario[claveUsr];
-  }
-  if (cuenta.especialidad && ESPECIALIDADES_CONFIG[cuenta.especialidad.toUpperCase()]) {
-    return cuenta.especialidad.toUpperCase();
-  }
-  const raw = (cuenta.usuario || "").toUpperCase();
-  if (raw.includes("GYO") || raw.includes("GINEC")) return "GYO";
-  if (raw.includes("M.I") || raw.includes("MI ") || raw.includes("INTERNA")) return "MI";
-  if (raw.includes("TYO") || raw.includes("TRAUMA") || raw.includes("ORTO")) return "TYO";
-  if (raw.includes("URG")) return "URG";
-  if (raw.includes("CIRU")) return "CIRUGIA";
-  if (raw.includes("PEDIA")) return "PEDIA";
-  return "";
-}
-
-function asignarEspecialidadACuenta(usuarioNombre, nuevaEsp) {
-  const claveUsr = obtenerLimpio(usuarioNombre).toLowerCase();
-  if (nuevaEsp) {
-    especialidadesPorUsuario[claveUsr] = nuevaEsp;
-  } else {
-    delete especialidadesPorUsuario[claveUsr];
-  }
-  localStorage.setItem("perrito_esp_cuentas", JSON.stringify(especialidadesPorUsuario));
-
-  usuarios = usuarios.map(u => {
-    if (obtenerLimpio(u.usuario).toLowerCase() === claveUsr) {
-      return { ...u, especialidad: nuevaEsp || "" };
-    }
-    return u;
-  });
-  localStorage.setItem("perrito_cuentas", JSON.stringify(usuarios));
-  filtrarUsuarios();
-}
-
-function actualizarMuestraColorEspecialidad() {
-  const sel = document.getElementById("selectEspecialidadCuenta");
-  const dot = document.getElementById("muestraColorEsp");
-  if (!sel || !dot) return;
-  const cfg = ESPECIALIDADES_CONFIG[sel.value];
-  dot.style.background = cfg ? cfg.color : "#E2E8F0";
-}
-
-function renderizarBotonesEspecialidad() {
-  const cont = document.getElementById("filtrosEspecialidad");
-  if (!cont) return;
-  cont.innerHTML = "";
-
-  const btnTodas = document.createElement("button");
-  btnTodas.type = "button";
-  btnTodas.className = "btn-filtro-esp" + (especialidadActiva === "TODAS" ? " activo" : "");
-  btnTodas.textContent = "📋 Todas";
-  btnTodas.onclick = () => {
-    especialidadActiva = "TODAS";
-    renderizarBotonesEspecialidad();
-    filtrarUsuarios();
-  };
-  cont.appendChild(btnTodas);
-
-  Object.entries(ESPECIALIDADES_CONFIG).forEach(([codigo, cfg]) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "btn-filtro-esp" + (especialidadActiva === codigo ? " activo" : "");
-    btn.style.backgroundColor = cfg.bg;
-    btn.style.borderColor = cfg.color;
-    btn.innerHTML = `${cfg.emoji} ${cfg.label}`;
-    btn.onclick = () => {
-      especialidadActiva = (especialidadActiva === codigo) ? "TODAS" : codigo;
-      renderizarBotonesEspecialidad();
-      filtrarUsuarios();
-    };
-    cont.appendChild(btn);
-  });
-}
-
-function filtrarUsuarios() {
-  const inputBuscador = document.getElementById("buscadorCuentas") || document.getElementById("searchInput");
-  const termino = inputBuscador ? inputBuscador.value.trim().toLowerCase() : "";
-
-  const filtrados = usuarios.filter(u => {
-    const esp = inferirEspecialidadCuenta(u);
-    const coincideEsp = (especialidadActiva === "TODAS") || (esp === especialidadActiva);
-    const coincideTexto = !termino ||
-      (u.usuario && u.usuario.toLowerCase().includes(termino)) ||
-      (u.clave && u.clave.toLowerCase().includes(termino)) ||
-      (esp && esp.toLowerCase().includes(termino));
-    return coincideEsp && coincideTexto;
-  });
-
-  renderizarLista(filtrados);
-}
-
-// Al renderizar cada tarjeta de usuario, muestra el badge de color y un selector rápido para asignarla/cambiarla
-const _renderizarListaOriginal = renderizarLista;
-renderizarLista = function(lista) {
-  const contenedor = document.getElementById("userList");
-  if (!contenedor) return;
-  contenedor.innerHTML = "";
-
-  lista.forEach(u => {
-    const usrLimpio = obtenerLimpio(u.usuario);
-    const pwdLimpia = obtenerLimpio(u.clave);
-    const espActual = inferirEspecialidadCuenta(u);
-    const cfg = ESPECIALIDADES_CONFIG[espActual];
-
-    const badgeHtml = cfg
-      ? `<span class="badge-esp esp-${espActual}">${cfg.emoji} ${cfg.label}</span>`
-      : `<span class="badge-esp esp-SIN">Sin esp.</span>`;
-
-    const opcionesEsp = [`<option value="">Sin esp.</option>`].concat(
-      Object.entries(ESPECIALIDADES_CONFIG).map(([cod, c]) =>
-        `<option value="${cod}" ${espActual === cod ? "selected" : ""}>${c.emoji} ${c.label}</option>`
-      )
-    ).join("");
-
-    const card = document.createElement("div");
-    card.className = "user-card";
-    card.innerHTML = `
-      <div class="user-info">
-        <strong>${u.usuario}</strong>${badgeHtml}
-        <span>${u.clave}</span>
-      </div>
-      <div style="display:flex; gap:4px; align-items:center; flex-wrap:wrap;">
-        <select title="Asignar especialidad" onchange="asignarEspecialidadACuenta('${u.usuario.replace(/'/g, "\\'")}', this.value)" style="padding:3px 5px; border-radius:6px; font-size:0.72rem; border:1px solid #CBD5E1;">
-          ${opcionesEsp}
-        </select>
-        <button onclick="copiarTexto('${usrLimpio.replace(/'/g, "\\'")}', this)">Usr</button>
-        <button onclick="copiarTexto('${pwdLimpia.replace(/'/g, "\\'")}', this)" style="background:#64748B;">Pass</button>
-      </div>
-    `;
-    contenedor.appendChild(card);
-  });
-};
-
-// Inicializar botones al cargar
-renderizarBotonesEspecialidad();
-    
   </style>
 </head>
 <body id="app-body">
@@ -686,53 +534,21 @@ renderizarBotonesEspecialidad();
                 <div class="user-list" id="userList"></div>
             </div>
 
-<div class="card">
-            <div class="card-title"><span>🔍 Buscador de Cuentas</span></div>
-            <!-- Leyenda de ayuda para copiar Usr / Pass -->
-            <div style="display: flex; align-items: center; justify-content: space-between; background-color: #F8FAFC; border: 1px solid #E2E8F0; padding: 6px 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.72rem;">
-              <div style="display: flex; align-items: center; gap: 6px;">
-                <span style="background-color: #0284C7; color: white; font-weight: 700; padding: 1px 5px; border-radius: 4px; font-size: 0.65rem;">Usr</span>
-                <span style="color: #334155;">Copiar usuario</span>
-              </div>
-              <div style="display: flex; align-items: center; gap: 6px;">
-                <span style="background-color: #0284C7; color: white; font-weight: 700; padding: 1px 5px; border-radius: 4px; font-size: 0.65rem;">Pass</span>
-                <span style="color: #334155;">Copiar contraseña</span>
-              </div>
-            </div>
-            <!-- Botones de filtro por especialidad debajo de Usr / Pass -->
-            <div id="filtrosEspecialidad" class="filtro-especialidades"></div>
-            <input type="text" id="searchInput" oninput="filtrarUsuarios()" placeholder="Buscar usuario, servicio o clave...">
-            <div class="user-list" id="userList"></div>
-          </div>
-
-          <div class="card">
-            <div class="card-title" onclick="toggleAgregarCuenta()" style="cursor: pointer; user-select: none;">
-              <span>➕ Agregar / Editar Cuenta <small id="flechaAgregarCuenta" style="font-size: 0.85rem; margin-left: 6px;">▸</small></span>
-            </div>
-            <div id="contenidoAgregarCuenta" style="display: none; margin-top: 8px;">
-              <label style="font-size: 0.8rem;">Usuario / Servicio</label>
-              <input type="text" id="usernameInput" placeholder="Ej. ZAMIR.SANT">
-              <label style="font-size: 0.8rem;">Contraseña / Clave</label>
-              <input type="text" id="passwordInput" placeholder="Ej. ZSANT2026">
-              <div style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
-                <label for="selectEspecialidadCuenta" style="font-size: 0.8rem; font-weight: 700;">Especialidad:</label>
-                <select id="selectEspecialidadCuenta" onchange="actualizarMuestraColorEspecialidad()" style="padding: 6px 8px; border-radius: 8px; border: 1px solid #CBD5E1; font-weight: 600;">
-                  <option value="">Sin especialidad</option>
-                  <option value="GYO">🤰 GYO (Rosado)</option>
-                  <option value="MI">🩺 MI (Azul celeste)</option>
-                  <option value="TYO">🦴 TYO (Rojo)</option>
-                  <option value="URG">🚨 URG (Rojo sangre)</option>
-                  <option value="CIRUGIA">🔪 CIRUGIA (Azul marino)</option>
-                  <option value="PEDIA">🧸 PEDIA (Amarillo)</option>
-                </select>
-                <span id="muestraColorEsp" style="display: inline-block; width: 18px; height: 18px; border-radius: 50%; border: 1px solid #334155; background: #E2E8F0;"></span>
-              </div>
-              <div class="btn-group-row">
-                <button onclick="guardarUsuario()" style="width: 100%;">Guardar Cuenta</button>
-                <button class="btn-danger" onclick="eliminarUsuario()">Eliminar</button>
-              </div>
-            </div>
-          </div>
+           <div class="card">
+  <div class="card-title" onclick="toggleAgregarCuenta()" style="cursor: pointer; user-select: none;">
+    <span>➕ Agregar / Editar Cuenta <small id="flechaAgregarCuenta" style="font-size: 0.85rem; margin-left: 6px;">▸</small></span>
+  </div>
+  <div id="contenidoAgregarCuenta" style="display: none; margin-top: 8px;">
+    <label style="font-size:0.8rem;">Usuario / Servicio</label>
+    <input type="text" id="usernameInput" placeholder="Ej. ZAMIR.SANT">
+    <label style="font-size:0.8rem;">Contraseña / Clave</label>
+    <input type="text" id="passwordInput" placeholder="Ej. ZSANT2026">
+    <div class="btn-group-row">
+      <button onclick="guardarUsuario()" style="width: 100%;">Guardar Cuenta</button>
+      <button class="btn-danger" onclick="eliminarUsuario()">Eliminar</button>
+    </div>
+  </div>
+</div>
             <!-- AQUÍ VA LA CUENTA REGRESIVA (DEBAJO DE AGREGAR CUENTAS) -->
             <div class="card" style="text-align: center;">
                 <div class="card-title"><span>⏳ Cuenta Regresiva 2027</span></div>
@@ -928,7 +744,96 @@ renderizarBotonesEspecialidad();
   // Enlace directo a tu API de Google Sheets
   const API_URL = "https://script.google.com/macros/s/AKfycbxL0UpwR8-mShUMQ9T6ZQpq4hiyEJ7wjBukjPfEH5N-VeDowKuKD7v6pHkIyTrYwLDUuw/exec";
 
-  const cuentasIniciales = [];
+  const cuentasIniciales = [
+    { usuario: "JULIOC.VAZQUEZ (PADRE DE TODOS)", clave: "JULIOC2024" },
+    { usuario: "NAYELI.MEZQUITA (PISO MAT)", clave: "NAYELIMP2026" },
+    { usuario: "MONICA.HERDEZ (LABOR VESP)", clave: "MONICAAHV26" },
+    { usuario: "ARTURO.RUIZ (LABOR MAT)", clave: "ARTURORR984" },
+    { usuario: "ARTURO.ARIAS (CIRUPEDIA)", clave: "ARTURO47" },
+    { usuario: "JOSECADENA (UCIN MAT)", clave: "JOSECADE05" },
+    { usuario: "JPABLO.MONTALVO (UCIN NOCHES LMV)", clave: "jpablo2023" },
+    { usuario: "DANIEL.AGUILAR (LABOR FINDES)", clave: "DANIELAR670" },
+    { usuario: "CADELARIO.ZAVALA (URG NOCHE)", clave: "CANDELARIO1529" },
+    { usuario: "JOSE.UITZIL (URG NOCHE LMV)", clave: "UITZIL983" },
+    { usuario: "NELLYAU.LAZARO (PEDIATRA)", clave: "NELLYLJ2025" },
+    { usuario: "DANIEL.BROCA (PEDIATRA)", clave: "DANIELD2024" },
+    { usuario: "LENDY.CHAN (NEUROLOGIA)", clave: "LENDYC2024" },
+    { usuario: "ESMERALDA.GOMEZ (FIN DE SEMANA)", clave: "ESMERALDA179" },
+    { usuario: "ROSA.MARTINEZ (PEDIATRA PISO VESP)", clave: "MARBAR" },
+    { usuario: "ISABEL.RAMON (INTERNISTA PISO 1 VESP)", clave: "ISABEL27" },
+    { usuario: "DANIEL.SALVADOR (INTERNISTA PISO 1 MAT)", clave: "DANIEL11" },
+    { usuario: "ARMANDO.ALVAREZ (INTERNISTA PISO 2 MAT)", clave: "BURGOS" },
+    { usuario: "ALEJANDRO.MEJIA (JEFE DE MI)", clave: "encefalitis26" },
+    { usuario: "KARLAG.TREJO (UCI VESP)", clave: "KARLATC2025" },
+    { usuario: "JONATHAN.DLCRUZ (UCI MAT)", clave: "JONATHANEPC26" },
+    { usuario: "JESUS.CHABLED (UCI NOCHES)", clave: "Anchable12" },
+    { usuario: "JAVIER.FLORES (MEDICO DE APOYO NOCHES)", clave: "JAVIERFR479" },
+    { usuario: "MARIANA.BRETON (MEDICO DE APOYO FINDES)", clave: "MARINANM64" },
+    { usuario: "JUANJ.ALVAREZ (MEDICO DE APOYO)", clave: "JUANJAJ2025" },
+    { usuario: "ANDRES.PALOMEQUE (APOYO PISO 2 MAT)", clave: "Andrespz2024" },
+    { usuario: "ERNESTO.LARA (INTERNISTA PISO 2 NOCHES)", clave: "LARSNET025" },
+    { usuario: "MERCEDES.PEREGRINO (APOYO PISO 1 VESP)", clave: "MERCEPH0101" },
+    { usuario: "DANIEL.CONDE (APOYO PISO 1 MAT)", clave: "Danielaca2023" },
+    { usuario: "ROSARIO.MENA (APOYO PISO 1 MAT)", clave: "ROSARIOMENA" },
+    { usuario: "MIRELY.CASASUS (UCI FIN DE SEMANA)", clave: "ISSETCEMI2026" },
+    { usuario: "JAGOPE (CARDIO - PEDRERO)", clave: "690626" },
+    { usuario: "CARLOSART.CORTAZAR (ONCOCIRUGIA)", clave: "CARLOSCS25" },
+    { usuario: "KARENP.HERRERA (CIRUJANO VESP)", clave: "KARENPHV26" },
+    { usuario: "FRANCISCO.CARRADA (CIRUJANO MAT)", clave: "CARRADA37" },
+    { usuario: "BRYAN.MORALES (CIRUJANO VESP)", clave: "BRYANME26" },
+    { usuario: "JULIOC.AVALOS (UROLOGIA)", clave: "JULIOC2026" },
+    { usuario: "ROBERTO.MANZANO (COLOPROCTO)", clave: "ROBERTO17" },
+    { usuario: "JULIOC.MYERYC (UROLOGIA)", clave: "JULIOCMC25" },
+    { usuario: "HORACIO.HERNANDEZ (CIRUJANO)", clave: "HORACIO45" },
+    { usuario: "DANIEL.HERDEZ (JEFE DE TYO)", clave: "DANIELHO25" },
+    { usuario: "JOEL.CRUZG (JEFE CIRUGIA)", clave: "JOELCRUZ23$$" },
+    { usuario: "TILO.AGUILAR (CIRUJANO VESP)", clave: "AGUILAR59" },
+    { usuario: "RODRIGO.REPETTO (CIRUJANO MAT)", clave: "RODRIGO76" },
+    { usuario: "IGNACIO.PAVON (CIRUJANO VESP)", clave: "IGNACIOPR150" },
+    { usuario: "GABRIEL.GONZALEZ (CIRUJANO VESP)", clave: "GABRIELGS25" },
+    { usuario: "FREDDY_MARIN (MAT)", clave: "abcdef12" },
+    { usuario: "KARLA.JEREZ (NOCHES)", clave: "ARAGON10" },
+    { usuario: "JIM.CHABLE (MAT)", clave: "JIMCH972" },
+    { usuario: "MANUEL.DIAZ (MAT)", clave: "MANUELDL765" },
+    { usuario: "JOSED.MARTINEZ (FIN DE SEM)", clave: "JOSEDA2024" },
+    { usuario: "ARMANDO.FRIAS (CRITICA)", clave: "ARMANDOFO715" },
+    { usuario: "LITA.CADENA (CUBRE)", clave: "LITASCA26" },
+    { usuario: "SALVADORHH (NOCHE)", clave: "SALVADORHH12" },
+    { usuario: "MARCIONILADG (INTERNISTA)", clave: "MARCIONILADG210" },
+    { usuario: "JLUISBG.GUTIERREZ (MAT)", clave: "JOSEBG2025" },
+    { usuario: "JUAN.LOPEZ_1233 (JJ- FINDE)", clave: "2802" },
+    { usuario: "DAVIS.ANDERSON (NOCHE)", clave: "DAVISGL850" },
+    { usuario: "NAYRA.CADENA (MAT/NOCHE)", clave: "NAYRAYA2024" },
+    { usuario: "MARTINBG (VESP)", clave: "MARTIN671" },
+    { usuario: "FERNANDO.GARCIA (FINDE)", clave: "GARCIA12" },
+    { usuario: "EDERADIN.TASS (NOCHE)", clave: "EDERASIN2025" },
+    { usuario: "JPAULINO.RIVERA (NOCHE)", clave: "Jpaulino2024" },
+    { usuario: "VERA.CARRERA (CUBRE)", clave: "MILIXA90" },
+    { usuario: "MIGUEL.GONZALEZ (VILLEGAS CRITICA)", clave: "MIGUEL4510" },
+    { usuario: "NESTOR.PEREZ (NOCHE)", clave: "NESTORPA645" },
+    { usuario: "RAFEL.PEREZ (CARRETA)", clave: "Rafaelcp2023" },
+    { usuario: "CARLOS.HERNANDEZ (FINDE)", clave: "NENUCA" },
+    { usuario: "MARIA.ALICIA (CUBRE)", clave: "MARIARR321" },
+    { usuario: "LOUISEK.MONTERRUBIO", clave: "MONTERRUBIO2025" },
+    { usuario: "RAULHS.SANCHEZ", clave: "Raulhs023" },
+    { usuario: "NELSON.MORALES (FIN DE SEMANA)", clave: "Nelson2023" },
+    { usuario: "YOLANDA.GARDUZA", clave: "YOLANDAGL679" },
+    { usuario: "EZEQUIAS.SOBERANOCM (VESP)", clave: "nery25eze3517si" },
+    { usuario: "JOSE.AQUINO", clave: "JOSEOJ56" },
+    { usuario: "JUANC.SOSA (VESP)", clave: "JUANCASTRO93" },
+    { usuario: "ERIKAGI.GARCIA", clave: "ERIKAGR2025" },
+    { usuario: "JOSESP.SANCHEZ", clave: "Josesp2023" },
+    { usuario: "SARAYANETH.SACA (UROGINE)", clave: "SARAYSC2025" },
+    { usuario: "RICARDO.PERALTA (NOCHE)", clave: "RIPEQU85" },
+    { usuario: "JOSE.ANTONIO", clave: "JOSEAD874" },
+    { usuario: "PAOLIS19", clave: "PAOLIS19" },
+    { usuario: "ROBERTO.ROMAN (MAT)", clave: "roaroct08" },
+    { usuario: "JOSE.SASTRE", clave: "JOSEEJ46" },
+    { usuario: "DRESCAYOLA.19 (NOCHE)", clave: "enrique88" },
+    { usuario: "MOISES.PAREDES (VESP)", clave: "MOISESPV2025" },
+    { usuario: "ISRAEL.CIFUENTES", clave: "ISRAELSI69" },
+    { usuario: "ALEJANDRA.LANDERO (JEFA)", clave: "Alejandra2023" }
+  ];
 
   let usuariosGuardados = JSON.parse(localStorage.getItem('perrito_cuentas')) || cuentasIniciales;
 let usuarios = usuariosGuardados.filter((u, i, arr) => arr.findIndex(item => obtenerLimpio(item.usuario).toLowerCase() === obtenerLimpio(u.usuario).toLowerCase()) === i);
@@ -962,6 +867,29 @@ async function sincronizarCuentasNube() {
     return texto.replace(/\s*\(.*?\)\s*/g, '').trim();
   }
 
+  function renderizarLista(lista) {
+    const contenedor = document.getElementById('userList');
+    contenedor.innerHTML = '';
+    lista.forEach(u => {
+      const usrLimpio = obtenerLimpio(u.usuario);
+      const pwdLimpia = obtenerLimpio(u.clave);
+      
+      const card = document.createElement('div');
+      card.className = 'user-card';
+      card.innerHTML = `
+        <div class="user-info">
+          <strong>${u.usuario}</strong>
+          <span>${u.clave}</span>
+        </div>
+        <div style="display:flex; gap:4px;">
+         <button onclick="copiarTexto('${usrLimpio}', this)">Usr</button>
+<button onclick="copiarTexto('${pwdLimpia}', this)" style="background:#64748B;">Pass</button>
+        </div>
+      `;
+      contenedor.appendChild(card);
+    });
+  }
+
  function copiarTexto(t, btn) {
   navigator.clipboard.writeText(t).then(() => {
     if (btn) {
@@ -976,6 +904,14 @@ async function sincronizarCuentasNube() {
     }
   });
 }
+
+  function filtrarUsuarios() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const filtrados = usuarios.filter(u => 
+      u.usuario.toLowerCase().includes(query) || u.clave.toLowerCase().includes(query)
+    );
+    renderizarLista(filtrados);
+  }
 
  async function guardarUsuario() {
     const usr = document.getElementById('usernameInput').value.trim();
@@ -1027,194 +963,6 @@ async function sincronizarCuentasNube() {
     } catch(e) {}
   }
 
-  const ESPECIALIDADES_CONFIG = {
-  GYO:     { label: "GYO",     emoji: "🤰", color: "#EC4899", bg: "#FCE7F3" },
-  MI:      { label: "MI",      emoji: "🩺", color: "#0EA5E9", bg: "#E0F2FE" },
-  TYO:     { label: "TYO",     emoji: "🦴", color: "#EF4444", bg: "#FEE2E2" },
-  URG:     { label: "URG",     emoji: "🚨", color: "#991B1B", bg: "#FEE2E2" },
-  CIRUGIA: { label: "CIRUGIA", emoji: "🔪", color: "#1E3A8A", bg: "#DBEAFE" },
-  PEDIA:   { label: "PEDIA",   emoji: "🧸", color: "#EAB308", bg: "#FEF9C3" }
-};
-
-let especialidadActiva = "TODAS";
-let especialidadesPorUsuario = JSON.parse(localStorage.getItem("perrito_esp_cuentas") || "{}");
-
-function obtenerClaveNormalizada(texto) {
-  return (typeof obtenerLimpio === "function" ? obtenerLimpio(texto || "") : (texto || "")).trim().toLowerCase();
-}
-
-function inferirEspecialidadCuenta(cuenta) {
-  const claveUsr = obtenerClaveNormalizada(cuenta && cuenta.usuario);
-  if (claveUsr && especialidadesPorUsuario[claveUsr]) {
-    return especialidadesPorUsuario[claveUsr];
-  }
-  if (cuenta && cuenta.especialidad && ESPECIALIDADES_CONFIG[String(cuenta.especialidad).toUpperCase()]) {
-    return String(cuenta.especialidad).toUpperCase();
-  }
-  const raw = ((cuenta && cuenta.usuario) || "").toUpperCase();
-  if (raw.includes("GYO") || raw.includes("GINEC")) return "GYO";
-  if (raw.includes("M.I") || raw.includes("MI ") || raw.includes("INTERNA")) return "MI";
-  if (raw.includes("TYO") || raw.includes("TRAUMA") || raw.includes("ORTO")) return "TYO";
-  if (raw.includes("URG")) return "URG";
-  if (raw.includes("CIRU")) return "CIRUGIA";
-  if (raw.includes("PEDIA")) return "PEDIA";
-  return "";
-}
-
-function asignarEspecialidadACuenta(usuarioNombre, nuevaEsp) {
-  const claveUsr = obtenerClaveNormalizada(usuarioNombre);
-  if (!claveUsr) return;
-
-  if (nuevaEsp) {
-    especialidadesPorUsuario[claveUsr] = nuevaEsp;
-  } else {
-    delete especialidadesPorUsuario[claveUsr];
-  }
-  localStorage.setItem("perrito_esp_cuentas", JSON.stringify(especialidadesPorUsuario));
-
-  if (Array.isArray(window.usuarios)) {
-    window.usuarios = window.usuarios.map(u => {
-      if (obtenerClaveNormalizada(u.usuario) === claveUsr) {
-        return { ...u, especialidad: nuevaEsp || "" };
-      }
-      return u;
-    });
-    localStorage.setItem("perrito_cuentas", JSON.stringify(window.usuarios));
-  }
-  filtrarUsuarios();
-}
-
-function actualizarMuestraColorEspecialidad() {
-  const sel = document.getElementById("selectEspecialidadCuenta");
-  const dot = document.getElementById("muestraColorEsp");
-  if (!sel || !dot) return;
-  const cfg = ESPECIALIDADES_CONFIG[sel.value];
-  dot.style.background = cfg ? cfg.color : "#E2E8F0";
-}
-
-function renderizarBotonesEspecialidad() {
-  const cont = document.getElementById("filtrosEspecialidad");
-  if (!cont) return;
-  cont.innerHTML = "";
-
-  const btnTodas = document.createElement("button");
-  btnTodas.type = "button";
-  btnTodas.className = "btn-filtro-esp" + (especialidadActiva === "TODAS" ? " activo" : "");
-  btnTodas.textContent = "📋 Todas";
-  btnTodas.onclick = () => {
-    especialidadActiva = "TODAS";
-    renderizarBotonesEspecialidad();
-    filtrarUsuarios();
-  };
-  cont.appendChild(btnTodas);
-
-  Object.entries(ESPECIALIDADES_CONFIG).forEach(([codigo, cfg]) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "btn-filtro-esp" + (especialidadActiva === codigo ? " activo" : "");
-    btn.style.backgroundColor = cfg.bg;
-    btn.style.borderColor = cfg.color;
-    btn.innerHTML = `${cfg.emoji} ${cfg.label}`;
-    btn.onclick = () => {
-      especialidadActiva = (especialidadActiva === codigo) ? "TODAS" : codigo;
-      renderizarBotonesEspecialidad();
-      filtrarUsuarios();
-    };
-    cont.appendChild(btn);
-  });
-}
-
-function filtrarUsuarios() {
-  const baseLista = Array.isArray(window.usuarios) ? window.usuarios : (typeof usuarios !== "undefined" ? usuarios : []);
-  const inputBuscador = document.getElementById("searchInput");
-  const termino = inputBuscador ? inputBuscador.value.trim().toLowerCase() : "";
-
-  const filtrados = baseLista.filter(u => {
-    const esp = inferirEspecialidadCuenta(u);
-    const coincideEsp = (especialidadActiva === "TODAS") || (esp === especialidadActiva);
-    const coincideTexto = !termino ||
-      (u.usuario && u.usuario.toLowerCase().includes(termino)) ||
-      (u.clave && u.clave.toLowerCase().includes(termino)) ||
-      (esp && esp.toLowerCase().includes(termino));
-    return coincideEsp && coincideTexto;
-  });
-
-  renderizarListaCuentasEspecialidad(filtrados);
-}
-
-function renderizarListaCuentasEspecialidad(lista) {
-  const contenedor = document.getElementById("userList");
-  if (!contenedor) return;
-  contenedor.innerHTML = "";
-
-  lista.forEach(u => {
-    const rawUsr = u.usuario || "";
-    const rawPwd = u.clave || "";
-    const usrLimpio = typeof obtenerLimpio === "function" ? obtenerLimpio(rawUsr) : rawUsr;
-    const pwdLimpia = typeof obtenerLimpio === "function" ? obtenerLimpio(rawPwd) : rawPwd;
-    const espActual = inferirEspecialidadCuenta(u);
-    const cfg = ESPECIALIDADES_CONFIG[espActual];
-
-    const badgeHtml = cfg
-      ? `<span class="badge-esp esp-${espActual}">${cfg.emoji} ${cfg.label}</span>`
-      : `<span class="badge-esp esp-SIN">Sin esp.</span>`;
-
-    const opcionesEsp = [`<option value="">Sin esp.</option>`].concat(
-      Object.entries(ESPECIALIDADES_CONFIG).map(([cod, c]) =>
-        `<option value="${cod}" ${espActual === cod ? "selected" : ""}>${c.emoji} ${c.label}</option>`
-      )
-    ).join("");
-
-    const usrEsc = rawUsr.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
-    const usrCleanEsc = usrLimpio.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
-    const pwdCleanEsc = pwdLimpia.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
-
-    const card = document.createElement("div");
-    card.className = "user-card";
-    card.innerHTML = `
-      <div class="user-info">
-        <strong>${rawUsr}</strong>${badgeHtml}
-        <span>${rawPwd}</span>
-      </div>
-      <div style="display:flex; gap:4px; align-items:center; flex-wrap:wrap;">
-        <select title="Asignar especialidad" onchange="asignarEspecialidadACuenta('${usrEsc}', this.value)" style="padding:3px 5px; border-radius:6px; font-size:0.72rem; border:1px solid #CBD5E1;">
-          ${opcionesEsp}
-        </select>
-        <button onclick="copiarTexto('${usrCleanEsc}', this)">Usr</button>
-        <button onclick="copiarTexto('${pwdCleanEsc}', this)" style="background:#64748B;">Pass</button>
-      </div>
-    `;
-    contenedor.appendChild(card);
-  });
-}
-
-const _guardarUsuarioPrevio = typeof guardarUsuario === "function" ? guardarUsuario : null;
-if (_guardarUsuarioPrevio) {
-  window.guardarUsuario = function() {
-    const usrInput = document.getElementById("usernameInput");
-    const selEsp = document.getElementById("selectEspecialidadCuenta");
-    const nombreUsr = usrInput ? usrInput.value.trim() : "";
-    const espElegida = selEsp ? selEsp.value : "";
-
-    _guardarUsuarioPrevio();
-
-    if (nombreUsr && espElegida) {
-      asignarEspecialidadACuenta(nombreUsr, espElegida);
-    } else {
-      filtrarUsuarios();
-    }
-  };
-}
-
-if (typeof renderizarLista === "function") {
-  renderizarLista = function(lista) {
-    renderizarListaCuentasEspecialidad(lista);
-  };
-}
-
-renderizarBotonesEspecialidad();
-actualizarMuestraColorEspecialidad();
-  
 // GUARDIÓMETRO Y CALENDARIO
 const fechaInicioMip2 = new Date(2026, 0, 1); // 1 de enero de 2026
 const ordenGuardiasMip2 = ["Guardia B", "Guardia C", "Guardia D", "Guardia A"];
