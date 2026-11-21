@@ -856,7 +856,7 @@
 
 <script>
 // Enlace directo a tu API de Google Sheets
-  const API_URL = "https://script.google.com/macros/s/AKfycbxL0UpwR8-mShUMQ9T6ZQpq4hiyEJ7wjBukjPfEH5N-VeDowKuKD7v6pHkIyTrYwLDUuw/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbxc2RFSjDTJZcdYE-ktkNZ7IxfJtZuLsprUcCXDStGKCxg1-EVrpCgKdDElmI0QzLo9og/exe";
 
   const cuentasIniciales = [];
 
@@ -867,7 +867,7 @@
     URG:     { label: "URG",     emoji: "🚨", color: "#991B1B" },
     CIRUGIA: { label: "CIRUGIA", emoji: "🔪", color: "#1E3A8A" },
     PEDIA:   { label: "PEDIA",   emoji: "🧸", color: "#EAB308" },
-    APOYO: { label: "APOYO", emoji: "🤝", color: "#8B5CF6" }
+    APOYO:   { label: "APOYO",   emoji: "🤝", color: "#8B5CF6" }
   };
 
   let especialidadActiva = "TODAS";
@@ -897,29 +897,48 @@
     if (raw.includes("CIRU")) return "CIRUGIA";
     if (raw.includes("PEDIA")) return "PEDIA";
     if (raw.includes("APOYO") || raw.includes("CUBRE")) return "APOYO";
-
     return "";
   }
 
-  function asignarEspecialidadCuenta(usuarioNombre, nuevaEsp) {
+  async function asignarEspecialidadCuenta(usuarioNombre, nuevaEsp) {
     const claveBase = obtenerLimpio(usuarioNombre).toLowerCase();
     if (!claveBase) return;
 
-    if (nuevaEsp && ESPECIALIDADES_CUENTAS[nuevaEsp]) {
-      especialidadesGuardadas[claveBase] = nuevaEsp;
+    const espNormalizada = (nuevaEsp && ESPECIALIDADES_CUENTAS[nuevaEsp]) ? nuevaEsp : "";
+
+    if (espNormalizada) {
+      especialidadesGuardadas[claveBase] = espNormalizada;
     } else {
       delete especialidadesGuardadas[claveBase];
     }
     localStorage.setItem("perrito_esp_cuentas", JSON.stringify(especialidadesGuardadas));
 
+    let cuentaAfectada = null;
     usuarios = usuarios.map(u => {
       if (obtenerLimpio(u.usuario).toLowerCase() === claveBase) {
-        return { ...u, especialidad: nuevaEsp || "" };
+        cuentaAfectada = { ...u, especialidad: espNormalizada };
+        return cuentaAfectada;
       }
       return u;
     });
     localStorage.setItem('perrito_cuentas', JSON.stringify(usuarios));
     filtrarUsuarios();
+
+    if (cuentaAfectada && API_URL) {
+      try {
+        await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "update_specialty",
+            usuario: cuentaAfectada.usuario,
+            clave: cuentaAfectada.clave || "",
+            especialidad: espNormalizada
+          })
+        });
+      } catch (e) {
+        console.error("Error al sincronizar especialidad en la nube:", e);
+      }
+    }
   }
 
   function actualizarMuestraColorEspecialidad() {
@@ -966,15 +985,29 @@
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
-      if (data && data.length > 0) {
+      if (data && Array.isArray(data) && data.length > 0) {
         const cuentasLimpias = [];
         data.forEach(u => {
           const baseUsr = obtenerLimpio(u.usuario).toLowerCase();
+          if (!baseUsr) return;
           if (!cuentasLimpias.some(item => obtenerLimpio(item.usuario).toLowerCase() === baseUsr)) {
-            cuentasLimpias.push(u);
+            const prevLocal = usuarios.find(item => obtenerLimpio(item.usuario).toLowerCase() === baseUsr);
+            const espNube = (u.especialidad || u.esp || "").toString().trim().toUpperCase();
+            const espValida = ESPECIALIDADES_CUENTAS[espNube]
+              ? espNube
+              : (especialidadesGuardadas[baseUsr] || (prevLocal && prevLocal.especialidad) || "");
+
+            if (espValida) {
+              especialidadesGuardadas[baseUsr] = espValida;
+            }
+            cuentasLimpias.push({
+              ...u,
+              especialidad: espValida
+            });
           }
         });
 
+        localStorage.setItem("perrito_esp_cuentas", JSON.stringify(especialidadesGuardadas));
         usuarios = cuentasLimpias;
         localStorage.setItem('perrito_cuentas', JSON.stringify(usuarios));
         filtrarUsuarios();
@@ -1126,6 +1159,7 @@
 
   renderizarBotonesEspecialidad();
   actualizarMuestraColorEspecialidad();
+
 
 // GUARDIÓMETRO Y CALENDARIO
 const fechaInicioMip2 = new Date(2026, 0, 1); // 1 de enero de 2026
