@@ -520,6 +520,13 @@
   color: #854D0E !important;
   border-color: #EAB308 !important;
 }   
+/* APOYO - Médicos de Apoyo */
+.btn-filtro-esp[data-esp="APOYO"],
+.badge-esp.esp-APOYO {
+  background-color: #EDE9FE !important;
+  color: #5B21B6 !important;
+  border-color: #8B5CF6 !important;
+}
   </style>
 </head>
 <body id="app-body">
@@ -646,6 +653,7 @@
                   <option value="URG">🚨 URG (Rojo sangre)</option>
                   <option value="CIRUGIA">🔪 CIRUGIA (Azul marino)</option>
                   <option value="PEDIA">🧸 PEDIA (Amarillo)</option>
+                  <option value="APOYO">🤝 APOYO (Médicos de Apoyo)</option>
                 </select>
                 <span id="muestraColorEsp" style="display: inline-block; width: 18px; height: 18px; border-radius: 50%; border: 1px solid #334155; background: #E2E8F0;"></span>
               </div>
@@ -858,7 +866,8 @@
     TYO:     { label: "TYO",     emoji: "🦴", color: "#EF4444" },
     URG:     { label: "URG",     emoji: "🚨", color: "#991B1B" },
     CIRUGIA: { label: "CIRUGIA", emoji: "🔪", color: "#1E3A8A" },
-    PEDIA:   { label: "PEDIA",   emoji: "🧸", color: "#EAB308" }
+    PEDIA:   { label: "PEDIA",   emoji: "🧸", color: "#EAB308" },
+    APOYO: { label: "APOYO", emoji: "🤝", color: "#8B5CF6" }
   };
 
   let especialidadActiva = "TODAS";
@@ -887,6 +896,8 @@
     if (raw.includes("URG")) return "URG";
     if (raw.includes("CIRU")) return "CIRUGIA";
     if (raw.includes("PEDIA")) return "PEDIA";
+    if (raw.includes("APOYO") || raw.includes("CUBRE")) return "APOYO";
+
     return "";
   }
 
