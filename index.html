@@ -527,6 +527,35 @@
   color: #5B21B6 !important;
   border-color: #8B5CF6 !important;
 }
+
+.cal-tooltip {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 7px 11px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  max-width: 240px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - 10px));
+  transition: opacity 0.14s ease;
+}
+
+.cal-tooltip.visible {
+  opacity: 1;
+}
+
+.cal-tooltip-title {
+  display: block;
+  font-weight: 700;
+  color: #34d399;
+  margin-bottom: 2px;
+}
+    
   </style>
 </head>
 <body id="app-body">
@@ -1213,25 +1242,65 @@ function obtenerGuardiaPorFecha(fechaTarget) {
   return ordenGuardiasMip2[idx];
 }
 
-// Función para verificar días festivos del ISSET
-function esFestivoISSET(fecha) {
+// Obtiene el motivo del día festivo del ISSET si aplica
+function obtenerMotivoFestivoISSET(fecha) {
   const d = fecha.getDate();
   const m = fecha.getMonth(); // 0 = Ene, 1 = Feb, 2 = Mar, 4 = May, 8 = Sep, 10 = Nov, 11 = Dic
   const dayOfWeek = fecha.getDay(); // 1 = Lunes
 
   // Fechas fijas
-  if (m === 0 && d === 1) return true; // 1 Enero (Año Nuevo)
-  if (m === 1 && d === 27) return true; // 27 Febrero (Invasión Francesa en Tabasco)
-  if (m === 4 && d === 1) return true; // 1 Mayo (Día del Trabajo)
-  if (m === 8 && d === 16) return true; // 16 Septiembre (Independencia)
-  if (m === 11 && d === 25) return true; // 25 Diciembre (Navidad)
+  if (m === 0 && d === 1) return "Año Nuevo";
+  if (m === 1 && d === 27) return "Invasión Francesa en Tabasco";
+  if (m === 4 && d === 1) return "Día del Trabajo";
+  if (m === 8 && d === 16) return "Aniversario de la Independencia de México";
+  if (m === 11 && d === 25) return "Navidad";
 
   // Fechas móviles (Lunes)
-  if (m === 1 && dayOfWeek === 1 && d <= 7) return true; // 1er lunes de Feb (Constitución)
-  if (m === 2 && dayOfWeek === 1 && d >= 15 && d <= 21) return true; // 3er lunes de Mar (Benito Juárez)
-  if (m === 10 && dayOfWeek === 1 && d >= 15 && d <= 21) return true; // 3er lunes de Nov (Revolución)
+  if (m === 1 && dayOfWeek === 1 && d <= 7) return "Aniversario de la Constitución Mexicana (1er lunes de febrero)";
+  if (m === 2 && dayOfWeek === 1 && d >= 15 && d <= 21) return "Natalicio de Benito Juárez (3er lunes de marzo)";
+  if (m === 10 && dayOfWeek === 1 && d >= 15 && d <= 21) return "Aniversario de la Revolución Mexicana (3er lunes de noviembre)";
 
-  return false;
+  return "";
+}
+
+// Función para verificar días festivos del ISSET
+function esFestivoISSET(fecha) {
+  return Boolean(obtenerMotivoFestivoISSET(fecha));
+}
+
+// Elemento tooltip flotante compartido para días festivos
+let calFestivoTooltip = null;
+
+function asegurarTooltipFestivo() {
+  if (calFestivoTooltip) return calFestivoTooltip;
+  calFestivoTooltip = document.createElement("div");
+  calFestivoTooltip.className = "cal-tooltip";
+  document.body.appendChild(calFestivoTooltip);
+  return calFestivoTooltip;
+}
+
+function posicionarTooltipFestivo(e) {
+  if (!calFestivoTooltip) return;
+  const point = e.touches && e.touches[0] ? e.touches[0] : e;
+  if (typeof point.clientX !== "number" || typeof point.clientY !== "number") return;
+
+  const x = Math.min(window.innerWidth - 135, Math.max(135, point.clientX));
+  const y = Math.max(54, point.clientY);
+  calFestivoTooltip.style.left = `${x}px`;
+  calFestivoTooltip.style.top = `${y}px`;
+}
+
+function mostrarTooltipFestivo(e, fechaTexto, motivo) {
+  const tip = asegurarTooltipFestivo();
+  tip.innerHTML = `<span class="cal-tooltip-title">${fechaTexto} · Festivo ISSET</span>${motivo}`;
+  tip.classList.add("visible");
+  posicionarTooltipFestivo(e);
+}
+
+function ocultarTooltipFestivo() {
+  if (calFestivoTooltip) {
+    calFestivoTooltip.classList.remove("visible");
+  }
 }
 
 function actualizarGuardias() {
@@ -1282,61 +1351,71 @@ function actualizarGuardias() {
   generarCalendario();
 }
 
-  function cambiarMes(delta) {
-    calViewDate.setMonth(calViewDate.getMonth() + delta);
-    generarCalendario();
-  }
-
-  function generarCalendario() {
-    const calendarGrid = document.getElementById('calendarGrid');
-    calendarGrid.innerHTML = '';
-
-    const year = calViewDate.getFullYear();
-    const month = calViewDate.getMonth();
-
-    document.getElementById('app-body').className = `theme-${month}`;
-
-    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-    document.getElementById('calMonthYear').innerText = `${monthNames[month]} ${year}`;
-
-    const headers = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
-    headers.forEach(h => {
-      const div = document.createElement('div');
-      div.className = 'calendar-header';
-      div.innerText = h;
-      calendarGrid.appendChild(div);
-    });
-
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    for (let i = 0; i < firstDay; i++) {
-      const emptyCell = document.createElement('div');
-      calendarGrid.appendChild(emptyCell);
-    }
-
-    const hoyReal = new Date();
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      const cellDate = new Date(year, month, day);
-      const cell = document.createElement('div');
-      cell.className = 'calendar-day';
-      
-      const gLetter = obtenerGuardiaPorFecha(cellDate).replace('Guardia ', '');
-cell.innerHTML = `${day}<br><small style="font-size:0.65rem; opacity:0.8; font-weight:bold;">${gLetter}</small>`;
-
-     const esHoy = cellDate.toDateString() === hoyReal.toDateString();
-const esFestivo = esFestivoISSET(cellDate);
-
-if (esHoy) {
-    cell.classList.add('today');
-} else if (esFestivo) {
-    cell.classList.add('festivo');
+function cambiarMes(delta) {
+  calViewDate.setMonth(calViewDate.getMonth() + delta);
+  generarCalendario();
 }
 
-      calendarGrid.appendChild(cell);
-    }
+function generarCalendario() {
+  ocultarTooltipFestivo();
+  const calendarGrid = document.getElementById('calendarGrid');
+  calendarGrid.innerHTML = '';
+
+  const year = calViewDate.getFullYear();
+  const month = calViewDate.getMonth();
+
+  document.getElementById('app-body').className = `theme-${month}`;
+
+  const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  document.getElementById('calMonthYear').innerText = `${monthNames[month]} ${year}`;
+
+  const headers = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+  headers.forEach(h => {
+    const div = document.createElement('div');
+    div.className = 'calendar-header';
+    div.innerText = h;
+    calendarGrid.appendChild(div);
+  });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    const emptyCell = document.createElement('div');
+    calendarGrid.appendChild(emptyCell);
   }
+
+  const hoyReal = new Date();
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const cellDate = new Date(year, month, day);
+    const cell = document.createElement('div');
+    cell.className = 'calendar-day';
+
+    const gLetter = obtenerGuardiaPorFecha(cellDate).replace('Guardia ', '');
+    cell.innerHTML = `${day}<br><small style="font-size:0.65rem; opacity:0.8; font-weight:bold;">${gLetter}</small>`;
+
+    const esHoy = cellDate.toDateString() === hoyReal.toDateString();
+    const motivoFestivo = obtenerMotivoFestivoISSET(cellDate);
+    const esFestivo = Boolean(motivoFestivo);
+
+    if (esHoy) {
+      cell.classList.add('today');
+    } else if (esFestivo) {
+      cell.classList.add('festivo');
+    }
+
+    if (esFestivo) {
+      const fechaCorta = `${day} ${monthNames[month].slice(0, 3)} ${year}`;
+      cell.addEventListener('mouseenter', (e) => mostrarTooltipFestivo(e, fechaCorta, motivoFestivo));
+      cell.addEventListener('mousemove', posicionarTooltipFestivo);
+      cell.addEventListener('mouseleave', ocultarTooltipFestivo);
+      cell.addEventListener('click', (e) => mostrarTooltipFestivo(e, fechaCorta, motivoFestivo));
+    }
+
+    calendarGrid.appendChild(cell);
+  }
+}
 
 // LABORATORIOS ROTULADOS
 function procesarLaboratorios() {
