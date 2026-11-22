@@ -848,24 +848,53 @@
     </div>
 
 <!-- MÓDULO: CONVERSOR DE MAYÚSCULAS Y MINÚSCULAS -->
-    <div class="card">
-        <div class="card-title">
-            <span>🔤 MAYUSCULAS/minusculas</span>
-        </div>
-        
-        <textarea id="textoConversor" placeholder="Escribe o pega aquí el texto..." style="width: 100%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; margin-bottom: 8px; box-sizing: border-box;"></textarea>
-        
-        <div style="display: flex; flex-direction: column; gap: 6px;">
-            <div style="display: flex; gap: 6px;">
-                <button onclick="convertirTexto('mayusculas')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">MAYÚSCULAS</button>
-                <button onclick="convertirTexto('minusculas')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">minúsculas</button>
-            </div>
-            <div style="display: flex; gap: 6px;">
-                <button onclick="convertirTexto('capitalizar')" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: var(--primary);">Capitalizar</button>
-                <button onclick="copiarTextoConversor()" style="flex: 1; font-size: 0.75rem; padding: 6px 8px; background-color: #10B981;">📋 Copiar</button>
-            </div>
-        </div>
-    </div>
+<div class="card">
+  <div class="card-title">
+    <span>🔤 MAYUSCULAS/minusculas</span>
+  </div>
+  <textarea
+    id="textoConversor"
+    placeholder="Escribe o pega aquí el texto..."
+    style="width: 100%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #CBD5E1; resize: vertical; font-family: inherit; font-size: 0.8rem; margin-bottom: 8px; box-sizing: border-box;"
+  ></textarea>
+  <div style="display: flex; flex-wrap: nowrap; gap: 4px; overflow-x: auto;">
+    <button
+      type="button"
+      onclick="convertirTexto('mayusculas')"
+      style="flex: 1; min-width: 0; font-size: 0.65rem; padding: 6px 4px; white-space: nowrap; background-color: var(--primary);"
+    >
+      MAYÚSC.
+    </button>
+    <button
+      type="button"
+      onclick="convertirTexto('minusculas')"
+      style="flex: 1; min-width: 0; font-size: 0.65rem; padding: 6px 4px; white-space: nowrap; background-color: var(--primary);"
+    >
+      minúsc.
+    </button>
+    <button
+      type="button"
+      onclick="convertirTexto('capitalizar')"
+      style="flex: 1; min-width: 0; font-size: 0.65rem; padding: 6px 4px; white-space: nowrap; background-color: var(--primary);"
+    >
+      Capital
+    </button>
+    <button
+      type="button"
+      onclick="justificarTextoConversor()"
+      style="flex: 1; min-width: 0; font-size: 0.65rem; padding: 6px 4px; white-space: nowrap; background-color: #0284C7;"
+    >
+      Justificar
+    </button>
+    <button
+      type="button"
+      onclick="copiarTextoConversor()"
+      style="flex: 1; min-width: 0; font-size: 0.65rem; padding: 6px 4px; white-space: nowrap; background-color: #10B981;"
+    >
+      📋 Copiar
+    </button>
+  </div>
+</div>
 
      <div class="card">
   <div class="card-title">
@@ -2395,6 +2424,58 @@ async function guardarConsultoriosNube(btn) {
 }
 
 cargarConsultoriosNube();
+
+function convertirTexto(modo) {
+  const textarea = document.getElementById('textoConversor');
+  if (!textarea) return;
+
+  const texto = textarea.value;
+  if (!texto) return;
+
+  if (modo === 'mayusculas') {
+    textarea.value = texto.toLocaleUpperCase('es-MX');
+  } else if (modo === 'minusculas') {
+    textarea.value = texto.toLocaleLowerCase('es-MX');
+  } else if (modo === 'capitalizar') {
+    textarea.value = texto
+      .toLocaleLowerCase('es-MX')
+      .replace(/(^|\s|[.!?]\s*)([a-záéíóúüñ])/giu, (match, prefijo, letra) => {
+        return prefijo + letra.toLocaleUpperCase('es-MX');
+      });
+  }
+}
+
+function justificarTextoConversor() {
+  const textarea = document.getElementById('textoConversor');
+  if (!textarea) return;
+
+  // Aplica justificación visual al textarea y limpia espacios sobrantes por línea
+  textarea.value = textarea.value
+    .split('\n')
+    .map(linea => linea.replace(/[ \t]+/g, ' ').trim())
+    .join('\n');
+
+  textarea.style.textAlign = 'justify';
+  textarea.style.textJustify = 'inter-word';
+}
+
+function copiarTextoConversor() {
+  const textarea = document.getElementById('textoConversor');
+  if (!textarea || !textarea.value) return;
+
+  const textoACopiar = textarea.value;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(textoACopiar).catch(() => {
+      textarea.select();
+      document.execCommand('copy');
+    });
+  } else {
+    textarea.select();
+    document.execCommand('copy');
+  }
+}
+  
 </script>
 </body>
 </html>
