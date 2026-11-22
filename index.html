@@ -1292,7 +1292,7 @@ function esFestivoISSET(fecha) {
   return Boolean(obtenerMotivoFestivoISSET(fecha));
 }
 
-// Elemento tooltip flotante compartido para días del calendario
+// Elemento tooltip flotante compartido únicamente para días festivos
 let calFestivoTooltip = null;
 
 function asegurarTooltipFestivo() {
@@ -1314,10 +1314,9 @@ function posicionarTooltipFestivo(e) {
   calFestivoTooltip.style.top = `${y}px`;
 }
 
-function mostrarTooltipDia(e, titulo, detalle) {
+function mostrarTooltipFestivo(e, fechaTexto, motivo) {
   const tip = asegurarTooltipFestivo();
-  const encabezado = titulo.includes("Festivo ISSET") ? titulo : `${titulo} · Calendario`;
-  tip.innerHTML = `<span class="cal-tooltip-title">${encabezado}</span>${detalle}`;
+  tip.innerHTML = `<span class="cal-tooltip-title">${fechaTexto} · Festivo ISSET</span>${motivo}`;
   tip.classList.add("visible");
   posicionarTooltipFestivo(e);
 }
@@ -1430,24 +1429,18 @@ function generarCalendario() {
       cell.classList.add('festivo');
     }
 
-    const fechaCorta = `${day} ${monthNames[month].slice(0, 3)} ${year}`;
-    const tituloTooltip = esFestivo
-      ? `${fechaCorta} · Festivo ISSET`
-      : esHoy
-        ? `${fechaCorta} · Hoy`
-        : `${fechaCorta} · Guardia ${gLetter}`;
-    const detalleTooltip = esFestivo
-      ? `${motivoFestivo} (Guardia ${gLetter})`
-      : `Toca Guardia ${gLetter}`;
-
-    cell.addEventListener('mouseenter', (e) => mostrarTooltipDia(e, tituloTooltip, detalleTooltip));
-    cell.addEventListener('mousemove', posicionarTooltipFestivo);
-    cell.addEventListener('mouseleave', ocultarTooltipFestivo);
-    cell.addEventListener('click', (e) => mostrarTooltipDia(e, tituloTooltip, detalleTooltip));
+    if (esFestivo) {
+      const fechaCorta = `${day} ${monthNames[month].slice(0, 3)} ${year}`;
+      cell.addEventListener('mouseenter', (e) => mostrarTooltipFestivo(e, fechaCorta, motivoFestivo));
+      cell.addEventListener('mousemove', posicionarTooltipFestivo);
+      cell.addEventListener('mouseleave', ocultarTooltipFestivo);
+      cell.addEventListener('click', (e) => mostrarTooltipFestivo(e, fechaCorta, motivoFestivo));
+    }
 
     calendarGrid.appendChild(cell);
   }
 }
+
 
 // LABORATORIOS ROTULADOS
 function procesarLaboratorios() {
