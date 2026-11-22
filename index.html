@@ -579,6 +579,46 @@
   filter: brightness(1.05);
   box-shadow: 0 5px 12px rgba(16, 185, 129, 0.35);
 }    
+
+.moneda-stage {
+  background: #F8FAFC;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+
+.moneda-disco {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 8px auto;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FBBF24, #D97706);
+  border: 3px solid #FEF3C7;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  user-select: none;
+}
+
+.moneda-disco.girando {
+  animation: giroMonedaRapida 0.65s ease-in-out;
+}
+
+@keyframes giroMonedaRapida {
+  0% { transform: rotateY(0deg) scale(1); }
+  50% { transform: rotateY(540deg) scale(1.18); }
+  100% { transform: rotateY(1080deg) scale(1); }
+}
+
+.moneda-resultado {
+  font-size: 0.8rem;
+  color: #334155;
+  line-height: 1.4;
+  font-weight: 600;
+}
     
   </style>
 </head>
@@ -833,7 +873,6 @@
     </div>
    </div>
 
-
   
   <!-- COLUMNA 3: Laboratorios y Post-its -->
   <div class="column">
@@ -884,7 +923,7 @@
       onclick="justificarTextoConversor()"
       style="flex: 1; min-width: 0; font-size: 0.65rem; padding: 6px 4px; white-space: nowrap; background-color: #0284C7;"
     >
-      Justificar
+      Justif
     </button>
     <button
       type="button"
@@ -907,35 +946,96 @@
   <div class="notes-grid" id="notesBoard"></div>
  </div>
     
-      <!-- TARJETA: Tiro al Blanco (Mini-Desestrés) -->
-      <div class="card" style="text-align: center;">
-        <div class="card-title">
-          <span>🎯 Tiro al Blanco (Guardia)</span>
-        </div>
-        <p style="font-size:0.75rem; color:#64748B; margin-bottom:10px;">
-          Desestrésate: Atínale a los pendientes y 'enemigos' de la guardia.
-        </p>
+     <!-- TARJETA DESPLEGABLE: TIRO AL BLANCO (MINI-DESESTRÉS) -->
+    <div class="card" style="text-align: center;">
+      <div class="card-title" onclick="toggleTiroBlanco()" style="cursor: pointer; user-select: none; justify-content: center;">
+        <span>🎯 Tiro al Blanco (Guardia) <small id="flechaTiroBlanco" style="font-size: 0.85rem; margin-left: 6px;">▸</small></span>
+      </div>
+
+      <div id="contenidoTiroBlanco" style="display: none; margin-top: 8px;">
+        <p style="font-size: 0.75rem; color: #64748B; margin-bottom: 10px;">Desestrésate: Atínale a los pendientes y 'enemigos' de la guardia.</p>
 
         <!-- Puntuación -->
         <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; background: #F1F5F9; padding: 6px 12px; border-radius: 8px;">
-          <span style="color:#1E293B;">Puntos: <span id="targetScore" style="color:#10B981;">0</span></span>
-          <span style="color:#1E293B;">Récord: <span id="targetHighScore" style="color:#0284C7;">0</span></span>
+          <span style="color: #1E293B;">Puntos: <span id="targetScore" style="color: #10B981;">0</span></span>
+          <span style="color: #1E293B;">Récord: <span id="targetHighScore" style="color: #0284C7;">0</span></span>
         </div>
 
         <!-- Área del Juego (Fondo Azul) -->
         <div id="targetArea" style="position: relative; width: 100%; height: 160px; background: #1E40AF; border-radius: 10px; overflow: hidden; cursor: crosshair; display: flex; align-items: center; justify-content: center; border: 2px solid #3B82F6;">
-          <div id="targetItem" onclick="impactoTarget(event)" style="position: absolute; padding: 6px 12px; background: #EF4444; color: white; font-weight: 700; font-size: 0.75rem; border-radius: 20px; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); user-select: none; transition: transform 0.1s ease;">
-            📋 Nota sin Firma
-          </div>
+          <div id="targetItem" onclick="impactoTarget(event)" style="position: absolute; padding: 6px 12px; background: #EF4444; color: white; font-weight: 700; font-size: 0.75rem; border-radius: 20px; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); user-select: none; transition: transform 0.1s ease;">📋 Nota sin Firma</div>
         </div>
 
         <!-- Botón de inicio/reiniciar -->
-        <button onclick="reiniciarJuegoTarget()" style="width: 100%; margin-top: 10px; background-color: #8B5CF6;">
-          🎮 Reiniciar Juego
-        </button>
+        <button onclick="reiniciarJuegoTarget()" style="width: 100%; margin-top: 10px; background-color: #8B5CF6;">🎮 Reiniciar Juego</button>
       </div>
-</div>
+    </div>
 
+<!-- TARJETA DESPLEGABLE: MONEDA RÁPIDA DE GUARDIA -->
+    <div class="card">
+      <div class="card-title" onclick="toggleMonedaRapida()" style="cursor: pointer; user-select: none;">
+        <span>🎲 Moneda Rápida <small id="flechaMonedaRapida" style="font-size: 0.85rem; margin-left: 6px;">▸</small></span>
+      </div>
+
+      <div id="contenidoMonedaRapida" style="display: none; margin-top: 8px;">
+        <label style="font-size: 0.78rem; font-weight: 700;">¿Qué se decide? (Opción / Reto)</label>
+        <input
+          type="text"
+          id="monedaOpcionInput"
+          placeholder="Ej. Quién va por café o quién toma el ingreso"
+          style="margin-bottom: 10px;"
+        >
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+          <div>
+            <label style="font-size: 0.75rem; font-weight: 700; color: #1E3A8A;">Miembro / Lado 1</label>
+            <input
+              type="text"
+              id="monedaMiembro1"
+              placeholder="Ej. Comip A"
+              style="margin: 4px 0 6px 0;"
+            >
+            <select id="monedaLado1" style="margin: 0; padding: 6px 8px; font-size: 0.8rem;">
+              <option value="AGUILA" selected>🦅 Águila</option>
+              <option value="SOL">☀️ Sol</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-size: 0.75rem; font-weight: 700; color: #9D174D;">Miembro / Lado 2</label>
+            <input
+              type="text"
+              id="monedaMiembro2"
+              placeholder="Ej. Comip B"
+              style="margin: 4px 0 6px 0;"
+            >
+            <select id="monedaLado2" style="margin: 0; padding: 6px 8px; font-size: 0.8rem;">
+              <option value="AGUILA">🦅 Águila</option>
+              <option value="SOL" selected>☀️ Sol</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="moneda-stage">
+          <div id="monedaDisco" class="moneda-disco">🎲</div>
+          <div id="monedaResultadoTexto" class="moneda-resultado">
+            Escribe la opción y los miembros, luego lanza la moneda.
+          </div>
+        </div>
+
+        <div class="btn-group-row" style="margin-top: 10px;">
+          <button type="button" onclick="lanzarMonedaRapida()" style="flex: 1; background-color: #D97706;">
+            🎲 Lanzar Moneda
+          </button>
+          <button type="button" onclick="limpiarMonedaRapida()" style="background-color: #64748B;">
+            Limpiar
+          </button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
 <script>
 // Enlace directo a tu API de Google Sheets
   const API_URL = "https://script.google.com/macros/s/AKfycbzhNd6r5c9YBHr4p67kWv9FC9DpHyCMGKfKoMrbcFzmLB2dzA-KYoXFCXvlBKGoar3jnw/exec";
@@ -2473,6 +2573,87 @@ function copiarTextoConversor() {
   } else {
     textarea.select();
     document.execCommand('copy');
+  }
+}
+
+function toggleMonedaRapida() {
+  const cont = document.getElementById("contenidoMonedaRapida");
+  const flecha = document.getElementById("flechaMonedaRapida");
+  if (!cont) return;
+
+  const estaOculto = cont.style.display === "none" || !cont.style.display;
+  cont.style.display = estaOculto ? "block" : "none";
+  if (flecha) {
+    flecha.textContent = estaOculto ? "▾" : "▸";
+  }
+}
+
+function lanzarMonedaRapida() {
+  const disco = document.getElementById("monedaDisco");
+  const out = document.getElementById("monedaResultadoTexto");
+  if (!disco || !out) return;
+
+  const opcion = (document.getElementById("monedaOpcionInput")?.value || "").trim() || "Decisión de guardia";
+  const m1 = (document.getElementById("monedaMiembro1")?.value || "").trim() || "Miembro 1";
+  const m2 = (document.getElementById("monedaMiembro2")?.value || "").trim() || "Miembro 2";
+  const lado1 = document.getElementById("monedaLado1")?.value || "AGUILA";
+  const lado2 = document.getElementById("monedaLado2")?.value || "SOL";
+
+  const resultado = Math.random() < 0.5 ? "AGUILA" : "SOL";
+  const etiquetaRes = resultado === "AGUILA" ? "🦅 ÁGUILA" : "☀️ SOL";
+
+  disco.classList.remove("girando");
+  void disco.offsetWidth;
+  disco.classList.add("girando");
+
+  disco.textContent = resultado === "AGUILA" ? "🦅" : "☀️";
+  out.innerHTML = `<span style="color:#64748B;">Lanzando moneda para: <strong>${opcion}</strong>...</span>`;
+
+  setTimeout(() => {
+    const m1Gana = lado1 === resultado;
+    const m2Gana = lado2 === resultado;
+
+    let veredicto = "";
+    if (m1Gana && m2Gana) {
+      veredicto = `🎉 Ambos eligieron <strong>${etiquetaRes}</strong> — ¡Ganaron <strong>${m1}</strong> y <strong>${m2}</strong>!`;
+    } else if (!m1Gana && !m2Gana) {
+      veredicto = `😅 Cayó <strong>${etiquetaRes}</strong> — Ninguno eligió ese lado (<strong>${m1}</strong> y <strong>${m2}</strong> sin acierto).`;
+    } else if (m1Gana) {
+      veredicto = `🏆 Cayó <strong>${etiquetaRes}</strong><br><span style="color:#059669;">Ganador: <strong>${m1}</strong></span> · <span style="color:#DC2626;">Perdedor: <strong>${m2}</strong></span>`;
+    } else {
+      veredicto = `🏆 Cayó <strong>${etiquetaRes}</strong><br><span style="color:#059669;">Ganador: <strong>${m2}</strong></span> · <span style="color:#DC2626;">Perdedor: <strong>${m1}</strong></span>`;
+    }
+
+    out.innerHTML = `
+      <div style="font-size:0.74rem; color:#475569; margin-bottom:4px;"><strong>${opcion}</strong></div>
+      <div>${veredicto}</div>
+    `;
+  }, 620);
+}
+
+function limpiarMonedaRapida() {
+  const op = document.getElementById("monedaOpcionInput");
+  const m1 = document.getElementById("monedaMiembro1");
+  const m2 = document.getElementById("monedaMiembro2");
+  const disco = document.getElementById("monedaDisco");
+  const out = document.getElementById("monedaResultadoTexto");
+
+  if (op) op.value = "";
+  if (m1) m1.value = "";
+  if (m2) m2.value = "";
+  if (disco) disco.textContent = "🪙";
+  if (out) out.innerHTML = "Escribe la opción y los miembros, luego lanza la moneda.";
+}  
+
+function toggleTiroBlanco() {
+  const cont = document.getElementById("contenidoTiroBlanco");
+  const flecha = document.getElementById("flechaTiroBlanco");
+  if (!cont) return;
+
+  const estaOculto = cont.style.display === "none" || !cont.style.display;
+  cont.style.display = estaOculto ? "block" : "none";
+  if (flecha) {
+    flecha.textContent = estaOculto ? "▾" : "▸";
   }
 }
   
