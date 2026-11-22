@@ -555,6 +555,30 @@
   color: #34d399;
   margin-bottom: 2px;
 }
+
+/* Resaltado dinámico al pasar por cada día del calendario */
+.calendar-day {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease, filter 0.14s ease;
+}
+
+.calendar-day:hover {
+  transform: translateY(-2px) scale(1.04);
+  border-color: var(--primary);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.16);
+  z-index: 2;
+}
+
+.calendar-day.today:hover {
+  filter: brightness(1.06);
+  box-shadow: 0 5px 12px rgba(65, 105, 225, 0.35);
+}
+
+.calendar-day.festivo:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 5px 12px rgba(16, 185, 129, 0.35);
+}    
     
   </style>
 </head>
@@ -1268,7 +1292,7 @@ function esFestivoISSET(fecha) {
   return Boolean(obtenerMotivoFestivoISSET(fecha));
 }
 
-// Elemento tooltip flotante compartido para días festivos
+// Elemento tooltip flotante compartido para días del calendario
 let calFestivoTooltip = null;
 
 function asegurarTooltipFestivo() {
@@ -1290,9 +1314,10 @@ function posicionarTooltipFestivo(e) {
   calFestivoTooltip.style.top = `${y}px`;
 }
 
-function mostrarTooltipFestivo(e, fechaTexto, motivo) {
+function mostrarTooltipDia(e, titulo, detalle) {
   const tip = asegurarTooltipFestivo();
-  tip.innerHTML = `<span class="cal-tooltip-title">${fechaTexto} · Festivo ISSET</span>${motivo}`;
+  const encabezado = titulo.includes("Festivo ISSET") ? titulo : `${titulo} · Calendario`;
+  tip.innerHTML = `<span class="cal-tooltip-title">${encabezado}</span>${detalle}`;
   tip.classList.add("visible");
   posicionarTooltipFestivo(e);
 }
@@ -1405,13 +1430,20 @@ function generarCalendario() {
       cell.classList.add('festivo');
     }
 
-    if (esFestivo) {
-      const fechaCorta = `${day} ${monthNames[month].slice(0, 3)} ${year}`;
-      cell.addEventListener('mouseenter', (e) => mostrarTooltipFestivo(e, fechaCorta, motivoFestivo));
-      cell.addEventListener('mousemove', posicionarTooltipFestivo);
-      cell.addEventListener('mouseleave', ocultarTooltipFestivo);
-      cell.addEventListener('click', (e) => mostrarTooltipFestivo(e, fechaCorta, motivoFestivo));
-    }
+    const fechaCorta = `${day} ${monthNames[month].slice(0, 3)} ${year}`;
+    const tituloTooltip = esFestivo
+      ? `${fechaCorta} · Festivo ISSET`
+      : esHoy
+        ? `${fechaCorta} · Hoy`
+        : `${fechaCorta} · Guardia ${gLetter}`;
+    const detalleTooltip = esFestivo
+      ? `${motivoFestivo} (Guardia ${gLetter})`
+      : `Toca Guardia ${gLetter}`;
+
+    cell.addEventListener('mouseenter', (e) => mostrarTooltipDia(e, tituloTooltip, detalleTooltip));
+    cell.addEventListener('mousemove', posicionarTooltipFestivo);
+    cell.addEventListener('mouseleave', ocultarTooltipFestivo);
+    cell.addEventListener('click', (e) => mostrarTooltipDia(e, tituloTooltip, detalleTooltip));
 
     calendarGrid.appendChild(cell);
   }
