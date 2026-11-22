@@ -519,13 +519,39 @@
   background-color: #FEF08A !important;
   color: #854D0E !important;
   border-color: #EAB308 !important;
-}   
+}
+
 /* APOYO - Médicos de Apoyo */
 .btn-filtro-esp[data-esp="APOYO"],
 .badge-esp.esp-APOYO {
   background-color: #EDE9FE !important;
   color: #5B21B6 !important;
   border-color: #8B5CF6 !important;
+}
+
+/* Distribución vertical: Cuenta -> Contraseña -> Especialidad */
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+
+.user-info .badge-esp {
+  margin-left: 0 !important;
+  margin-top: 2px;
+}
+
+/* Barra/selector de especialidad compacta en horizontal */
+.select-esp-corto {
+  width: 92px !important;
+  max-width: 92px !important;
+  margin: 0 !important;
+  padding: 3px 5px !important;
+  border-radius: 6px !important;
+  font-size: 0.7rem !important;
+  border: 1px solid #CBD5E1 !important;
 }
 
 .cal-tooltip {
@@ -1238,49 +1264,50 @@
     }
   }
 
-  function renderizarLista(lista) {
-    const contenedor = document.getElementById('userList');
-    if (!contenedor) return;
-    contenedor.innerHTML = '';
+function renderizarLista(lista) {
+  const contenedor = document.getElementById('userList');
+  if (!contenedor) return;
+  contenedor.innerHTML = '';
 
-    lista.forEach(u => {
-      const usrLimpio = obtenerLimpio(u.usuario);
-      const pwdLimpia = obtenerLimpio(u.clave);
-      const espActual = obtenerEspecialidadCuenta(u);
-      const cfg = ESPECIALIDADES_CUENTAS[espActual];
+  lista.forEach(u => {
+    const usrLimpio = obtenerLimpio(u.usuario);
+    const pwdLimpia = obtenerLimpio(u.clave);
+    const espActual = obtenerEspecialidadCuenta(u);
+    const cfg = ESPECIALIDADES_CUENTAS[espActual];
 
-      const badgeHtml = cfg
-        ? `<span class="badge-esp esp-${espActual}">${cfg.emoji} ${cfg.label}</span>`
-        : `<span class="badge-esp esp-SIN">Sin esp.</span>`;
+    const badgeHtml = cfg
+      ? `<span class="badge-esp esp-${espActual}">${cfg.emoji} ${cfg.label}</span>`
+      : `<span class="badge-esp esp-SIN">Sin esp.</span>`;
 
-      const opcionesEsp = [`<option value="">Sin esp.</option>`].concat(
-        Object.entries(ESPECIALIDADES_CUENTAS).map(([cod, c]) =>
-          `<option value="${cod}" ${espActual === cod ? "selected" : ""}>${c.emoji} ${c.label}</option>`
-        )
-      ).join("");
+    const opcionesEsp = [`<option value="">Sin esp.</option>`].concat(
+      Object.entries(ESPECIALIDADES_CUENTAS).map(([cod, c]) =>
+        `<option value="${cod}" ${espActual === cod ? "selected" : ""}>${c.emoji} ${c.label}</option>`
+      )
+    ).join("");
 
-      const usrEsc = String(u.usuario || "").replace(/\\/g, "\\\\").replace(/'/g, "\\'");
-      const usrLimpioEsc = usrLimpio.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
-      const pwdLimpiaEsc = pwdLimpia.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+    const usrEsc = String(u.usuario || "").replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+    const usrLimpioEsc = usrLimpio.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+    const pwdLimpiaEsc = pwdLimpia.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
 
-      const card = document.createElement('div');
-      card.className = 'user-card';
-      card.innerHTML = `
-        <div class="user-info">
-          <strong>${u.usuario}</strong>${badgeHtml}
-          <span>${u.clave}</span>
-        </div>
-        <div style="display:flex; gap:4px; align-items:center; flex-wrap:wrap;">
-          <select title="Asignar especialidad" onchange="asignarEspecialidadCuenta('${usrEsc}', this.value)" style="padding:3px 5px; border-radius:6px; font-size:0.72rem; border:1px solid #CBD5E1;">
-            ${opcionesEsp}
-          </select>
-          <button onclick="copiarTexto('${usrLimpioEsc}', this)">Usr</button>
-          <button onclick="copiarTexto('${pwdLimpiaEsc}', this)" style="background:#64748B;">Pass</button>
-        </div>
-      `;
-      contenedor.appendChild(card);
-    });
-  }
+    const card = document.createElement('div');
+    card.className = 'user-card';
+    card.innerHTML = `
+      <div class="user-info">
+        <strong>${u.usuario}</strong>
+        <span>${u.clave}</span>
+        ${badgeHtml}
+      </div>
+      <div style="display:flex; gap:4px; align-items:center; flex-shrink:0;">
+        <select class="select-esp-corto" title="Asignar especialidad" onchange="asignarEspecialidadCuenta('${usrEsc}', this.value)">
+          ${opcionesEsp}
+        </select>
+        <button onclick="copiarTexto('${usrLimpioEsc}', this)">Usr</button>
+        <button onclick="copiarTexto('${pwdLimpiaEsc}', this)" style="background:#64748B;">Pass</button>
+      </div>
+    `;
+    contenedor.appendChild(card);
+  });
+}
 
   function copiarTexto(t, btn) {
     navigator.clipboard.writeText(t).then(() => {
