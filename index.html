@@ -893,10 +893,122 @@
 .tama-btn-play {
   background-color: #7C3AED !important;
 }
-    
+
+/* Cuadro amarillo brillante para Cuenta Regresiva */
+.regresiva-dorada-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(165deg, #FEF3C7 0%, #FDE68A 48%, #F59E0B 100%) !important;
+  border: 2px solid #B45309 !important;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.8),
+    0 6px 18px rgba(245, 158, 11, 0.28),
+    0 0 14px rgba(251, 191, 36, 0.25) !important;
+  animation: pulsoBrilloDorado 3.2s ease-in-out infinite;
+}
+
+.regresiva-dorada-card::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -75%;
+  width: 55%;
+  height: 180%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(22deg);
+  animation: barridoBrilloDorado 3.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.regresiva-dorada-titulo {
+  position: relative;
+  z-index: 1;
+  color: #78350F !important;
+  border-bottom-color: rgba(180, 83, 9, 0.22) !important;
+}
+
+.regresiva-dorada-sub {
+  position: relative;
+  z-index: 1;
+  font-size: 0.75rem;
+  color: #92400E;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.regresiva-caja-num {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(180, 83, 9, 0.28);
+  padding: 8px 4px;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 2px 6px rgba(120, 53, 15, 0.12);
+}
+
+.regresiva-num-valor {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #9A3412;
+}
+
+.regresiva-num-lbl {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #78350F;
+}
+
+.regresiva-dorada-pie {
+  position: relative;
+  z-index: 1;
+  font-size: 0.72rem;
+  color: #78350F;
+  font-weight: 700;
+}
+
+@keyframes barridoBrilloDorado {
+  0% {
+    left: -75%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  55% {
+    left: 135%;
+    opacity: 1;
+  }
+  100% {
+    left: 135%;
+    opacity: 0;
+  }
+}
+
+@keyframes pulsoBrilloDorado {
+  0%, 100% {
+    box-shadow:
+      inset 0 2px 0 rgba(255, 255, 255, 0.8),
+      0 6px 16px rgba(245, 158, 11, 0.26),
+      0 0 10px rgba(251, 191, 36, 0.2);
+  }
+  50% {
+    box-shadow:
+      inset 0 2px 0 rgba(255, 255, 255, 0.95),
+      0 8px 22px rgba(245, 158, 11, 0.42),
+      0 0 20px rgba(253, 224, 71, 0.45);
+  }
+}
   </style>
+  
 </head>
 <body id="app-body">
+
 
 <header>
   <div style="background: transparent !important; width: 100%; display: flex; justify-content: center; align-items: center; margin-bottom: 12px; padding: 10px;">
@@ -1150,31 +1262,32 @@
         <div class="calendar" id="calendarGrid"></div>
       </div>
 
-       <!-- AQUÍ VA LA CUENTA REGRESIVA (DEBAJO DE AGREGAR CUENTAS) -->
-            <div class="card" style="text-align: center;">
-                <div class="card-title"><span>⏳ Cuenta Regresiva 2027</span></div>
-                <p style="font-size:0.75rem; color:#64748B; margin-bottom:12px;">Tiempo restante para el 1 de Enero de 2027:</p>
-                
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px;">
-                    <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
-                        <strong id="cdDays" style="display: block; font-size: 1.2rem; color: var(--primary);">00</strong>
-                        <span style="font-size: 0.65rem; color: #64748B;">Días</span>
-                    </div>
-                    <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
-                        <strong id="cdHours" style="display: block; font-size: 1.2rem; color: var(--primary);">00</strong>
-                        <span style="font-size: 0.65rem; color: #64748B;">Hrs</span>
-                    </div>
-                    <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
-                        <strong id="cdMinutes" style="display: block; font-size: 1.2rem; color: var(--primary);">00</strong>
-                        <span style="font-size: 0.65rem; color: #64748B;">Min</span>
-                    </div>
-                    <div style="background: #F1F5F9; padding: 8px 4px; border-radius: 8px;">
-                        <strong id="cdSeconds" style="display: block; font-size: 1.2rem; color: var(--primary);">00</strong>
-                        <span style="font-size: 0.65rem; color: #64748B;">Seg</span>
-                    </div>
-                </div>
-                <small style="font-size: 0.7rem; color: var(--primary); font-weight: 600;">¡A darle con todo al internado! 🩺🐶</small>
+     <!-- CUENTA REGRESIVA 2027 EN CUADRO AMARILLO BRILLANTE -->
+        <div class="card regresiva-dorada-card" style="text-align: center;">
+          <div class="card-title regresiva-dorada-titulo">
+            <span>⏳ Cuenta Regresiva 2027</span>
+          </div>
+          <p class="regresiva-dorada-sub">Tiempo restante para el 1 de Enero de 2027:</p>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px;">
+            <div class="regresiva-caja-num">
+              <strong id="cdDays" class="regresiva-num-valor">00</strong>
+              <span class="regresiva-num-lbl">Días</span>
             </div>
+            <div class="regresiva-caja-num">
+              <strong id="cdHours" class="regresiva-num-valor">00</strong>
+              <span class="regresiva-num-lbl">Hrs</span>
+            </div>
+            <div class="regresiva-caja-num">
+              <strong id="cdMinutes" class="regresiva-num-valor">00</strong>
+              <span class="regresiva-num-lbl">Min</span>
+            </div>
+            <div class="regresiva-caja-num">
+              <strong id="cdSeconds" class="regresiva-num-valor">00</strong>
+              <span class="regresiva-num-lbl">Seg</span>
+            </div>
+          </div>
+          <small class="regresiva-dorada-pie">¡A darle con todo al internado! 🩺🐶</small>
+        </div>
 
 <!-- Tarjeta Homenaje TYO -->
   <div class="card" style="margin-top: 15px; background: white; padding: 18px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; border-left: 5px solid var(--primary);">
