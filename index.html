@@ -1685,7 +1685,7 @@ div[class*="postit-green"] {
             </div>
           </div>
 
-     <!-- CUADRO DE CONSULTORIOS 1 AL 45 -->
+<!-- CUADRO DE CONSULTORIOS 1 AL 45 -->
     <div class="card">
       <div class="card-title">
         <span>🚪 Consultorios</span>
@@ -1697,8 +1697,12 @@ div[class*="postit-green"] {
         <span><strong>#</strong> Fijo</span>
         <span>☰ Arrastra para reubicar · Clic para editar</span>
       </div>
+      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+        <input type="text" id="buscarConsultorioInput" oninput="filtrarConsultorios()" placeholder="Buscar consultorio, médico o especialidad..." style="flex: 1; margin: 0;">
+        <button type="button" onclick="limpiarBusquedaConsultorios()" title="Limpiar búsqueda" style="margin: 0; padding: 7px 10px; font-size: 0.78rem; font-weight: 700; border-radius: 8px; white-space: nowrap;">✕</button>
+      </div>
       <div id="consultoriosTabla" class="consultorios-wrapper"></div>
-    </div>        
+    </div>       
           
   </div> <!-- Cierra la Columna 1 -->
   
@@ -1806,7 +1810,7 @@ div[class*="postit-green"] {
    </div> 
 
   
-  <!-- COLUMNA 3: Laboratorios y Post-its -->
+<!-- COLUMNA 3: Laboratorios y Post-its -->
   <div class="column">
     <div class="card">
       <div class="card-title"><span>🧪 Procesador de Laboratorios</span></div>
@@ -1815,7 +1819,10 @@ div[class*="postit-green"] {
       <label style="font-size:0.8rem; font-weight:600;">Resultado:</label>
       <div class="lab-result" id="labOutput">Esperando datos...</div>
       
-      <button onclick="copiarResultado()" style="width:100%; margin-top:10px; background-color:#10B981;">Copiar Formato</button>
+      <div style="display: flex; gap: 8px; margin-top: 10px;">
+        <button type="button" onclick="copiarResultado()" style="flex: 1; margin: 0; background-color: #10B981;">Copiar Formato</button>
+        <button type="button" onclick="limpiarResultadoLaboratorios()" style="margin: 0; padding: 8px 12px; background-color: #64748B;">Limpiar</button>
+      </div>
     </div>
 
 <!-- MÓDULO: CONVERSOR DE MAYÚSCULAS Y MINÚSCULAS -->
@@ -4076,6 +4083,35 @@ function limpiarBusquedaCuentas() {
   input.focus();
 }
   
+function limpiarResultadoLaboratorios() {
+  const input = document.getElementById("labInput");
+  const output = document.getElementById("labOutput");
+  if (input) input.value = "";
+  if (output) output.textContent = "Esperando datos...";
+}
+
+function filtrarConsultorios() {
+  const input = document.getElementById("buscarConsultorioInput");
+  const contenedor = document.getElementById("consultoriosTabla");
+  if (!input || !contenedor) return;
+
+  const termino = input.value.trim().toLowerCase();
+  const filas = contenedor.querySelectorAll(":scope > div, tr, .consultorio-row, .consultorio-item");
+
+  filas.forEach((fila) => {
+    const texto = (fila.textContent || "").toLowerCase();
+    const coincide = !termino || texto.includes(termino);
+    fila.style.display = coincide ? "" : "none";
+  });
+}
+
+function limpiarBusquedaConsultorios() {
+  const input = document.getElementById("buscarConsultorioInput");
+  if (!input) return;
+  input.value = "";
+  filtrarConsultorios();
+  input.focus();
+}
   
 </script>
 </body>
