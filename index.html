@@ -1627,7 +1627,7 @@ div[class*="postit-green"] {
 
 <div class="dashboard">
 
- <!-- COLUMNA 1: Buscador y Agregar/Editar -->
+<!-- COLUMNA 1: Buscador y Agregar/Editar -->
         <div class="column">
             
             <div class="card">
@@ -1642,12 +1642,15 @@ div[class*="postit-green"] {
                         <span style="background-color: #0284C7; color: white; font-weight: 700; padding: 1px 5px; border-radius: 4px; font-size: 0.65rem;">Pass</span>
                         <span style="color: #334155;">Copiar contraseña</span>
                     </div>
-           </div>
-            <!-- Botones de filtro por especialidad debajo de Usr / Pass -->
-            <div id="filtrosEspecialidad" class="filtro-especialidades"></div>
-            <input type="text" id="searchInput" oninput="filtrarUsuarios()" placeholder="Buscar usuario, servicio o clave...">
-            <div class="user-list" id="userList"></div>
-          </div>
+                </div>
+                <!-- Botones de filtro por especialidad debajo de Usr / Pass -->
+                <div id="filtrosEspecialidad" class="filtro-especialidades"></div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <input type="text" id="searchInput" oninput="filtrarUsuarios()" placeholder="Buscar usuario, servicio o clave..." style="flex: 1; margin: 0;">
+                    <button type="button" onclick="limpiarBusquedaCuentas()" title="Limpiar búsqueda" style="margin: 0; padding: 7px 10px; font-size: 0.78rem; font-weight: 700; border-radius: 8px; white-space: nowrap;">✕</button>
+                </div>
+                <div class="user-list" id="userList"></div>
+            </div>
 
           <div class="card">
             <div class="card-title" onclick="toggleAgregarCuenta()" style="cursor: pointer; user-select: none;">
@@ -4062,6 +4065,17 @@ document.addEventListener("click", (e) => {
 
   mostrarPopupTiro(e.clientX || 120, e.clientY || 80, tiroCombo > 1 ? `💥 x${tiroCombo}!` : "🎯 ¡Blanco!");
 });
+
+function limpiarBusquedaCuentas() {
+  const input = document.getElementById("searchInput");
+  if (!input) return;
+  input.value = "";
+  if (typeof filtrarUsuarios === "function") {
+    filtrarUsuarios();
+  }
+  input.focus();
+}
+  
   
 </script>
 </body>
