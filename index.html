@@ -1371,6 +1371,132 @@ div[class*="postit-green"] {
       0 0 20px rgba(125, 211, 252, 0.48);
   }
 }
+
+/* Brillo y animación en "Guardia Hoy" y en conteo de Guardias A, B, C y D */
+.guardiometro-hoy-brillante {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(165deg, #FEF3C7 0%, #FDE68A 48%, #F59E0B 100%) !important;
+  border: 2px solid #B45309 !important;
+  border-style: solid !important;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.8),
+    0 6px 16px rgba(245, 158, 11, 0.28),
+    0 0 12px rgba(251, 191, 36, 0.24) !important;
+  animation: pulsoBrilloGuardia 3.2s ease-in-out infinite;
+}
+
+.guardiometro-hoy-brillante::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -75%;
+  width: 55%;
+  height: 180%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.58) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(22deg);
+  animation: barridoBrilloGuardia 3.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.guardiometro-hoy-lbl {
+  position: relative;
+  z-index: 1;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #78350F;
+}
+
+.guardiometro-hoy-valor {
+  position: relative;
+  z-index: 1;
+  color: #9A3412 !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.guardiometro-hoy-fecha {
+  position: relative;
+  z-index: 1;
+  color: #78350F !important;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.guardia-metric-brillante {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(165deg, #FEF9C3 0%, #FDE047 65%, #FACC15 100%) !important;
+  border: 1.5px solid #D97706 !important;
+  color: #78350F !important;
+  font-weight: 700;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 4px 12px rgba(245, 158, 11, 0.22) !important;
+  animation: pulsoBrilloGuardia 3.4s ease-in-out infinite;
+}
+
+.guardia-metric-brillante::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -80%;
+  width: 55%;
+  height: 180%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(22deg);
+  animation: barridoBrilloGuardia 4.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.guardia-metric-brillante strong {
+  position: relative;
+  z-index: 1;
+  color: #9A3412 !important;
+  font-weight: 900;
+}
+
+@keyframes barridoBrilloGuardia {
+  0% {
+    left: -80%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  55% {
+    left: 135%;
+    opacity: 1;
+  }
+  100% {
+    left: 135%;
+    opacity: 0;
+  }
+}
+
+@keyframes pulsoBrilloGuardia {
+  0%, 100% {
+    box-shadow:
+      inset 0 2px 0 rgba(255, 255, 255, 0.8),
+      0 5px 14px rgba(245, 158, 11, 0.24),
+      0 0 10px rgba(251, 191, 36, 0.2);
+  }
+  50% {
+    box-shadow:
+      inset 0 2px 0 rgba(255, 255, 255, 0.95),
+      0 7px 20px rgba(245, 158, 11, 0.38),
+      0 0 18px rgba(253, 224, 71, 0.42);
+  }
+}    
     
   </style>
   
@@ -1577,13 +1703,14 @@ div[class*="postit-green"] {
         </div>
       </div>
       <!-- === FIN IMAGEN NEÓN === -->
-    <div class="card">
+    
+<div class="card">
       <div class="card-title"><span>📊 Guardiómetro</span></div>
       
-      <div class="guardia-badge">
-        <span style="font-size:0.85rem; color:#475569;">Guardia Hoy:</span>
-        <div class="guardia-actual" id="guardiaHoy">Guardia A</div>
-        <small id="fechaHoyText" style="color:#64748B; font-size:0.75rem;"></small>
+      <div class="guardia-badge guardiometro-hoy-brillante">
+        <span class="guardiometro-hoy-lbl">Guardia Hoy:</span>
+        <div class="guardia-actual guardiometro-hoy-valor" id="guardiaHoy">Guardia A</div>
+        <small id="fechaHoyText" class="guardiometro-hoy-fecha"></small>
       </div>
 
       <label style="font-size:0.8rem;">Seleccionar Promoción / Rotación:</label>
@@ -1600,11 +1727,11 @@ div[class*="postit-green"] {
         <input type="date" id="fechaFin" onchange="actualizarGuardias()">
       </div>
 
-      <div class="metrics-grid">
-        <div class="metric-card">Guardias A<strong id="restA">0</strong></div>
-        <div class="metric-card">Guardias B<strong id="restB">0</strong></div>
-        <div class="metric-card">Guardias C<strong id="restC">0</strong></div>
-        <div class="metric-card">Guardias D<strong id="restD">0</strong></div>
+      <div class="metrics-grid guardia-metrics-brillo">
+        <div class="metric-card guardia-metric-brillante">Guardias A<strong id="restA">0</strong></div>
+        <div class="metric-card guardia-metric-brillante">Guardias B<strong id="restB">0</strong></div>
+        <div class="metric-card guardia-metric-brillante">Guardias C<strong id="restC">0</strong></div>
+        <div class="metric-card guardia-metric-brillante">Guardias D<strong id="restD">0</strong></div>
       </div>
     </div>
 
@@ -1629,7 +1756,7 @@ div[class*="postit-green"] {
 
         <div class="calendar" id="calendarGrid"></div>
       </div>
-
+    
      <!-- CUENTA REGRESIVA 2027 EN CUADRO AMARILLO BRILLANTE -->
         <div class="card regresiva-dorada-card" style="text-align: center;">
           <div class="card-title regresiva-dorada-titulo">
