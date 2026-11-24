@@ -645,6 +645,254 @@
   line-height: 1.4;
   font-weight: 600;
 }
+
+.tama-acordeon-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tama-flecha {
+  font-size: 0.9rem;
+  font-weight: 800;
+  transition: transform 0.2s ease;
+}
+
+.tama-cuerpo-desplegable {
+  margin-top: 8px;
+}
+
+.tama-carcasa {
+  background: linear-gradient(165deg, #FDE68A 0%, #F59E0B 100%);
+  border: 2px solid #B45309;
+  border-radius: 16px;
+  padding: 10px;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.65), 0 5px 14px rgba(15, 23, 42, 0.16);
+}
+
+.tama-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  color: #451A03;
+  margin-bottom: 6px;
+}
+
+.tama-mini-btn {
+  margin: 0 !important;
+  padding: 2px 6px !important;
+  font-size: 0.65rem !important;
+  border-radius: 6px !important;
+  background: rgba(255, 255, 255, 0.75) !important;
+  color: #1E293B !important;
+  border: 1px solid rgba(120, 53, 15, 0.25) !important;
+}
+
+.tama-xp-wrap {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 8px;
+  padding: 4px 7px;
+  margin-bottom: 7px;
+}
+
+.tama-xp-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #451A03;
+  margin-bottom: 2px;
+}
+
+.tama-xp-bg {
+  width: 100%;
+  height: 6px;
+  background: rgba(120, 53, 15, 0.18);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.tama-xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8B5CF6, #EC4899);
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+
+.tama-pantalla {
+  position: relative;
+  background: #DCFCE7;
+  border: 2px solid #14532D;
+  border-radius: 12px;
+  padding: 8px 8px 10px 8px;
+  text-align: center;
+  box-shadow: inset 0 2px 8px rgba(20, 83, 45, 0.22);
+  overflow: hidden;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.tama-pantalla.modo-noche {
+  background: #0F172A;
+  border-color: #38BDF8;
+  box-shadow: inset 0 2px 10px rgba(2, 6, 23, 0.65);
+}
+
+.tama-pantalla.modo-noche .tama-frase {
+  color: #E2E8F0;
+}
+
+.tama-pantalla.modo-noche .tama-hud-top {
+  color: #93C5FD;
+}
+
+.tama-hud-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: #166534;
+  margin-bottom: 4px;
+}
+
+.tama-sprite {
+  font-size: 2.7rem;
+  line-height: 1.1;
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+  animation: tamaFlotar 2.1s ease-in-out infinite;
+}
+
+.tama-sprite.accion {
+  animation: tamaSaltar 0.5s ease-in-out 2;
+}
+
+@keyframes tamaFlotar {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-3px) scale(1.04); }
+}
+
+@keyframes tamaSaltar {
+  0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+  30% { transform: translateY(-7px) scale(1.16) rotate(-8deg); }
+  70% { transform: translateY(-4px) scale(1.12) rotate(8deg); }
+}
+
+.tama-efecto {
+  position: absolute;
+  top: 24px;
+  right: 12px;
+  font-size: 1.25rem;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+
+.tama-efecto.visible {
+  opacity: 1;
+  transform: translateY(-4px);
+}
+
+.tama-frase {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #14532D;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.25;
+}
+
+.tama-stats {
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 10px;
+  padding: 7px 8px;
+}
+
+.tama-grid-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px 9px;
+}
+
+.tama-stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.64rem;
+  font-weight: 800;
+  color: #1E293B;
+  margin-bottom: 2px;
+}
+
+.tama-barra-bg {
+  width: 100%;
+  height: 6px;
+  background: #CBD5E1;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.tama-barra-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.tama-seccion-lbl {
+  font-size: 0.64rem;
+  font-weight: 800;
+  color: #451A03;
+  margin: 8px 0 4px 2px;
+}
+
+.tama-controles-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.tama-controles-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+}
+
+.tama-btn {
+  margin: 0 !important;
+  padding: 6px 5px !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  border-radius: 8px !important;
+  background-color: #9A3412 !important;
+  color: #FFFFFF !important;
+}
+
+.tama-btn small {
+  font-size: 0.58rem;
+  opacity: 0.92;
+}
+
+.tama-btn-care {
+  background-color: #0284C7 !important;
+}
+
+.tama-btn-sleep {
+  background-color: #334155 !important;
+}
+
+.tama-btn-play {
+  background-color: #7C3AED !important;
+}
     
   </style>
 </head>
@@ -1099,6 +1347,118 @@
           <button type="button" onclick="limpiarMonedaRapida()" style="background-color: #64748B;">
             Limpiar
           </button>
+        </div>
+      </div>
+    </div>
+
+<!-- TARJETA DESPLEGABLE: PERRITO TAMAGOTCHI (MODO VIDEOJUEGO) -->
+    <div class="card">
+      <div
+        class="card-title tama-acordeon-header"
+        onclick="toggleTamagotchiPerrito()"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+        aria-controls="contenidoTamagotchiPerrito"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTamagotchiPerrito();}"
+      >
+        <span>🐶 Perrito Tamagotchi</span>
+        <span id="flechaTamagotchiPerrito" class="tama-flecha">▸</span>
+      </div>
+
+      <div id="contenidoTamagotchiPerrito" class="tama-cuerpo-desplegable" style="display: none;">
+        <div id="tamaCarcasa" class="tama-carcasa">
+          <!-- Cabecera estilo consola -->
+          <div class="tama-topbar">
+            <span id="tamaNivelBadge">LVL 1 · CACHORRO</span>
+            <span id="tamaMonedasBadge">🪙 15</span>
+            <button type="button" class="tama-mini-btn" onclick="alternarPantallaOscuraTama()" title="Alternar pantalla día/noche">🌙/☀️</button>
+          </div>
+
+          <!-- Barra de XP -->
+          <div class="tama-xp-wrap">
+            <div class="tama-xp-meta">
+              <span>XP</span>
+              <span id="tamaXpTexto">0 / 100</span>
+            </div>
+            <div class="tama-xp-bg">
+              <div id="tamaXpBar" class="tama-xp-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Pantalla LCD del juego -->
+          <div id="tamaPantalla" class="tama-pantalla">
+            <div class="tama-hud-top">
+              <span id="tamaEstadoChip">FELIZ</span>
+              <span id="tamaRachaChip">🔥 Racha: 0</span>
+            </div>
+
+            <div id="tamaEfectoFlotante" class="tama-efecto"></div>
+            <div id="tamaSprite" class="tama-sprite" onclick="acariciarPerrito()" title="Toca para acariciar">🐶</div>
+            <div id="tamaFrase" class="tama-frase">"¡Guau! Tócame para apapacharme o dame algo rico."</div>
+          </div>
+
+          <!-- 4 Barras de cuidado -->
+          <div class="tama-stats">
+            <div class="tama-grid-stats">
+              <div>
+                <div class="tama-stat-row">
+                  <span>🍖 Hambre</span>
+                  <span id="tamaHambreVal">80%</span>
+                </div>
+                <div class="tama-barra-bg">
+                  <div id="tamaHambreBar" class="tama-barra-fill" style="width: 80%;"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="tama-stat-row">
+                  <span>⚡ Energía</span>
+                  <span id="tamaEnergiaVal">75%</span>
+                </div>
+                <div class="tama-barra-bg">
+                  <div id="tamaEnergiaBar" class="tama-barra-fill" style="width: 75%;"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="tama-stat-row">
+                  <span>💛 Ánimo</span>
+                  <span id="tamaAnimoVal">80%</span>
+                </div>
+                <div class="tama-barra-bg">
+                  <div id="tamaAnimoBar" class="tama-barra-fill" style="width: 80%;"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="tama-stat-row">
+                  <span>🛁 Limpieza</span>
+                  <span id="tamaLimpiezaVal">85%</span>
+                </div>
+                <div class="tama-barra-bg">
+                  <div id="tamaLimpiezaBar" class="tama-barra-fill" style="width: 85%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Menú 1: Alimentos & Premios -->
+          <div class="tama-seccion-lbl">🍽️ Alimentar y Premiar</div>
+          <div class="tama-controles-3">
+            <button type="button" class="tama-btn" onclick="alimentarPerrito('croqueta', '🦴', 0)">🦴 Croqueta<br><small>Gratis</small></button>
+            <button type="button" class="tama-btn" onclick="alimentarPerrito('cafe', '☕', 2)">☕ Café<br><small>🪙 2</small></button>
+            <button type="button" class="tama-btn" onclick="alimentarPerrito('premio', '🥩', 5)">🥩 Filete<br><small>🪙 5</small></button>
+          </div>
+
+          <!-- Menú 2: Cuidados y Juego -->
+          <div class="tama-seccion-lbl">🎮 Cuidados y Recompensas</div>
+          <div class="tama-controles-2">
+            <button type="button" class="tama-btn tama-btn-care" onclick="acariciarPerrito()">💛 Acariciar</button>
+            <button type="button" class="tama-btn tama-btn-care" onclick="banarPerrito()">🛁 Bañar</button>
+            <button type="button" class="tama-btn tama-btn-sleep" onclick="dormirPerrito()">💤 Siesta</button>
+            <button type="button" class="tama-btn tama-btn-play" onclick="jugarRetoPerrito()">🎲 Reto (+🪙)</button>
+          </div>
         </div>
       </div>
     </div>
@@ -2706,6 +3066,293 @@ function toggleTiroBlanco() {
     flecha.textContent = estaOculto ? "▾" : "▸";
   }
 }
+
+const TAMA_STORAGE_KEY = "perrito2_tamagotchi_v2";
+
+let tamaData = {
+  hambre: 80,
+  energia: 75,
+  animo: 80,
+  limpieza: 85,
+  monedas: 15,
+  xp: 0,
+  nivel: 1,
+  racha: 0,
+  noche: false,
+  abierto: false,
+  frase: "¡Guau! Tócame para apapacharme o dame algo rico."
+};
+
+function clampTama(val) {
+  return Math.max(0, Math.min(100, Math.round(val)));
+}
+
+function guardarTama() {
+  try {
+    localStorage.setItem(TAMA_STORAGE_KEY, JSON.stringify(tamaData));
+  } catch (e) {}
+}
+
+function aplicarEstadoDesplegableTama() {
+  const cont = document.getElementById("contenidoTamagotchiPerrito");
+  const flecha = document.getElementById("flechaTamagotchiPerrito");
+  const header = document.querySelector(".tama-acordeon-header");
+  if (!cont) return;
+
+  cont.style.display = tamaData.abierto ? "block" : "none";
+  if (flecha) flecha.textContent = tamaData.abierto ? "▾" : "▸";
+  if (header) header.setAttribute("aria-expanded", tamaData.abierto ? "true" : "false");
+}
+
+function toggleTamagotchiPerrito() {
+  tamaData.abierto = !tamaData.abierto;
+  aplicarEstadoDesplegableTama();
+  guardarTama();
+  if (tamaData.abierto) renderizarTama();
+}
+
+function cargarTama() {
+  try {
+    const raw = localStorage.getItem(TAMA_STORAGE_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      tamaData.hambre = clampTama(p.hambre ?? 80);
+      tamaData.energia = clampTama(p.energia ?? 75);
+      tamaData.animo = clampTama(p.animo ?? 80);
+      tamaData.limpieza = clampTama(p.limpieza ?? 85);
+      tamaData.monedas = Math.max(0, Number(p.monedas ?? 15));
+      tamaData.xp = Math.max(0, Number(p.xp ?? 0));
+      tamaData.nivel = Math.max(1, Number(p.nivel ?? 1));
+      tamaData.racha = Math.max(0, Number(p.racha ?? 0));
+      tamaData.noche = Boolean(p.noche);
+      tamaData.abierto = Boolean(p.abierto);
+      if (p.frase) tamaData.frase = String(p.frase);
+    }
+  } catch (e) {}
+  aplicarEstadoDesplegableTama();
+  renderizarTama();
+}
+
+function alternarPantallaOscuraTama() {
+  tamaData.noche = !tamaData.noche;
+  guardarTama();
+  renderizarTama();
+}
+
+function ganarRecompensaTama(xpGanada, monedasGanadas) {
+  tamaData.xp += xpGanada;
+  tamaData.monedas += monedasGanadas;
+  tamaData.racha += 1;
+
+  const xpMeta = tamaData.nivel * 100;
+  while (tamaData.xp >= xpMeta) {
+    tamaData.xp -= xpMeta;
+    tamaData.nivel += 1;
+    tamaData.monedas += 5;
+    tamaData.frase = `🎉 ¡Subió a Nivel ${tamaData.nivel}! +5 🪙 de bonus.`;
+  }
+}
+
+function animarTama(emoji) {
+  const ef = document.getElementById("tamaEfectoFlotante");
+  const sp = document.getElementById("tamaSprite");
+
+  if (ef) {
+    ef.textContent = emoji;
+    ef.classList.add("visible");
+    setTimeout(() => ef.classList.remove("visible"), 950);
+  }
+  if (sp) {
+    sp.classList.remove("accion");
+    void sp.offsetWidth;
+    sp.classList.add("accion");
+  }
+}
+
+function colorBarraTama(valor, baseColor) {
+  if (valor < 25) return "#EF4444";
+  if (valor < 55) return "#F59E0B";
+  return baseColor;
+}
+
+function obtenerTituloNivel(nivel) {
+  if (nivel >= 10) return "JEFE DE PISO";
+  if (nivel >= 6) return "GUARDIA PRO";
+  if (nivel >= 3) return "R1 PERRUNO";
+  return "CACHORRO";
+}
+
+function renderizarTama() {
+  const pantalla = document.getElementById("tamaPantalla");
+  const sprite = document.getElementById("tamaSprite");
+  const fraseEl = document.getElementById("tamaFrase");
+  const estadoChip = document.getElementById("tamaEstadoChip");
+  const rachaChip = document.getElementById("tamaRachaChip");
+  const nivelBadge = document.getElementById("tamaNivelBadge");
+  const monedasBadge = document.getElementById("tamaMonedasBadge");
+  const xpTexto = document.getElementById("tamaXpTexto");
+  const xpBar = document.getElementById("tamaXpBar");
+
+  tamaData.hambre = clampTama(tamaData.hambre);
+  tamaData.energia = clampTama(tamaData.energia);
+  tamaData.animo = clampTama(tamaData.animo);
+  tamaData.limpieza = clampTama(tamaData.limpieza);
+
+  const stats = [
+    ["Hambre", tamaData.hambre, "#10B981"],
+    ["Energia", tamaData.energia, "#0284C7"],
+    ["Animo", tamaData.animo, "#EAB308"],
+    ["Limpieza", tamaData.limpieza, "#06B6D4"]
+  ];
+
+  stats.forEach(([clave, val, color]) => {
+    const elVal = document.getElementById(`tama${clave}Val`);
+    const elBar = document.getElementById(`tama${clave}Bar`);
+    if (elVal) elVal.textContent = `${val}%`;
+    if (elBar) {
+      elBar.style.width = `${val}%`;
+      elBar.style.backgroundColor = colorBarraTama(val, color);
+    }
+  });
+
+  if (pantalla) {
+    pantalla.classList.toggle("modo-noche", tamaData.noche);
+  }
+
+  const xpMeta = tamaData.nivel * 100;
+  const pctXp = Math.min(100, Math.round((tamaData.xp / xpMeta) * 100));
+  if (nivelBadge) nivelBadge.textContent = `LVL ${tamaData.nivel} · ${obtenerTituloNivel(tamaData.nivel)}`;
+  if (monedasBadge) monedasBadge.textContent = `🪙 ${tamaData.monedas}`;
+  if (xpTexto) xpTexto.textContent = `${tamaData.xp} / ${xpMeta}`;
+  if (xpBar) xpBar.style.width = `${pctXp}%`;
+  if (rachaChip) rachaChip.textContent = `🔥 Racha: ${tamaData.racha}`;
+  if (fraseEl) fraseEl.textContent = `"${tamaData.frase}"`;
+
+  if (sprite) {
+    if (tamaData.energia <= 20) {
+      sprite.textContent = "🥱";
+      if (estadoChip) estadoChip.textContent = "SUEÑO";
+    } else if (tamaData.limpieza <= 25) {
+      sprite.textContent = "🐕";
+      if (estadoChip) estadoChip.textContent = "SUCIO";
+    } else if (tamaData.hambre <= 25) {
+      sprite.textContent = "🐶";
+      if (estadoChip) estadoChip.textContent = "HAMBRE";
+    } else if (tamaData.animo >= 80 && tamaData.hambre >= 70) {
+      sprite.textContent = "🐕";
+      if (estadoChip) estadoChip.textContent = "A TOPE";
+    } else {
+      sprite.textContent = "🐶";
+      if (estadoChip) estadoChip.textContent = "GUARDIA";
+    }
+  }
+}
+
+function alimentarPerrito(tipo, emoji, costo) {
+  if (tamaData.monedas < costo) {
+    animarTama("🪙");
+    tamaData.frase = `¡Ups! Faltan monedas para eso (tienes 🪙 ${tamaData.monedas}).`;
+    renderizarTama();
+    return;
+  }
+
+  tamaData.monedas -= costo;
+  animarTama(emoji);
+
+  if (tipo === "croqueta") {
+    tamaData.hambre += 18;
+    tamaData.animo += 6;
+    tamaData.limpieza -= 4;
+    tamaData.frase = "¡Croqueta crujiente! Barriguita más contenta.";
+    ganarRecompensaTama(15, 1);
+  } else if (tipo === "cafe") {
+    tamaData.energia += 22;
+    tamaData.animo += 10;
+    tamaData.hambre -= 4;
+    tamaData.frase = "¡Cafecito de guardia! Modo despierto activado.";
+    ganarRecompensaTama(20, 1);
+  } else if (tipo === "premio") {
+    tamaData.hambre += 32;
+    tamaData.energia += 15;
+    tamaData.animo += 22;
+    tamaData.limpieza -= 6;
+    tamaData.frase = "¡Filetazo de lujo! Qué consentido me tienes.";
+    ganarRecompensaTama(35, 2);
+  }
+
+  guardarTama();
+  renderizarTama();
+}
+
+function acariciarPerrito() {
+  animarTama("💛");
+  tamaData.animo += 16;
+  tamaData.energia += 4;
+  tamaData.frase = "¡Guau! Me encanta que me rasquen atrás de la oreja.";
+  ganarRecompensaTama(12, 1);
+  guardarTama();
+  renderizarTama();
+}
+
+function banarPerrito() {
+  animarTama("🫧");
+  tamaData.limpieza = 100;
+  tamaData.animo += 10;
+  tamaData.energia -= 5;
+  tamaData.frase = "¡Burbujitas! Ya quedé limpiecito para el pase.";
+  ganarRecompensaTama(18, 2);
+  guardarTama();
+  renderizarTama();
+}
+
+function dormirPerrito() {
+  animarTama("💤");
+  tamaData.energia += 28;
+  tamaData.hambre -= 8;
+  tamaData.animo += 5;
+  tamaData.frase = "Zzz... tomando mi siesta táctica de guardia.";
+  ganarRecompensaTama(15, 1);
+  guardarTama();
+  renderizarTama();
+}
+
+function jugarRetoPerrito() {
+  if (tamaData.energia < 15) {
+    animarTama("🥱");
+    tamaData.frase = "Estoy muy cansado para jugar. ¡Dame una siesta o café!";
+    renderizarTama();
+    return;
+  }
+
+  const premios = [
+    { texto: "¡Atrapamos la pelota! Ganaste 🪙 4 y +25 XP.", monedas: 4, xp: 25, emo: "🎾" },
+    { texto: "¡Ronda ganadora en la guardia! Ganaste 🪙 6 y +30 XP.", monedas: 6, xp: 30, emo: "🏆" },
+    { texto: "¡Casi lo logramos! Ganaste 🪙 2 y +15 XP.", monedas: 2, xp: 15, emo: "🐾" }
+  ];
+  const pick = premios[Math.floor(Math.random() * premios.length)];
+
+  tamaData.energia -= 15;
+  tamaData.hambre -= 10;
+  tamaData.limpieza -= 8;
+  tamaData.animo += 20;
+  tamaData.frase = pick.texto;
+  animarTama(pick.emo);
+  ganarRecompensaTama(pick.xp, pick.monedas);
+
+  guardarTama();
+  renderizarTama();
+}
+
+setInterval(() => {
+  tamaData.hambre = clampTama(tamaData.hambre - 1);
+  tamaData.energia = clampTama(tamaData.energia - 1);
+  tamaData.animo = clampTama(tamaData.animo - 1);
+  tamaData.limpieza = clampTama(tamaData.limpieza - 1);
+  guardarTama();
+  renderizarTama();
+}, 60000);
+
+document.addEventListener("DOMContentLoaded", cargarTama);
   
 </script>
 </body>
