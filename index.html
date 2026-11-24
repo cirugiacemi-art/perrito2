@@ -1005,6 +1005,40 @@
   }
 }
 
+.cd-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid rgba(180, 83, 9, 0.35);
+  background: rgba(255, 255, 255, 0.72);
+  color: #78350F;
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.cd-chip-btn.activa {
+  background: #78350F;
+  color: #FEF3C7;
+  border-color: #78350F;
+}
+
+.cd-chip-del {
+  font-weight: 900;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0 2px;
+  opacity: 0.8;
+}
+
+.cd-chip-del:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+    
 /* Mini-juego animado Tiro al Blanco (Guardia) */
 .tiro-carcasa {
   background: linear-gradient(165deg, #DBEAFE 0%, #BFDBFE 55%, #93C5FD 100%);
@@ -1768,13 +1802,36 @@ div[class*="postit-green"] {
 
         <div class="calendar" id="calendarGrid"></div>
       </div>
+
     
-     <!-- CUENTA REGRESIVA 2027 EN CUADRO AMARILLO BRILLANTE -->
+<!-- CUENTA REGRESIVA EN CUADRO AMARILLO BRILLANTE (MULTI-FECHA COMPARTIDA) -->
         <div class="card regresiva-dorada-card" style="text-align: center;">
-          <div class="card-title regresiva-dorada-titulo">
-            <span>⏳ Cuenta Regresiva 2027</span>
+          <div class="card-title regresiva-dorada-titulo" style="justify-content: space-between; gap: 6px;">
+            <span id="cdTituloActivo">⏳ Cuenta Regresiva 2027</span>
+            <button type="button" onclick="toggleFormCuentaRegresiva()" style="margin: 0; padding: 3px 8px; font-size: 0.68rem; border-radius: 7px; background: rgba(120, 53, 15, 0.16); color: #78350F; border: 1px solid rgba(120, 53, 15, 0.35);">
+              + Fecha
+            </button>
           </div>
-          <p class="regresiva-dorada-sub">Tiempo restante para el 1 de Enero de 2027:</p>
+
+          <!-- Lista / selector de cuentas regresivas compartidas -->
+          <div id="cdListaFechas" style="display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-bottom: 8px; position: relative; z-index: 1;"></div>
+
+          <!-- Formulario para agregar una nueva cuenta regresiva -->
+          <div id="cdFormAgregar" style="display: none; background: rgba(255, 255, 255, 0.78); border: 1px solid rgba(180, 83, 9, 0.3); border-radius: 10px; padding: 8px; margin-bottom: 10px; position: relative; z-index: 1; text-align: left;">
+            <label style="display: block; font-size: 0.7rem; font-weight: 700; color: #78350F; margin-bottom: 2px;">Nombre del evento / meta:</label>
+            <input type="text" id="cdNuevoNombre" placeholder="Ej. Fin Rotación MIP 2027" style="width: 100%; box-sizing: border-box; padding: 5px 7px; font-size: 0.75rem; border-radius: 6px; border: 1px solid #D97706; margin-bottom: 6px;">
+
+            <label style="display: block; font-size: 0.7rem; font-weight: 700; color: #78350F; margin-bottom: 2px;">Fecha y hora objetivo:</label>
+            <input type="datetime-local" id="cdNuevaFecha" style="width: 100%; box-sizing: border-box; padding: 5px 7px; font-size: 0.75rem; border-radius: 6px; border: 1px solid #D97706; margin-bottom: 7px;">
+
+            <div style="display: flex; gap: 6px;">
+              <button type="button" onclick="agregarCuentaRegresiva()" style="flex: 1; margin: 0; padding: 5px 8px; font-size: 0.72rem; border-radius: 7px; background: #B45309; color: #FFF;">Guardar Fecha</button>
+              <button type="button" onclick="toggleFormCuentaRegresiva()" style="margin: 0; padding: 5px 8px; font-size: 0.72rem; border-radius: 7px; background: #E5E7EB; color: #374151;">Cancelar</button>
+            </div>
+          </div>
+
+          <p id="cdSubtitulo" class="regresiva-dorada-sub">Tiempo restante para el 1 de Enero de 2027:</p>
+
           <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px;">
             <div class="regresiva-caja-num">
               <strong id="cdDays" class="regresiva-num-valor">00</strong>
@@ -1793,8 +1850,10 @@ div[class*="postit-green"] {
               <span class="regresiva-num-lbl">Seg</span>
             </div>
           </div>
+
           <small class="regresiva-dorada-pie">¡A darle con todo al internado! 🩺🐶</small>
         </div>
+
 
 <!-- Tarjeta Homenaje TYO en azul brillante -->
 <div class="card reconocimiento-azul-card" style="margin-top: 15px; padding: 18px; border-radius: 12px; text-align: center;">
@@ -1808,6 +1867,7 @@ div[class*="postit-green"] {
 
     
    </div> 
+
 
   
 <!-- COLUMNA 3: Laboratorios y Post-its -->
@@ -2104,7 +2164,7 @@ div[class*="postit-green"] {
   
 <script>
 // Enlace directo a tu API de Google Sheets
-  const API_URL = "https://script.google.com/macros/s/AKfycbzhNd6r5c9YBHr4p67kWv9FC9DpHyCMGKfKoMrbcFzmLB2dzA-KYoXFCXvlBKGoar3jnw/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbwNDjGC8UAqVgSUS3np-rwLDwDwrldp8nPSgMUOmq_TacHxdMgcX8HXH3xSsJtNyT666A/exec";
 
   const cuentasIniciales = [];
 
@@ -4112,6 +4172,186 @@ function limpiarBusquedaConsultorios() {
   filtrarConsultorios();
   input.focus();
 }
+
+const CD_STORAGE_KEY = "perrito2_cuentas_regresivas_v1";
+const CD_POR_DEFECTO = [
+  {
+    id: "defecto-2027",
+    titulo: "⏳ Cuenta Regresiva 2027",
+    subtitulo: "Tiempo restante para el 1 de Enero de 2027:",
+    fechaIso: "2027-01-01T00:00:00",
+    protegida: false
+  }
+];
+
+let cuentasRegresivas = [];
+let cuentaActivaId = "defecto-2027";
+
+function cargarCuentasRegresivasLocal() {
+  try {
+    const raw = localStorage.getItem(CD_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        cuentasRegresivas = parsed;
+        cuentaActivaId = cuentasRegresivas[0].id;
+        return;
+      }
+    }
+  } catch (e) {}
+  cuentasRegresivas = [...CD_POR_DEFECTO];
+  cuentaActivaId = cuentasRegresivas[0].id;
+}
+
+function guardarCuentasRegresivasLocal() {
+  try {
+    localStorage.setItem(CD_STORAGE_KEY, JSON.stringify(cuentasRegresivas));
+  } catch (e) {}
+}
+
+// Sincronización con la nube si existe una URL/función global de nube en tu app
+async function sincronizarCuentasNube() {
+  guardarCuentasRegresivasLocal();
+  if (typeof window.guardarCuentasRegresivasEnNube === "function") {
+    try {
+      await window.guardarCuentasRegresivasEnNube(cuentasRegresivas);
+    } catch (e) {}
+  }
+}
+
+// Llamar esta función al cargar datos desde tu nube si tu script recibe el payload
+window.aplicarCuentasRegresivasDesdeNube = function (listaNube) {
+  if (Array.isArray(listaNube) && listaNube.length > 0) {
+    cuentasRegresivas = listaNube;
+    if (!cuentasRegresivas.some((c) => c.id === cuentaActivaId)) {
+      cuentaActivaId = cuentasRegresivas[0].id;
+    }
+    guardarCuentasRegresivasLocal();
+    renderChipsCuentasRegresivas();
+    tickCuentaRegresivaActiva();
+  }
+};
+
+function toggleFormCuentaRegresiva() {
+  const form = document.getElementById("cdFormAgregar");
+  if (!form) return;
+  const visible = form.style.display === "block";
+  form.style.display = visible ? "none" : "block";
+  if (!visible) {
+    const inputFecha = document.getElementById("cdNuevaFecha");
+    if (inputFecha && !inputFecha.value) {
+      inputFecha.value = "2027-06-30T23:59";
+    }
+  }
+}
+
+function agregarCuentaRegresiva() {
+  const nombreInput = document.getElementById("cdNuevoNombre");
+  const fechaInput = document.getElementById("cdNuevaFecha");
+  if (!fechaInput || !fechaInput.value) return;
+
+  const nombreLimpio = (nombreInput && nombreInput.value.trim()) || "🎯 Meta MIP";
+  const nueva = {
+    id: "cd-" + Date.now() + "-" + Math.random().toString(36).slice(2, 6),
+    titulo: nombreLimpio.startsWith("⏳") || nombreLimpio.startsWith("🎯") ? nombreLimpio : `⏳ ${nombreLimpio}`,
+    subtitulo: `Tiempo restante para: ${fechaInput.value.replace("T", " ")}`,
+    fechaIso: fechaInput.value,
+    protegida: false
+  };
+
+  cuentasRegresivas.push(nueva);
+  cuentaActivaId = nueva.id;
+  if (nombreInput) nombreInput.value = "";
+  toggleFormCuentaRegresiva();
+  renderChipsCuentasRegresivas();
+  tickCuentaRegresivaActiva();
+  sincronizarCuentasNube();
+}
+
+function eliminarCuentaRegresiva(id, event) {
+  if (event) event.stopPropagation();
+  if (cuentasRegresivas.length <= 1) {
+    // Si borran la última, restauramos la base 2027 para que nunca quede vacío
+    cuentasRegresivas = [...CD_POR_DEFECTO];
+    cuentaActivaId = cuentasRegresivas[0].id;
+  } else {
+    cuentasRegresivas = cuentasRegresivas.filter((c) => c.id !== id);
+    if (cuentaActivaId === id) {
+      cuentaActivaId = cuentasRegresivas[0].id;
+    }
+  }
+  renderChipsCuentasRegresivas();
+  tickCuentaRegresivaActiva();
+  sincronizarCuentasNube();
+}
+
+function seleccionarCuentaRegresiva(id) {
+  cuentaActivaId = id;
+  renderChipsCuentasRegresivas();
+  tickCuentaRegresivaActiva();
+}
+
+function renderChipsCuentasRegresivas() {
+  const cont = document.getElementById("cdListaFechas");
+  if (!cont) return;
+  cont.innerHTML = "";
+
+  cuentasRegresivas.forEach((item) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "cd-chip-btn" + (item.id === cuentaActivaId ? " activa" : "");
+    btn.onclick = () => seleccionarCuentaRegresiva(item.id);
+
+    const spanTitulo = document.createElement("span");
+    spanTitulo.textContent = item.titulo;
+    btn.appendChild(spanTitulo);
+
+    const spanDel = document.createElement("span");
+    spanDel.className = "cd-chip-del";
+    spanDel.title = "Eliminar fecha";
+    spanDel.textContent = "×";
+    spanDel.onclick = (ev) => eliminarCuentaRegresiva(item.id, ev);
+    btn.appendChild(spanDel);
+
+    cont.appendChild(btn);
+  });
+}
+
+function tickCuentaRegresivaActiva() {
+  const activa = cuentasRegresivas.find((c) => c.id === cuentaActivaId) || cuentasRegresivas[0];
+  if (!activa) return;
+
+  const tituloEl = document.getElementById("cdTituloActivo");
+  const subEl = document.getElementById("cdSubtitulo");
+  if (tituloEl) tituloEl.textContent = activa.titulo;
+  if (subEl) subEl.textContent = activa.subtitulo;
+
+  const objetivo = new Date(activa.fechaIso).getTime();
+  const ahora = Date.now();
+  const diff = Math.max(0, objetivo - ahora);
+
+  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const mins = Math.floor((diff / (1000 * 60)) % 60);
+  const segs = Math.floor((diff / 1000) % 60);
+
+  const dEl = document.getElementById("cdDays");
+  const hEl = document.getElementById("cdHours");
+  const mEl = document.getElementById("cdMinutes");
+  const sEl = document.getElementById("cdSeconds");
+
+  if (dEl) dEl.textContent = String(dias).padStart(2, "0");
+  if (hEl) hEl.textContent = String(hrs).padStart(2, "0");
+  if (mEl) mEl.textContent = String(mins).padStart(2, "0");
+  if (sEl) sEl.textContent = String(segs).padStart(2, "0");
+}
+
+(function iniciarModuloCuentaRegresiva() {
+  cargarCuentasRegresivasLocal();
+  renderChipsCuentasRegresivas();
+  tickCuentaRegresivaActiva();
+  setInterval(tickCuentaRegresivaActiva, 1000);
+})();
   
 </script>
 </body>
