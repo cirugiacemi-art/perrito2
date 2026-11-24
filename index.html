@@ -1170,6 +1170,118 @@
   background: linear-gradient(90deg, #7C3AED, #6D28D9) !important;
   box-shadow: 0 3px 8px rgba(109, 40, 217, 0.3);
 }
+
+/* Tablero y Post-its mejorados visualmente */
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 12px;
+  background-color: rgba(255, 251, 235, 0.7);
+  background-image: radial-gradient(rgba(146, 64, 14, 0.14) 1px, transparent 1px);
+  background-size: 14px 14px;
+  border: 1px dashed rgba(180, 83, 9, 0.28);
+}
+
+.postit {
+  position: relative;
+  border-radius: 10px;
+  padding: 18px 10px 10px 10px;
+  background-color: #FEF08A !important;
+  border: 1px solid #FACC15 !important;
+  color: #713F12 !important;
+  box-shadow: 0 5px 12px rgba(15, 23, 42, 0.12), inset 0 -10px 16px rgba(0, 0, 0, 0.03) !important;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+/* Cinta adhesiva superior decorativa */
+.postit::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1.5deg);
+  width: 38px;
+  height: 10px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(120, 53, 15, 0.14);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+
+.postit:nth-child(odd) {
+  transform: rotate(-1deg);
+}
+
+.postit:nth-child(even) {
+  transform: rotate(1deg);
+}
+
+.postit:hover {
+  transform: translateY(-3px) rotate(0deg) scale(1.02);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.18) !important;
+  z-index: 2;
+}
+
+.postit textarea {
+  width: 100%;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  height: 76px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: inherit !important;
+  resize: none;
+  padding: 0;
+  margin: 0;
+}
+
+.postit-del {
+  position: absolute;
+  top: 4px;
+  right: 7px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 0.95rem;
+  line-height: 1;
+  opacity: 0.65;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.postit-del:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+/* Colores de notas conservados y reforzados */
+.postit.blue,
+.post-it.blue,
+div[class*="postit-blue"] {
+  background-color: #BAE6FD !important;
+  border-color: #38BDF8 !important;
+  color: #0C4A6E !important;
+}
+
+.postit.pink,
+.post-it.pink,
+div[class*="postit-pink"] {
+  background-color: #FBCFE8 !important;
+  border-color: #F472B6 !important;
+  color: #831843 !important;
+}
+
+.postit.green,
+.post-it.green,
+div[class*="postit-green"] {
+  background-color: #A7F3D0 !important;
+  border-color: #34D399 !important;
+  color: #065F46 !important;
+}
     
   </style>
   
