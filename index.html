@@ -1649,14 +1649,17 @@ div[class*="postit-green"] {
             <div class="user-list" id="userList"></div>
           </div>
 
-           <div class="card">
+          <div class="card">
             <div class="card-title" onclick="toggleAgregarCuenta()" style="cursor: pointer; user-select: none;">
               <span>➕ Agregar / Editar Cuenta <small id="flechaAgregarCuenta" style="font-size: 0.85rem; margin-left: 6px;">▸</small></span>
             </div>
             <div id="contenidoAgregarCuenta" style="display: none; margin-top: 8px;">
-              <label style="font-size: 0.8rem;">Usuario / Servicio</label>
+              <p style="font-size: 0.72rem; color: #64748B; background: #F8FAFC; border-left: 3px solid #0284C7; padding: 5px 8px; border-radius: 6px; margin: 0 0 8px 0; line-height: 1.3;">
+                💡 Para editar contraseña, pon el mismo usuario con la nueva clave y da clic en <strong>Guardar Cuenta</strong>.
+              </p>
+              <label style="font-size:0.8rem;">Usuario / Servicio</label>
               <input type="text" id="usernameInput" placeholder="Ej. ZAMIR.SANT">
-              <label style="font-size: 0.8rem;">Contraseña / Clave</label>
+              <label style="font-size:0.8rem;">Contraseña / Clave</label>
               <input type="text" id="passwordInput" placeholder="Ej. ZSANT2026">
               <div style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
                 <label for="selectEspecialidadCuenta" style="font-size: 0.8rem; font-weight: 700;">Especialidad:</label>
