@@ -1532,7 +1532,84 @@ div[class*="postit-green"] {
   }
 }
 
+/* Calendario de guardias con mejor jerarquía y lectura rápida */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  text-align: center;
+  font-size: 0.8rem;
+  margin-top: 8px;
+}
 
+.calendar-header {
+  font-weight: 800;
+  font-size: 0.72rem;
+  color: var(--primary-dark);
+  background: #EFF6FF;
+  border-radius: 6px;
+  padding: 5px 0;
+  letter-spacing: 0.03em;
+}
+
+.calendar-day {
+  position: relative;
+  cursor: pointer;
+  padding: 6px 2px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  border: 1px solid #E2E8F0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 44px;
+  transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease, filter 0.14s ease;
+}
+
+.calendar-day small {
+  font-size: 0.64rem !important;
+  font-weight: 800 !important;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #F1F5F9;
+  color: #334155;
+  line-height: 1.2;
+}
+
+.calendar-day:hover {
+  transform: translateY(-2px) scale(1.04);
+  border-color: var(--primary);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.14);
+  z-index: 2;
+}
+
+.calendar-day.today {
+  background: linear-gradient(160deg, var(--primary), var(--primary-dark)) !important;
+  color: #FFFFFF !important;
+  border-color: var(--primary-dark) !important;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.32);
+}
+
+.calendar-day.today small {
+  background: rgba(255, 255, 255, 0.24);
+  color: #FFFFFF;
+}
+
+.calendar-day.festivo {
+  background: linear-gradient(160deg, #10B981, #059669) !important;
+  color: #FFFFFF !important;
+  border-color: #047857 !important;
+  font-weight: 800;
+  box-shadow: 0 3px 10px rgba(16, 185, 129, 0.25);
+}
+
+.calendar-day.festivo small {
+  background: rgba(255, 255, 255, 0.24);
+  color: #FFFFFF;
+}
     
   </style>
   
