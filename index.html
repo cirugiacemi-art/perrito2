@@ -1756,6 +1756,172 @@ div[class*="postit-green"] {
     transform: scale(1) translateY(0);
   }
 }    
+
+/* Estilo científico / analizador de laboratorio */
+.lab-analizador-card {
+  position: relative;
+  overflow: hidden;
+  border-top: 3px solid #06B6D4;
+}
+
+.lab-analizador-titulo {
+  gap: 8px;
+}
+
+.lab-estado-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #ECFEFF;
+  color: #0E7490;
+  border: 1px solid #A5F3FC;
+  white-space: nowrap;
+}
+
+.lab-led {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+  animation: pulsoLedLab 1.8s ease-in-out infinite;
+}
+
+.lab-estado-badge.procesando .lab-led {
+  background: #06B6D4;
+  box-shadow: 0 0 10px #06B6D4;
+  animation: pulsoLedLab 0.55s ease-in-out infinite;
+}
+
+@keyframes pulsoLedLab {
+  0%, 100% {
+    transform: scale(0.92);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 1;
+  }
+}
+
+.lab-input-muestra {
+  border: 1.5px solid #BAE6FD !important;
+  background: #F0F9FF !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.78rem !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.lab-input-muestra:focus {
+  background: #FFFFFF !important;
+  border-color: #0284C7 !important;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.22) !important;
+}
+
+.lab-etiqueta-salida {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #0F766E;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.lab-output-cientifico {
+  position: relative;
+  overflow: hidden;
+  background-color: #F8FAFC !important;
+  background-image:
+    linear-gradient(to right, rgba(6, 182, 212, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(6, 182, 212, 0.08) 1px, transparent 1px) !important;
+  background-size: 14px 14px !important;
+  border: 1.5px solid #99F6E4 !important;
+  border-left: 4px solid #0D9488 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.78rem !important;
+  line-height: 1.45 !important;
+}
+
+.lab-output-cientifico.escaneo-activo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(6, 182, 212, 0.22) 50%,
+    transparent 100%
+  );
+  animation: barridoEscanerLab 0.75s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes barridoEscanerLab {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.lab-acciones-fila {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.lab-btn-accion {
+  position: relative;
+  overflow: hidden;
+  margin: 0 !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.lab-btn-copiar {
+  flex: 1;
+  background-color: #10B981 !important;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.24);
+}
+
+.lab-btn-limpiar {
+  padding: 8px 12px !important;
+  background-color: #64748B !important;
+  box-shadow: 0 2px 6px rgba(100, 116, 139, 0.22);
+}
+
+.lab-btn-accion:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.06);
+  box-shadow: 0 5px 12px rgba(15, 23, 42, 0.2);
+}
+
+.lab-btn-accion:active,
+.lab-btn-accion.btn-seleccionado {
+  animation: reboteSeleccionBoton 0.34s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.28), 0 4px 10px rgba(15, 23, 42, 0.2);
+}
+
+@keyframes reboteLabBtn {
+  0% {
+    transform: scale(0.93);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
     
   </style>
   
@@ -2095,16 +2261,34 @@ div[class*="postit-green"] {
   
 <!-- COLUMNA 3: Laboratorios y Post-its -->
   <div class="column">
-    <div class="card">
-      <div class="card-title"><span>🧪 Procesador de Laboratorios</span></div>
-      
-<textarea id="labInput" placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..." onfocus="this.value='';" oninput="procesarLaboratorios()"></textarea>
-      <label style="font-size:0.8rem; font-weight:600;">Resultado:</label>
-      <div class="lab-result" id="labOutput">Esperando datos...</div>
-      
-      <div style="display: flex; gap: 8px; margin-top: 10px;">
-        <button type="button" onclick="copiarResultado()" style="flex: 1; margin: 0; background-color: #10B981;">Copiar Formato</button>
-        <button type="button" onclick="limpiarResultadoLaboratorios()" style="margin: 0; padding: 8px 12px; background-color: #64748B;">Limpiar</button>
+    
+   <div class="card lab-analizador-card">
+      <div class="card-title lab-analizador-titulo">
+        <span>🧪 Procesador de Laboratorios</span>
+        <span id="labEstadoBadge" class="lab-estado-badge">
+          <span class="lab-led"></span>
+          <span id="labEstadoTexto">READY</span>
+        </span>
+      </div>
+
+      <textarea
+        id="labInput"
+        class="lab-input-muestra"
+        placeholder="Ejemplo: Hemoglobina 10.8 Leucocitos..."
+        onfocus="this.value='';"
+        oninput="procesarLaboratorios(); actualizarEstadoLab();"
+      ></textarea>
+
+      <label class="lab-etiqueta-salida">Resultado:</label>
+      <div class="lab-result lab-output-cientifico" id="labOutput">Esperando datos...</div>
+
+<div class="lab-acciones-fila">
+        <button type="button" id="btnCopiarLab" class="lab-btn-accion lab-btn-copiar" onclick="animarYEjecutar(this, () => copiarResultadoConCheck(this))">
+          Copiar Formato
+        </button>
+        <button type="button" class="lab-btn-accion lab-btn-limpiar" onclick="animarYEjecutar(this, () => { limpiarResultadoLaboratorios(); actualizarEstadoLab(); })">
+          Limpiar
+        </button>
       </div>
     </div>
 
@@ -4649,6 +4833,53 @@ function actualizarContadorConversor() {
   if (!txt || !badge) return;
   const len = txt.value.length;
   badge.textContent = `${len} car.`;
+}
+
+function animarBtnLab(btn, accion) {
+  if (btn) {
+    btn.classList.remove("lab-btn-pulsado");
+    void btn.offsetWidth;
+    btn.classList.add("lab-btn-pulsado");
+    setTimeout(() => btn.classList.remove("lab-btn-pulsado"), 340);
+  }
+  if (typeof accion === "function") {
+    accion();
+  }
+}
+
+function actualizarEstadoLab() {
+  const input = document.getElementById("labInput");
+  const output = document.getElementById("labOutput");
+  const badge = document.getElementById("labEstadoBadge");
+  const texto = document.getElementById("labEstadoTexto");
+  const tieneTexto = input && input.value.trim().length > 0;
+
+  if (badge) {
+    badge.classList.toggle("procesando", Boolean(tieneTexto));
+  }
+  if (texto) {
+    texto.textContent = tieneTexto ? "ANALYZING" : "READY";
+  }
+  if (output && tieneTexto) {
+    output.classList.remove("escaneo-activo");
+    void output.offsetWidth;
+    output.classList.add("escaneo-activo");
+    setTimeout(() => output.classList.remove("escaneo-activo"), 780);
+  }
+}
+
+function copiarResultadoConCheck(btn) {
+  if (typeof copiarResultado === "function") {
+    copiarResultado(btn);
+  }
+  if (!btn) return;
+  const original = btn.dataset.labOrig || btn.textContent;
+  btn.dataset.labOrig = original;
+  btn.textContent = "✓ Copiado";
+  clearTimeout(btn._labTimer);
+  btn._labTimer = setTimeout(() => {
+    btn.textContent = original;
+  }, 1200);
 }
   
 </script>
