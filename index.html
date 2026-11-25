@@ -1926,99 +1926,130 @@ div[class*="postit-green"] {
   background: var(--primary-dark, #1E3A8A);
 }
 
-/* Ventana emergente lateral ocultable */
-.subtracker-panel {
+/* Pestaña lateral vertical compacta para no estorbar las tarjetas */
+.subtracker-pestana-vertical {
   position: fixed;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%) translateX(0);
-  width: 270px;
-  max-width: calc(100vw - 28px);
-  z-index: 9995;
+  right: 0;
+  top: 45%;
+  transform: translateY(-50%);
+  z-index: 9990;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 6px;
+  width: 28px;
+  border-radius: 12px 0 0 12px;
+  border: 2px solid var(--primary, #2563EB);
+  border-right: none;
   background: #0F172A;
   color: #F8FAFC;
-  border: 2.5px solid var(--primary, #38BDF8);
-  border-radius: 16px;
-  padding: 12px;
-  box-shadow: 0 16px 38px rgba(2, 6, 23, 0.55);
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
-}
-
-.subtracker-panel.oculto {
-  transform: translateY(-50%) translateX(calc(100% + 24px));
-  opacity: 0;
-  pointer-events: none;
-}
-
-.subtracker-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.subtracker-titulo {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-weight: 900;
-  font-size: 0.85rem;
-}
-
-.subtracker-tag {
-  font-size: 0.58rem;
-  color: #FACC15;
-  letter-spacing: 0.06em;
-}
-
-.subtracker-btn-cerrar {
-  margin: 0 !important;
-  padding: 4px 8px !important;
-  border-radius: 8px !important;
-  background: rgba(255, 255, 255, 0.12) !important;
-  color: #F8FAFC !important;
-  font-size: 0.75rem !important;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   cursor: pointer;
+  box-shadow: -4px 6px 16px rgba(15, 23, 42, 0.28);
+  transition: transform 0.2s ease, background-color 0.2s ease, width 0.2s ease;
 }
 
-.subtracker-pantalla {
-  background: #020617;
-  border: 1.5px solid rgba(56, 189, 248, 0.4);
-  border-radius: 12px;
-  padding: 10px;
-  margin-bottom: 10px;
+.subtracker-pestana-vertical:hover {
+  width: 32px;
+  transform: translateY(-50%) translateX(-2px);
+  background: var(--primary-dark, #1E3A8A);
 }
 
+.subtracker-pestana-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.subtracker-pestana-txt {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+/* Cuadrícula con minimapa simulado */
 .subtracker-radar-grid {
   position: relative;
-  height: 118px;
+  height: 132px;
   border-radius: 8px;
   background-color: #071324;
   background-image:
     linear-gradient(to right, rgba(56, 189, 248, 0.14) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(56, 189, 248, 0.14) 1px, transparent 1px);
-  background-size: 16px 16px;
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.14) 1px, transparent 1px),
+    linear-gradient(to right, transparent 48%, rgba(56, 189, 248, 0.24) 48%, rgba(56, 189, 248, 0.24) 52%, transparent 52%),
+    linear-gradient(to bottom, transparent 48%, rgba(56, 189, 248, 0.24) 48%, rgba(56, 189, 248, 0.24) 52%, transparent 52%);
+  background-size: 16px 16px, 16px 16px, 100% 100%, 100% 100%;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-bottom: 8px;
+}
+
+/* Bloques esquemáticos del minimapa ficticio */
+.subtracker-bloque {
+  position: absolute;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.54rem;
+  font-weight: 800;
+  color: #CBD5E1;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bloque-cafe {
+  top: 8px;
+  left: 8px;
+  border-color: rgba(251, 191, 36, 0.45);
+  color: #FDE68A;
+}
+
+.bloque-dir {
+  top: 8px;
+  right: 8px;
+  border-color: rgba(56, 189, 248, 0.45);
+  color: #BAE6FD;
+}
+
+.bloque-pasillo {
+  bottom: 8px;
+  left: 8px;
+  border-color: rgba(52, 211, 153, 0.45);
+  color: #A7F3D0;
+}
+
+.bloque-archivo {
+  bottom: 8px;
+  right: 8px;
+  border-color: rgba(192, 132, 252, 0.45);
+  color: #E9D5FF;
 }
 
 .subtracker-radar-anillo {
   position: absolute;
-  width: 68px;
-  height: 68px;
+  left: 50%;
+  top: 50%;
+  width: 64px;
+  height: 64px;
+  margin-left: -32px;
+  margin-top: -32px;
   border-radius: 50%;
   border: 1px dashed rgba(250, 204, 21, 0.45);
   animation: radarPulso 2.4s ease-out infinite;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .subtracker-radar-anillo.anillo-2 {
-  width: 104px;
-  height: 104px;
+  width: 98px;
+  height: 98px;
+  margin-left: -49px;
+  margin-top: -49px;
   animation-delay: 0.9s;
 }
 
@@ -2028,63 +2059,20 @@ div[class*="postit-green"] {
     opacity: 0.9;
   }
   100% {
-    transform: scale(1.25);
+    transform: scale(1.22);
     opacity: 0;
   }
 }
 
 .subtracker-pin {
-  position: relative;
-  z-index: 2;
-  font-size: 1.25rem;
-  filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.85));
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.subtracker-hud {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.7rem;
-}
-
-.subtracker-estado-fila {
-  display: flex;
-  justify-content: space-between;
-  gap: 6px;
-}
-
-.subtracker-lbl {
-  color: #94A3B8;
-}
-
-.subtracker-controles {
-  display: flex;
-  gap: 6px;
-}
-
-.subtracker-btn-scan {
-  flex: 1;
-  margin: 0 !important;
-  padding: 8px 10px !important;
-  border-radius: 9px !important;
-  background: var(--primary, #2563EB) !important;
-  color: #FFFFFF !important;
-  font-weight: 800 !important;
-  font-size: 0.74rem !important;
-  cursor: pointer;
-}
-
-.subtracker-btn-ocultar {
-  margin: 0 !important;
-  padding: 8px 9px !important;
-  border-radius: 9px !important;
-  background: #1E293B !important;
-  color: #E2E8F0 !important;
-  font-weight: 700 !important;
-  font-size: 0.68rem !important;
-  cursor: pointer;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  font-size: 1.2rem;
+  filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.9));
+  transition: left 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.22s ease;
 }
     
   </style>
@@ -2720,12 +2708,11 @@ div[class*="postit-green"] {
     
   </div>
 
-  
-<!-- Pestaña lateral para abrir/ocultar el juego Sub-Tracker -->
+<!-- Pestaña lateral vertical para abrir/ocultar Sub-Tracker -->
 <button
   type="button"
   id="subTrackerToggle"
-  class="subtracker-pestana"
+  class="subtracker-pestana-vertical"
   onclick="toggleSubTracker()"
   title="Abrir o esconder Subdirector Tracker (Juego)"
 >
@@ -2733,12 +2720,12 @@ div[class*="postit-green"] {
   <span class="subtracker-pestana-txt">SUB-TRACKER</span>
 </button>
 
-<!-- Ventana emergente lateral ocultable -->
+<!-- Ventana emergente lateral ocultable con minimapa simulado -->
 <aside id="subTrackerPanel" class="subtracker-panel oculto" aria-label="Subdirector Tracker Juego">
   <div class="subtracker-header">
     <div class="subtracker-titulo">
       <span>🕹️ SUB-TRACKER</span>
-      <span class="subtracker-tag">MODO JUEGO · NO REAL</span>
+      <span class="subtracker-tag">UBI DEL(A) SUB</span>
     </div>
     <button
       type="button"
@@ -2751,7 +2738,14 @@ div[class*="postit-green"] {
   </div>
 
   <div class="subtracker-pantalla">
-    <div class="subtracker-radar-grid">
+    <div class="subtracker-radar-grid" id="subTrackerMapa">
+      <!-- Bloques esquemáticos simulando un mapa dentro de la cuadrícula -->
+      <div class="subtracker-bloque bloque-cafe">☕ CAFÉ</div>
+      <div class="subtracker-bloque bloque-dir">📁 DIR</div>
+      <div class="subtracker-bloque bloque-pasillo">🚶 PASILLO</div>
+      <div class="subtracker-bloque bloque-archivo">🗄️ ARCHIVO</div>
+
+      <!-- Anillos de radar y pin de señal ficticia -->
       <div class="subtracker-radar-anillo"></div>
       <div class="subtracker-radar-anillo anillo-2"></div>
       <div id="subTrackerPin" class="subtracker-pin" title="Señal ficticia">📍</div>
@@ -2759,8 +2753,8 @@ div[class*="postit-green"] {
 
     <div class="subtracker-hud">
       <div class="subtracker-estado-fila">
-        <span class="subtracker-lbl">ZONA SIMULADA:</span>
-        <strong id="subTrackerZona">En busca de café...</strong>
+        <span class="subtracker-lbl">ZONA:</span>
+        <strong id="subTrackerZona">Listo para escanear</strong>
       </div>
       <div class="subtracker-estado-fila">
         <span class="subtracker-lbl">AVISTAMIENTOS:</span>
@@ -2775,14 +2769,14 @@ div[class*="postit-green"] {
       class="subtracker-btn-scan"
       onclick="animarYEjecutar(this, () => escanearSubdirector())"
     >
-      🔍 Escanear Señal
+      🔍 Escanear
     </button>
     <button
       type="button"
       class="subtracker-btn-ocultar"
       onclick="toggleSubTracker()"
     >
-      Guardar al costado
+      Ocultar
     </button>
   </div>
 </aside>
@@ -5113,25 +5107,13 @@ function copiarResultadoConCheck(btn) {
 }
 
 const ZONAS_SUBDIRECTOR_JUEGO = [
-  { texto: "☕ Cafetería (recarga urgente)", x: -45, y: -20 },
-  { texto: "📄 Firmando papeles misteriosos", x: 38, y: -15 },
-  { texto: "👻 Pasillo en modo sigilo", x: -15, y: 26 },
-  { texto: "📞 Reunión de 5 min (ya van 40)", x: 48, y: 22 },
-  { texto: "🧭 Cruzando el hospital a toda prisa", x: 0, y: -32 },
-  { texto: "🕵️ Señal perdida detrás de un archivo", x: -52, y: 14 }
+  { texto: "☕ Comiendo (DIKAJE/EL AMIGO)", left: "24%", top: "28%" },
+  { texto: "📁 Oficina de Dirección", left: "76%", top: "28%" },
+  { texto: "🚶 Urgencias", left: "26%", top: "74%" },
+  { texto: "🗄️ Archivo / papeles", left: "74%", top: "74%" },
+  { texto: "🧭 Terapias", left: "50%", top: "50%" },
+  { texto: "🕵️ Señal rebota por el ala norte", left: "52%", top: "24%" }
 ];
-
-let subTrackerAvistamientos = 0;
-
-function toggleSubTracker() {
-  const panel = document.getElementById("subTrackerPanel");
-  const toggle = document.getElementById("subTrackerToggle");
-  if (!panel) return;
-  const estaOculto = panel.classList.toggle("oculto");
-  if (toggle) {
-    toggle.style.opacity = estaOculto ? "1" : "0.35";
-  }
-}
 
 function escanearSubdirector() {
   const zonaEl = document.getElementById("subTrackerZona");
@@ -5144,9 +5126,11 @@ function escanearSubdirector() {
   if (zonaEl) zonaEl.textContent = elegido.texto;
   if (countEl) countEl.textContent = String(subTrackerAvistamientos);
   if (pinEl) {
-    pinEl.style.transform = `translate(${elegido.x}px, ${elegido.y}px) scale(1.18)`;
+    pinEl.style.left = elegido.left;
+    pinEl.style.top = elegido.top;
+    pinEl.style.transform = "translate(-50%, -50%) scale(1.25)";
     setTimeout(() => {
-      pinEl.style.transform = `translate(${elegido.x}px, ${elegido.y}px) scale(1)`;
+      pinEl.style.transform = "translate(-50%, -50%) scale(1)";
     }, 260);
   }
 }
