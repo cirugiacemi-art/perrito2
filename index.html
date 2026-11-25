@@ -2484,6 +2484,56 @@ div[class*="postit-green"] {
 .guardio-metric-pulso {
   animation: reboteSeleccionBoton 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
+/* Selector animado de Promoción / Rotación sincronizado con la paleta diaria */
+.guardio-select-wrapper {
+  position: relative;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+#tipoMip.guardio-select,
+#tipoMip {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 7px 10px !important;
+  border-radius: 10px !important;
+  border: 1.5px solid color-mix(in srgb, var(--primary, #2563EB) 40%, #CBD5E1) !important;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--primary, #2563EB) 8%, #FFFFFF),
+    #FFFFFF
+  ) !important;
+  color: var(--text, #0F172A) !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--primary, #2563EB) 14%, transparent);
+  transition:
+    transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.25s ease !important;
+}
+
+#tipoMip:hover {
+  transform: translateY(-1px) scale(1.01);
+  border-color: var(--primary, #2563EB) !important;
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--primary, #2563EB) 24%, transparent);
+}
+
+#tipoMip:focus {
+  outline: none;
+  border-color: var(--primary, #2563EB) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary, #2563EB) 24%, transparent), 0 6px 14px color-mix(in srgb, var(--primary, #2563EB) 20%, transparent);
+}
+
+#tipoMip.guardio-select-cambiado {
+  animation: reboteSeleccionBoton 0.34s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  border-color: var(--primary-dark, #1E3A8A) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary, #2563EB) 30%, transparent) !important;
+}
     
   </style>
   
@@ -2718,8 +2768,7 @@ div[class*="postit-green"] {
       </div>
       <!-- === FIN IMAGEN NEÓN === -->
 
-    
-    <div class="card guardiometro-card-animada">
+<div class="card guardiometro-card-animada">
   <div class="card-title">
     <span>📊 Guardiómetro</span>
     <button
@@ -2739,15 +2788,10 @@ div[class*="postit-green"] {
   </div>
 
   <label for="tipoMip" style="font-size:0.8rem; font-weight:700;">Seleccionar Promoción / Rotación:</label>
-  <select id="tipoMip" class="guardio-select" onchange="actualizarGuardias()">
-    <!-- Se llena dinámicamente con las rotaciones guardadas + opción Personalizado -->
-  </select>
-
-  <div id="customFechas" class="guardio-custom-box" style="display:none; margin-top:6px;">
-    <label for="fechaInicio" style="font-size:0.75rem;">Fecha Inicio:</label>
-    <input type="date" id="fechaInicio" onchange="actualizarGuardias()">
-    <label for="fechaFin" style="font-size:0.75rem;">Fecha Término:</label>
-    <input type="date" id="fechaFin" onchange="actualizarGuardias()">
+  <div class="guardio-select-wrapper">
+    <select id="tipoMip" class="guardio-select" onchange="onCambiarSeleccionRotacion(this)">
+      <!-- Se llena dinámicamente con las rotaciones configuradas -->
+    </select>
   </div>
 
   <!-- Panel desplegable para Agregar / Editar / Eliminar rotaciones -->
@@ -2835,7 +2879,7 @@ div[class*="postit-green"] {
     <div class="metric-card guardia-metric-brillante">Guardias D<strong id="restD">0</strong></div>
   </div>
 </div>
-
+    
   <div class="card">
         <div class="card-title">
           <span>📅 Calendario</span>
@@ -3686,13 +3730,6 @@ function parseFechaISO(isoStr) {
   return new Date(y, m, d);
 }
 
-function formatoISO(fecha) {
-  const y = fecha.getFullYear();
-  const m = String(fecha.getMonth() + 1).padStart(2, "0");
-  const d = String(fecha.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
-
 function cargarRotacionesLocal() {
   try {
     const raw = localStorage.getItem(STORAGE_ROTACIONES_KEY);
@@ -3719,18 +3756,6 @@ function obtenerRotacionActiva() {
   }
   if (valor === "mip1") {
     return rotacionesGuardia.find(r => r.id === "mip1-2026-2027") || ROTACIONES_GUARDIA_DEFAULT[1];
-  }
-  if (valor === "custom") {
-    const iniCustom = parseFechaISO(document.getElementById("fechaInicio")?.value) || parseFechaISO(rotacionesGuardia[0]?.fechaInicio) || new Date(2026, 0, 1);
-    const finCustom = parseFechaISO(document.getElementById("fechaFin")?.value) || new Date(2026, 11, 31);
-    return {
-      id: "custom",
-      nombre: "Personalizado",
-      fechaInicio: formatoISO(iniCustom),
-      fechaFin: formatoISO(finCustom),
-      letraInicio: rotacionesGuardia[0]?.letraInicio || "B",
-      diaSemana: iniCustom.getDay()
-    };
   }
 
   return rotacionesGuardia.find(r => r.id === valor) || rotacionesGuardia[0] || ROTACIONES_GUARDIA_DEFAULT[0];
@@ -3822,11 +3847,6 @@ function poblarSelectRotaciones() {
     select.appendChild(opt);
   });
 
-  const optCustom = document.createElement("option");
-  optCustom.value = "custom";
-  optCustom.textContent = "Personalizado";
-  select.appendChild(optCustom);
-
   if (prevVal && [...select.options].some(o => o.value === prevVal)) {
     select.value = prevVal;
   } else if (rotacionesGuardia[0]) {
@@ -3887,6 +3907,15 @@ function editarRotacionGuardia(id) {
   document.getElementById("rotDiaSemana").value = String(rot.diaSemana ?? 1);
 }
 
+function onCambiarSeleccionRotacion(selectEl) {
+  if (selectEl) {
+    selectEl.classList.remove("guardio-select-cambiado");
+    void selectEl.offsetWidth;
+    selectEl.classList.add("guardio-select-cambiado");
+  }
+  actualizarGuardias();
+}
+  
 async function guardarRotacionGuardia() {
   const idEdit = document.getElementById("rotacionEditId").value.trim();
   const nombre = document.getElementById("rotNombreInput").value.trim();
@@ -4008,51 +4037,46 @@ async function sincronizarRotacionesNube(forzarLectura = false) {
 
 function actualizarGuardias() {
   const hoy = new Date();
-  document.getElementById('fechaHoyText').innerText = hoy.toLocaleDateString('es-ES', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
+  const fechaHoyEl = document.getElementById("fechaHoyText");
+  const guardiaHoyEl = document.getElementById("guardiaHoy");
 
-  const guardiaHoy = obtenerGuardiaPorFecha(hoy);
-  document.getElementById('guardiaHoy').innerText = guardiaHoy;
-
-  const tipoMip = document.getElementById('tipoMip').value;
-  const customDiv = document.getElementById('customFechas');
-  let fechaFin;
-
-  if (tipoMip === 'custom') {
-    if (customDiv) customDiv.style.display = 'block';
-    const inputFin = document.getElementById('fechaFin')?.value;
-    fechaFin = inputFin ? parseFechaISO(inputFin) || new Date(inputFin) : new Date(2026, 11, 31);
-  } else {
-    if (customDiv) customDiv.style.display = 'none';
-    const rotActiva = obtenerRotacionActiva();
-    fechaFin = parseFechaISO(rotActiva.fechaFin) || new Date(2026, 11, 31);
+  if (fechaHoyEl) {
+    fechaHoyEl.innerText = hoy.toLocaleDateString("es-ES", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
   }
+
+  if (guardiaHoyEl) {
+    guardiaHoyEl.innerText = obtenerGuardiaPorFecha(hoy);
+  }
+
+  const rotActiva = obtenerRotacionActiva();
+  const fechaFin = parseFechaISO(rotActiva.fechaFin) || new Date(2026, 11, 31);
 
   let counts = { A: 0, B: 0, C: 0, D: 0 };
   let tempDate = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
   const finDia = new Date(fechaFin.getFullYear(), fechaFin.getMonth(), fechaFin.getDate());
 
   while (tempDate <= finDia) {
-    const letra = obtenerGuardiaPorFecha(tempDate).replace('Guardia ', '');
+    const letra = obtenerGuardiaPorFecha(tempDate).replace("Guardia ", "");
     if (counts[letra] !== undefined) {
       counts[letra]++;
     }
     tempDate.setDate(tempDate.getDate() + 1);
   }
 
-  ['A', 'B', 'C', 'D'].forEach(letra => {
+  ["A", "B", "C", "D"].forEach(letra => {
     const el = document.getElementById(`rest${letra}`);
     if (el) {
       el.innerText = counts[letra];
-      const card = el.closest('.metric-card');
+      const card = el.closest(".metric-card");
       if (card) {
-        card.classList.remove('guardio-metric-pulso');
+        card.classList.remove("guardio-metric-pulso");
         void card.offsetWidth;
-        card.classList.add('guardio-metric-pulso');
+        card.classList.add("guardio-metric-pulso");
       }
     }
   });
@@ -4067,21 +4091,28 @@ function cambiarMes(delta) {
 
 function generarCalendario() {
   ocultarTooltipFestivo();
-  const calendarGrid = document.getElementById('calendarGrid');
-  calendarGrid.innerHTML = '';
+  const calendarGrid = document.getElementById("calendarGrid");
+  if (!calendarGrid) return;
+  calendarGrid.innerHTML = "";
 
   const year = calViewDate.getFullYear();
   const month = calViewDate.getMonth();
 
-  document.getElementById('app-body').className = `theme-${month}`;
+  const bodyEl = document.getElementById("app-body");
+  if (bodyEl) {
+    bodyEl.className = `theme-${month}`;
+  }
 
   const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-  document.getElementById('calMonthYear').innerText = `${monthNames[month]} ${year}`;
+  const calTitleEl = document.getElementById("calMonthYear");
+  if (calTitleEl) {
+    calTitleEl.innerText = `${monthNames[month]} ${year}`;
+  }
 
-  const headers = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+  const headers = ["D", "L", "M", "M", "J", "V", "S"];
   headers.forEach(h => {
-    const div = document.createElement('div');
-    div.className = 'calendar-header';
+    const div = document.createElement("div");
+    div.className = "calendar-header";
     div.innerText = h;
     calendarGrid.appendChild(div);
   });
@@ -4090,7 +4121,7 @@ function generarCalendario() {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   for (let i = 0; i < firstDay; i++) {
-    const emptyCell = document.createElement('div');
+    const emptyCell = document.createElement("div");
     calendarGrid.appendChild(emptyCell);
   }
 
@@ -4098,10 +4129,10 @@ function generarCalendario() {
 
   for (let day = 1; day <= daysInMonth; day++) {
     const cellDate = new Date(year, month, day);
-    const cell = document.createElement('div');
-    cell.className = 'calendar-day';
+    const cell = document.createElement("div");
+    cell.className = "calendar-day";
 
-    const gLetter = obtenerGuardiaPorFecha(cellDate).replace('Guardia ', '');
+    const gLetter = obtenerGuardiaPorFecha(cellDate).replace("Guardia ", "");
     cell.innerHTML = `${day}<br><small style="font-size:0.65rem; opacity:0.8; font-weight:bold;">${gLetter}</small>`;
 
     const esHoy = cellDate.toDateString() === hoyReal.toDateString();
@@ -4109,17 +4140,17 @@ function generarCalendario() {
     const esFestivo = Boolean(motivoFestivo);
 
     if (esHoy) {
-      cell.classList.add('today');
+      cell.classList.add("today");
     } else if (esFestivo) {
-      cell.classList.add('festivo');
+      cell.classList.add("festivo");
     }
 
     if (esFestivo) {
       const fechaCorta = `${day} ${monthNames[month].slice(0, 3)} ${year}`;
-      cell.addEventListener('mouseenter', (e) => mostrarTooltipFestivo(e, fechaCorta, motivoFestivo));
-      cell.addEventListener('mousemove', posicionarTooltipFestivo);
-      cell.addEventListener('mouseleave', ocultarTooltipFestivo);
-      cell.addEventListener('click', (e) => mostrarTooltipFestivo(e, fechaCorta, motivoFestivo));
+      cell.addEventListener("mouseenter", (e) => mostrarTooltipFestivo(e, fechaCorta, motivoFestivo));
+      cell.addEventListener("mousemove", posicionarTooltipFestivo);
+      cell.addEventListener("mouseleave", ocultarTooltipFestivo);
+      cell.addEventListener("click", (e) => mostrarTooltipFestivo(e, fechaCorta, motivoFestivo));
     }
 
     calendarGrid.appendChild(cell);
@@ -4130,7 +4161,7 @@ document.addEventListener("DOMContentLoaded", () => {
   poblarSelectRotaciones();
   actualizarGuardias();
   sincronizarRotacionesNube(true);
-});
+});  
 
 // FIN DE GUARDIOMETRO Y CALENDARIO
   
