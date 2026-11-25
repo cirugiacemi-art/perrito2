@@ -1611,15 +1611,16 @@ div[class*="postit-green"] {
   color: #FFFFFF;
 }
 
-/* Apartado MAYUSCULAS/minusculas más animado */
+/* Apartado MAYUSCULAS/minusculas adaptado a la paleta diaria + animación */
 .conversor-texto-card {
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-top: 3px solid var(--primary, #2563EB);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.25s ease;
 }
 
 .conversor-texto-card:hover {
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.14);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--primary, #2563EB) 18%, transparent);
 }
 
 .conversor-texto-titulo {
@@ -1629,18 +1630,18 @@ div[class*="postit-green"] {
 .conversor-contador {
   font-size: 0.68rem;
   font-weight: 700;
-  color: #1E3A8A;
-  background: #EFF6FF;
-  border: 1px solid #BFDBFE;
+  color: var(--primary-dark, #1E3A8A);
+  background: color-mix(in srgb, var(--primary, #2563EB) 10%, #FFFFFF);
+  border: 1px solid color-mix(in srgb, var(--primary, #2563EB) 28%, transparent);
   padding: 2px 7px;
   border-radius: 999px;
   white-space: nowrap;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.25s ease;
 }
 
 .conversor-contador.pulso-contador {
   transform: scale(1.1);
-  background: #DBEAFE;
+  background: color-mix(in srgb, var(--primary, #2563EB) 18%, #FFFFFF);
 }
 
 .conversor-textarea {
@@ -1661,8 +1662,8 @@ div[class*="postit-green"] {
 
 .conversor-textarea:focus {
   background: #FFFFFF !important;
-  border-color: var(--primary) !important;
-  box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.14);
+  border-color: var(--primary, #2563EB) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary, #2563EB) 20%, transparent);
 }
 
 .conversor-botones-fila {
@@ -1684,40 +1685,47 @@ div[class*="postit-green"] {
   border-radius: 8px !important;
   white-space: nowrap;
   cursor: pointer;
-  background-color: var(--primary);
-  box-shadow: 0 2px 6px rgba(65, 105, 225, 0.2);
-  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease, filter 0.15s ease;
+  color: #FFFFFF !important;
+  background-color: var(--primary, #2563EB) !important;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--primary, #2563EB) 26%, transparent);
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease, filter 0.15s ease, background-color 0.25s ease;
 }
 
 .conversor-btn:hover {
   transform: translateY(-2px) scale(1.03);
-  filter: brightness(1.06);
-  box-shadow: 0 5px 12px rgba(65, 105, 225, 0.28);
+  filter: brightness(1.08);
+  box-shadow: 0 5px 12px color-mix(in srgb, var(--primary, #2563EB) 36%, transparent);
 }
 
 .conversor-btn:active,
 .conversor-btn.btn-seleccionado {
   animation: reboteSeleccionBoton 0.34s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.28), 0 4px 10px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary, #2563EB) 32%, transparent), 0 4px 10px rgba(15, 23, 42, 0.2);
 }
 
+/* Variaciones armónicas basadas en la paleta diaria */
 .conversor-btn-justif {
-  background-color: #0284C7 !important;
-  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.22);
+  background-color: color-mix(in srgb, var(--primary, #0284C7) 78%, var(--primary-dark, #1E3A8A)) !important;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--primary, #0284C7) 28%, transparent);
 }
 
 .conversor-btn-copiar {
   flex: 0 0 auto !important;
   padding: 7px 8px !important;
+  background-color: var(--primary-dark, #1D4ED8) !important;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--primary-dark, #1D4ED8) 30%, transparent);
+}
+
+.conversor-btn-copiar.btn-copiado {
   background-color: #10B981 !important;
-  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.24);
+  box-shadow: 0 3px 10px rgba(16, 185, 129, 0.35);
 }
 
 .conversor-btn-limpiar {
   flex: 0 0 auto !important;
   padding: 7px 8px !important;
-  background-color: #EF4444 !important;
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.24);
+  background-color: color-mix(in srgb, var(--primary-dark, #1E3A8A) 65%, #334155) !important;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--primary-dark, #1E3A8A) 26%, transparent);
 }
 
 @keyframes reboteSeleccionBoton {
@@ -1730,38 +1738,14 @@ div[class*="postit-green"] {
   100% {
     transform: scale(1) translateY(0);
   }
-}
+}  
 
-.conversor-btn-limpiar {
-  flex: 0 0 auto !important;
-  padding: 7px 8px !important;
-  background-color: #EF4444 !important;
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.24);
-}
-
-.conversor-btn:active,
-.conversor-btn.btn-seleccionado {
-  animation: reboteSeleccionBoton 0.34s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.28), 0 4px 10px rgba(15, 23, 42, 0.2);
-}
-
-@keyframes reboteSeleccionBoton {
-  0% {
-    transform: scale(0.92);
-  }
-  50% {
-    transform: scale(1.09) translateY(-1px);
-  }
-  100% {
-    transform: scale(1) translateY(0);
-  }
-}    
-
-/* Estilo científico de laboratorio + misma animación de botones */
+/* Estilo científico de laboratorio + paleta del día + misma animación de botones */
 .lab-analizador-card {
   position: relative !important;
   overflow: hidden !important;
-  border-top: 3px solid #06B6D4 !important;
+  border-top: 3px solid var(--primary, #06B6D4) !important;
+  transition: border-color 0.25s ease !important;
 }
 
 .lab-analizador-titulo {
@@ -1779,7 +1763,7 @@ div[class*="postit-green"] {
   padding: 2px 8px;
   border-radius: 999px;
   background: #ECFEFF;
-  color: #0E7490;
+  color: var(--primary-dark, #0E7490);
   border: 1px solid #A5F3FC;
   white-space: nowrap;
 }
@@ -1788,8 +1772,8 @@ div[class*="postit-green"] {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #10B981;
-  box-shadow: 0 0 8px #10B981;
+  background: var(--primary, #10B981);
+  box-shadow: 0 0 8px var(--primary, #10B981);
   animation: pulsoLedLab 1.8s ease-in-out infinite;
 }
 
@@ -1820,15 +1804,15 @@ div[class*="postit-green"] {
 
 .lab-input-muestra:focus {
   background: #FFFFFF !important;
-  border-color: #0284C7 !important;
-  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.22) !important;
+  border-color: var(--primary, #0284C7) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary, #06B6D4) 24%, transparent) !important;
 }
 
 .lab-etiqueta-salida {
   display: block;
   font-size: 0.76rem;
   font-weight: 700;
-  color: #0F766E;
+  color: var(--primary-dark, #0F766E);
   margin-top: 8px;
   margin-bottom: 4px;
 }
@@ -1842,7 +1826,7 @@ div[class*="postit-green"] {
     linear-gradient(to bottom, rgba(6, 182, 212, 0.08) 1px, transparent 1px) !important;
   background-size: 14px 14px !important;
   border: 1.5px solid #99F6E4 !important;
-  border-left: 4px solid #0D9488 !important;
+  border-left: 4px solid var(--primary, #0D9488) !important;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
   font-size: 0.78rem !important;
   line-height: 1.45 !important;
@@ -1884,31 +1868,32 @@ div[class*="postit-green"] {
   border-radius: 8px !important;
   font-weight: 700 !important;
   cursor: pointer !important;
-  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease, filter 0.15s ease !important;
+  color: #FFFFFF !important;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease, filter 0.15s ease, background-color 0.25s ease !important;
 }
 
 .lab-btn-copiar {
   flex: 1 !important;
-  background-color: #10B981 !important;
-  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.24) !important;
+  background-color: var(--primary, #10B981) !important;
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--primary, #10B981) 35%, transparent) !important;
 }
 
 .lab-btn-limpiar {
   padding: 8px 12px !important;
-  background-color: #64748B !important;
-  box-shadow: 0 2px 6px rgba(100, 116, 139, 0.22) !important;
+  background-color: var(--primary-dark, #475569) !important;
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--primary-dark, #475569) 32%, transparent) !important;
 }
 
 .lab-btn-accion:hover {
   transform: translateY(-2px) scale(1.03) !important;
-  filter: brightness(1.06) !important;
-  box-shadow: 0 5px 12px rgba(15, 23, 42, 0.2) !important;
+  filter: brightness(1.08) !important;
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--primary, #0284C7) 42%, transparent) !important;
 }
 
 .lab-btn-accion:active,
 .lab-btn-accion.btn-seleccionado {
   animation: reboteSeleccionBoton 0.34s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.28), 0 4px 10px rgba(15, 23, 42, 0.2) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary, #10B981) 35%, transparent), 0 4px 12px rgba(15, 23, 42, 0.22) !important;
 }
     
   </style>
