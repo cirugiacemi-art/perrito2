@@ -1896,68 +1896,38 @@ div[class*="postit-green"] {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary, #10B981) 35%, transparent), 0 4px 12px rgba(15, 23, 42, 0.22) !important;
 }
 
-/* Pestaña lateral fija para abrir/ocultar */
-.subtracker-pestana {
-  position: fixed;
-  right: 0;
-  top: 42%;
-  transform: translateY(-50%);
-  z-index: 9990;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 9px 11px;
-  border-radius: 12px 0 0 12px;
-  border: 2px solid var(--primary, #2563EB);
-  border-right: none;
-  background: #0F172A;
-  color: #F8FAFC;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  box-shadow: -4px 6px 18px rgba(15, 23, 42, 0.28);
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.subtracker-pestana:hover {
-  transform: translateY(-50%) translateX(-3px);
-  background: var(--primary-dark, #1E3A8A);
-}
-
-/* Pestaña lateral vertical compacta para no estorbar las tarjetas */
+/* Pestaña lateral vertical compacta */
 .subtracker-pestana-vertical {
-  position: fixed;
-  right: 0;
-  top: 45%;
-  transform: translateY(-50%);
-  z-index: 9990;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 10px 6px;
-  width: 28px;
-  border-radius: 12px 0 0 12px;
-  border: 2px solid var(--primary, #2563EB);
-  border-right: none;
-  background: #0F172A;
-  color: #F8FAFC;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.62rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  box-shadow: -4px 6px 16px rgba(15, 23, 42, 0.28);
-  transition: transform 0.2s ease, background-color 0.2s ease, width 0.2s ease;
+  position: fixed !important;
+  right: 0 !important;
+  top: 45% !important;
+  transform: translateY(-50%) !important;
+  z-index: 9990 !important;
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 10px 6px !important;
+  width: 28px !important;
+  border-radius: 12px 0 0 12px !important;
+  border: 2px solid var(--primary, #2563EB) !important;
+  border-right: none !important;
+  background: #0F172A !important;
+  color: #F8FAFC !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.62rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  cursor: pointer !important;
+  box-shadow: -4px 6px 16px rgba(15, 23, 42, 0.28) !important;
+  transition: transform 0.2s ease, background-color 0.2s ease, width 0.2s ease, opacity 0.2s ease !important;
 }
 
 .subtracker-pestana-vertical:hover {
-  width: 32px;
-  transform: translateY(-50%) translateX(-2px);
-  background: var(--primary-dark, #1E3A8A);
+  width: 32px !important;
+  transform: translateY(-50%) translateX(-2px) !important;
+  background: var(--primary-dark, #1E3A8A) !important;
 }
 
 .subtracker-pestana-icon {
@@ -1971,63 +1941,131 @@ div[class*="postit-green"] {
   white-space: nowrap;
 }
 
-/* Cuadrícula con minimapa simulado */
+/* Ventana emergente lateral ocultable bien encuadrada a la derecha */
+.subtracker-panel {
+  position: fixed !important;
+  right: 36px !important;
+  top: 50% !important;
+  transform: translateY(-50%) translateX(0) !important;
+  width: 280px !important;
+  max-width: calc(100vw - 52px) !important;
+  z-index: 9995 !important;
+  background: #0F172A !important;
+  color: #F8FAFC !important;
+  border: 2.5px solid var(--primary, #38BDF8) !important;
+  border-radius: 16px !important;
+  padding: 12px !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 16px 38px rgba(2, 6, 23, 0.55) !important;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease !important;
+}
+
+.subtracker-panel.oculto {
+  transform: translateY(-50%) translateX(calc(100% + 60px)) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.subtracker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.subtracker-titulo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 900;
+  font-size: 0.85rem;
+}
+
+.subtracker-tag {
+  font-size: 0.58rem;
+  color: #FACC15;
+  letter-spacing: 0.06em;
+}
+
+.subtracker-btn-cerrar {
+  margin: 0 !important;
+  padding: 4px 8px !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #F8FAFC !important;
+  font-size: 0.75rem !important;
+  cursor: pointer;
+}
+
+.subtracker-pantalla {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  background: #020617 !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.4) !important;
+  border-radius: 12px !important;
+  padding: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+/* Cuadrícula con minimapa proporcionado */
 .subtracker-radar-grid {
-  position: relative;
-  height: 132px;
-  border-radius: 8px;
-  background-color: #071324;
+  position: relative !important;
+  width: 100% !important;
+  height: 155px !important;
+  border-radius: 8px !important;
+  background-color: #071324 !important;
   background-image:
     linear-gradient(to right, rgba(56, 189, 248, 0.14) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(56, 189, 248, 0.14) 1px, transparent 1px),
-    linear-gradient(to right, transparent 48%, rgba(56, 189, 248, 0.24) 48%, rgba(56, 189, 248, 0.24) 52%, transparent 52%),
-    linear-gradient(to bottom, transparent 48%, rgba(56, 189, 248, 0.24) 48%, rgba(56, 189, 248, 0.24) 52%, transparent 52%);
-  background-size: 16px 16px, 16px 16px, 100% 100%, 100% 100%;
-  overflow: hidden;
-  margin-bottom: 8px;
+    linear-gradient(to right, transparent 49%, rgba(56, 189, 248, 0.24) 49%, rgba(56, 189, 248, 0.24) 51%, transparent 51%),
+    linear-gradient(to bottom, transparent 49%, rgba(56, 189, 248, 0.24) 49%, rgba(56, 189, 248, 0.24) 51%, transparent 51%) !important;
+  background-size: 16px 16px, 16px 16px, 100% 100%, 100% 100% !important;
+  overflow: hidden !important;
+  margin-bottom: 8px !important;
 }
 
-/* Bloques esquemáticos del minimapa ficticio */
 .subtracker-bloque {
-  position: absolute;
-  padding: 2px 5px;
-  border-radius: 4px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.54rem;
-  font-weight: 800;
-  color: #CBD5E1;
-  background: rgba(15, 23, 42, 0.85);
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  pointer-events: none;
-  z-index: 1;
+  position: absolute !important;
+  padding: 3px 6px !important;
+  border-radius: 5px !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.58rem !important;
+  font-weight: 800 !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  background: rgba(15, 23, 42, 0.9) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
 }
 
 .bloque-cafe {
-  top: 8px;
-  left: 8px;
-  border-color: rgba(251, 191, 36, 0.45);
-  color: #FDE68A;
+  top: 10px !important;
+  left: 10px !important;
+  border: 1px solid rgba(251, 191, 36, 0.45) !important;
+  color: #FDE68A !important;
 }
 
 .bloque-dir {
-  top: 8px;
-  right: 8px;
-  border-color: rgba(56, 189, 248, 0.45);
-  color: #BAE6FD;
+  top: 10px !important;
+  right: 10px !important;
+  border: 1px solid rgba(56, 189, 248, 0.45) !important;
+  color: #BAE6FD !important;
 }
 
 .bloque-pasillo {
-  bottom: 8px;
-  left: 8px;
-  border-color: rgba(52, 211, 153, 0.45);
-  color: #A7F3D0;
+  bottom: 10px !important;
+  left: 10px !important;
+  border: 1px solid rgba(52, 211, 153, 0.45) !important;
+  color: #A7F3D0 !important;
 }
 
 .bloque-archivo {
-  bottom: 8px;
-  right: 8px;
-  border-color: rgba(192, 132, 252, 0.45);
-  color: #E9D5FF;
+  bottom: 10px !important;
+  right: 10px !important;
+  border: 1px solid rgba(192, 132, 252, 0.45) !important;
+  color: #E9D5FF !important;
 }
 
 .subtracker-radar-anillo {
@@ -2073,6 +2111,52 @@ div[class*="postit-green"] {
   font-size: 1.2rem;
   filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.9));
   transition: left 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.22s ease;
+}
+
+.subtracker-hud {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.7rem;
+}
+
+.subtracker-estado-fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.subtracker-lbl {
+  color: #94A3B8;
+}
+
+.subtracker-controles {
+  display: flex;
+  gap: 6px;
+}
+
+.subtracker-btn-scan {
+  flex: 1;
+  margin: 0 !important;
+  padding: 8px 10px !important;
+  border-radius: 9px !important;
+  background: var(--primary, #2563EB) !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+  font-size: 0.74rem !important;
+  cursor: pointer;
+}
+
+.subtracker-btn-ocultar {
+  margin: 0 !important;
+  padding: 8px 9px !important;
+  border-radius: 9px !important;
+  background: #1E293B !important;
+  color: #E2E8F0 !important;
+  font-weight: 700 !important;
+  font-size: 0.68rem !important;
+  cursor: pointer;
 }
     
   </style>
@@ -2725,7 +2809,7 @@ div[class*="postit-green"] {
   <div class="subtracker-header">
     <div class="subtracker-titulo">
       <span>🕹️ SUB-TRACKER</span>
-      <span class="subtracker-tag">UBI DEL(A) SUB</span>
+      <span class="subtracker-tag">SIMULACIÓN · MODO JUEGO</span>
     </div>
     <button
       type="button"
@@ -2739,13 +2823,11 @@ div[class*="postit-green"] {
 
   <div class="subtracker-pantalla">
     <div class="subtracker-radar-grid" id="subTrackerMapa">
-      <!-- Bloques esquemáticos simulando un mapa dentro de la cuadrícula -->
       <div class="subtracker-bloque bloque-cafe">☕ CAFÉ</div>
       <div class="subtracker-bloque bloque-dir">📁 DIR</div>
       <div class="subtracker-bloque bloque-pasillo">🚶 PASILLO</div>
       <div class="subtracker-bloque bloque-archivo">🗄️ ARCHIVO</div>
 
-      <!-- Anillos de radar y pin de señal ficticia -->
       <div class="subtracker-radar-anillo"></div>
       <div class="subtracker-radar-anillo anillo-2"></div>
       <div id="subTrackerPin" class="subtracker-pin" title="Señal ficticia">📍</div>
@@ -5107,13 +5189,25 @@ function copiarResultadoConCheck(btn) {
 }
 
 const ZONAS_SUBDIRECTOR_JUEGO = [
-  { texto: "☕ Comiendo (DIKAJE/EL AMIGO)", left: "24%", top: "28%" },
+  { texto: "☕ Cafetería (recarga urgente)", left: "24%", top: "28%" },
   { texto: "📁 Oficina de Dirección", left: "76%", top: "28%" },
-  { texto: "🚶 Urgencias", left: "26%", top: "74%" },
+  { texto: "🚶 Pasillo central en sigilo", left: "26%", top: "74%" },
   { texto: "🗄️ Archivo / papeles", left: "74%", top: "74%" },
-  { texto: "🧭 Terapias", left: "50%", top: "50%" },
+  { texto: "🧭 Cruce de pasillos", left: "50%", top: "50%" },
   { texto: "🕵️ Señal rebota por el ala norte", left: "52%", top: "24%" }
 ];
+
+let subTrackerAvistamientos = 0;
+
+function toggleSubTracker() {
+  const panel = document.getElementById("subTrackerPanel");
+  const toggle = document.getElementById("subTrackerToggle");
+  if (!panel) return;
+  const estaOculto = panel.classList.toggle("oculto");
+  if (toggle) {
+    toggle.style.opacity = estaOculto ? "1" : "0.4";
+  }
+}
 
 function escanearSubdirector() {
   const zonaEl = document.getElementById("subTrackerZona");
