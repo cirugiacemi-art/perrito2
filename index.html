@@ -2289,59 +2289,6 @@ div[class*="postit-green"] {
   font-size: 0.68rem !important;
   cursor: pointer;
 }
-
-.agregar-cuenta-ayuda {
-  font-size: 0.72rem;
-  color: #475569;
-  background: color-mix(in srgb, var(--primary, #0284C7) 7%, #F8FAFC);
-  border-left: 3px solid var(--primary, #0284C7);
-  padding: 6px 9px;
-  border-radius: 7px;
-  margin: 0 0 9px 0;
-  line-height: 1.35;
-}
-
-.agregar-cuenta-esp-fila {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 9px 0 4px 0;
-  flex-wrap: wrap;
-}
-
-.agregar-cuenta-select {
-  flex: 1;
-  min-width: 140px;
-  padding: 6px 8px;
-  border-radius: 8px;
-  border: 1.5px solid #CBD5E1;
-  background: #F8FAFC;
-  font-weight: 600;
-  font-size: 0.76rem;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
-}
-
-.agregar-cuenta-select:focus {
-  outline: none;
-  background: #FFFFFF;
-  border-color: var(--primary, #2563EB);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary, #2563EB) 20%, transparent);
-}
-
-.agregar-cuenta-muestra {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 1.5px solid #334155;
-  background: #E2E8F0;
-  flex-shrink: 0;
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.agregar-cuenta-esp-fila:hover .agregar-cuenta-muestra {
-  transform: scale(1.12);
-}
     
   </style>
   
@@ -2495,62 +2442,38 @@ div[class*="postit-green"] {
                 <div class="user-list" id="userList"></div>
             </div>
 
-<div class="card agregar-cuenta-card">
-  <div class="card-title" onclick="toggleAgregarCuenta()" style="cursor: pointer; user-select: none;">
-    <span>➕ Agregar / Editar Cuenta <small id="flechaAgregarCuenta" style="font-size: 0.85rem; margin-left: 6px;">▸</small></span>
-    <span class="agregar-cuenta-badge">CUENTAS</span>
-  </div>
-
-  <div id="contenidoAgregarCuenta" style="display: none; margin-top: 8px;">
-    <p class="agregar-cuenta-ayuda">
-      💡 Para editar contraseña, pon el mismo usuario con la nueva clave y da clic en <strong>Guardar Cuenta</strong>.
-    </p>
-
-    <div class="agregar-cuenta-grid">
-      <div>
-        <label for="usernameInput" style="font-size:0.8rem;">Usuario / Servicio</label>
-        <input type="text" id="usernameInput" class="agregar-cuenta-campo" placeholder="Ej. ZAMIR.SANT">
-      </div>
-
-      <div>
-        <label for="passwordInput" style="font-size:0.8rem;">Contraseña / Clave</label>
-        <input type="text" id="passwordInput" class="agregar-cuenta-campo" placeholder="Ej. ZSANT2026">
-      </div>
-    </div>
-
-    <div class="agregar-cuenta-esp-fila">
-      <label for="selectEspecialidadCuenta" style="font-size: 0.8rem; font-weight: 700;">Especialidad:</label>
-      <select id="selectEspecialidadCuenta" class="agregar-cuenta-select" onchange="actualizarMuestraColorEspecialidad()">
-        <option value="">Sin especialidad</option>
-        <option value="GYO">🤰 GYO (Rosado)</option>
-        <option value="MI">🩺 MI (Azul celeste)</option>
-        <option value="TYO">🦴 TYO (Rojo)</option>
-        <option value="URG">🚨 URG (Rojo sangre)</option>
-        <option value="CIRUGIA">🔪 CIRUGIA (Azul marino)</option>
-        <option value="PEDIA">🧸 PEDIA (Amarillo)</option>
-        <option value="APOYO">🤝 APOYO (Médicos de Apoyo)</option>
-      </select>
-      <span id="muestraColorEsp" class="agregar-cuenta-muestra"></span>
-    </div>
-
-    <div class="agregar-cuenta-acciones">
-      <button
-        type="button"
-        class="btn-cuenta-primario"
-        onclick="animarYEjecutar(this, () => { guardarUsuario(); confirmarCuentaAgregada(this); })"
-      >
-        Guardar Cuenta
-      </button>
-      <button
-        type="button"
-        class="btn-cuenta-secundario"
-        onclick="animarYEjecutar(this, () => eliminarUsuario())"
-      >
-        Eliminar
-      </button>
-    </div>
-  </div>
-</div>
+          <div class="card">
+            <div class="card-title" onclick="toggleAgregarCuenta()" style="cursor: pointer; user-select: none;">
+              <span>➕ Agregar / Editar Cuenta <small id="flechaAgregarCuenta" style="font-size: 0.85rem; margin-left: 6px;">▸</small></span>
+            </div>
+            <div id="contenidoAgregarCuenta" style="display: none; margin-top: 8px;">
+              <p style="font-size: 0.72rem; color: #64748B; background: #F8FAFC; border-left: 3px solid #0284C7; padding: 5px 8px; border-radius: 6px; margin: 0 0 8px 0; line-height: 1.3;">
+                💡 Para editar contraseña, pon el mismo usuario con la nueva clave y da clic en <strong>Guardar Cuenta</strong>.
+              </p>
+              <label style="font-size:0.8rem;">Usuario / Servicio</label>
+              <input type="text" id="usernameInput" placeholder="Ej. ZAMIR.SANT">
+              <label style="font-size:0.8rem;">Contraseña / Clave</label>
+              <input type="text" id="passwordInput" placeholder="Ej. ZSANT2026">
+              <div style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
+                <label for="selectEspecialidadCuenta" style="font-size: 0.8rem; font-weight: 700;">Especialidad:</label>
+                <select id="selectEspecialidadCuenta" onchange="actualizarMuestraColorEspecialidad()" style="padding: 6px 8px; border-radius: 8px; border: 1px solid #CBD5E1; font-weight: 600;">
+                  <option value="">Sin especialidad</option>
+                  <option value="GYO">🤰 GYO (Rosado)</option>
+                  <option value="MI">🩺 MI (Azul celeste)</option>
+                  <option value="TYO">🦴 TYO (Rojo)</option>
+                  <option value="URG">🚨 URG (Rojo sangre)</option>
+                  <option value="CIRUGIA">🔪 CIRUGIA (Azul marino)</option>
+                  <option value="PEDIA">🧸 PEDIA (Amarillo)</option>
+                  <option value="APOYO">🤝 APOYO (Médicos de Apoyo)</option>
+                </select>
+                <span id="muestraColorEsp" style="display: inline-block; width: 18px; height: 18px; border-radius: 50%; border: 1px solid #334155; background: #E2E8F0;"></span>
+              </div>
+              <div class="btn-group-row">
+                <button onclick="guardarUsuario()" style="width: 100%;">Guardar Cuenta</button>
+                <button class="btn-danger" onclick="eliminarUsuario()">Eliminar</button>
+              </div>
+            </div>
+          </div>
 
 <!-- CUADRO DE CONSULTORIOS 1 AL 45 -->
 <div class="card consultorios-card-animada">
@@ -5483,60 +5406,6 @@ function escanearSubdirector() {
       pinEl.style.transform = "translate(-50%, -50%) scale(1)";
     }, 260);
   }
-}
-
-/* Helper para confirmar visualmente al guardar una cuenta sin alterar tu lógica */
-if (typeof confirmarCuentaAgregada !== "function") {
-  function confirmarCuentaAgregada(btn) {
-    if (!btn) return;
-    const textoPrevio = btn.dataset.origText || btn.textContent;
-    btn.dataset.origText = textoPrevio;
-    btn.textContent = "✓ Guardada";
-    btn.classList.add("cuenta-agregada-flash");
-    clearTimeout(btn._cuentaTimer);
-    btn._cuentaTimer = setTimeout(() => {
-      btn.textContent = textoPrevio;
-      btn.classList.remove("cuenta-agregada-flash");
-    }, 1200);
-  }
-}
-
-/* Respaldo seguro por si en algún momento no estuviera definida actualizarMuestraColorEspecialidad */
-if (typeof window.actualizarMuestraColorEspecialidad !== "function") {
-  window.actualizarMuestraColorEspecialidad = function () {
-    const select = document.getElementById("selectEspecialidadCuenta");
-    const muestra = document.getElementById("muestraColorEsp");
-    if (!select || !muestra) return;
-
-    const coloresEsp = {
-      GYO: "#F472B6",
-      MI: "#38BDF8",
-      TYO: "#EF4444",
-      URG: "#991B1B",
-      CIRUGIA: "#1E3A8A",
-      PEDIA: "#FACC15",
-      APOYO: "#94A3B8"
-    };
-
-    const val = select.value;
-    muestra.style.backgroundColor = coloresEsp[val] || "#E2E8F0";
-    muestra.style.boxShadow = val ? `0 0 8px ${coloresEsp[val]}` : "none";
-  };
-}
-
-/* Respaldo seguro para toggleAgregarCuenta por si aún no existía o quieres animar la flecha */
-if (typeof window.toggleAgregarCuenta !== "function") {
-  window.toggleAgregarCuenta = function () {
-    const contenido = document.getElementById("contenidoAgregarCuenta");
-    const flecha = document.getElementById("flechaAgregarCuenta");
-    if (!contenido) return;
-
-    const estaOculto = contenido.style.display === "none" || getComputedStyle(contenido).display === "none";
-    contenido.style.display = estaOculto ? "block" : "none";
-    if (flecha) {
-      flecha.textContent = estaOculto ? "▾" : "▸";
-    }
-  };
 }
   
 </script>
