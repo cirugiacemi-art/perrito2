@@ -1731,6 +1731,31 @@ div[class*="postit-green"] {
     transform: scale(1) translateY(0);
   }
 }
+
+.conversor-btn-limpiar {
+  flex: 0 0 auto !important;
+  padding: 7px 8px !important;
+  background-color: #EF4444 !important;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.24);
+}
+
+.conversor-btn:active,
+.conversor-btn.btn-seleccionado {
+  animation: reboteSeleccionBoton 0.34s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.28), 0 4px 10px rgba(15, 23, 42, 0.2);
+}
+
+@keyframes reboteSeleccionBoton {
+  0% {
+    transform: scale(0.92);
+  }
+  50% {
+    transform: scale(1.09) translateY(-1px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}    
     
   </style>
   
@@ -2098,20 +2123,23 @@ div[class*="postit-green"] {
           ></textarea>
 
           <div class="conversor-botones-fila">
-            <button type="button" class="conversor-btn" onclick="convertirTexto('mayusculas')" title="Convertir a MAYÚSCULAS">
+            <button type="button" class="conversor-btn" onclick="animarYEjecutar(this, () => convertirTexto('mayusculas'))" title="Convertir a MAYÚSCULAS">
               MAYUS
             </button>
-            <button type="button" class="conversor-btn" onclick="convertirTexto('minusculas')" title="Convertir a minúsculas">
+            <button type="button" class="conversor-btn" onclick="animarYEjecutar(this, () => convertirTexto('minusculas'))" title="Convertir a minúsculas">
               minus
             </button>
-            <button type="button" class="conversor-btn" onclick="convertirTexto('capitalizar')" title="Capitalizar Palabras">
+            <button type="button" class="conversor-btn" onclick="animarYEjecutar(this, () => convertirTexto('capitalizar'))" title="Capitalizar Palabras">
               Capital
             </button>
-            <button type="button" class="conversor-btn conversor-btn-justif" onclick="justificarTextoConversor()" title="Alternar justificado">
+            <button type="button" class="conversor-btn conversor-btn-justif" onclick="animarYEjecutar(this, () => justificarTextoConversor())" title="Alternar justificado">
               Justif
             </button>
-            <button type="button" class="conversor-btn conversor-btn-copiar" onclick="copiarTextoConversor()" title="Copiar texto">
+            <button type="button" class="conversor-btn conversor-btn-copiar" onclick="animarYEjecutar(this, () => copiarTextoConversorConPalomita(this))" title="Copiar texto">
               📋
+            </button>
+            <button type="button" class="conversor-btn conversor-btn-limpiar" onclick="animarYEjecutar(this, () => limpiarTextoConversor())" title="Limpiar texto">
+              Limpiar
             </button>
           </div>
         </div>
@@ -4567,6 +4595,60 @@ function actualizarContadorConversor() {
   void badge.offsetWidth;
   badge.classList.add("pulso-contador");
   setTimeout(() => badge.classList.remove("pulso-contador"), 220);
+}
+
+function animarYEjecutar(btn, accion) {
+  if (btn) {
+    btn.classList.remove("btn-seleccionado");
+    void btn.offsetWidth;
+    btn.classList.add("btn-seleccionado");
+    setTimeout(() => btn.classList.remove("btn-seleccionado"), 360);
+  }
+  if (typeof accion === "function") {
+    accion();
+  }
+  actualizarContadorConversor();
+}
+
+function mostrarPalomitaCopiado(btn) {
+  if (!btn) return;
+  const original = btn.dataset.originalHtml || btn.innerHTML;
+  btn.dataset.originalHtml = original;
+  btn.classList.add("btn-copiado");
+  btn.innerHTML = "✓";
+  clearTimeout(btn._timerPalomita);
+  btn._timerPalomita = setTimeout(() => {
+    btn.classList.remove("btn-copiado");
+    btn.innerHTML = original;
+  }, 1200);
+}
+
+function copiarTextoConversorConPalomita(btn) {
+  const txt = document.getElementById("textoConversor");
+  const valor = txt ? txt.value : "";
+  if (typeof copiarTextoConversor === "function") {
+    copiarTextoConversor(btn);
+  } else if (valor && navigator.clipboard) {
+    navigator.clipboard.writeText(valor).catch(() => {});
+  }
+  mostrarPalomitaCopiado(btn);
+}
+
+function limpiarTextoConversor() {
+  const txt = document.getElementById("textoConversor");
+  if (!txt) return;
+  txt.value = "";
+  txt.style.textAlign = "left";
+  actualizarContadorConversor();
+  txt.focus();
+}
+
+function actualizarContadorConversor() {
+  const txt = document.getElementById("textoConversor");
+  const badge = document.getElementById("conversorContador");
+  if (!txt || !badge) return;
+  const len = txt.value.length;
+  badge.textContent = `${len} car.`;
 }
   
 </script>
