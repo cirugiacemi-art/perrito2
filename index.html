@@ -1895,6 +1895,197 @@ div[class*="postit-green"] {
   animation: reboteSeleccionBoton 0.34s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary, #10B981) 35%, transparent), 0 4px 12px rgba(15, 23, 42, 0.22) !important;
 }
+
+/* Pestaña lateral fija para abrir/ocultar */
+.subtracker-pestana {
+  position: fixed;
+  right: 0;
+  top: 42%;
+  transform: translateY(-50%);
+  z-index: 9990;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 11px;
+  border-radius: 12px 0 0 12px;
+  border: 2px solid var(--primary, #2563EB);
+  border-right: none;
+  background: #0F172A;
+  color: #F8FAFC;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: -4px 6px 18px rgba(15, 23, 42, 0.28);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.subtracker-pestana:hover {
+  transform: translateY(-50%) translateX(-3px);
+  background: var(--primary-dark, #1E3A8A);
+}
+
+/* Ventana emergente lateral ocultable */
+.subtracker-panel {
+  position: fixed;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%) translateX(0);
+  width: 270px;
+  max-width: calc(100vw - 28px);
+  z-index: 9995;
+  background: #0F172A;
+  color: #F8FAFC;
+  border: 2.5px solid var(--primary, #38BDF8);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 16px 38px rgba(2, 6, 23, 0.55);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
+}
+
+.subtracker-panel.oculto {
+  transform: translateY(-50%) translateX(calc(100% + 24px));
+  opacity: 0;
+  pointer-events: none;
+}
+
+.subtracker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.subtracker-titulo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 900;
+  font-size: 0.85rem;
+}
+
+.subtracker-tag {
+  font-size: 0.58rem;
+  color: #FACC15;
+  letter-spacing: 0.06em;
+}
+
+.subtracker-btn-cerrar {
+  margin: 0 !important;
+  padding: 4px 8px !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #F8FAFC !important;
+  font-size: 0.75rem !important;
+  cursor: pointer;
+}
+
+.subtracker-pantalla {
+  background: #020617;
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.subtracker-radar-grid {
+  position: relative;
+  height: 118px;
+  border-radius: 8px;
+  background-color: #071324;
+  background-image:
+    linear-gradient(to right, rgba(56, 189, 248, 0.14) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.14) 1px, transparent 1px);
+  background-size: 16px 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.subtracker-radar-anillo {
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 1px dashed rgba(250, 204, 21, 0.45);
+  animation: radarPulso 2.4s ease-out infinite;
+}
+
+.subtracker-radar-anillo.anillo-2 {
+  width: 104px;
+  height: 104px;
+  animation-delay: 0.9s;
+}
+
+@keyframes radarPulso {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+.subtracker-pin {
+  position: relative;
+  z-index: 2;
+  font-size: 1.25rem;
+  filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.85));
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.subtracker-hud {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.7rem;
+}
+
+.subtracker-estado-fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.subtracker-lbl {
+  color: #94A3B8;
+}
+
+.subtracker-controles {
+  display: flex;
+  gap: 6px;
+}
+
+.subtracker-btn-scan {
+  flex: 1;
+  margin: 0 !important;
+  padding: 8px 10px !important;
+  border-radius: 9px !important;
+  background: var(--primary, #2563EB) !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+  font-size: 0.74rem !important;
+  cursor: pointer;
+}
+
+.subtracker-btn-ocultar {
+  margin: 0 !important;
+  padding: 8px 9px !important;
+  border-radius: 9px !important;
+  background: #1E293B !important;
+  color: #E2E8F0 !important;
+  font-weight: 700 !important;
+  font-size: 0.68rem !important;
+  cursor: pointer;
+}
     
   </style>
   
@@ -2528,6 +2719,74 @@ div[class*="postit-green"] {
     </div>
     
   </div>
+
+  
+<!-- Pestaña lateral para abrir/ocultar el juego Sub-Tracker -->
+<button
+  type="button"
+  id="subTrackerToggle"
+  class="subtracker-pestana"
+  onclick="toggleSubTracker()"
+  title="Abrir o esconder Subdirector Tracker (Juego)"
+>
+  <span class="subtracker-pestana-icon">📡</span>
+  <span class="subtracker-pestana-txt">SUB-TRACKER</span>
+</button>
+
+<!-- Ventana emergente lateral ocultable -->
+<aside id="subTrackerPanel" class="subtracker-panel oculto" aria-label="Subdirector Tracker Juego">
+  <div class="subtracker-header">
+    <div class="subtracker-titulo">
+      <span>🕹️ SUB-TRACKER</span>
+      <span class="subtracker-tag">MODO JUEGO · NO REAL</span>
+    </div>
+    <button
+      type="button"
+      class="subtracker-btn-cerrar"
+      onclick="toggleSubTracker()"
+      title="Ocultar al costado"
+    >
+      ✕
+    </button>
+  </div>
+
+  <div class="subtracker-pantalla">
+    <div class="subtracker-radar-grid">
+      <div class="subtracker-radar-anillo"></div>
+      <div class="subtracker-radar-anillo anillo-2"></div>
+      <div id="subTrackerPin" class="subtracker-pin" title="Señal ficticia">📍</div>
+    </div>
+
+    <div class="subtracker-hud">
+      <div class="subtracker-estado-fila">
+        <span class="subtracker-lbl">ZONA SIMULADA:</span>
+        <strong id="subTrackerZona">En busca de café...</strong>
+      </div>
+      <div class="subtracker-estado-fila">
+        <span class="subtracker-lbl">AVISTAMIENTOS:</span>
+        <strong id="subTrackerCount">0</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="subtracker-controles">
+    <button
+      type="button"
+      class="subtracker-btn-scan"
+      onclick="animarYEjecutar(this, () => escanearSubdirector())"
+    >
+      🔍 Escanear Señal
+    </button>
+    <button
+      type="button"
+      class="subtracker-btn-ocultar"
+      onclick="toggleSubTracker()"
+    >
+      Guardar al costado
+    </button>
+  </div>
+</aside>
+
   
 <script>
 // Enlace directo a tu API de Google Sheets
@@ -4851,6 +5110,45 @@ function copiarResultadoConCheck(btn) {
   btn._labTimer = setTimeout(() => {
     btn.textContent = original;
   }, 1200);
+}
+
+const ZONAS_SUBDIRECTOR_JUEGO = [
+  { texto: "☕ Cafetería (recarga urgente)", x: -45, y: -20 },
+  { texto: "📄 Firmando papeles misteriosos", x: 38, y: -15 },
+  { texto: "👻 Pasillo en modo sigilo", x: -15, y: 26 },
+  { texto: "📞 Reunión de 5 min (ya van 40)", x: 48, y: 22 },
+  { texto: "🧭 Cruzando el hospital a toda prisa", x: 0, y: -32 },
+  { texto: "🕵️ Señal perdida detrás de un archivo", x: -52, y: 14 }
+];
+
+let subTrackerAvistamientos = 0;
+
+function toggleSubTracker() {
+  const panel = document.getElementById("subTrackerPanel");
+  const toggle = document.getElementById("subTrackerToggle");
+  if (!panel) return;
+  const estaOculto = panel.classList.toggle("oculto");
+  if (toggle) {
+    toggle.style.opacity = estaOculto ? "1" : "0.35";
+  }
+}
+
+function escanearSubdirector() {
+  const zonaEl = document.getElementById("subTrackerZona");
+  const countEl = document.getElementById("subTrackerCount");
+  const pinEl = document.getElementById("subTrackerPin");
+
+  const elegido = ZONAS_SUBDIRECTOR_JUEGO[Math.floor(Math.random() * ZONAS_SUBDIRECTOR_JUEGO.length)];
+  subTrackerAvistamientos += 1;
+
+  if (zonaEl) zonaEl.textContent = elegido.texto;
+  if (countEl) countEl.textContent = String(subTrackerAvistamientos);
+  if (pinEl) {
+    pinEl.style.transform = `translate(${elegido.x}px, ${elegido.y}px) scale(1.18)`;
+    setTimeout(() => {
+      pinEl.style.transform = `translate(${elegido.x}px, ${elegido.y}px) scale(1)`;
+    }, 260);
+  }
 }
   
 </script>
