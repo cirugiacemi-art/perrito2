@@ -2289,6 +2289,201 @@ div[class*="postit-green"] {
   font-size: 0.68rem !important;
   cursor: pointer;
 }
+
+/* Guardiómetro animado y alineado con la paleta diaria */
+.guardiometro-card-animada {
+  position: relative;
+  overflow: hidden;
+  border-top: 3px solid var(--primary, #2563EB) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.25s ease !important;
+}
+
+.guardiometro-card-animada:hover {
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--primary, #2563EB) 16%, transparent) !important;
+}
+
+.guardio-btn-mini,
+.guardio-btn-sync {
+  margin: 0 !important;
+  padding: 4px 8px !important;
+  border-radius: 8px !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  background-color: var(--primary, #2563EB) !important;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s ease !important;
+}
+
+.guardio-btn-mini:hover,
+.guardio-btn-sync:hover {
+  transform: translateY(-1px) scale(1.04);
+  filter: brightness(1.08);
+}
+
+.guardio-select,
+.guardio-input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 6px 8px !important;
+  border-radius: 8px !important;
+  border: 1.5px solid #CBD5E1 !important;
+  background: #F8FAFC !important;
+  font-size: 0.76rem !important;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease !important;
+}
+
+.guardio-select:focus,
+.guardio-input:focus {
+  outline: none;
+  background: #FFFFFF !important;
+  border-color: var(--primary, #2563EB) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary, #2563EB) 20%, transparent) !important;
+}
+
+.guardio-rotaciones-panel {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--primary, #2563EB) 6%, #F8FAFC);
+  border: 1.5px solid color-mix(in srgb, var(--primary, #2563EB) 28%, #CBD5E1);
+  animation: aparecerPanelGuardio 0.22s ease-out;
+}
+
+@keyframes aparecerPanelGuardio {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guardio-rotaciones-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 0.78rem;
+  color: var(--primary-dark, #1E3A8A);
+}
+
+.guardio-lbl {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #334155;
+  margin-top: 6px;
+  margin-bottom: 2px;
+}
+
+.guardio-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.guardio-ayuda-dia {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.66rem;
+  color: #475569;
+  line-height: 1.3;
+}
+
+.guardio-form-acciones {
+  display: flex;
+  gap: 6px;
+  margin-top: 9px;
+}
+
+.guardio-btn-primario,
+.guardio-btn-secundario {
+  position: relative;
+  overflow: hidden;
+  margin: 0 !important;
+  padding: 7px 10px !important;
+  border-radius: 8px !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease, filter 0.15s ease !important;
+}
+
+.guardio-btn-primario {
+  flex: 1;
+  background-color: var(--primary, #2563EB) !important;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--primary, #2563EB) 30%, transparent);
+}
+
+.guardio-btn-secundario {
+  background-color: var(--primary-dark, #1E3A8A) !important;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--primary-dark, #1E3A8A) 28%, transparent);
+}
+
+.guardio-btn-primario:hover,
+.guardio-btn-secundario:hover {
+  transform: translateY(-2px) scale(1.02);
+  filter: brightness(1.08);
+}
+
+.guardio-btn-primario:active,
+.guardio-btn-primario.btn-seleccionado,
+.guardio-btn-secundario:active,
+.guardio-btn-secundario.btn-seleccionado {
+  animation: reboteSeleccionBoton 0.34s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.guardio-lista-rotaciones {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 170px;
+  overflow-y: auto;
+}
+
+.guardio-item-rot {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-left: 3px solid var(--primary, #2563EB);
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.guardio-item-rot:hover {
+  transform: translateX(2px);
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
+}
+
+.guardio-item-btns {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.guardio-item-btn {
+  margin: 0 !important;
+  padding: 3px 6px !important;
+  font-size: 0.66rem !important;
+  border-radius: 6px !important;
+  cursor: pointer;
+}
+
+.guardio-metric-pulso {
+  animation: reboteSeleccionBoton 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
     
   </style>
   
@@ -2522,37 +2717,124 @@ div[class*="postit-green"] {
         </div>
       </div>
       <!-- === FIN IMAGEN NEÓN === -->
+
     
-<div class="card">
-      <div class="card-title"><span>📊 Guardiómetro</span></div>
-      
-      <div class="guardia-badge guardiometro-hoy-brillante">
-        <span class="guardiometro-hoy-lbl">Guardia Hoy:</span>
-        <div class="guardia-actual guardiometro-hoy-valor" id="guardiaHoy">Guardia A</div>
-        <small id="fechaHoyText" class="guardiometro-hoy-fecha"></small>
+    <div class="card guardiometro-card-animada">
+  <div class="card-title">
+    <span>📊 Guardiómetro</span>
+    <button
+      type="button"
+      class="guardio-btn-mini"
+      onclick="animarYEjecutar(this, () => togglePanelRotacionesGuardia())"
+      title="Agregar, editar o eliminar rotaciones"
+    >
+      ⚙️ Rotaciones
+    </button>
+  </div>
+
+  <div class="guardia-badge guardiometro-hoy-brillante">
+    <span class="guardiometro-hoy-lbl">Guardia Hoy:</span>
+    <div class="guardia-actual guardiometro-hoy-valor" id="guardiaHoy">Guardia A</div>
+    <small id="fechaHoyText" class="guardiometro-hoy-fecha"></small>
+  </div>
+
+  <label for="tipoMip" style="font-size:0.8rem; font-weight:700;">Seleccionar Promoción / Rotación:</label>
+  <select id="tipoMip" class="guardio-select" onchange="actualizarGuardias()">
+    <!-- Se llena dinámicamente con las rotaciones guardadas + opción Personalizado -->
+  </select>
+
+  <div id="customFechas" class="guardio-custom-box" style="display:none; margin-top:6px;">
+    <label for="fechaInicio" style="font-size:0.75rem;">Fecha Inicio:</label>
+    <input type="date" id="fechaInicio" onchange="actualizarGuardias()">
+    <label for="fechaFin" style="font-size:0.75rem;">Fecha Término:</label>
+    <input type="date" id="fechaFin" onchange="actualizarGuardias()">
+  </div>
+
+  <!-- Panel desplegable para Agregar / Editar / Eliminar rotaciones -->
+  <div id="panelRotacionesGuardia" class="guardio-rotaciones-panel" style="display:none;">
+    <div class="guardio-rotaciones-top">
+      <strong id="tituloFormRotacion">➕ Nueva Rotación / Promoción</strong>
+      <button
+        type="button"
+        class="guardio-btn-sync"
+        onclick="animarYEjecutar(this, () => sincronizarRotacionesNube(true))"
+        title="Sincronizar con Google Script"
+      >
+        ☁️ Sync
+      </button>
+    </div>
+
+    <input type="hidden" id="rotacionEditId" value="">
+
+    <label for="rotNombreInput" class="guardio-lbl">Nombre de la rotación / generación:</label>
+    <input type="text" id="rotNombreInput" class="guardio-input" placeholder="Ej. MIP 2027 · Cirugía / Rotación 1">
+
+    <div class="guardio-grid-2">
+      <div>
+        <label for="rotFechaInicio" class="guardio-lbl">Fecha de inicio:</label>
+        <input type="date" id="rotFechaInicio" class="guardio-input" onchange="sincronizarDiaSemanaRotacion()">
       </div>
-
-      <label style="font-size:0.8rem;">Seleccionar Promoción / Rotación:</label>
-      <select id="tipoMip" onchange="actualizarGuardias()">
-        <option value="mip2">MIP 2 (1 Ene 2026 - 31 Dic 2026)</option>
-        <option value="mip1">MIP 1 (1 Jul 2026 - 30 Jun 2027)</option>
-        <option value="custom">Personalizado</option>
-      </select>
-
-      <div id="customFechas" style="display:none; margin-top:5px;">
-        <label style="font-size:0.75rem;">Fecha Inicio:</label>
-        <input type="date" id="fechaInicio" onchange="actualizarGuardias()">
-        <label style="font-size:0.75rem;">Fecha Término:</label>
-        <input type="date" id="fechaFin" onchange="actualizarGuardias()">
-      </div>
-
-      <div class="metrics-grid guardia-metrics-brillo">
-        <div class="metric-card guardia-metric-brillante">Guardias A<strong id="restA">0</strong></div>
-        <div class="metric-card guardia-metric-brillante">Guardias B<strong id="restB">0</strong></div>
-        <div class="metric-card guardia-metric-brillante">Guardias C<strong id="restC">0</strong></div>
-        <div class="metric-card guardia-metric-brillante">Guardias D<strong id="restD">0</strong></div>
+      <div>
+        <label for="rotFechaFin" class="guardio-lbl">Fecha de término:</label>
+        <input type="date" id="rotFechaFin" class="guardio-input">
       </div>
     </div>
+
+    <div class="guardio-grid-2">
+      <div>
+        <label for="rotLetraInicio" class="guardio-lbl">Letra con la que inicia:</label>
+        <select id="rotLetraInicio" class="guardio-select">
+          <option value="A">Guardia A</option>
+          <option value="B">Guardia B</option>
+          <option value="C">Guardia C</option>
+          <option value="D">Guardia D</option>
+        </select>
+      </div>
+      <div>
+        <label for="rotDiaSemana" class="guardio-lbl">Día de inicio:</label>
+        <select id="rotDiaSemana" class="guardio-select">
+          <option value="0">Domingo</option>
+          <option value="1">Lunes</option>
+          <option value="2">Martes</option>
+          <option value="3">Miércoles</option>
+          <option value="4">Jueves</option>
+          <option value="5">Viernes</option>
+          <option value="6">Sábado</option>
+        </select>
+      </div>
+    </div>
+
+    <small id="rotAyudaDia" class="guardio-ayuda-dia">
+      Tip: al elegir la fecha de inicio se ajusta el día de la semana automáticamente; revísalo para confirmar.
+    </small>
+
+    <div class="guardio-form-acciones">
+      <button
+        type="button"
+        class="guardio-btn-primario"
+        onclick="animarYEjecutar(this, () => guardarRotacionGuardia())"
+      >
+        💾 Guardar Rotación
+      </button>
+      <button
+        type="button"
+        class="guardio-btn-secundario"
+        onclick="animarYEjecutar(this, () => limpiarFormRotacionGuardia())"
+      >
+        Limpiar
+      </button>
+    </div>
+
+    <div id="listaRotacionesGuardia" class="guardio-lista-rotaciones"></div>
+  </div>
+
+  <div class="metrics-grid guardia-metrics-brillo">
+    <div class="metric-card guardia-metric-brillante">Guardias A<strong id="restA">0</strong></div>
+    <div class="metric-card guardia-metric-brillante">Guardias B<strong id="restB">0</strong></div>
+    <div class="metric-card guardia-metric-brillante">Guardias C<strong id="restC">0</strong></div>
+    <div class="metric-card guardia-metric-brillante">Guardias D<strong id="restD">0</strong></div>
+  </div>
+</div>
 
   <div class="card">
         <div class="card-title">
@@ -3358,18 +3640,109 @@ function renderizarLista(lista) {
   renderizarBotonesEspecialidad();
   actualizarMuestraColorEspecialidad();
 
+// FIN DE SCRIPT DE CUENTAS
 
-// GUARDIÓMETRO Y CALENDARIO
-const fechaInicioMip2 = new Date(2026, 0, 1); // 1 de enero de 2026
-const ordenGuardiasMip2 = ["Guardia B", "Guardia C", "Guardia D", "Guardia A"];
+// ==========================================
+// GUARDIÓMETRO Y CALENDARIO (CON FESTIVOS ISSET)
+// ==========================================
+const API_ROTACIONES_URL = "https://script.google.com/macros/s/AKfycbzxCZMtBDIP2L6CyQzvb5VOUSESSmPp6Fm33cdvImBAauikTlxpS-xGm30AsZWDX52Rjw/exec";
+const STORAGE_ROTACIONES_KEY = "perrito2_rotaciones_guardia_v1";
+const ORDEN_CICLO_GUARDIAS = ["Guardia A", "Guardia B", "Guardia C", "Guardia D"];
+const DIAS_SEMANA_NOMBRES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+
+const ROTACIONES_GUARDIA_DEFAULT = [
+  {
+    id: "mip2-2026",
+    nombre: "MIP 2 (1 Ene 2026 - 31 Dic 2026)",
+    fechaInicio: "2026-01-01",
+    fechaFin: "2026-12-31",
+    letraInicio: "B", // 1 de enero de 2026 inicia con Guardia B
+    diaSemana: 4     // Jueves
+  },
+  {
+    id: "mip1-2026-2027",
+    nombre: "MIP 1 (1 Jul 2026 - 30 Jun 2027)",
+    fechaInicio: "2026-07-01",
+    fechaFin: "2027-06-30",
+    letraInicio: "A",
+    diaSemana: 3
+  }
+];
+
+let rotacionesGuardia = cargarRotacionesLocal();
 let calViewDate = new Date();
 
+function parseFechaISO(isoStr) {
+  if (!isoStr || typeof isoStr !== "string") return null;
+  const partes = isoStr.split("-");
+  if (partes.length !== 3) return null;
+  const y = Number(partes[0]);
+  const m = Number(partes[1]) - 1;
+  const d = Number(partes[2]);
+  if (Number.isNaN(y) || Number.isNaN(m) || Number.isNaN(d)) return null;
+  return new Date(y, m, d);
+}
+
+function formatoISO(fecha) {
+  const y = fecha.getFullYear();
+  const m = String(fecha.getMonth() + 1).padStart(2, "0");
+  const d = String(fecha.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function cargarRotacionesLocal() {
+  try {
+    const raw = localStorage.getItem(STORAGE_ROTACIONES_KEY);
+    if (!raw) return [...ROTACIONES_GUARDIA_DEFAULT];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) && parsed.length ? parsed : [...ROTACIONES_GUARDIA_DEFAULT];
+  } catch (e) {
+    return [...ROTACIONES_GUARDIA_DEFAULT];
+  }
+}
+
+function guardarRotacionesLocal(lista) {
+  try {
+    localStorage.setItem(STORAGE_ROTACIONES_KEY, JSON.stringify(lista));
+  } catch (e) {}
+}
+
+function obtenerRotacionActiva() {
+  const select = document.getElementById("tipoMip");
+  const valor = select ? select.value : (rotacionesGuardia[0] && rotacionesGuardia[0].id);
+
+  if (valor === "mip2") {
+    return rotacionesGuardia.find(r => r.id === "mip2-2026") || ROTACIONES_GUARDIA_DEFAULT[0];
+  }
+  if (valor === "mip1") {
+    return rotacionesGuardia.find(r => r.id === "mip1-2026-2027") || ROTACIONES_GUARDIA_DEFAULT[1];
+  }
+  if (valor === "custom") {
+    const iniCustom = parseFechaISO(document.getElementById("fechaInicio")?.value) || parseFechaISO(rotacionesGuardia[0]?.fechaInicio) || new Date(2026, 0, 1);
+    const finCustom = parseFechaISO(document.getElementById("fechaFin")?.value) || new Date(2026, 11, 31);
+    return {
+      id: "custom",
+      nombre: "Personalizado",
+      fechaInicio: formatoISO(iniCustom),
+      fechaFin: formatoISO(finCustom),
+      letraInicio: rotacionesGuardia[0]?.letraInicio || "B",
+      diaSemana: iniCustom.getDay()
+    };
+  }
+
+  return rotacionesGuardia.find(r => r.id === valor) || rotacionesGuardia[0] || ROTACIONES_GUARDIA_DEFAULT[0];
+}
+
 function obtenerGuardiaPorFecha(fechaTarget) {
+  const rot = obtenerRotacionActiva();
+  const baseDate = parseFechaISO(rot.fechaInicio) || new Date(2026, 0, 1);
+  const inicioIdx = Math.max(0, ORDEN_CICLO_GUARDIAS.indexOf(`Guardia ${(rot.letraInicio || "A").toUpperCase()}`));
+
   const inicioDiaTarget = new Date(fechaTarget.getFullYear(), fechaTarget.getMonth(), fechaTarget.getDate());
-  const inicioDiaBase = new Date(fechaInicioMip2.getFullYear(), fechaInicioMip2.getMonth(), fechaInicioMip2.getDate());
+  const inicioDiaBase = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate());
   const diffDays = Math.floor((inicioDiaTarget - inicioDiaBase) / (1000 * 60 * 60 * 24));
-  const idx = ((diffDays % 4) + 4) % 4;
-  return ordenGuardiasMip2[idx];
+  const idx = (((inicioIdx + diffDays) % 4) + 4) % 4;
+  return ORDEN_CICLO_GUARDIAS[idx];
 }
 
 // Obtiene el motivo del día festivo del ISSET si aplica
@@ -3433,6 +3806,203 @@ function ocultarTooltipFestivo() {
   }
 }
 
+function poblarSelectRotaciones() {
+  const select = document.getElementById("tipoMip");
+  if (!select) return;
+  const prevVal = select.value;
+
+  select.innerHTML = "";
+  rotacionesGuardia.forEach(rot => {
+    const opt = document.createElement("option");
+    opt.value = rot.id;
+    opt.textContent = rot.nombre;
+    select.appendChild(opt);
+  });
+
+  const optCustom = document.createElement("option");
+  optCustom.value = "custom";
+  optCustom.textContent = "Personalizado";
+  select.appendChild(optCustom);
+
+  if (prevVal && [...select.options].some(o => o.value === prevVal)) {
+    select.value = prevVal;
+  } else if (rotacionesGuardia[0]) {
+    select.value = rotacionesGuardia[0].id;
+  }
+}
+
+function togglePanelRotacionesGuardia() {
+  const panel = document.getElementById("panelRotacionesGuardia");
+  if (!panel) return;
+  const mostrar = panel.style.display === "none" || getComputedStyle(panel).display === "none";
+  panel.style.display = mostrar ? "block" : "none";
+  if (mostrar) {
+    renderListaRotacionesGuardia();
+  }
+}
+
+function sincronizarDiaSemanaRotacion() {
+  const fIni = parseFechaISO(document.getElementById("rotFechaInicio")?.value);
+  const diaSel = document.getElementById("rotDiaSemana");
+  const ayuda = document.getElementById("rotAyudaDia");
+  if (!fIni || !diaSel) return;
+
+  const diaReal = fIni.getDay();
+  diaSel.value = String(diaReal);
+  if (ayuda) {
+    ayuda.textContent = `Fecha seleccionada cae en ${DIAS_SEMANA_NOMBRES[diaReal]}. Puedes ajustar el día de inicio si lo requieres.`;
+  }
+}
+
+function limpiarFormRotacionGuardia() {
+  const idEl = document.getElementById("rotacionEditId");
+  const titEl = document.getElementById("tituloFormRotacion");
+  const nomEl = document.getElementById("rotNombreInput");
+  const iniEl = document.getElementById("rotFechaInicio");
+  const finEl = document.getElementById("rotFechaFin");
+  const letEl = document.getElementById("rotLetraInicio");
+  const diaEl = document.getElementById("rotDiaSemana");
+
+  if (idEl) idEl.value = "";
+  if (titEl) titEl.textContent = "➕ Nueva Rotación / Promoción";
+  if (nomEl) nomEl.value = "";
+  if (iniEl) iniEl.value = "";
+  if (finEl) finEl.value = "";
+  if (letEl) letEl.value = "A";
+  if (diaEl) diaEl.value = "1";
+}
+
+function editarRotacionGuardia(id) {
+  const rot = rotacionesGuardia.find(r => r.id === id);
+  if (!rot) return;
+  document.getElementById("rotacionEditId").value = rot.id;
+  document.getElementById("tituloFormRotacion").textContent = "✏️ Editando Rotación";
+  document.getElementById("rotNombreInput").value = rot.nombre;
+  document.getElementById("rotFechaInicio").value = rot.fechaInicio;
+  document.getElementById("rotFechaFin").value = rot.fechaFin;
+  document.getElementById("rotLetraInicio").value = rot.letraInicio || "A";
+  document.getElementById("rotDiaSemana").value = String(rot.diaSemana ?? 1);
+}
+
+async function guardarRotacionGuardia() {
+  const idEdit = document.getElementById("rotacionEditId").value.trim();
+  const nombre = document.getElementById("rotNombreInput").value.trim();
+  const fechaInicio = document.getElementById("rotFechaInicio").value;
+  const fechaFin = document.getElementById("rotFechaFin").value;
+  const letraInicio = document.getElementById("rotLetraInicio").value;
+  const diaSemana = Number(document.getElementById("rotDiaSemana").value);
+
+  if (!nombre || !fechaInicio || !fechaFin) {
+    alert("Completa el nombre, fecha de inicio y fecha de término de la rotación.");
+    return;
+  }
+
+  const dIni = parseFechaISO(fechaInicio);
+  const dFin = parseFechaISO(fechaFin);
+  if (!dIni || !dFin || dFin < dIni) {
+    alert("Revisa que la fecha de término sea igual o posterior a la fecha de inicio.");
+    return;
+  }
+
+  const nuevaRot = {
+    id: idEdit || ("rot-" + Date.now()),
+    nombre,
+    fechaInicio,
+    fechaFin,
+    letraInicio,
+    diaSemana
+  };
+
+  if (idEdit) {
+    rotacionesGuardia = rotacionesGuardia.map(r => (r.id === idEdit ? nuevaRot : r));
+  } else {
+    rotacionesGuardia.push(nuevaRot);
+  }
+
+  guardarRotacionesLocal(rotacionesGuardia);
+  poblarSelectRotaciones();
+  document.getElementById("tipoMip").value = nuevaRot.id;
+  renderListaRotacionesGuardia();
+  limpiarFormRotacionGuardia();
+  actualizarGuardias();
+  await sincronizarRotacionesNube(false);
+}
+
+async function eliminarRotacionGuardia(id) {
+  if (rotacionesGuardia.length <= 1) {
+    alert("Debe permanecer al menos una rotación activa.");
+    return;
+  }
+  const rot = rotacionesGuardia.find(r => r.id === id);
+  if (!rot) return;
+  if (!confirm(`¿Eliminar "${rot.nombre}"?`)) return;
+
+  rotacionesGuardia = rotacionesGuardia.filter(r => r.id !== id);
+  guardarRotacionesLocal(rotacionesGuardia);
+  poblarSelectRotaciones();
+  renderListaRotacionesGuardia();
+  actualizarGuardias();
+  await sincronizarRotacionesNube(false);
+}
+
+function renderListaRotacionesGuardia() {
+  const cont = document.getElementById("listaRotacionesGuardia");
+  if (!cont) return;
+
+  if (!rotacionesGuardia.length) {
+    cont.innerHTML = `<div style="font-size:0.7rem; color:#64748B;">Sin rotaciones configuradas.</div>`;
+    return;
+  }
+
+  cont.innerHTML = rotacionesGuardia.map(rot => {
+    const diaNombre = DIAS_SEMANA_NOMBRES[Number(rot.diaSemana)] || "";
+    return `
+      <div class="guardio-item-rot">
+        <div>
+          <strong>${rot.nombre}</strong><br>
+          <span style="color:#475569;">${rot.fechaInicio} → ${rot.fechaFin} · Inicia: <b>Guardia ${rot.letraInicio}</b> (${diaNombre})</span>
+        </div>
+        <div class="guardio-item-btns">
+          <button type="button" class="guardio-item-btn" onclick="editarRotacionGuardia('${rot.id}')">✏️</button>
+          <button type="button" class="guardio-item-btn" onclick="eliminarRotacionGuardia('${rot.id}')">🗑️</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+async function sincronizarRotacionesNube(forzarLectura = false) {
+  const endpoint = API_ROTACIONES_URL || (typeof API_URL !== "undefined" ? API_URL : "");
+  if (!endpoint) return;
+
+  try {
+    if (forzarLectura) {
+      const resp = await fetch(`${endpoint}?action=get_rotaciones_guardia`);
+      const data = await resp.json();
+      if (Array.isArray(data?.rotaciones) && data.rotaciones.length) {
+        rotacionesGuardia = data.rotaciones;
+        guardarRotacionesLocal(rotacionesGuardia);
+        poblarSelectRotaciones();
+        renderListaRotacionesGuardia();
+        actualizarGuardias();
+      }
+      return;
+    }
+
+    await fetch(endpoint, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "save_rotaciones_guardia",
+        rotaciones: rotacionesGuardia
+      })
+    });
+  } catch (err) {
+    console.warn("Sincronización de rotaciones pendiente/offline:", err);
+  }
+}
+
 function actualizarGuardias() {
   const hoy = new Date();
   document.getElementById('fechaHoyText').innerText = hoy.toLocaleDateString('es-ES', {
@@ -3449,16 +4019,14 @@ function actualizarGuardias() {
   const customDiv = document.getElementById('customFechas');
   let fechaFin;
 
-  if (tipoMip === 'mip2') {
-    customDiv.style.display = 'none';
-    fechaFin = new Date(2026, 11, 31);
-  } else if (tipoMip === 'mip1') {
-    customDiv.style.display = 'none';
-    fechaFin = new Date(2027, 5, 30);
+  if (tipoMip === 'custom') {
+    if (customDiv) customDiv.style.display = 'block';
+    const inputFin = document.getElementById('fechaFin')?.value;
+    fechaFin = inputFin ? parseFechaISO(inputFin) || new Date(inputFin) : new Date(2026, 11, 31);
   } else {
-    customDiv.style.display = 'block';
-    const inputFin = document.getElementById('fechaFin').value;
-    fechaFin = inputFin ? new Date(inputFin) : new Date(2026, 11, 31);
+    if (customDiv) customDiv.style.display = 'none';
+    const rotActiva = obtenerRotacionActiva();
+    fechaFin = parseFechaISO(rotActiva.fechaFin) || new Date(2026, 11, 31);
   }
 
   let counts = { A: 0, B: 0, C: 0, D: 0 };
@@ -3473,10 +4041,18 @@ function actualizarGuardias() {
     tempDate.setDate(tempDate.getDate() + 1);
   }
 
-  document.getElementById('restA').innerText = counts.A;
-  document.getElementById('restB').innerText = counts.B;
-  document.getElementById('restC').innerText = counts.C;
-  document.getElementById('restD').innerText = counts.D;
+  ['A', 'B', 'C', 'D'].forEach(letra => {
+    const el = document.getElementById(`rest${letra}`);
+    if (el) {
+      el.innerText = counts[letra];
+      const card = el.closest('.metric-card');
+      if (card) {
+        card.classList.remove('guardio-metric-pulso');
+        void card.offsetWidth;
+        card.classList.add('guardio-metric-pulso');
+      }
+    }
+  });
 
   generarCalendario();
 }
@@ -3547,7 +4123,14 @@ function generarCalendario() {
   }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  poblarSelectRotaciones();
+  actualizarGuardias();
+  sincronizarRotacionesNube(true);
+});
 
+// FIN DE GUARDIOMETRO Y CALENDARIO
+  
 // LABORATORIOS ROTULADOS
 function procesarLaboratorios() {
     const inputElement = document.getElementById('labInput');
