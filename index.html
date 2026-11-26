@@ -2857,55 +2857,7 @@ div[class*="postit-green"] {
   border: 1px solid rgba(250, 204, 21, 0.35);
 }
 
-/* ==========================================
-   NIEVE EN EL BORDE SUPERIOR (.card.nieve-borde)
-   ========================================== */
-.card.nieve-borde {
-  position: relative;
-}
 
-.card.nieve-borde::before {
-  content: "";
-  position: absolute;
-  top: 0px;
-  left: 6px;
-  right: 6px;
-  height: 10px;
-  pointer-events: none;
-  z-index: 12;
-  border-radius: 12px 12px 10px 10px;
-  background:
-    radial-gradient(circle at 12% 75%, #FFFFFF 0px, #FFFFFF 5px, transparent 5.5px),
-    radial-gradient(circle at 30% 82%, #F8FAFC 0px, #F8FAFC 6px, transparent 6.5px),
-    radial-gradient(circle at 52% 70%, #FFFFFF 0px, #FFFFFF 5px, transparent 5.5px),
-    radial-gradient(circle at 74% 80%, #F1F5F9 0px, #F1F5F9 6px, transparent 6.5px),
-    radial-gradient(circle at 90% 74%, #FFFFFF 0px, #FFFFFF 4.5px, transparent 5px),
-    linear-gradient(180deg, #FFFFFF 0%, #E0F2FE 100%);
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.14);
-  animation: respiroNieveBorde 3.4s ease-in-out infinite;
-}
-
-body.dark-mode .card.nieve-borde::before,
-.dark-mode .card.nieve-borde::before {
-  background:
-    radial-gradient(circle at 12% 75%, #E2E8F0 0px, #E2E8F0 5px, transparent 5.5px),
-    radial-gradient(circle at 30% 82%, #CBD5E1 0px, #CBD5E1 6px, transparent 6.5px),
-    radial-gradient(circle at 52% 70%, #E2E8F0 0px, #E2E8F0 5px, transparent 5.5px),
-    radial-gradient(circle at 74% 80%, #94A3B8 0px, #94A3B8 6px, transparent 6.5px),
-    radial-gradient(circle at 90% 74%, #CBD5E1 0px, #CBD5E1 4.5px, transparent 5px),
-    linear-gradient(180deg, #E2E8F0 0%, #94A3B8 100%);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.45);
-  opacity: 0.88;
-}
-
-@keyframes respiroNieveBorde {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(1px);
-  }
-}
     
   </style>
   
@@ -3036,7 +2988,7 @@ body.dark-mode .card.nieve-borde::before,
 
 <!-- COLUMNA 1: Buscador y Agregar/Editar -->
         <div class="column">
-          <div class="card nieve-borde">  
+          <div class="card">  
                 <div class="card-title"><span>🔍 Buscador de Cuentas</span></div>
                 <!-- Leyenda de ayuda para copiar Usr / Pass -->
                 <div style="display: flex; align-items: center; justify-content: space-between; background-color: #F8FAFC; border: 1px solid #E2E8F0; padding: 6px 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.72rem;">
@@ -3058,7 +3010,7 @@ body.dark-mode .card.nieve-borde::before,
                 <div class="user-list" id="userList"></div>
             </div>
 
-          <div class="card nieve-borde">
+          <div class="card">
             <div class="card-title" onclick="toggleAgregarCuenta()" style="cursor: pointer; user-select: none;">
               <span>➕ Agregar / Editar Cuenta <small id="flechaAgregarCuenta" style="font-size: 0.85rem; margin-left: 6px;">▸</small></span>
             </div>
@@ -3092,7 +3044,7 @@ body.dark-mode .card.nieve-borde::before,
           </div>
 
 <!-- CUADRO DE CONSULTORIOS 1 AL 45 -->
-<div class="card consultorios-card-animada nieve-borde">
+<div class="card consultorios-card-animada">
   <div class="card-title">
     <span>🚪 Consultorios</span>
     <button
@@ -3201,7 +3153,7 @@ body.dark-mode .card.nieve-borde::before,
       </div>
       <!-- === FIN IMAGEN NEÓN === -->
 
-<div class="card guardiometro-card-animada nieve-borde">
+<div class="card guardiometro-card-animada">
   <div class="card-title">
     <span>📊 Guardiómetro</span>
     <button
@@ -3313,7 +3265,7 @@ body.dark-mode .card.nieve-borde::before,
   </div>
 </div>
     
-  <div class="card nieve-borde">
+  <div class="card">
         <div class="card-title">
           <span>📅 Calendario</span>
           <div>
@@ -3337,7 +3289,7 @@ body.dark-mode .card.nieve-borde::before,
 
     
 <!-- CUENTA REGRESIVA EN CUADRO AMARILLO BRILLANTE (MULTI-FECHA COMPARTIDA) -->
-        <div class="card regresiva-dorada-card nieve-borde" style="text-align: center;">
+        <div class="card regresiva-dorada-card" style="text-align: center;">
           <div class="card-title regresiva-dorada-titulo" style="justify-content: space-between; gap: 6px;">
             <span id="cdTituloActivo">⏳ Cuenta Regresiva</span>
             <button type="button" onclick="toggleFormCuentaRegresiva()" style="margin: 0; padding: 3px 8px; font-size: 0.68rem; border-radius: 7px; background: rgba(120, 53, 15, 0.16); color: #78350F; border: 1px solid rgba(120, 53, 15, 0.35);">
@@ -3388,7 +3340,7 @@ body.dark-mode .card.nieve-borde::before,
 
 
 <!-- Tarjeta Homenaje TYO en azul brillante -->
-<div class="card reconocimiento-azul-card nieve-borde" style="margin-top: 15px; padding: 18px; border-radius: 12px; text-align: center;">
+<div class="card reconocimiento-azul-card" style="margin-top: 15px; padding: 18px; border-radius: 12px; text-align: center;">
   <div class="reconocimiento-azul-subtitulo">
     🦴 RECONOCIMIENTO TYO 🦴
   </div>
@@ -3405,7 +3357,7 @@ body.dark-mode .card.nieve-borde::before,
 <!-- COLUMNA 3: Laboratorios y Post-its -->
   <div class="column">
     
-    <div class="card lab-analizador-card nieve-borde">
+    <div class="card lab-analizador-card">
       <div class="card-title lab-analizador-titulo">
         <span>🧪 Procesador de Laboratorios</span>
         <span id="labEstadoBadge" class="lab-estado-badge">
@@ -3436,7 +3388,7 @@ body.dark-mode .card.nieve-borde::before,
     </div>
 
 <!-- MÓDULO: CONVERSOR DE MAYÚSCULAS Y MINÚSCULAS -->
-        <div class="card conversor-texto-card nieve-borde">
+        <div class="card conversor-texto-card">
           <div class="card-title conversor-texto-titulo">
             <span>🔤 MAYUSCULAS/minusculas</span>
             <span id="conversorContador" class="conversor-contador">0 car.</span>
@@ -3471,7 +3423,7 @@ body.dark-mode .card.nieve-borde::before,
           </div>
         </div>
 
-     <div class="card nieve-borde">
+     <div class="card">
   <div class="card-title">
     <span>📌 Post-its</span>
     <div class="btn-group-row">
@@ -3483,7 +3435,7 @@ body.dark-mode .card.nieve-borde::before,
  </div>
     
 <!-- TARJETA DESPLEGABLE: TIRO AL BLANCO (MINI-DESESTRÉS ANIMADO) -->
-    <div class="card tiro-consola-card nieve-borde" style="text-align: center;">
+    <div class="card tiro-consola-card" style="text-align: center;">
       <div class="card-title" onclick="toggleTiroBlanco()" style="cursor: pointer; user-select: none; justify-content: center;">
         <span>🎯 Tiro al Blanco<small id="flechaTiroBlanco" style="font-size: 0.85rem; margin-left: 6px;">▸</small></span>
       </div>
@@ -3523,7 +3475,7 @@ body.dark-mode .card.nieve-borde::before,
     </div>
 
 <!-- TARJETA DESPLEGABLE: MONEDA RÁPIDA DE GUARDIA -->
-    <div class="card nieve-borde">
+    <div class="card">
       <div class="card-title" onclick="toggleMonedaRapida()" style="cursor: pointer; user-select: none;">
         <span>🎲 UN VOLADO <small id="flechaMonedaRapida" style="font-size: 0.85rem; margin-left: 6px;">▸</small></span>
       </div>
@@ -3586,7 +3538,7 @@ body.dark-mode .card.nieve-borde::before,
     </div>
 
 <!-- TARJETA DESPLEGABLE: PERRITO TAMAGOTCHI (MODO VIDEOJUEGO) -->
-    <div class="card nieve-borde">
+    <div class="card">
       <div
         class="card-title tama-acordeon-header"
         onclick="toggleTamagotchiPerrito()"
