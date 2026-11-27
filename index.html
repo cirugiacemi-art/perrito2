@@ -4958,67 +4958,67 @@ const cuentasMedicos = {
     // PALETAS DIARIAS CON TÍTULOS CENTRADOS Y POST-ITS CONSERVADOS
     // ==========================================
     (function aplicarPaletaDiariaCoordinada() {
-        const paletas = [
-// 01. Clásico Verde Pino y Rojo Santa
-  { bg: "linear-gradient(-45deg, #052e16, #7f1d1d, #14532d, #dc2626)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#14532d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 02. Bastón de Menta (Rojo y Blanco Nieve)
-  { bg: "linear-gradient(-45deg, #7f1d1d, #dc2626, #991b1b, #b91c1c)", cardBg: "#ffffff", border: "#fecdd3", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#e11d48" },
-  // 03. Bosque Nevado (Verde Pino y Blanco)
-  { bg: "linear-gradient(-45deg, #052e16, #14532d, #166534, #064e3b)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#15803d" },
-  // 04. Rojo Santa Clásico y Blanco
-  { bg: "linear-gradient(-45deg, #450a0a, #991b1b, #dc2626, #7f1d1d)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 05. Acebo Navideño (Verde y Rojo)
-  { bg: "linear-gradient(-45deg, #14532d, #991b1b, #166534, #b91c1c)", cardBg: "#f7fdf9", border: "#bbf7d0", headerBg: "#166534", titleColor: "#ffffff", primary: "#dc2626" },
-  // 06. Pino y Caramelo Blanco
-  { bg: "linear-gradient(-45deg, #064e3b, #14532d, #7f1d1d, #15803d)", cardBg: "#ffffff", border: "#cbd5e1", headerBg: "#14532d", titleColor: "#ffffff", primary: "#15803d" },
-  // 07. Rojo Festivo y Blanco Nieve
-  { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #dc2626, #991b1b)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#dc2626" },
-  // 08. Verde Abeto y Rojo Cereza
-  { bg: "linear-gradient(-45deg, #052e16, #881337, #14532d, #be123c)", cardBg: "#fffafa", border: "#fecdd3", headerBg: "#14532d", titleColor: "#ffffff", primary: "#be123c" },
-  // 09. Nieve sobre Pino
-  { bg: "linear-gradient(-45deg, #14532d, #166534, #052e16, #15803d)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#16a34a" },
-  // 10. Clásico Rojo, Verde y Blanco
-  { bg: "linear-gradient(-45deg, #991b1b, #14532d, #dc2626, #166534)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 11. Bastón de Menta Clásico
-  { bg: "linear-gradient(-45deg, #7f1d1d, #dc2626, #991b1b, #b91c1c)", cardBg: "#ffffff", border: "#fecdd3", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#e11d48" },
-  // 12. Bosque Nevado (Verde Pino y Blanco)
-  { bg: "linear-gradient(-45deg, #052e16, #14532d, #166534, #064e3b)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#15803d" },
-  // 13. Rojo Santa Clásico y Blanco
-  { bg: "linear-gradient(-45deg, #450a0a, #991b1b, #dc2626, #7f1d1d)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 14. Acebo Navideño (Verde y Rojo)
-  { bg: "linear-gradient(-45deg, #14532d, #991b1b, #166534, #b91c1c)", cardBg: "#f7fdf9", border: "#bbf7d0", headerBg: "#166534", titleColor: "#ffffff", primary: "#dc2626" },
-  // 15. Clásico Verde Pino y Rojo Santa
-  { bg: "linear-gradient(-45deg, #052e16, #7f1d1d, #14532d, #dc2626)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#14532d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 16. Rojo Festivo y Blanco Nieve
-  { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #dc2626, #991b1b)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#dc2626" },
-  // 17. Nieve sobre Pino
-  { bg: "linear-gradient(-45deg, #14532d, #166534, #052e16, #15803d)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#16a34a" },
-  // 18. Clásico Rojo, Verde y Blanco
-  { bg: "linear-gradient(-45deg, #991b1b, #14532d, #dc2626, #166534)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 19. Bastón de Menta (Rojo y Blanco Nieve)
-  { bg: "linear-gradient(-45deg, #7f1d1d, #dc2626, #991b1b, #b91c1c)", cardBg: "#ffffff", border: "#fecdd3", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#e11d48" },
-  // 20. Bosque Nevado (Verde Pino y Blanco)
-  { bg: "linear-gradient(-45deg, #052e16, #14532d, #166534, #064e3b)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#15803d" },
-  // 21. Rojo Santa Clásico y Blanco
-  { bg: "linear-gradient(-45deg, #450a0a, #991b1b, #dc2626, #7f1d1d)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 22. Acebo Navideño (Verde y Rojo)
-  { bg: "linear-gradient(-45deg, #14532d, #991b1b, #166534, #b91c1c)", cardBg: "#f7fdf9", border: "#bbf7d0", headerBg: "#166534", titleColor: "#ffffff", primary: "#dc2626" },
-  // 23. Clásico Verde Pino y Rojo Santa
-  { bg: "linear-gradient(-45deg, #052e16, #7f1d1d, #14532d, #dc2626)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#14532d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 24. Rojo Festivo y Blanco Nieve
-  { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #dc2626, #991b1b)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#dc2626" },
-  // 25. Nieve sobre Pino
-  { bg: "linear-gradient(-45deg, #14532d, #166534, #052e16, #15803d)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#16a34a" },
-  // 26. Clásico Rojo, Verde y Blanco
-  { bg: "linear-gradient(-45deg, #991b1b, #14532d, #dc2626, #166534)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 27. Bastón de Menta (Rojo y Blanco Nieve)
-  { bg: "linear-gradient(-45deg, #7f1d1d, #dc2626, #991b1b, #b91c1c)", cardBg: "#ffffff", border: "#fecdd3", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#e11d48" },
-  // 28. Bosque Nevado (Verde Pino y Blanco)
-  { bg: "linear-gradient(-45deg, #052e16, #14532d, #166534, #064e3b)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#15803d" },
-  // 29. Rojo Santa Clásico y Blanco
-  { bg: "linear-gradient(-45deg, #450a0a, #991b1b, #dc2626, #7f1d1d)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 30. Clásico Rojo, Verde y Blanco
-  { bg: "linear-gradient(-45deg, #991b1b, #14532d, #dc2626, #166534)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" }
+const paletas = [
+  // 01. Fondo Rojo Intenso + Header Verde Pino Oscuro
+  { bg: "linear-gradient(-45deg, #7f1d1d, #dc2626, #991b1b, #ef4444)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#052e16", titleColor: "#ffffff", primary: "#15803d" },
+  // 02. Fondo Verde Bosque + Header Rojo Carmesí
+  { bg: "linear-gradient(-45deg, #052e16, #16a34a, #14532d, #22c55e)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#b91c1c" },
+  // 03. Fondo Rojo Cereza + Header Blanco Nieve (texto rojo)
+  { bg: "linear-gradient(-45deg, #881337, #e11d48, #9f1239, #fb7185)", cardBg: "#fffafa", border: "#fecdd3", headerBg: "#ffffff", titleColor: "#9f1239", primary: "#be123c" },
+  // 04. Fondo Verde Esmeralda + Header Blanco Nieve (texto verde)
+  { bg: "linear-gradient(-45deg, #064e3b, #10b981, #047857, #34d399)", cardBg: "#f7fdf9", border: "#a7f3d0", headerBg: "#ffffff", titleColor: "#064e3b", primary: "#047857" },
+  // 05. Fondo Rojo Navidad + Header Verde Abeto Profundo
+  { bg: "linear-gradient(-45deg, #991b1b, #ef4444, #7f1d1d, #dc2626)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#14532d", titleColor: "#ffffff", primary: "#166534" },
+  // 06. Fondo Verde Pino + Header Rojo Sangre Brillante
+  { bg: "linear-gradient(-45deg, #14532d, #22c55e, #052e16, #15803d)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#b91c1c", titleColor: "#ffffff", primary: "#dc2626" },
+  // 07. Fondo Rojo Terciopelo + Header Verde Menta Oscuro
+  { bg: "linear-gradient(-45deg, #450a0a, #dc2626, #7f1d1d, #f87171)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#064e3b", titleColor: "#ffffff", primary: "#0d9488" },
+  // 08. Fondo Verde Oscuro + Header Rojo Rubí
+  { bg: "linear-gradient(-45deg, #022c22, #15803d, #065f46, #16a34a)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#881337", titleColor: "#ffffff", primary: "#be123c" },
+  // 09. Fondo Rojo Caramelo + Header Verde Bosque
+  { bg: "linear-gradient(-45deg, #9f1239, #f43f5e, #881337, #e11d48)", cardBg: "#ffffff", border: "#fecdd3", headerBg: "#052e16", titleColor: "#ffffff", primary: "#15803d" },
+  // 10. Fondo Verde Abeto + Header Rojo Navidad
+  { bg: "linear-gradient(-45deg, #14532d, #4ade80, #166534, #16a34a)", cardBg: "#fffafa", border: "#bbf7d0", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#dc2626" },
+  // 11. Fondo Rojo Intenso + Header Blanco Nieve (texto rojo)
+  { bg: "linear-gradient(-45deg, #7f1d1d, #dc2626, #991b1b, #ef4444)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#ffffff", titleColor: "#7f1d1d", primary: "#b91c1c" },
+  // 12. Fondo Verde Bosque + Header Blanco Nieve (texto verde)
+  { bg: "linear-gradient(-45deg, #052e16, #16a34a, #14532d, #22c55e)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#ffffff", titleColor: "#14532d", primary: "#15803d" },
+  // 13. Fondo Rojo Cereza + Header Verde Pino Oscuro
+  { bg: "linear-gradient(-45deg, #881337, #e11d48, #9f1239, #fb7185)", cardBg: "#fffafa", border: "#fecdd3", headerBg: "#052e16", titleColor: "#ffffff", primary: "#166534" },
+  // 14. Fondo Verde Esmeralda + Header Rojo Carmesí
+  { bg: "linear-gradient(-45deg, #064e3b, #10b981, #047857, #34d399)", cardBg: "#f7fdf9", border: "#a7f3d0", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#dc2626" },
+  // 15. Fondo Rojo Navidad + Header Verde Bosque
+  { bg: "linear-gradient(-45deg, #991b1b, #ef4444, #7f1d1d, #dc2626)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#064e3b", titleColor: "#ffffff", primary: "#059669" },
+  // 16. Fondo Verde Pino + Header Rojo Terciopelo
+  { bg: "linear-gradient(-45deg, #14532d, #22c55e, #052e16, #15803d)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#b91c1c" },
+  // 17. Fondo Rojo Terciopelo + Header Blanco Nieve (texto rojo)
+  { bg: "linear-gradient(-45deg, #450a0a, #dc2626, #7f1d1d, #f87171)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#ffffff", titleColor: "#991b1b", primary: "#dc2626" },
+  // 18. Fondo Verde Oscuro + Header Blanco Nieve (texto verde)
+  { bg: "linear-gradient(-45deg, #022c22, #15803d, #065f46, #16a34a)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#ffffff", titleColor: "#064e3b", primary: "#047857" },
+  // 19. Fondo Rojo Caramelo + Header Verde Esmeralda
+  { bg: "linear-gradient(-45deg, #9f1239, #f43f5e, #881337, #e11d48)", cardBg: "#ffffff", border: "#fecdd3", headerBg: "#064e3b", titleColor: "#ffffff", primary: "#059669" },
+  // 20. Fondo Verde Abeto + Header Rojo Carmesí
+  { bg: "linear-gradient(-45deg, #14532d, #4ade80, #166534, #16a34a)", cardBg: "#fffafa", border: "#bbf7d0", headerBg: "#881337", titleColor: "#ffffff", primary: "#e11d48" },
+  // 21. Fondo Rojo Intenso + Header Verde Pino Oscuro
+  { bg: "linear-gradient(-45deg, #7f1d1d, #dc2626, #991b1b, #ef4444)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#052e16", titleColor: "#ffffff", primary: "#15803d" },
+  // 22. Fondo Verde Bosque + Header Rojo Navidad
+  { bg: "linear-gradient(-45deg, #052e16, #16a34a, #14532d, #22c55e)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#b91c1c" },
+  // 23. Fondo Rojo Cereza + Header Blanco Nieve (texto rojo)
+  { bg: "linear-gradient(-45deg, #881337, #e11d48, #9f1239, #fb7185)", cardBg: "#fffafa", border: "#fecdd3", headerBg: "#ffffff", titleColor: "#881337", primary: "#be123c" },
+  // 24. Fondo Verde Esmeralda + Header Blanco Nieve (texto verde)
+  { bg: "linear-gradient(-45deg, #064e3b, #10b981, #047857, #34d399)", cardBg: "#f7fdf9", border: "#a7f3d0", headerBg: "#ffffff", titleColor: "#047857", primary: "#059669" },
+  // 25. Fondo Rojo Navidad + Header Verde Abeto Profundo
+  { bg: "linear-gradient(-45deg, #991b1b, #ef4444, #7f1d1d, #dc2626)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#14532d", titleColor: "#ffffff", primary: "#166534" },
+  // 26. Fondo Verde Pino + Header Rojo Sangre Brillante
+  { bg: "linear-gradient(-45deg, #14532d, #22c55e, #052e16, #15803d)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#b91c1c", titleColor: "#ffffff", primary: "#dc2626" },
+  // 27. Fondo Rojo Terciopelo + Header Verde Menta Oscuro
+  { bg: "linear-gradient(-45deg, #450a0a, #dc2626, #7f1d1d, #f87171)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#064e3b", titleColor: "#ffffff", primary: "#0d9488" },
+  // 28. Fondo Verde Oscuro + Header Rojo Rubí
+  { bg: "linear-gradient(-45deg, #022c22, #15803d, #065f46, #16a34a)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#881337", titleColor: "#ffffff", primary: "#be123c" },
+  // 29. Fondo Rojo Caramelo + Header Blanco Nieve (texto rojo)
+  { bg: "linear-gradient(-45deg, #9f1239, #f43f5e, #881337, #e11d48)", cardBg: "#ffffff", border: "#fecdd3", headerBg: "#ffffff", titleColor: "#9f1239", primary: "#e11d48" },
+  // 30. Fondo Verde Abeto + Header Blanco Nieve (texto verde)
+  { bg: "linear-gradient(-45deg, #14532d, #4ade80, #166534, #16a34a)", cardBg: "#fffafa", border: "#bbf7d0", headerBg: "#ffffff", titleColor: "#14532d", primary: "#15803d" }
 ];
 
         // Calcular día del año (1-366)
