@@ -4959,66 +4959,66 @@ const cuentasMedicos = {
     // ==========================================
     (function aplicarPaletaDiariaCoordinada() {
         const paletas = [
-  // 01. Rojo Clásico de Santa
-  { bg: "linear-gradient(-45deg, #450a0a, #7f1d1d, #dc2626, #991b1b)", cardBg: "#fff5f5", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 02. Pino Navideño y Rojo Festivo
-  { bg: "linear-gradient(-45deg, #052e16, #14532d, #991b1b, #166534)", cardBg: "#f2fbf5", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#15803d" },
-  // 03. Bastón de Menta (Rojo y Blanco Nieve)
-  { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #dc2626, #991b1b)", cardBg: "#fffafa", border: "#fecdd3", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#e11d48" },
-  // 04. Bosque Invernal (Verdes Profundos y Escarcha)
-  { bg: "linear-gradient(-45deg, #042f2e, #064e3b, #134e4a, #065f46)", cardBg: "#f0fdfa", border: "#99f6e4", headerBg: "#064e3b", titleColor: "#ffffff", primary: "#0d9488" },
-  // 05. Nochebuena Clásica (Rojo Terciopelo y Verde Abeto)
-  { bg: "linear-gradient(-45deg, #4c0519, #881337, #14532d, #9f1239)", cardBg: "#fff1f2", border: "#fecdd3", headerBg: "#881337", titleColor: "#ffffff", primary: "#be123c" },
-  // 06. Polo Norte (Azul Noche Invernal, Rojo y Nieve)
-  { bg: "linear-gradient(-45deg, #0c192c, #1e3a5f, #7f1d1d, #172554)", cardBg: "#f8fafc", border: "#cbd5e1", headerBg: "#1e3a5f", titleColor: "#ffffff", primary: "#1d4ed8" },
-  // 07. Acebo y Muérdago
-  { bg: "linear-gradient(-45deg, #14532d, #166534, #7f1d1d, #15803d)", cardBg: "#f2fbf5", border: "#bbf7d0", headerBg: "#166534", titleColor: "#ffffff", primary: "#16a34a" },
-  // 08. Caramelo de Invierno
-  { bg: "linear-gradient(-45deg, #881337, #be123c, #4c0519, #9f1239)", cardBg: "#fff1f2", border: "#fecdd3", headerBg: "#9f1239", titleColor: "#ffffff", primary: "#e11d48" },
-  // 09. Abeto Azul Invernal
-  { bg: "linear-gradient(-45deg, #0f172a, #1e293b, #064e3b, #0f766e)", cardBg: "#f0f9ff", border: "#bae6fd", headerBg: "#0f172a", titleColor: "#ffffff", primary: "#0284c7" },
-  // 10. Rojo Cereza Festivo
-  { bg: "linear-gradient(-45deg, #450a0a, #991b1b, #b91c1c, #7f1d1d)", cardBg: "#fff5f5", border: "#fecaca", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#dc2626" },
-  // 11. Bosque Nevado Esmeralda
-  { bg: "linear-gradient(-45deg, #022c22, #064e3b, #047857, #065f46)", cardBg: "#ecfdf5", border: "#a7f3d0", headerBg: "#064e3b", titleColor: "#ffffff", primary: "#059669" },
-  // 12. Víspera de Navidad Carmesí y Pino
-  { bg: "linear-gradient(-45deg, #7f1d1d, #14532d, #991b1b, #166534)", cardBg: "#fff5f5", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#b91c1c" },
-  // 13. Escarcha de Medianoche
-  { bg: "linear-gradient(-45deg, #090d1e, #1e3a8a, #172554, #1e40af)", cardBg: "#eff6ff", border: "#bfdbfe", headerBg: "#172554", titleColor: "#ffffff", primary: "#2563eb" },
-  // 14. Follaje de Diciembre
-  { bg: "linear-gradient(-45deg, #052e16, #166534, #14532d, #15803d)", cardBg: "#f0fdf4", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#16a34a" },
-  // 15. Vino Tinto y Pino
-  { bg: "linear-gradient(-45deg, #4c0519, #881337, #064e3b, #9f1239)", cardBg: "#fff1f2", border: "#fecdd3", headerBg: "#881337", titleColor: "#ffffff", primary: "#be123c" },
-  // 16. Brisa de Enero (Azul Hielo y Pino)
-  { bg: "linear-gradient(-45deg, #0c4a6e, #0369a1, #064e3b, #075985)", cardBg: "#f0f9ff", border: "#bae6fd", headerBg: "#0c4a6e", titleColor: "#ffffff", primary: "#0284c7" },
-  // 17. Trineo de Santa
-  { bg: "linear-gradient(-45deg, #991b1b, #dc2626, #7f1d1d, #b91c1c)", cardBg: "#fff5f5", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 18. Cedro Profundo
-  { bg: "linear-gradient(-45deg, #042f2e, #115e59, #064e3b, #0f766e)", cardBg: "#f0fdfa", border: "#99f6e4", headerBg: "#115e59", titleColor: "#ffffff", primary: "#0d9488" },
-  // 19. Cascabeles Rojos y Verde Bosque
-  { bg: "linear-gradient(-45deg, #b91c1c, #14532d, #dc2626, #166534)", cardBg: "#fffafa", border: "#fecdd3", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#e11d48" },
-  // 20. Cielo Invernal Profundo
-  { bg: "linear-gradient(-45deg, #0b192c, #1e3a5f, #0f172a, #1d4ed8)", cardBg: "#f8fafc", border: "#cbd5e1", headerBg: "#0b192c", titleColor: "#ffffff", primary: "#1e40af" },
-  // 21. Guirnalda de Pino
-  { bg: "linear-gradient(-45deg, #052e16, #15803d, #064e3b, #166534)", cardBg: "#f2fbf5", border: "#bbf7d0", headerBg: "#166534", titleColor: "#ffffff", primary: "#15803d" },
-  // 22. Rojo Frambuesa Navideño
-  { bg: "linear-gradient(-45deg, #881337, #e11d48, #4c0519, #be123c)", cardBg: "#fff1f2", border: "#fecdd3", headerBg: "#881337", titleColor: "#ffffff", primary: "#e11d48" },
-  // 23. Nieve y Abeto
-  { bg: "linear-gradient(-45deg, #14532d, #0f172a, #166534, #1e293b)", cardBg: "#f8fafc", border: "#cbd5e1", headerBg: "#14532d", titleColor: "#ffffff", primary: "#15803d" },
-  // 24. Nochebuena Carmesí
-  { bg: "linear-gradient(-45deg, #7f1d1d, #991b1b, #064e3b, #dc2626)", cardBg: "#fff5f5", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
-  // 25. Glaciar y Verde Pino
-  { bg: "linear-gradient(-45deg, #0c4a6e, #14532d, #0284c7, #166534)", cardBg: "#f0f9ff", border: "#bae6fd", headerBg: "#0c4a6e", titleColor: "#ffffff", primary: "#0369a1" },
-  // 26. Listón Rojo Festivo
-  { bg: "linear-gradient(-45deg, #450a0a, #b91c1c, #991b1b, #dc2626)", cardBg: "#fff5f5", border: "#fecaca", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#b91c1c" },
-  // 27. Bosque de Invierno
-  { bg: "linear-gradient(-45deg, #022c22, #14532d, #065f46, #166534)", cardBg: "#f0fdf4", border: "#bbf7d0", headerBg: "#064e3b", titleColor: "#ffffff", primary: "#059669" },
-  // 28. Polo Norte Nocturno
-  { bg: "linear-gradient(-45deg, #090d1e, #1e3a5f, #7f1d1d, #1e293b)", cardBg: "#f8fafc", border: "#cbd5e1", headerBg: "#1e3a5f", titleColor: "#ffffff", primary: "#1d4ed8" },
-  // 29. Cereza y Pino Oscuro
-  { bg: "linear-gradient(-45deg, #4c0519, #14532d, #be123c, #064e3b)", cardBg: "#fff1f2", border: "#fecdd3", headerBg: "#4c0519", titleColor: "#ffffff", primary: "#be123c" },
-  // 30. Cierre de Año Invernal
-  { bg: "linear-gradient(-45deg, #0f172a, #7f1d1d, #064e3b, #172554)", cardBg: "#f8fafc", border: "#cbd5e1", headerBg: "#0f172a", titleColor: "#ffffff", primary: "#1e3a8a" }
+// 01. Clásico Verde Pino y Rojo Santa
+  { bg: "linear-gradient(-45deg, #052e16, #7f1d1d, #14532d, #dc2626)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#14532d", titleColor: "#ffffff", primary: "#dc2626" },
+  // 02. Bastón de Menta (Rojo y Blanco Nieve)
+  { bg: "linear-gradient(-45deg, #7f1d1d, #dc2626, #991b1b, #b91c1c)", cardBg: "#ffffff", border: "#fecdd3", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#e11d48" },
+  // 03. Bosque Nevado (Verde Pino y Blanco)
+  { bg: "linear-gradient(-45deg, #052e16, #14532d, #166534, #064e3b)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#15803d" },
+  // 04. Rojo Santa Clásico y Blanco
+  { bg: "linear-gradient(-45deg, #450a0a, #991b1b, #dc2626, #7f1d1d)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
+  // 05. Acebo Navideño (Verde y Rojo)
+  { bg: "linear-gradient(-45deg, #14532d, #991b1b, #166534, #b91c1c)", cardBg: "#f7fdf9", border: "#bbf7d0", headerBg: "#166534", titleColor: "#ffffff", primary: "#dc2626" },
+  // 06. Pino y Caramelo Blanco
+  { bg: "linear-gradient(-45deg, #064e3b, #14532d, #7f1d1d, #15803d)", cardBg: "#ffffff", border: "#cbd5e1", headerBg: "#14532d", titleColor: "#ffffff", primary: "#15803d" },
+  // 07. Rojo Festivo y Blanco Nieve
+  { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #dc2626, #991b1b)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#dc2626" },
+  // 08. Verde Abeto y Rojo Cereza
+  { bg: "linear-gradient(-45deg, #052e16, #881337, #14532d, #be123c)", cardBg: "#fffafa", border: "#fecdd3", headerBg: "#14532d", titleColor: "#ffffff", primary: "#be123c" },
+  // 09. Nieve sobre Pino
+  { bg: "linear-gradient(-45deg, #14532d, #166534, #052e16, #15803d)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#16a34a" },
+  // 10. Clásico Rojo, Verde y Blanco
+  { bg: "linear-gradient(-45deg, #991b1b, #14532d, #dc2626, #166534)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
+  // 11. Bastón de Menta Clásico
+  { bg: "linear-gradient(-45deg, #7f1d1d, #dc2626, #991b1b, #b91c1c)", cardBg: "#ffffff", border: "#fecdd3", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#e11d48" },
+  // 12. Bosque Nevado (Verde Pino y Blanco)
+  { bg: "linear-gradient(-45deg, #052e16, #14532d, #166534, #064e3b)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#15803d" },
+  // 13. Rojo Santa Clásico y Blanco
+  { bg: "linear-gradient(-45deg, #450a0a, #991b1b, #dc2626, #7f1d1d)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
+  // 14. Acebo Navideño (Verde y Rojo)
+  { bg: "linear-gradient(-45deg, #14532d, #991b1b, #166534, #b91c1c)", cardBg: "#f7fdf9", border: "#bbf7d0", headerBg: "#166534", titleColor: "#ffffff", primary: "#dc2626" },
+  // 15. Clásico Verde Pino y Rojo Santa
+  { bg: "linear-gradient(-45deg, #052e16, #7f1d1d, #14532d, #dc2626)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#14532d", titleColor: "#ffffff", primary: "#dc2626" },
+  // 16. Rojo Festivo y Blanco Nieve
+  { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #dc2626, #991b1b)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#dc2626" },
+  // 17. Nieve sobre Pino
+  { bg: "linear-gradient(-45deg, #14532d, #166534, #052e16, #15803d)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#16a34a" },
+  // 18. Clásico Rojo, Verde y Blanco
+  { bg: "linear-gradient(-45deg, #991b1b, #14532d, #dc2626, #166534)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
+  // 19. Bastón de Menta (Rojo y Blanco Nieve)
+  { bg: "linear-gradient(-45deg, #7f1d1d, #dc2626, #991b1b, #b91c1c)", cardBg: "#ffffff", border: "#fecdd3", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#e11d48" },
+  // 20. Bosque Nevado (Verde Pino y Blanco)
+  { bg: "linear-gradient(-45deg, #052e16, #14532d, #166534, #064e3b)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#15803d" },
+  // 21. Rojo Santa Clásico y Blanco
+  { bg: "linear-gradient(-45deg, #450a0a, #991b1b, #dc2626, #7f1d1d)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
+  // 22. Acebo Navideño (Verde y Rojo)
+  { bg: "linear-gradient(-45deg, #14532d, #991b1b, #166534, #b91c1c)", cardBg: "#f7fdf9", border: "#bbf7d0", headerBg: "#166534", titleColor: "#ffffff", primary: "#dc2626" },
+  // 23. Clásico Verde Pino y Rojo Santa
+  { bg: "linear-gradient(-45deg, #052e16, #7f1d1d, #14532d, #dc2626)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#14532d", titleColor: "#ffffff", primary: "#dc2626" },
+  // 24. Rojo Festivo y Blanco Nieve
+  { bg: "linear-gradient(-45deg, #7f1d1d, #b91c1c, #dc2626, #991b1b)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#dc2626" },
+  // 25. Nieve sobre Pino
+  { bg: "linear-gradient(-45deg, #14532d, #166534, #052e16, #15803d)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#16a34a" },
+  // 26. Clásico Rojo, Verde y Blanco
+  { bg: "linear-gradient(-45deg, #991b1b, #14532d, #dc2626, #166534)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
+  // 27. Bastón de Menta (Rojo y Blanco Nieve)
+  { bg: "linear-gradient(-45deg, #7f1d1d, #dc2626, #991b1b, #b91c1c)", cardBg: "#ffffff", border: "#fecdd3", headerBg: "#991b1b", titleColor: "#ffffff", primary: "#e11d48" },
+  // 28. Bosque Nevado (Verde Pino y Blanco)
+  { bg: "linear-gradient(-45deg, #052e16, #14532d, #166534, #064e3b)", cardBg: "#ffffff", border: "#bbf7d0", headerBg: "#14532d", titleColor: "#ffffff", primary: "#15803d" },
+  // 29. Rojo Santa Clásico y Blanco
+  { bg: "linear-gradient(-45deg, #450a0a, #991b1b, #dc2626, #7f1d1d)", cardBg: "#fffafa", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" },
+  // 30. Clásico Rojo, Verde y Blanco
+  { bg: "linear-gradient(-45deg, #991b1b, #14532d, #dc2626, #166534)", cardBg: "#ffffff", border: "#fecaca", headerBg: "#7f1d1d", titleColor: "#ffffff", primary: "#dc2626" }
 ];
 
         // Calcular día del año (1-366)
