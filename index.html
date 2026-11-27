@@ -2863,11 +2863,13 @@ div[class*="postit-green"] {
   left: 0;
   top: 42%;
   transform: translateY(-50%);
-  z-index: 9990;
+  z-index: 2147483000;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 10px 12px 10px 10px;
+  padding: 12px 7px;
   border: 2px solid #ffffff;
   border-left: none;
   border-radius: 0 12px 12px 0;
@@ -2875,9 +2877,10 @@ div[class*="postit-green"] {
   color: var(--title-color, #ffffff);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-weight: 800;
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
   cursor: pointer;
+  pointer-events: auto;
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.35);
   transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
 }
@@ -2886,6 +2889,13 @@ div[class*="postit-green"] {
   transform: translateY(-50%) translateX(3px);
   filter: brightness(1.08);
   box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4);
+}
+
+.mip-chat-tab-label {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  white-space: nowrap;
 }
 
 .mip-chat-tab-led {
@@ -2902,10 +2912,14 @@ div[class*="postit-green"] {
   100% { transform: scale(1.2); opacity: 1; }
 }
 
+.mip-chat-backdrop[hidden] {
+  display: none !important;
+}
+
 .mip-chat-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 9995;
+  z-index: 2147483010;
   background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(2px);
 }
@@ -2916,7 +2930,7 @@ div[class*="postit-green"] {
   left: 0;
   height: 100vh;
   width: min(390px, 92vw);
-  z-index: 10000;
+  z-index: 2147483020;
   display: flex;
   flex-direction: column;
   padding: 14px;
@@ -2925,13 +2939,12 @@ div[class*="postit-green"] {
   color: #f9fafb;
   border-right: 3px solid var(--primary, #dc2626);
   box-shadow: 8px 0 28px rgba(0, 0, 0, 0.55);
-  transform: translateX(-104%);
+  transform: translateX(-105%);
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   overflow: hidden;
 }
 
-/* Líneas sutiles tipo monitor CRT retro */
 .mip-chat-drawer::before {
   content: "";
   position: absolute;
@@ -6917,7 +6930,7 @@ function pulsarLucesNavidad(el) {
   }
 }
 
- <script type="module">
+<script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
   import {
     getDatabase,
@@ -6954,40 +6967,55 @@ function pulsarLucesNavidad(el) {
   const statusEl = document.getElementById("mip-chat-status");
 
   const NICK_STORAGE_KEY = "perrito_mip_isset_nick_v1";
-  nickEl.value = localStorage.getItem(NICK_STORAGE_KEY) || "";
+  if (nickEl) {
+    nickEl.value = localStorage.getItem(NICK_STORAGE_KEY) || "";
+  }
 
   function setDrawerOpen(open) {
+    if (!drawer || !tabBtn) return;
     drawer.classList.toggle("is-open", open);
     drawer.setAttribute("aria-hidden", String(!open));
     tabBtn.setAttribute("aria-expanded", String(open));
-    backdrop.hidden = !open;
-    if (open) {
+    if (backdrop) {
+      backdrop.hidden = !open;
+    }
+    if (open && feedEl && msgEl) {
       feedEl.scrollTop = feedEl.scrollHeight;
       setTimeout(() => msgEl.focus(), 180);
     }
   }
 
-  tabBtn.addEventListener("click", () => {
-    const isOpen = drawer.classList.contains("is-open");
-    setDrawerOpen(!isOpen);
-  });
+  if (tabBtn) {
+    tabBtn.addEventListener("click", () => {
+      const isOpen = drawer ? drawer.classList.contains("is-open") : false;
+      setDrawerOpen(!isOpen);
+    });
+  }
 
-  closeBtn.addEventListener("click", () => setDrawerOpen(false));
-  backdrop.addEventListener("click", () => setDrawerOpen(false));
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => setDrawerOpen(false));
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener("click", () => setDrawerOpen(false));
+  }
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && drawer.classList.contains("is-open")) {
+    if (e.key === "Escape" && drawer && drawer.classList.contains("is-open")) {
       setDrawerOpen(false);
     }
   });
 
-  nickEl.addEventListener("change", () => {
-    localStorage.setItem(NICK_STORAGE_KEY, nickEl.value.trim().slice(0, 30));
-  });
+  if (nickEl) {
+    nickEl.addEventListener("change", () => {
+      localStorage.setItem(NICK_STORAGE_KEY, nickEl.value.trim().slice(0, 30));
+    });
+  }
 
   // Botones rápidos de guardia / pase
   document.querySelectorAll(".mip-chat-chip").forEach((chip) => {
     chip.addEventListener("click", () => {
+      if (!msgEl) return;
       const prefix = chip.getAttribute("data-quick") || "";
       if (!msgEl.value.startsWith(prefix)) {
         msgEl.value = prefix + msgEl.value;
@@ -6996,9 +7024,11 @@ function pulsarLucesNavidad(el) {
     });
   });
 
-  scrollBtn.addEventListener("click", () => {
-    feedEl.scrollTop = feedEl.scrollHeight;
-  });
+  if (scrollBtn && feedEl) {
+    scrollBtn.addEventListener("click", () => {
+      feedEl.scrollTop = feedEl.scrollHeight;
+    });
+  }
 
   // --- Conexión a Firebase Realtime Database ---
   const app = initializeApp(firebaseConfig);
@@ -7011,10 +7041,12 @@ function pulsarLucesNavidad(el) {
   }
 
   function nearBottom() {
+    if (!feedEl) return true;
     return feedEl.scrollHeight - feedEl.scrollTop - feedEl.clientHeight < 65;
   }
 
   function appendMessage(item) {
+    if (!feedEl) return;
     const card = document.createElement("div");
     card.className = "mip-chat-msg";
 
@@ -7050,43 +7082,48 @@ function pulsarLucesNavidad(el) {
     const val = snap.val();
     if (val && val.texto) {
       appendMessage(val);
-      statusEl.textContent = "● ONLINE";
+      if (statusEl) statusEl.textContent = "● ONLINE";
     }
   });
 
   setTimeout(() => {
-    if (statusEl.textContent === "● CONECTANDO...") {
+    if (statusEl && statusEl.textContent === "● CONECTANDO...") {
       statusEl.textContent = "● ONLINE";
     }
   }, 1500);
 
-  formEl.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const texto = msgEl.value.trim().slice(0, 350);
-    const autor = (nickEl.value.trim() || "MIP ISSET").slice(0, 30);
-    if (!texto) return;
+  if (formEl) {
+    formEl.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!msgEl) return;
+      const texto = msgEl.value.trim().slice(0, 350);
+      const autor = ((nickEl ? nickEl.value : "") || "").trim().slice(0, 30) || "MIP ISSET";
+      if (!texto) return;
 
-    localStorage.setItem(NICK_STORAGE_KEY, autor);
-    sendBtn.disabled = true;
-    statusEl.textContent = "● ENVIANDO...";
+      localStorage.setItem(NICK_STORAGE_KEY, autor);
+      if (sendBtn) sendBtn.disabled = true;
+      if (statusEl) statusEl.textContent = "● ENVIANDO...";
 
-    try {
-      await push(chatRef, {
-        autor,
-        texto,
-        ts: serverTimestamp()
-      });
-      msgEl.value = "";
-      msgEl.focus();
-      statusEl.textContent = "● ONLINE";
-      feedEl.scrollTop = feedEl.scrollHeight;
-    } catch (err) {
-      console.error("Error al enviar mensaje en chat MIPs:", err);
-      statusEl.textContent = "● ERROR ENVÍO";
-    } finally {
-      sendBtn.disabled = false;
-    }
-  });
+      try {
+        await push(chatRef, {
+          autor,
+          texto,
+          ts: serverTimestamp()
+        });
+        msgEl.value = "";
+        msgEl.focus();
+        if (statusEl) statusEl.textContent = "● ONLINE";
+        if (feedEl) feedEl.scrollTop = feedEl.scrollHeight;
+      } catch (err) {
+        console.error("Error al enviar mensaje en chat MIPs:", err);
+        if (statusEl) statusEl.textContent = "● ERROR ENVÍO";
+      } finally {
+        if (sendBtn) sendBtn.disabled = false;
+      }
+    });
+  }
+</script>
+  
 </script> 
 </body>
 </html>
