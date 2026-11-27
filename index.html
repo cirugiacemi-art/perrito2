@@ -7146,6 +7146,181 @@ function pulsarLucesNavidad(el) {
       Notification.permission === "granted"
     ) {
       try {
+        const n = new Notification(`MIPs ISSET · ${autor}`, {
+          body: texto,
+          tag: "perrito-mip-chat"
+        });
+        n.onclick = () => {
+          window.focus();
+          setDrawerOpen(true);
+          n.close();
+        };
+      } catch (_) {}
+    }
+  }
+
+  function setDrawerOpen(open) {
+    if (!drawer || !tabBtn) return;
+    drawer.classList.toggle("is-open", open);
+    drawer.setAttribute("aria-hidden", String(!open));
+    tabBtn.setAttribute("aria-expanded", String(open));
+    if (backdrop) {
+      backdrop.hidden = !open;
+    }
+    if (open) {
+      unreadCount = 0;
+      updateUnreadBadge();
+      hideToast();
+      if (feedEl) feedEl.scrollTop = feedEl.scrollHeight;
+      if (msgEl) setTimeout(() => msgEl.focus(), 180);
+    }
+  }
+
+  if (tabBtn) {
+    tabBtn.addEventListener("click", () => {
+      const isOpen = drawer ? drawer.classList.contains("is-open") : false;
+      setDrawerOpen(!isOpen);
+    });
+  }
+
+  if (toastEl) {
+    toastEl.addEventListener("click", () => {
+      setDrawerOpen(true);
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => setDrawerOpen(false));
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener("click", () => setDrawerOpen(false));
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && drawer && drawer.classList.contains("is-open")) {
+      setDrawerOpen(false);
+    }
+  });
+
+  if (nickEl) {
+    nickEl.addEventListener("change", () => {
+      localStorage.setItem(NICK_STORAGE_KEY, nickEl.value.trim().slice(0, 30));
+    });
+  }
+
+  document.querySelectorAll(".mip-chat-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      if (!msgEl) return;
+      const prefix = chip.getAttribute("data-quick") || "";
+      if (!msgEl.value.startsWith(prefix)) {
+        msgEl.value = prefix + msgEl.value;
+      }
+      msgEl.focus();
+    });
+  });
+
+  if (scrollBtn && feedEl) {
+    scrollBtn.addEventListener("click", () => {
+      feedEl.scrollTop = feedEl.scrollHeight;
+    });
+  }
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const chatRef = ref(db, "chats/general");
+
+  function nearBottom() {
+    if (!feedEl) return true;
+    return feedEl.scrollHeight - feedEl.scrollTop - feedEl.clientHeight < 65;
+  }
+
+  function appendMessage(item) {
+    if (!feedEl) return;
+    const card = document.createElement("div");
+    card.className = "mip-chat-msg";
+
+    const head = document.createElement("div");
+    head.className = "mip-chat-msg-head";
+
+    const authorSpan = document.createElement("span");
+    authorSpan.className = "mip-chat-author";
+    authorSpan.textContent = (item.autor && String(item.autor).trim()) || "MIP Anónimo";
+
+    const timeSpan = document.createElement("span");
+    timeSpan.className = "mip-chat-time";
+    timeSpan.textContent = formatHora(item.ts);
+
+    const bodyDiv = document.createElement("div");
+    bodyDiv.className = "mip-chat-body";
+    bodyDiv.textContent = item.texto || "";
+
+    head.appendChild(authorSpan);
+    head.appendChild(timeSpan);
+    card.appendChild(head);
+    card.appendChild(bodyDiv);
+
+    const shouldScroll = nearBottom();
+    feedEl.appendChild(card);
+    if (shouldScroll) {
+      feedEl.scrollTop = feedEl.scrollHeight;
+    }
+  }
+
+  const recentQuery = query(chatRef, limitToLast(50));
+  onChildAdded(recentQuery, (snap) => {
+    const val = snap.val();
+    if (val && val.texto) {
+      appendMessage(val);
+      if (statusEl) statusEl.textContent = "● ONLINE";
+      if (initialLoadDone) {
+        notifyNewMessage(val);
+      }
+    }
+  });
+
+  setTimeout(() => {
+    initialLoadDone = true;
+    if (statusEl && statusEl.textContent === "● CONECTANDO...") {
+      statusEl.textContent = "● ONLINE";
+    }
+  }, 1500);
+
+  if (formEl) {
+    formEl.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!msgEl) return;
+      const texto = msgEl.value.trim().slice(0, 350);
+      const autor = ((nickEl ? nickEl.value : "") || "").trim().slice(0, 30) || "MIP ISSET";
+      if (!texto) return;
+
+      if ("Notification" in window && Notification.permission === "default") {
+        Notification.requestPermission().catch(() => {});
+      }
+
+      localStorage.setItem(NICK_STORAGE_KEY, autor);
+      if (sendBtn) sendBtn.disabled = true;
+      if (statusEl) statusEl.textContent = "● ENVIANDO...";
+
+      try {
+        await push(chatRef, {
+          autor,
+          texto,
+          ts: serverTimestamp()
+        });
+        msgEl.value = "";
+        msgEl.focus();
+        if (statusEl) statusEl.textContent = "● ONLINE";
+        if (feedEl) feedEl.scrollTop = feedEl.scrollHeight;
+      } catch (err) {
+        console.error("Error al enviar mensaje en chat MIPs:", err);
+        if (statusEl) statusEl.textContent = "● ERROR ENVÍO";
+      } finally {
+        if (sendBtn) sendBtn.disabled = false;
+      }
+    });
+  }
+</script>
   
 </body>
 </html>
